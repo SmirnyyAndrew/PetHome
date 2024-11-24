@@ -1,9 +1,7 @@
-﻿namespace PetHome.Domain.PetEntity
+﻿namespace PetHome.Domain.PetEntity;
+public enum PetStatusEnum
 {
-    public enum PetStatusEnum
-    {
-        isFree,
-        isTreatment,
-        isHomed,
-    }
+    isFree,
+    isTreatment,
+    isHomed,
 }
