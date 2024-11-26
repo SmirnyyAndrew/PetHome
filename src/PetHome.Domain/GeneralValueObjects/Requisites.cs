@@ -3,9 +3,9 @@
 namespace PetHome.Domain.GeneralValueObjects;
 public class Requisites : ValueObject
 {
-    private string Name { get; }
-    private string Description { get; }
-    private PaymentMethodEnum PaymentMethod { get; }
+    public string Name { get; }
+    public string Description { get; }
+    public PaymentMethodEnum PaymentMethod { get; }
 
     private Requisites(string name, string description, PaymentMethodEnum paymentMethod)
     {

@@ -1,3 +1,5 @@
+using PetHome.Infrastructure;
+
 namespace PetHome.API;
 public class Program
 {
@@ -12,7 +14,10 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddScoped<ApplicationDBContext>();
+
         var app = builder.Build();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

@@ -9,8 +9,8 @@ public class Volunteer
     private Volunteer(string fullName, string email, string description, DateOnly startVolunteeringDate, 
         PhoneNumber phoneNumber, List<SocialNetwork> socialNetworkList, Requisites requisites) { }
 
-    public Guid Id { get; private set; }
-    public string FullName { get; private set; }
+    public VolunteerId Id { get; private set; }
+    public FullName FullName { get; private set; }
     public string? Email { get; private set; }
     public string Description { get; private set; }
     public DateOnly StartVolunteeringDate { get; private set; }
@@ -22,7 +22,7 @@ public class Volunteer
     public IReadOnlyList<SocialNetwork> SocialNetworkList { get; private set; }
     public Requisites Requisites { get; private set; }
     // TODO: Реализовать метод после конфигурации БД
-    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => PetList.Where(p => p.Status == status && p.Volunteer.Id == Id).Count();
+    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => PetList.Where(pet => pet.Status == status && pet.Volunteer.Id == Id).Count();
 
     public Result<Volunteer> Create(string fullName, string email, string description, DateOnly startVolunteeringDate,
         PhoneNumber phoneNumber, List<SocialNetwork> socialNetworkList, Requisites requisites)

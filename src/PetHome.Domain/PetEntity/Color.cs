@@ -3,23 +3,23 @@
 namespace PetHome.Domain.PetEntity;
 public class Color : ValueObject
 {
-    private string Name { get; }
+    public string Value { get; }
 
-    private Color(string name)
+    private Color(string value)
     {
-        Name = name;
+        Value = value;
     }
 
-    public Result<Color> Create(string name)
+    public static Result<Color> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(value))
             return Result.Failure<Color>("Введите цвет");
 
-        return new Color(name);
+        return new Color(value);
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Name;
+        yield return Value;
     }
 }

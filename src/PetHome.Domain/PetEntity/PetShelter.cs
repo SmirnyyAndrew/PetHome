@@ -6,8 +6,9 @@ public class PetShelter
     // Для EF core
     private PetShelter() { }
 
-    public Guid Id { get; private set; }
+    public PetShelterId Id { get; private set; }
     public ShelterName Name { get; private set; }
+    public IReadOnlyList<Pet> PetList { get; private set; }
 }
 
 public class ShelterName : ValueObject

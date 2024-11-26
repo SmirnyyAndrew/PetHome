@@ -5,26 +5,26 @@ namespace PetHome.Domain.GeneralValueObjects;
 public class PhoneNumber : ValueObject
 {
     private const string PhoneNumberRegex = @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$";
-    private string Number { get; }
+    public string Value { get; }
 
-    private PhoneNumber(string number)
+    private PhoneNumber(string value)
     {
-        Number = number;
+        Value = value;
     }
 
-    public Result<PhoneNumber> Create(string number)
+    public static Result<PhoneNumber> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(number))
+        if (string.IsNullOrWhiteSpace(value))
             return Result.Failure<PhoneNumber>("Введите номер телефона");
 
-        if (!Regex.IsMatch(number, PhoneNumberRegex))
+        if (!Regex.IsMatch(value, PhoneNumberRegex))
             return Result.Failure<PhoneNumber>("Номер телефона не соответствует формату");
 
-        return new PhoneNumber(number);
+        return new PhoneNumber(value);
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Number;
+        yield return Value;
     }
 }
