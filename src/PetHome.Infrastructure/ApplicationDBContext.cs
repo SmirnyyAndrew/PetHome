@@ -11,30 +11,22 @@ namespace PetHome.Infrastructure
     {
         private const string DATABASE = "PetHomeConnectionString";
 
-        public DbSet<Volunteer> Volunteers { get; set; } 
-        public DbSet<Pet> Pets{ get; set; } 
-        //public DbSet<PetShelter> PetShelters { get; set; } 
-        //public DbSet<Breed> Breeds { get; set; } 
-        //public DbSet<Species> Species{ get; set; } 
-
+        public DbSet<Volunteer> Volunteers => Set<Volunteer>(); 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            //optionBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE)); 
-            optionBuilder.UseNpgsql("Host=localhost;Port=5433;Database=usersdb;Username=postgres;Password=postgres");
+            optionBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE)); 
             optionBuilder.UseSnakeCaseNamingConvention();
             optionBuilder.UseLoggerFactory(CreateLoggerFactory());
+            optionBuilder.EnableSensitiveDataLogging();
         }
 
         private ILoggerFactory CreateLoggerFactory() =>
             LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
-            modelBuilder.ApplyConfiguration(new VolunteerConfiguration());
-
+        {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDBContext).Assembly);
         }
-
     }
 }

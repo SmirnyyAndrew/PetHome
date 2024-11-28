@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage;
 using PetHome.Domain.GeneralValueObjects;
 using PetHome.Domain.Shared;
 using PetHome.Domain.VolunteerEntity;
@@ -14,8 +15,7 @@ namespace PetHome.Infrastructure.Configuration
             builder.ToTable("volunteers");
 
             //id
-            builder.HasKey(x => x.Id);
-
+            builder.HasKey(x => x.Id); 
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
@@ -26,17 +26,15 @@ namespace PetHome.Infrastructure.Configuration
             //fullname
             builder.ComplexProperty(f => f.FullName, tb =>
             {
-                tb.Property(t => t.FirstName)
-                .HasMaxLength(Constants.MAX_NAME_LENGHT)
-                .IsRequired()
-                .HasColumnName("first_name");
+                tb.Property(f => f.FirstName)
+                    .IsRequired()
+                    .HasColumnName("f_name");
 
-                tb.Property(t => t.LastName)
-                .HasMaxLength(Constants.MAX_NAME_LENGHT)
-                .IsRequired()
-                .HasColumnName("last_name");
-            });
-
+                tb.Property(f => f.LastName)
+                    .IsRequired()
+                    .HasColumnName("l_name");
+            }); 
+              
             //email
             builder.Property(e => e.Email)
                 .IsRequired(false)
@@ -48,13 +46,13 @@ namespace PetHome.Infrastructure.Configuration
                 .IsRequired()
                 .HasColumnName("description");
 
-            //StartVolunteeringDate
-            builder.Property(s => s.StartVolunteeringDate)
-                .HasConversion(
-                    d => d.ToShortDateString(),
-                    d => DateOnly.Parse(d))
-                .IsRequired()
-                .HasColumnName("start_volunteering_date");
+             //StartVolunteeringDate
+             builder.Property(s => s.StartVolunteeringDate)
+                 .HasConversion(
+                     d => d.ToShortDateString(),
+                     d => DateOnly.Parse(d))
+                 .IsRequired()
+                 .HasColumnName("start_volunteering_date");
 
             //pets
             builder.HasMany(m => m.PetList)
@@ -62,38 +60,26 @@ namespace PetHome.Infrastructure.Configuration
                 .HasForeignKey("volunteer_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //phonenumber
-            builder.ComplexProperty(p => p.PhoneNumber, tb =>
+            //phonenumbers
+            builder.OwnsOne(p => p.PhoneNumberDetails, d =>
             {
-                tb.Property(v => v.Value)
-                .IsRequired()
-                .HasColumnName("phone_number");
+                d.ToJson();
+                d.OwnsMany(d => d.Values); ;
             });
-
-            ////social networks
-            //builder.Property(s => s.SocialNetworkList)
-            //    .HasConversion(
-            //        socials => JsonSerializer.Serialize(socials, JsonSerializerOptions.Default),
-            //        json => JsonSerializer.Deserialize<IReadOnlyList<SocialNetwork>>(json, JsonSerializerOptions.Default)!);
-
-         
-
+             
+            //social networks
+            builder.OwnsOne(s => s.SocialNetworkDetails, d =>
+            {
+                d.ToJson();
+                d.OwnsMany(d => d.Values);
+            });
+             
             //requisites
-            builder.ComplexProperty(req => req.Requisites, tb =>
+            builder.OwnsOne(r => r.RequisitesDetails, d =>
             {
-                tb.Property(n => n.Name)
-                .IsRequired()
-                .HasColumnName("requisit_name");
-
-                tb.Property(d => d.Description)
-                .HasMaxLength(Constants.MAX_DESC_LENGHT)
-                .IsRequired()
-                .HasColumnName("requisit_description");
-
-                tb.Property(m => m.PaymentMethod)
-                .IsRequired()
-                .HasColumnName("requisit_payment_method");
-            });
+                d.ToJson();
+                d.OwnsMany(d => d.Values);
+            }); 
         }
     }
 }

@@ -5,14 +5,26 @@ using PetHome.Domain.VolunteerEntity;
 namespace PetHome.Domain.PetEntity;
 public class Pet
 {
-    public Pet() { }
+    private Pet() { }
 
-    private Pet(PetName name, SpeciesId speciesId, string description, BreedId breedId, Color color, PetShelterId address, double weight,
-        PhoneNumber phoneNumber, bool isCastrated, VO_Date birthDate, bool isVaccinated, PetStatusEnum status, Requisites requisites, VO_Date profileCreateDate)
+    private Pet(
+        PetName name,
+        SpeciesId speciesId,
+        string description,
+        BreedId breedId,
+        Color color,
+        PetShelterId address,
+        double weight, 
+        bool isCastrated,
+        VO_Date birthDate,
+        bool isVaccinated,
+        PetStatusEnum status,
+        RequisitesDetails requisitesDetails,
+        VO_Date profileCreateDate)
     { }
 
-    public int Id { get; private set; }
-    //public PetId Id { get; private set; }
+    
+    public PetId Id { get; private set; }
     public PetName Name { get; private set; }
     public SpeciesId SpeciesId;
     public string Description { get; private set; }
@@ -24,13 +36,27 @@ public class Pet
     public VO_Date? BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public PetStatusEnum Status;
-    public Requisites Requisites { get; private set; }
+    public RequisitesDetails RequisitesDetails { get; private set; }
     public VO_Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
 
-    public static Result<Pet> Create(PetName name, SpeciesId speciesId, string description, BreedId breedId, Color color, PetShelterId address, double weight,
-        PhoneNumber phoneNumber, bool isCastrated, VO_Date birthDate, bool isVaccinated, PetStatusEnum status, Requisites requisites, VO_Date profileCreateDate)
-    {  
+    public static Result<Pet> Create(
+        PetName name,
+        SpeciesId speciesId,
+        string description,
+        BreedId breedId,
+        Color color,
+        PetShelterId address,
+        double weight, 
+        bool isCastrated,
+        VO_Date birthDate,
+        bool isVaccinated,
+        PetStatusEnum status,
+        RequisitesDetails requisitesDetails,
+        VO_Date profileCreateDate)
+    {
+
+
         if (string.IsNullOrWhiteSpace(description))
             return Result.Failure<Pet>("Введите описание");
 
@@ -41,6 +67,6 @@ public class Pet
             return Result.Failure<Pet>("Введите корректный вес");
 
 
-        return new Pet(name, speciesId, description, breedId, color, address, weight, phoneNumber, isCastrated, birthDate, isVaccinated, status, requisites, profileCreateDate) { };
+        return new Pet(name, speciesId, description, breedId, color, address, weight, isCastrated, birthDate, isVaccinated, status, requisitesDetails, profileCreateDate) { };
     }
 }

@@ -16,8 +16,8 @@ namespace PetHome.Infrastructure.Configuration
         {
             builder.ToTable("breeds");
 
+            //id
             builder.HasKey(x => x.Id);
-
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
@@ -25,19 +25,21 @@ namespace PetHome.Infrastructure.Configuration
                 .IsRequired()
                 .HasColumnName("id");
 
-            builder.ComplexProperty(i => i.Name, tb =>
-            {
-                tb.Property(v => v.Value)
-                .IsRequired()
-                .HasColumnName("name");
-            });
+            //name
+            builder.Property(i => i.Name)
+               .HasConversion(
+                   name => name.Value,
+                   value => BreedName.Create(value).Value)
+               .IsRequired()
+               .HasColumnName("name");
 
-            builder.ComplexProperty(s => s.SpeciesId, tb =>
-            {
-                tb.Property(v => v.Value)
-                .IsRequired()
-                .HasColumnName("species_id");
-            }); 
+            //species id
+            builder.Property(i => i.SpeciesId)
+               .HasConversion(
+                   id => id.Value,
+                   value => SpeciesId.Create(value).Value)
+               .IsRequired()
+               .HasColumnName("species_id");
         }
     }
 }

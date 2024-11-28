@@ -15,8 +15,8 @@ namespace PetHome.Infrastructure.Configuration
         {
             builder.ToTable("shelters");
 
+            //id
             builder.HasKey(x => x.Id);
-
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
@@ -24,13 +24,13 @@ namespace PetHome.Infrastructure.Configuration
                 .IsRequired()
                 .HasColumnName("id");
 
+            //name
             builder.ComplexProperty(n => n.Name, br =>
             {
                 br.Property(v => v.Value)
                 .IsRequired()
                 .HasColumnName("name");
-            });
-
+            }); 
         }
     }
 }

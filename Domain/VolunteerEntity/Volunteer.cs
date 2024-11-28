@@ -5,11 +5,11 @@ using PetHome.Domain.PetEntity;
 namespace PetHome.Domain.VolunteerEntity;
 public class Volunteer
 {
-    //Для EF core
-    public Volunteer() { }
+    private Volunteer() { }
 
-    private Volunteer(FullName fullName, string email, string description, DateOnly startVolunteeringDate, 
-        PhoneNumber phoneNumber,/* List<SocialNetwork> socialNetworkList,*/ Requisites requisites) { }
+    private Volunteer(FullName fullName, string email, string description, DateOnly startVolunteeringDate,
+        PhoneNumber phoneNumber, List<SocialNetwork> socialNetworkList, Requisites requisites)
+    { }
 
     public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
@@ -20,14 +20,16 @@ public class Volunteer
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
     public int FreePetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isFree);
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);
-    public PhoneNumber PhoneNumber { get; private set; }
-   // public IReadOnlyList<SocialNetwork> SocialNetworkList { get; private set; }
-    public Requisites Requisites { get; private set; }
-    // TODO: Реализовать метод после конфигурации БД
+    public PhoneNumbersDetails PhoneNumberDetails { get; private set; }
+    public RequisitesDetails RequisitesDetails { get; private set; }
+    public SocialNetworkDetails SocialNetworkDetails { get; private set; }
+
+
+    //TODO: Реализовать метод после конфигурации БД
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => PetList.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
 
     public Result<Volunteer> Create(FullName fullName, string email, string description, DateOnly startVolunteeringDate,
-        PhoneNumber phoneNumber, /*List<SocialNetwork> socialNetworkList, */Requisites requisites)
+        PhoneNumber phoneNumber, List<SocialNetwork> socialNetworkList, Requisites requisites)
     {
         if (string.IsNullOrWhiteSpace(description))
             return Result.Failure<Volunteer>("Введите описание");
@@ -36,6 +38,6 @@ public class Volunteer
             return Result.Failure<Volunteer>("Выберите дату начала волонтёрства");
 
 
-        return new Volunteer(fullName, email, description, startVolunteeringDate, phoneNumber,/* socialNetworkList,*/ requisites) { };
+        return new Volunteer(fullName, email, description, startVolunteeringDate, phoneNumber, socialNetworkList, requisites) { };
     }
 }

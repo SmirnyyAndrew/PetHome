@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHome.Domain.GeneralValueObjects;
 using PetHome.Domain.PetEntity;
 using PetHome.Domain.Shared;
+using PetHome.Domain.VolunteerEntity;
 
 namespace PetHome.Infrastructure.Configuration
 {
@@ -13,7 +15,6 @@ namespace PetHome.Infrastructure.Configuration
 
             //id
             builder.HasKey(x => x.Id);
-
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
@@ -22,20 +23,20 @@ namespace PetHome.Infrastructure.Configuration
                 .HasColumnName("id");
 
             //name
-            builder.ComplexProperty(n => n.Name, tb =>
-            {
-                tb.Property(v => v.Value)
+            builder.Property(i => i.Name)
+                .HasConversion(
+                    name => name.Value,
+                    value => PetName.Create(value).Value)
                 .IsRequired()
                 .HasColumnName("name");
-            });
-
-            //speacies
-            builder.ComplexProperty(s => s.SpeciesId, tb =>
-            {
-                tb.Property(v => v.Value)
+             
+            //speacies 
+            builder.Property(i => i.SpeciesId)
+                .HasConversion(
+                    id => id.Value,
+                    value => SpeciesId.Create(value).Value)
                 .IsRequired()
                 .HasColumnName("species_id");
-            });
 
             //desc
             builder.Property(d => d.Description)
@@ -44,28 +45,28 @@ namespace PetHome.Infrastructure.Configuration
                 .HasColumnName("description");
 
             //breed
-            builder.ComplexProperty(b => b.BreedId, tb =>
-            {
-                tb.Property(v => v.Value)
+            builder.Property(i => i.BreedId)
+                .HasConversion(
+                    b => b.Value,
+                    value => BreedId.Create(value))
                 .IsRequired()
                 .HasColumnName("breed_id");
-            });
 
-            //color
-            builder.ComplexProperty(c => c.Color, tb =>
-            {
-                tb.Property(v => v.Value)
+            //color 
+            builder.Property(i => i.Color)
+                .HasConversion(
+                    с => с.Value,
+                    value => Color.Create(value).Value)
                 .IsRequired()
                 .HasColumnName("color");
-            });
 
-            //shelter
-            builder.ComplexProperty(s => s.ShelterId, tb =>
-            {
-                tb.Property(v => v.Value)
+            //shelter id
+            builder.Property(i => i.ShelterId)
+                .HasConversion(
+                    id => id.Value,
+                    value => PetShelterId.Create(value))
                 .IsRequired()
                 .HasColumnName("shelter_id");
-            });
 
             //weight
             builder.Property(w => w.Weight)
@@ -79,15 +80,12 @@ namespace PetHome.Infrastructure.Configuration
                 .HasColumnName("is_castrated");
 
             //bith date
-            builder.ComplexProperty(d => d.BirthDate, tb =>
-            {
-                tb.Property(v => v.Value)
+            builder.Property(i => i.BirthDate)
                 .HasConversion(
-                    d => d.ToShortDateString(),
-                    d => DateOnly.Parse(d))
+                    d => d.Value,
+                    value => VO_Date.Create(value).Value)
                 .IsRequired()
-                .HasColumnName("color");
-            });
+                .HasColumnName("bith_date");
 
             //is vaccinated
             builder.Property(c => c.IsVaccinated)
@@ -100,43 +98,28 @@ namespace PetHome.Infrastructure.Configuration
                 .IsRequired()
                 .HasColumnName("status");
 
-            //requisites
-            builder.ComplexProperty(req => req.Requisites, tb =>
+            ////requisites
+            builder.OwnsOne(r => r.RequisitesDetails, d =>
             {
-                tb.Property(n => n.Name)
-                .IsRequired()
-                .HasColumnName("requisit_name");
-
-                tb.Property(d => d.Description)
-                .HasMaxLength(Constants.MAX_DESC_LENGHT)
-                .IsRequired()
-                .HasColumnName("requisit_description");
-
-                tb.Property(m => m.PaymentMethod)
-                .HasConversion<string>()
-                .IsRequired()
-                .HasColumnName("requisit_payment_method");
+                d.ToJson();
+                d.OwnsMany(d => d.Values);
             });
-
+             
             //create date
-            builder.ComplexProperty(d => d.ProfileCreateDate, tb =>
-            {
-                tb.Property(v => v.Value)
+            builder.Property(i => i.ProfileCreateDate)
                 .HasConversion(
-                    d => d.ToShortDateString(),
-                    d => DateOnly.Parse(d))
+                    d => d.Value,
+                    value => VO_Date.Create(value).Value)
                 .IsRequired()
                 .HasColumnName("profile_create_date");
-            });
-
-            //volunteerid
-            builder.ComplexProperty(v => v.VolunteerId, tb =>
-            {
-                tb.Property(v => v.Value)
+             
+            //volunteer id
+            builder.Property(i => i.VolunteerId)
+                .HasConversion(
+                    id => id.Value,
+                    value => VolunteerId.Create(value))
                 .IsRequired()
                 .HasColumnName("volunteer_id");
-            });
-
         }
     }
 }
