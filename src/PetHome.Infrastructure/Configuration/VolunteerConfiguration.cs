@@ -60,7 +60,7 @@ namespace PetHome.Infrastructure.Configuration
             builder.HasMany(m => m.PetList)
                 .WithOne()
                 .HasForeignKey("volunteer_id")
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             //phonenumber
             builder.ComplexProperty(p => p.PhoneNumber, tb =>

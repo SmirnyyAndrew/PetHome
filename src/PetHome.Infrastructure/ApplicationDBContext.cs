@@ -13,15 +13,15 @@ namespace PetHome.Infrastructure
 
         public DbSet<Volunteer> Volunteers { get; set; } 
         public DbSet<Pet> Pets{ get; set; } 
-        public DbSet<PetShelter> PetShelters { get; set; } 
-        public DbSet<Breed> Breeds { get; set; } 
-        public DbSet<Species> Species{ get; set; } 
+        //public DbSet<PetShelter> PetShelters { get; set; } 
+        //public DbSet<Breed> Breeds { get; set; } 
+        //public DbSet<Species> Species{ get; set; } 
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             //optionBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE)); 
-            optionBuilder.UseNpgsql("Host=localhost;Port=543;Database=usersdb;Username=postgres;Password=postgres");
+            optionBuilder.UseNpgsql("Host=localhost;Port=5433;Database=usersdb;Username=postgres;Password=postgres");
             optionBuilder.UseSnakeCaseNamingConvention();
             optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         }

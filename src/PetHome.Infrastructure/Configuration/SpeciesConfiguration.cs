@@ -24,7 +24,13 @@ namespace PetHome.Infrastructure.Configuration
                 tb.Property(v=>v.Value)
                 .IsRequired()
                 .HasColumnName("name");
-            }); 
+            });
+
+            builder.HasMany(b => b.BreedList)
+                .WithOne()
+                .IsRequired()
+                .HasForeignKey("species_id")
+                .OnDelete(DeleteBehavior.Cascade);  
         }
     }
 }
