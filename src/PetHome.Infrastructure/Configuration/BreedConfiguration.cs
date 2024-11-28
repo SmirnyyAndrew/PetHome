@@ -16,18 +16,28 @@ namespace PetHome.Infrastructure.Configuration
         {
             builder.ToTable("breeds");
 
+            builder.HasKey(x => x.Id);
+
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
                     value => BreedId.Create(value))
+                .IsRequired()
                 .HasColumnName("id");
 
-
-            builder.Property(i => i.Name)
-                .HasConversion(
-                    id => id.Value,
-                    value => BreedName.Create(value).Value)
+            builder.ComplexProperty(i => i.Name, tb =>
+            {
+                tb.Property(v => v.Value)
+                .IsRequired()
                 .HasColumnName("name");
+            });
+
+            builder.ComplexProperty(s => s.SpeciesId, tb =>
+            {
+                tb.Property(v => v.Value)
+                .IsRequired()
+                .HasColumnName("species_id");
+            }); 
         }
     }
 }

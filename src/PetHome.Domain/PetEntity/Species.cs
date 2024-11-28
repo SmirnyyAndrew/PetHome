@@ -1,4 +1,6 @@
-﻿namespace PetHome.Domain.PetEntity;
+﻿using CSharpFunctionalExtensions;
+
+namespace PetHome.Domain.PetEntity;
 public record Species
 { 
     // Для EF core
@@ -6,6 +8,5 @@ public record Species
 
     public SpeciesId Id { get; private set; }
     public SpeciesName Name { get; private set; }
-    public IReadOnlyList<Breed> BreedList { get; private set; }
-    public IReadOnlyList<Pet> PetList{ get; private set; }
+
 }

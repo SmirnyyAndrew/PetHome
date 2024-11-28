@@ -13,18 +13,24 @@ namespace PetHome.Infrastructure.Configuration
     {
         public void Configure(EntityTypeBuilder<PetShelter> builder)
         {
-            builder.ToTable("pet_shelters");
+            builder.ToTable("shelters");
+
+            builder.HasKey(x => x.Id);
 
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
                     value => PetShelterId.Create(value))
-                .IsRequired();
+                .IsRequired()
+                .HasColumnName("id");
 
-            builder.HasMany(i => i.PetList)
-                .WithOne()
-                .HasForeignKey("pet_shelter_id")
-                .IsRequired();
+            builder.ComplexProperty(n => n.Name, br =>
+            {
+                br.Property(v => v.Value)
+                .IsRequired()
+                .HasColumnName("name");
+            });
+
         }
     }
 }

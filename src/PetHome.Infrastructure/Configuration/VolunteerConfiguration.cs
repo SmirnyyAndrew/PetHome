@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.GeneralValueObjects;
 using PetHome.Domain.Shared;
 using PetHome.Domain.VolunteerEntity;
-using System.Reflection.Metadata;
+using System.Text.Json;
 
 namespace PetHome.Infrastructure.Configuration
 {
@@ -14,6 +14,8 @@ namespace PetHome.Infrastructure.Configuration
             builder.ToTable("volunteers");
 
             //id
+            builder.HasKey(x => x.Id);
+
             builder.Property(i => i.Id)
                 .HasConversion(
                     id => id.Value,
@@ -37,12 +39,22 @@ namespace PetHome.Infrastructure.Configuration
 
             //email
             builder.Property(e => e.Email)
+                .IsRequired(false)
                 .HasColumnName("email");
 
             //desc
             builder.Property(d => d.Description)
                 .HasMaxLength(Constants.MAX_DESC_LENGHT)
+                .IsRequired()
                 .HasColumnName("description");
+
+            //StartVolunteeringDate
+            builder.Property(s => s.StartVolunteeringDate)
+                .HasConversion(
+                    d => d.ToShortDateString(),
+                    d => DateOnly.Parse(d))
+                .IsRequired()
+                .HasColumnName("start_volunteering_date");
 
             //pets
             builder.HasMany(m => m.PetList)
@@ -51,14 +63,20 @@ namespace PetHome.Infrastructure.Configuration
                 .OnDelete(DeleteBehavior.NoAction);
 
             //phonenumber
-            builder.Property(p => p.PhoneNumber)
-                .HasConversion(
-                    num => num.Value,
-                    value => PhoneNumber.Create(value).Value)
+            builder.ComplexProperty(p => p.PhoneNumber, tb =>
+            {
+                tb.Property(v => v.Value)
+                .IsRequired()
                 .HasColumnName("phone_number");
+            });
 
-            //social networks
-            builder.HasMany(s => s.SocialNetworkList);
+            ////social networks
+            //builder.Property(s => s.SocialNetworkList)
+            //    .HasConversion(
+            //        socials => JsonSerializer.Serialize(socials, JsonSerializerOptions.Default),
+            //        json => JsonSerializer.Deserialize<IReadOnlyList<SocialNetwork>>(json, JsonSerializerOptions.Default)!);
+
+         
 
             //requisites
             builder.ComplexProperty(req => req.Requisites, tb =>
@@ -76,10 +94,6 @@ namespace PetHome.Infrastructure.Configuration
                 .IsRequired()
                 .HasColumnName("requisit_payment_method");
             });
-
-
-
-
         }
     }
 }

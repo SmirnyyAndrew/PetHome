@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace PetHome.Domain.PetEntity;
+namespace PetHome.Domain.GeneralValueObjects;
 public class VO_Date : ValueObject
 {
     public DateOnly Value { get; }
