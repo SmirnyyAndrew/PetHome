@@ -5,33 +5,32 @@ using PetHome.Domain.VolunteerEntity;
 namespace PetHome.Domain.PetEntity;
 public class Pet
 {
-    //Для EF core
-    private Pet(string name, Species species, string description, Breed breed, Color color, PetShelter address, double weight,
-        PhoneNumber phoneNumber, bool isCastrated, BirthDate birthDate, bool isVaccinated, PetStatusEnum status, Requisites requisites, DateTime profileCreateDate) { }
+    public Pet() { }
 
-    public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public Species Species;
+    private Pet(PetName name, SpeciesId speciesId, string description, BreedId breedId, Color color, PetShelterId address, double weight,
+        PhoneNumber phoneNumber, bool isCastrated, VO_Date birthDate, bool isVaccinated, PetStatusEnum status, Requisites requisites, VO_Date profileCreateDate)
+    { }
+
+    public int Id { get; private set; }
+    //public PetId Id { get; private set; }
+    public PetName Name { get; private set; }
+    public SpeciesId SpeciesId;
     public string Description { get; private set; }
-    public Breed Breed { get; private set; }
+    public BreedId BreedId { get; private set; }
     public Color Color { get; private set; }
-    public PetShelter Address { get; private set; }
+    public PetShelterId ShelterId { get; private set; }
     public double Weight { get; private set; }
-    public PhoneNumber PhoneNumber { get; private set; }
     public bool IsCastrated { get; private set; }
-    public BirthDate? BirthDate { get; private set; }
+    public VO_Date? BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public PetStatusEnum Status;
-    public Requisites? Requisites { get; private set; }
-    public DateTime ProfileCreateDate { get; private set; }
-    public Volunteer Volunteer { get; private set; }
+    public Requisites Requisites { get; private set; }
+    public VO_Date ProfileCreateDate { get; private set; }
+    public VolunteerId VolunteerId { get; private set; }
 
-    public static Result<Pet> Create(string name, Species species, string description, Breed breed, Color color, PetShelter address, double weight,
-        PhoneNumber phoneNumber, bool isCastrated, BirthDate birthDate, bool isVaccinated, PetStatusEnum status, Requisites requisites, DateTime profileCreateDate)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure<Pet>("Введите имя");
-
+    public static Result<Pet> Create(PetName name, SpeciesId speciesId, string description, BreedId breedId, Color color, PetShelterId address, double weight,
+        PhoneNumber phoneNumber, bool isCastrated, VO_Date birthDate, bool isVaccinated, PetStatusEnum status, Requisites requisites, VO_Date profileCreateDate)
+    {  
         if (string.IsNullOrWhiteSpace(description))
             return Result.Failure<Pet>("Введите описание");
 
@@ -42,6 +41,6 @@ public class Pet
             return Result.Failure<Pet>("Введите корректный вес");
 
 
-        return new Pet(name, species, description, breed, color, address, weight, phoneNumber, isCastrated, birthDate, isVaccinated, status, requisites, profileCreateDate) { };
+        return new Pet(name, speciesId, description, breedId, color, address, weight, phoneNumber, isCastrated, birthDate, isVaccinated, status, requisites, profileCreateDate) { };
     }
 }

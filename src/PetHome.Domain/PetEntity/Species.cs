@@ -1,10 +1,13 @@
-﻿namespace PetHome.Domain.PetEntity;
-public class Species
-{
-    // Для EF core
-    private Species() { }
+﻿using CSharpFunctionalExtensions;
 
-    public Guid Id { get; private set; }
+namespace PetHome.Domain.PetEntity;
+public record Species
+{ 
+    // Для EF core
+    public Species() { }
+
+    public SpeciesId Id { get; private set; }
     public SpeciesName Name { get; private set; }
-    public IReadOnlyList<Breed> BreadList { get; private set; }
+    public IReadOnlyList<Breed> BreedList { get; private set; }
+
 }

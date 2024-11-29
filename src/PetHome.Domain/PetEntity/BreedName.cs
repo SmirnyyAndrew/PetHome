@@ -3,23 +3,24 @@
 namespace PetHome.Domain.PetEntity;
 public class BreedName : ValueObject
 {
-    private string Name { get; }
+    public string Value { get; }
 
-    private BreedName(string name)
+    private BreedName(string value)
     {
-        Name = name;
+        Value = value;
     }
 
-    public Result<BreedName> Create(string name)
+    public static Result<BreedName> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(value))
             return Result.Failure<BreedName>("Строка не должна быть пустой");
 
-        return new BreedName(name);
+        return new BreedName(value);
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Name;
+        yield return Value;
     }
+
 } 

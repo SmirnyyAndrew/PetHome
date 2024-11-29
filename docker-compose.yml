@@ -1,0 +1,16 @@
+services:
+  postgres:
+    container_name: FirstContainer
+    image: postgres
+    restart: always
+    environment:
+      POSGRES_DB: pet_home
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+    - 5434:5432
+    volumes:
+    - postgres-data:/var/lib/postgres/data
+
+volumes:
+  postgres-data:
