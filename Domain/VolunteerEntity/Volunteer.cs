@@ -7,13 +7,19 @@ public class Volunteer
 {
     private Volunteer() { }
 
-    private Volunteer(FullName fullName, string email, string description, DateOnly startVolunteeringDate,
-        PhoneNumber phoneNumber, List<SocialNetwork> socialNetworkList, Requisites requisites)
+    private Volunteer(
+        FullName fullName,
+        Email email,
+        string description,
+        DateOnly startVolunteeringDate,
+        PhoneNumbersDetails phoneNumbersDetails,
+        SocialNetworkDetails socialNetworkDetails,
+        RequisitesDetails requisitesDetails)
     { }
 
     public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
-    public string? Email { get; private set; }
+    public Email? Email { get; private set; }
     public string Description { get; private set; }
     public DateOnly StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Pet> PetList { get; private set; }
@@ -25,11 +31,16 @@ public class Volunteer
     public SocialNetworkDetails SocialNetworkDetails { get; private set; }
 
 
-    //TODO: Реализовать метод после конфигурации БД
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => PetList.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
 
-    public Result<Volunteer> Create(FullName fullName, string email, string description, DateOnly startVolunteeringDate,
-        PhoneNumber phoneNumber, List<SocialNetwork> socialNetworkList, Requisites requisites)
+    public static Result<Volunteer> Create(
+        FullName fullName,
+        Email email,
+        string description,
+        DateOnly startVolunteeringDate,
+        PhoneNumbersDetails phoneNumbersDetails,
+        SocialNetworkDetails socialNetworkDetails,
+        RequisitesDetails requisitesDetails)
     {
         if (string.IsNullOrWhiteSpace(description))
             return Result.Failure<Volunteer>("Введите описание");
@@ -38,6 +49,6 @@ public class Volunteer
             return Result.Failure<Volunteer>("Выберите дату начала волонтёрства");
 
 
-        return new Volunteer(fullName, email, description, startVolunteeringDate, phoneNumber, socialNetworkList, requisites) { };
+        return new Volunteer(fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
     }
 }

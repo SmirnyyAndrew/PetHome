@@ -2,37 +2,35 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.PetEntity;
 
-namespace PetHome.Infrastructure.Configuration
+namespace PetHome.Infrastructure.Configuration;
+public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
 {
-    public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
+    public void Configure(EntityTypeBuilder<Species> builder)
     {
-        public void Configure(EntityTypeBuilder<Species> builder)
-        {
-            builder.ToTable("species");
+        builder.ToTable("species");
 
-            //id
-            builder.HasKey(x => x.Id);
-            builder.Property(s => s.Id)
-                .HasConversion(
-                    id => id.Value,
-                    value => SpeciesId.Create(value).Value)
-                .IsRequired()
-                .HasColumnName("Id");
-             
-            //name 
-            builder.Property(s => s.Name)
-                .HasConversion(
-                    n => n.Value,
-                    value => SpeciesName.Create(value).Value)
-                .IsRequired()
-                .HasColumnName("name");
+        //id
+        builder.HasKey(x => x.Id);
+        builder.Property(s => s.Id)
+            .HasConversion(
+                id => id.Value,
+                value => SpeciesId.Create(value).Value)
+            .IsRequired()
+            .HasColumnName("Id");
+         
+        //name 
+        builder.Property(s => s.Name)
+            .HasConversion(
+                n => n.Value,
+                value => SpeciesName.Create(value).Value)
+            .IsRequired()
+            .HasColumnName("name");
 
-            //breeds
-            builder.HasMany(b => b.BreedList)
-                .WithOne()
-                .IsRequired()
-                .HasForeignKey("species_id")
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+        //breeds
+        builder.HasMany(b => b.BreedList)
+            .WithOne()
+            .IsRequired()
+            .HasForeignKey("species_id")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

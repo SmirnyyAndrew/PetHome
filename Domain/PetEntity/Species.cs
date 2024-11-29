@@ -1,6 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-
-namespace PetHome.Domain.PetEntity;
+﻿namespace PetHome.Domain.PetEntity;
 public class Species
 {  
     public Species() { }
