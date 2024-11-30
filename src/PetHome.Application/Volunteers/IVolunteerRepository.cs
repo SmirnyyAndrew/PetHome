@@ -9,18 +9,6 @@ public interface IVolunteerRepository
     //Создание волонтёра
     public Task<Guid> Add(Volunteer volunteer, CancellationToken ct = default);
 
-    //Создание волонтера через параметры
-    public Task<Guid> Create(
-        FullName fullName,
-        Email email,
-        string description,
-        DateOnly startVolunteeringDate,
-        PhoneNumbersDetails phoneNumbersDetails,
-        SocialNetworkDetails socialNetworkDetails,
-        RequisitesDetails requisitesDetails,
-        CancellationToken ct = default);
-
-
     //Найти волонтера по ID
     public Task<Volunteer> GetById(VolunteerId id, CancellationToken ct = default);
 

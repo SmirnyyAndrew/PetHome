@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Http.HttpResults;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.Shared.Error;
 using PetHome.Domain.VolunteerEntity;
 
 namespace PetHome.Application.Volunteers.CreateVolunteer;
@@ -14,28 +14,43 @@ public class CreateVolunteerUseCase
         VolunteerRepository = volunteerRepository;
     }
 
-    public async Task<Result<Guid>> Execute(CreateVolunteerRequest request, CancellationToken ct)
+    public async Task<Result<Guid, Error>> Execute(CreateVolunteerRequest request, CancellationToken ct)
     {
         CreateVolunteerRequestDto dto = request.CreateVolunteerDto;
 
-        FullName fullName = FullName.Create(dto.firstName, dto.lastName);
+        FullName fullName = FullName.Create(dto.firstName, dto.lastName).Value;
 
         Email email = Email.Create(dto.email).Value;
 
-        List<PhoneNumber> phoneNumberList = dto.phoneNumberList
-            .Select(x => PhoneNumber.Create(x).Value)
-            .ToList();
-        PhoneNumbersDetails phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
 
-        List<SocialNetwork> socialNetworkList = dto.socialNetworkList
-            .Select(x => SocialNetwork.Create(x).Value)
-            .ToList();
-        SocialNetworkDetails socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
+        PhoneNumbersDetails phoneNumberDetails = null;
+        if (dto.phoneNumberList != null)
+        {
+            List<PhoneNumber> phoneNumberList = dto.phoneNumberList
+                .Select(x => PhoneNumber.Create(x).Value)
+                .ToList();
+              phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
+        }
 
-        List<Requisites> requisitesList = dto.requisitesList
-            .Select(x => Requisites.Create(x.name, x.desc, x.paymentMethod).Value)
-            .ToList();
-        RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
+
+        SocialNetworkDetails socialNetworkDetails = null;
+        if (dto.socialNetworkList != null)
+        {
+            List<SocialNetwork> socialNetworkList = dto.socialNetworkList
+                .Select(x => SocialNetwork.Create(x).Value)
+                .ToList();
+              socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
+        }
+
+
+        RequisitesDetails requisitesDetails = null;
+        if (dto.requisitesList != null)
+        {
+            List<Requisites> requisitesList = dto.requisitesList
+                 .Select(x => Requisites.Create(x.name, x.desc, x.paymentMethod).Value)
+                 .ToList();
+            requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
+        }
 
 
         Volunteer volunteer = Volunteer.Create(
@@ -48,8 +63,7 @@ public class CreateVolunteerUseCase
             requisitesDetails)
             .Value;
 
-
-        await VolunteerRepository.Add(volunteer);
+        var result = await VolunteerRepository.Add(volunteer);
 
         return volunteer.Id.Value;
     }

@@ -13,7 +13,7 @@ using PetHome.Infrastructure;
 namespace PetHome.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241128153219_Initial")]
+    [Migration("20241130121123_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -64,11 +64,11 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateOnly>("BirthDate")
+                    b.Property<DateOnly?>("BirthDate")
                         .HasColumnType("date")
                         .HasColumnName("bith_date");
 
-                    b.Property<Guid>("BreedId")
+                    b.Property<Guid?>("BreedId")
                         .HasColumnType("uuid")
                         .HasColumnName("breed_id");
 
@@ -194,9 +194,8 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("email");
 
-                    b.Property<string>("StartVolunteeringDate")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<DateOnly>("StartVolunteeringDate")
+                        .HasColumnType("date")
                         .HasColumnName("start_volunteering_date");
 
                     b.ComplexProperty<Dictionary<string, object>>("FullName", "PetHome.Domain.VolunteerEntity.Volunteer.FullName#FullName", b1 =>
@@ -276,8 +275,7 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Navigation("Values");
                         });
 
-                    b.Navigation("RequisitesDetails")
-                        .IsRequired();
+                    b.Navigation("RequisitesDetails");
                 });
 
             modelBuilder.Entity("PetHome.Domain.VolunteerEntity.Volunteer", b =>
@@ -400,14 +398,11 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Navigation("Values");
                         });
 
-                    b.Navigation("PhoneNumberDetails")
-                        .IsRequired();
+                    b.Navigation("PhoneNumberDetails");
 
-                    b.Navigation("RequisitesDetails")
-                        .IsRequired();
+                    b.Navigation("RequisitesDetails");
 
-                    b.Navigation("SocialNetworkDetails")
-                        .IsRequired();
+                    b.Navigation("SocialNetworkDetails");
                 });
 
             modelBuilder.Entity("PetHome.Domain.PetEntity.Species", b =>

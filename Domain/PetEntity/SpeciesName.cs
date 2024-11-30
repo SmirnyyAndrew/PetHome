@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.PetEntity;
 public record SpeciesName 
@@ -11,10 +12,10 @@ public record SpeciesName
         Value = value;
     }
 
-    public static Result<SpeciesName> Create(string value)
+    public static Result<SpeciesName,Error> Create(string value)
     {
         if (string.IsNullOrEmpty(value))
-            return Result.Failure<SpeciesName>("Строка не должна быть пустой");
+            return Errors.Validation("Вид питомца");
 
         return new SpeciesName(value);
     } 

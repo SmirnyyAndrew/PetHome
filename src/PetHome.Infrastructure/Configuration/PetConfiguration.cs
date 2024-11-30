@@ -49,7 +49,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 b => b.Value,
                 value => BreedId.Create(value))
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnName("breed_id");
 
         //color 
@@ -84,7 +84,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 d => d.Value,
                 value => VO_Date.Create(value).Value)
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnName("bith_date");
 
         //is vaccinated

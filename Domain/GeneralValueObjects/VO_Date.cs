@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.GeneralValueObjects;
 public record VO_Date
@@ -11,12 +12,10 @@ public record VO_Date
         Value = value;
     }
 
-    public static Result<VO_Date> Create(DateOnly value)
+    public static Result<VO_Date,Error> Create(DateOnly value)
     {
         if (value == null || value.Year > 100)
-        {
-            return Result.Failure<VO_Date>("Введите корректную дату");
-        }
+            return Errors.Validation("Дата");
 
         return new VO_Date(value);
     }

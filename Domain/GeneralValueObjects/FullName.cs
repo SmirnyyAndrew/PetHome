@@ -1,11 +1,14 @@
-﻿namespace PetHome.Domain.GeneralValueObjects;
+﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
+
+namespace PetHome.Domain.GeneralValueObjects;
 
 public record FullName
-{ 
+{
     public const int MAX_NAME_LENGTH = 20;
     public string FirstName { get; }
     public string LastName { get; }
-    
+
     private FullName() { }
     private FullName(string firstName, string lastName)
     {
@@ -13,5 +16,11 @@ public record FullName
         LastName = lastName;
     }
 
-    public static FullName Create(string firstName, string lastName) => new FullName(firstName, lastName); 
+    public static Result<FullName, Error> Create(string firstName, string lastName)
+    {
+        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+            return Errors.Validation("Имя и фамилия");
+
+        return new FullName(firstName, lastName);
+    }
 }

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using PetHome.API.Extentions;
+using PetHome.API.Response;
 using PetHome.Application.Volunteers.CreateVolunteer;
 
 namespace PetHome.API.Controllers;
@@ -7,17 +9,17 @@ namespace PetHome.API.Controllers;
 [Route("[controller]")]
 public class VolunteerController : ControllerBase
 {
-    [HttpPut]
+    [HttpPost]
     public async Task<IActionResult> Create(
         [FromServices] CreateVolunteerUseCase useCase,
         [FromBody] CreateVolunteerRequest request,
         CancellationToken ct = default)
     {
-        var result = useCase.Execute(request, ct);
-
-        if (result.IsFaulted)
-            return BadRequest("Не удалось создать волонтёра");
+        var result = await useCase.Execute(request, ct);
+          
+        if (result.IsFailure) 
+            return result.Error.GetSatusCode();
          
-        return Ok($"id = {result}");
+        return Ok(ResponseEnvelope.Ok(result));
     }
 }

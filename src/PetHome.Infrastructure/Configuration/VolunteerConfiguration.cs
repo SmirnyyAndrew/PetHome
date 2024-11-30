@@ -12,7 +12,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.ToTable("volunteers");
 
         //id
-        builder.HasKey(x => x.Id); 
+        builder.HasKey(x => x.Id);
         builder.Property(i => i.Id)
             .HasConversion(
                 id => id.Value,
@@ -30,8 +30,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             tb.Property(f => f.LastName)
                 .IsRequired()
                 .HasColumnName("l_name");
-        }); 
-          
+        });
+
         //email 
         builder.Property(i => i.Email)
             .HasConversion(
@@ -46,13 +46,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .IsRequired()
             .HasColumnName("description");
 
-         //StartVolunteeringDate
-         builder.Property(s => s.StartVolunteeringDate)
-             .HasConversion(
-                 d => d.ToShortDateString(),
-                 d => DateOnly.Parse(d))
-             .IsRequired()
-             .HasColumnName("start_volunteering_date");
+        //StartVolunteeringDate
+        builder.Property(i => i.StartVolunteeringDate)
+            .HasConversion(
+                d => d.Value,
+                value => VO_Date.Create(value).Value)
+            .IsRequired()
+            .HasColumnName("start_volunteering_date");
 
         //pets
         builder.HasMany(m => m.PetList)
@@ -64,21 +64,21 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.OwnsOne(p => p.PhoneNumberDetails, d =>
         {
             d.ToJson();
-            d.OwnsMany(d => d.Values); ;
+            d.OwnsMany(d => d.Values);
         });
-         
+
         //social networks
         builder.OwnsOne(s => s.SocialNetworkDetails, d =>
         {
             d.ToJson();
             d.OwnsMany(d => d.Values);
         });
-         
+
         //requisites
         builder.OwnsOne(r => r.RequisitesDetails, d =>
         {
             d.ToJson();
             d.OwnsMany(d => d.Values);
-        }); 
+        });
     }
 }

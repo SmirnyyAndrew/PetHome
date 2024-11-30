@@ -42,12 +42,12 @@ namespace PetHome.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     email = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    start_volunteering_date = table.Column<string>(type: "text", nullable: false),
+                    start_volunteering_date = table.Column<DateOnly>(type: "date", nullable: false),
                     f_name = table.Column<string>(type: "text", nullable: false),
                     l_name = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumberDetails = table.Column<string>(type: "jsonb", nullable: false),
-                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: false),
-                    SocialNetworkDetails = table.Column<string>(type: "jsonb", nullable: false)
+                    PhoneNumberDetails = table.Column<string>(type: "jsonb", nullable: true),
+                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true),
+                    SocialNetworkDetails = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,19 +81,19 @@ namespace PetHome.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    breed_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    breed_id = table.Column<Guid>(type: "uuid", nullable: true),
                     color = table.Column<string>(type: "text", nullable: false),
                     shelter_id = table.Column<Guid>(type: "uuid", nullable: false),
                     weight = table.Column<double>(type: "double precision", maxLength: 500, nullable: false),
                     is_castrated = table.Column<bool>(type: "boolean", nullable: false),
-                    bith_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    bith_date = table.Column<DateOnly>(type: "date", nullable: true),
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     profile_create_date = table.Column<DateOnly>(type: "date", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: false)
+                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {

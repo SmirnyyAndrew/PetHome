@@ -22,30 +22,6 @@ public class VolunteerRepository: IVolunteerRepository
         return volunteer.Id;
     }
 
-    //Создание волонтера через параметры
-    public async Task<Guid> Create(
-        FullName fullName,
-        Email email,
-        string description,
-        DateOnly startVolunteeringDate,
-        PhoneNumbersDetails phoneNumbersDetails,
-        SocialNetworkDetails socialNetworkDetails,
-        RequisitesDetails requisitesDetails,
-        CancellationToken ct = default)
-    {
-        Volunteer volunteer = Volunteer.Create(
-            fullName,
-            email,
-            description,
-            startVolunteeringDate,
-            phoneNumbersDetails,
-            socialNetworkDetails,
-            requisitesDetails)
-            .Value;
-
-        return await Add(volunteer, ct);
-    }
-
 
     //Найти волонтера по ID
     public async Task<Volunteer> GetById(VolunteerId id, CancellationToken ct = default)

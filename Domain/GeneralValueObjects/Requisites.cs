@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.GeneralValueObjects;
 public record Requisites
@@ -15,12 +16,12 @@ public record Requisites
         PaymentMethod = paymentMethod;
     }
 
-    public static Result<Requisites> Create(string name, string description, PaymentMethodEnum paymentMethod)
+    public static Result<Requisites, Error> Create(string name, string description, PaymentMethodEnum paymentMethod)
     {
         bool isInvalidRequisite = string.IsNullOrEmpty(name) || string.IsNullOrEmpty(description) || paymentMethod == null;
 
         if (isInvalidRequisite)
-            return Result.Failure<Requisites>("Некорректно введены реквезиты");
+            return Errors.Validation("Реквезиты");
 
         return new Requisites(name, description, paymentMethod);
     }

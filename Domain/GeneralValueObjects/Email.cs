@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 using System.Text.RegularExpressions;
 
 namespace PetHome.Domain.GeneralValueObjects;
@@ -14,13 +15,10 @@ public record Email
         Value = value;
     }
 
-    public static Result<Email> Create(string value)
+    public static Result<Email,Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return Result.Failure<Email>("Введите email");
-
-        if (!Regex.IsMatch(value, EmailRegex))
-            return Result.Failure<Email>("Email не соответствует формату");
+        if (string.IsNullOrWhiteSpace(value) || !Regex.IsMatch(value, EmailRegex))
+            return Errors.Validation("Email");
 
         return new Email(value);
     }

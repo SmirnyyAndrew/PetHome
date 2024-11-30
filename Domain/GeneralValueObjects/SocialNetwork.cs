@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.GeneralValueObjects;
 public record SocialNetwork
@@ -12,5 +13,11 @@ public record SocialNetwork
     }
     public string Url { get; private set; }
 
-    public static Result<SocialNetwork> Create(string value) => new SocialNetwork(value);
+    public static Result<SocialNetwork, Error> Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.Validation("Социальная сеть");
+
+        return new SocialNetwork(value);
+    }
 }
