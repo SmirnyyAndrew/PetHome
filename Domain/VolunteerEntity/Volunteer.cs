@@ -8,15 +8,26 @@ public class Volunteer
 {
     private Volunteer() { }
 
-    private Volunteer(
+    private Volunteer( 
+        VolunteerId id,
         FullName fullName,
         Email email,
         string description,
-        DateOnly startVolunteeringDate,
+        VO_Date startVolunteeringDate,
         PhoneNumbersDetails phoneNumbersDetails,
         SocialNetworkDetails socialNetworkDetails,
         RequisitesDetails requisitesDetails)
-    { }
+    {
+        Id = id;
+        FullName = fullName;
+        Email = email;
+        Description = description;
+        StartVolunteeringDate = startVolunteeringDate;
+        PhoneNumberDetails = phoneNumbersDetails;
+        SocialNetworkDetails = socialNetworkDetails;
+        RequisitesDetails = requisitesDetails;
+
+    }
 
     public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
@@ -35,21 +46,22 @@ public class Volunteer
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => PetList.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
 
     public static Result<Volunteer, Error> Create(
+        VolunteerId id,
         FullName fullName,
         Email email,
         string description,
-        DateOnly startVolunteeringDate,
+        VO_Date startVolunteeringDate,
         PhoneNumbersDetails phoneNumbersDetails,
         SocialNetworkDetails socialNetworkDetails,
         RequisitesDetails requisitesDetails)
     {
         if (string.IsNullOrWhiteSpace(description))
-            return Errors.Validation("Описание"); 
+            return Errors.Validation("Описание");
 
         if (startVolunteeringDate == null)
             return Errors.Validation("Дата начала волонтёрства");
 
 
-        return new Volunteer(fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
+        return new Volunteer(id, fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
     }
 }

@@ -18,7 +18,7 @@ public class VolunteerRepository: IVolunteerRepository
     public async Task<Guid> Add(Volunteer volunteer, CancellationToken ct = default)
     {
         await DBContext.Volunteers.AddAsync(volunteer, ct);
-        await DBContext.SaveChangesAsync(ct);
+        await DBContext.SaveChangesAsync(ct); 
         return volunteer.Id;
     }
 

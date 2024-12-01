@@ -1,7 +1,10 @@
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using PetHome.API.Extentions;
 using PetHome.API.Response;
 using PetHome.Application.Volunteers.CreateVolunteer;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Controllers;
 
@@ -15,11 +18,11 @@ public class VolunteerController : ControllerBase
         [FromBody] CreateVolunteerRequest request,
         CancellationToken ct = default)
     {
-        var result = await useCase.Execute(request, ct);
-          
+        Result<Guid,Error> result = await useCase.Execute(request, ct);
+
         if (result.IsFailure) 
             return result.Error.GetSatusCode();
-         
-        return Ok(ResponseEnvelope.Ok(result));
+
+        return Ok(ResponseEnvelope.Ok(result.Value)); 
     }
 }

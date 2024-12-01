@@ -1,4 +1,5 @@
-﻿using PetHome.Domain.Shared.Error;
+﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Response;
 public class ResponseEnvelope
@@ -8,14 +9,15 @@ public class ResponseEnvelope
     public string? ErrorMessage { get; }
     public DateTime TimeGenerated { get; }
 
-    private ResponseEnvelope(object? result, Error error)
+    private ResponseEnvelope(object? result, Error? error)
     {
         Result = result;
-        ErrorCode = error.Code;
-        ErrorMessage = error.Message;
+        ErrorCode = error?.Code;
+        ErrorMessage = error?.Message;
         TimeGenerated = DateTime.Now;
     }
+     
 
     public static ResponseEnvelope Ok(object? result) => new ResponseEnvelope(result, null);
-    public static ResponseEnvelope Error(Error error) => new ResponseEnvelope(null, error);
+    public static ResponseEnvelope Error(Error? error) => new ResponseEnvelope(null, error);
 }

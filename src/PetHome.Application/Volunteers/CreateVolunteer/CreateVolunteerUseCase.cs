@@ -18,9 +18,13 @@ public class CreateVolunteerUseCase
     {
         CreateVolunteerRequestDto dto = request.CreateVolunteerDto;
 
+        VolunteerId id = VolunteerId.Create();
+
         FullName fullName = FullName.Create(dto.firstName, dto.lastName).Value;
 
         Email email = Email.Create(dto.email).Value;
+
+        VO_Date startVolunteeringDate = VO_Date.Create(dto.startVolunteeringDate).Value;
 
 
         PhoneNumbersDetails phoneNumberDetails = null;
@@ -29,7 +33,7 @@ public class CreateVolunteerUseCase
             List<PhoneNumber> phoneNumberList = dto.phoneNumberList
                 .Select(x => PhoneNumber.Create(x).Value)
                 .ToList();
-              phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
+            phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
         }
 
 
@@ -39,7 +43,7 @@ public class CreateVolunteerUseCase
             List<SocialNetwork> socialNetworkList = dto.socialNetworkList
                 .Select(x => SocialNetwork.Create(x).Value)
                 .ToList();
-              socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
+            socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
         }
 
 
@@ -54,14 +58,16 @@ public class CreateVolunteerUseCase
 
 
         Volunteer volunteer = Volunteer.Create(
+            id,
             fullName,
             email,
             dto.description,
-            dto.startVolunteeringDate,
+            startVolunteeringDate,
             phoneNumberDetails,
             socialNetworkDetails,
             requisitesDetails)
             .Value;
+
 
         var result = await VolunteerRepository.Add(volunteer);
 
