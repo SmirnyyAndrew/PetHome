@@ -13,7 +13,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/PetHome.API/PetHome.API.csproj", "src/PetHome.API/"]
-COPY ["Domain/PetHome.Domain.csproj", "Domain/"]
+COPY ["src/PetHome.Domain/PetHome.Domain.csproj", "src/PetHome.Domain/"]
 COPY ["src/PetHome.Application/PetHome.Application.csproj", "src/PetHome.Application/"]
 COPY ["src/PetHome.Infrastructure/PetHome.Infrastructure.csproj", "src/PetHome.Infrastructure/"]
 RUN dotnet restore "./src/PetHome.API/PetHome.API.csproj"

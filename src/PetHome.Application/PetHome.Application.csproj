@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PetHome.Domain\PetHome.Domain.csproj" />
+	  <ProjectReference Include="..\PetHome.Domain\PetHome.Domain.csproj" />
   </ItemGroup>
 
 </Project>
