@@ -1,25 +1,22 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.PetEntity;
-public class SpeciesName : ValueObject
-{
+public record SpeciesName 
+{ 
     public string Value { get; }
 
+    private SpeciesName() { }
     private SpeciesName(string value)
     {
         Value = value;
     }
 
-    public static Result<SpeciesName> Create(string value)
+    public static Result<SpeciesName,Error> Create(string value)
     {
         if (string.IsNullOrEmpty(value))
-            return Result.Failure<SpeciesName>("Строка не должна быть пустой");
+            return Errors.Validation("Вид питомца");
 
         return new SpeciesName(value);
-    }
-
-    protected override IEnumerable<object> GetEqualityComponents() 
-    {
-        yield return Value;
-    }
+    } 
 }

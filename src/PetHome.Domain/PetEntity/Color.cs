@@ -1,19 +1,21 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.PetEntity;
 public class Color : ValueObject
 {
     public string Value { get; }
 
+    private Color() { }
     private Color(string value)
     {
         Value = value;
     }
 
-    public static Result<Color> Create(string value)
+    public static Result<Color, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return Result.Failure<Color>("Введите цвет");
+            return Errors.Validation("Цвет");
 
         return new Color(value);
     }
