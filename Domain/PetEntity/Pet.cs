@@ -18,11 +18,11 @@ public class Pet
         PetShelterId shelterId,
         double weight,
         bool isCastrated,
-        VO_Date birthDate,
+        Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
         RequisitesDetails requisitesDetails,
-        VO_Date profileCreateDate)
+        Date profileCreateDate)
     {
         Id = Id;
         Name = name;
@@ -49,11 +49,11 @@ public class Pet
     public PetShelterId ShelterId { get; private set; }
     public double Weight { get; private set; }
     public bool IsCastrated { get; private set; }
-    public VO_Date? BirthDate { get; private set; }
+    public Date? BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public PetStatusEnum Status;
     public RequisitesDetails? RequisitesDetails { get; private set; }
-    public VO_Date ProfileCreateDate { get; private set; }
+    public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
 
     public static Result<Pet, Error> Create(
@@ -66,11 +66,11 @@ public class Pet
         PetShelterId address,
         double weight,
         bool isCastrated,
-        VO_Date birthDate,
+        Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
         RequisitesDetails requisitesDetails,
-        VO_Date profileCreateDate)
+        Date profileCreateDate)
     {
 
         if (string.IsNullOrWhiteSpace(description))

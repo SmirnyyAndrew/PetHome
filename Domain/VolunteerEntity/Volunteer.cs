@@ -13,7 +13,7 @@ public class Volunteer
         FullName fullName,
         Email email,
         string description,
-        VO_Date startVolunteeringDate,
+        Date startVolunteeringDate,
         PhoneNumbersDetails phoneNumbersDetails,
         SocialNetworkDetails socialNetworkDetails,
         RequisitesDetails requisitesDetails)
@@ -33,8 +33,8 @@ public class Volunteer
     public FullName FullName { get; private set; }
     public Email? Email { get; private set; }
     public string Description { get; private set; }
-    public VO_Date StartVolunteeringDate { get; private set; }
-    public IReadOnlyList<Pet> PetList { get; private set; }
+    public Date StartVolunteeringDate { get; private set; }
+    public IReadOnlyList<Pet> Pets { get; private set; }
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
     public int FreePetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isFree);
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);
@@ -43,14 +43,14 @@ public class Volunteer
     public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
 
 
-    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => PetList.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
+    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
         FullName fullName,
         Email email,
         string description,
-        VO_Date startVolunteeringDate,
+        Date startVolunteeringDate,
         PhoneNumbersDetails phoneNumbersDetails,
         SocialNetworkDetails socialNetworkDetails,
         RequisitesDetails requisitesDetails)

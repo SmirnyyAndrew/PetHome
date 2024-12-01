@@ -83,7 +83,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.BirthDate)
             .HasConversion(
                 d => d.Value,
-                value => VO_Date.Create(value).Value)
+                value => Date.Create(value).Value)
             .IsRequired(false)
             .HasColumnName("bith_date");
 
@@ -109,7 +109,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.ProfileCreateDate)
             .HasConversion(
                 d => d.Value,
-                value => VO_Date.Create(value).Value)
+                value => Date.Create(value).Value)
             .IsRequired()
             .HasColumnName("profile_create_date");
          

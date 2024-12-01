@@ -27,7 +27,7 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
             .HasColumnName("name");
 
         //breeds
-        builder.HasMany(b => b.BreedList)
+        builder.HasMany(b => b.Breeds)
             .WithOne()
             .IsRequired()
             .HasForeignKey("species_id")

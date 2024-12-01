@@ -24,13 +24,13 @@ public class CreateVolunteerUseCase
 
         Email email = Email.Create(dto.email).Value;
 
-        VO_Date startVolunteeringDate = VO_Date.Create(dto.startVolunteeringDate).Value;
+        Date startVolunteeringDate = Date.Create(dto.startVolunteeringDate).Value;
 
 
         PhoneNumbersDetails phoneNumberDetails = null;
-        if (dto.phoneNumberList != null)
+        if (dto.phoneNumbers != null)
         {
-            List<PhoneNumber> phoneNumberList = dto.phoneNumberList
+            List<PhoneNumber> phoneNumberList = dto.phoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
                 .ToList();
             phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
@@ -38,9 +38,9 @@ public class CreateVolunteerUseCase
 
 
         SocialNetworkDetails socialNetworkDetails = null;
-        if (dto.socialNetworkList != null)
+        if (dto.socialNetworks != null)
         {
-            List<SocialNetwork> socialNetworkList = dto.socialNetworkList
+            List<SocialNetwork> socialNetworkList = dto.socialNetworks
                 .Select(x => SocialNetwork.Create(x).Value)
                 .ToList();
             socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
@@ -48,9 +48,9 @@ public class CreateVolunteerUseCase
 
 
         RequisitesDetails requisitesDetails = null;
-        if (dto.requisitesList != null)
+        if (dto.requisiteses != null)
         {
-            List<Requisites> requisitesList = dto.requisitesList
+            List<Requisites> requisitesList = dto.requisiteses
                  .Select(x => Requisites.Create(x.name, x.desc, x.paymentMethod).Value)
                  .ToList();
             requisitesDetails = RequisitesDetails.Create(requisitesList).Value;

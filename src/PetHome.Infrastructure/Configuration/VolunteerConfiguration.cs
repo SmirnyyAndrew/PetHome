@@ -25,11 +25,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         {
             tb.Property(f => f.FirstName)
                 .IsRequired()
-                .HasColumnName("f_name");
+                .HasColumnName("first_name");
 
             tb.Property(f => f.LastName)
                 .IsRequired()
-                .HasColumnName("l_name");
+                .HasColumnName("last_name");
         });
 
         //email 
@@ -50,12 +50,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(i => i.StartVolunteeringDate)
             .HasConversion(
                 d => d.Value,
-                value => VO_Date.Create(value).Value)
+                value => Date.Create(value).Value)
             .IsRequired()
             .HasColumnName("start_volunteering_date");
 
         //pets
-        builder.HasMany(m => m.PetList)
+        builder.HasMany(m => m.Pets)
             .WithOne()
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);

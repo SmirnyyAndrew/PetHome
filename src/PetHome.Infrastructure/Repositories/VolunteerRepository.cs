@@ -1,24 +1,23 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHome.Application.Volunteers;
-using PetHome.Domain.GeneralValueObjects;
 using PetHome.Domain.VolunteerEntity;
 
 namespace PetHome.Infrastructure.Repositories;
 public class VolunteerRepository: IVolunteerRepository
 {
-    private readonly ApplicationDBContext DBContext;
+    private readonly ApplicationDBContext _dBContext;
 
     public VolunteerRepository(ApplicationDBContext dBContext)
     {
-        DBContext = dBContext;
+        _dBContext = dBContext;
     }
 
     //Создание волонтёра
     public async Task<Guid> Add(Volunteer volunteer, CancellationToken ct = default)
     {
-        await DBContext.Volunteers.AddAsync(volunteer, ct);
-        await DBContext.SaveChangesAsync(ct); 
+        await _dBContext.Volunteers.AddAsync(volunteer, ct);
+        await _dBContext.SaveChangesAsync(ct); 
         return volunteer.Id;
     }
 
@@ -26,9 +25,9 @@ public class VolunteerRepository: IVolunteerRepository
     //Найти волонтера по ID
     public async Task<Volunteer> GetById(VolunteerId id, CancellationToken ct = default)
     {
-        var volunteer = await DBContext.Volunteers
+        var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
-            .Include(x => x.PetList)
+            .Include(x => x.Pets)
             .FirstAsync(ct);
 
         return volunteer;
@@ -37,8 +36,8 @@ public class VolunteerRepository: IVolunteerRepository
     //Удаление волонтера
     public async Task<Guid> Remove(Volunteer volunteer, CancellationToken ct = default)
     {
-        DBContext.Remove(volunteer);
-        await DBContext.SaveChangesAsync(ct);
+        _dBContext.Remove(volunteer);
+        await _dBContext.SaveChangesAsync(ct);
 
         return volunteer.Id;
     }

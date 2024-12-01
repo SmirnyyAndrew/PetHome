@@ -10,7 +10,7 @@ public record CreateVolunteerRequestDto(
         string email,
         string description,
         DateOnly startVolunteeringDate,
-        List<string> phoneNumberList,
-        List<string> socialNetworkList,
-        List<(string name,string desc, PaymentMethodEnum paymentMethod)>? requisitesList);
+        List<string> phoneNumbers,
+        List<string> socialNetworks,
+        List<(string name,string desc, PaymentMethodEnum paymentMethod)>? requisiteses);
 
