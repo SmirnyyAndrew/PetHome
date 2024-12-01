@@ -1,9 +1,23 @@
-﻿namespace PetHome.Domain.GeneralValueObjects;
-public class SocialNetwork
-{
-    // Для EF core
-    private SocialNetwork() { }
+﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
-    public int Id { get; private set; }
+namespace PetHome.Domain.GeneralValueObjects;
+public record SocialNetwork
+{
+    public string Value { get; }
+
+    private SocialNetwork() { }
+    private SocialNetwork(string value)
+    {
+        Value = value;
+    }
     public string Url { get; private set; }
+
+    public static Result<SocialNetwork, Error> Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.Validation("Социальная сеть");
+
+        return new SocialNetwork(value);
+    }
 }

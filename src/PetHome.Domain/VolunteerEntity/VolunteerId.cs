@@ -1,29 +1,26 @@
-﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.PetEntity;
+﻿namespace PetHome.Domain.VolunteerEntity;
+public record VolunteerId
+{  
+    public Guid Value { get; }
 
-namespace PetHome.Domain.VolunteerEntity
-{
-    public record VolunteerId
+    private VolunteerId() { }
+
+    private VolunteerId(Guid value)
     {
-        public Guid Value { get; }
-        private VolunteerId(Guid value)
-        {
-            Value = value;
-        }
-
-        public static VolunteerId Create() => new VolunteerId(Guid.NewGuid());
-
-        public static VolunteerId Create(Guid id) => new VolunteerId(id);
-
-        public static VolunteerId CreateEmpty() => new VolunteerId(Guid.Empty);
-
-        public static implicit operator Guid(VolunteerId volunteerId)
-        {
-            if (volunteerId == null)
-                throw new ArgumentNullException();
-
-            return volunteerId.Value;
-        }
-
+        Value = value;
     }
+
+    public static VolunteerId Create() => new VolunteerId(Guid.NewGuid());
+
+    public static VolunteerId Create(Guid id) => new VolunteerId(id);
+
+    public static VolunteerId CreateEmpty() => new VolunteerId(Guid.Empty);
+
+    public static implicit operator Guid(VolunteerId volunteerId)
+    {
+        if (volunteerId == null)
+            throw new ArgumentNullException();
+
+        return volunteerId.Value;
+    } 
 }
