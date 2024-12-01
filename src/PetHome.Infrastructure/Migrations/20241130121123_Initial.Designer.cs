@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetHome.Infrastructure;
@@ -12,9 +13,11 @@ using PetHome.Infrastructure;
 namespace PetHome.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241130121123_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,12 +205,12 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("first_name");
+                                .HasColumnName("f_name");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("last_name");
+                                .HasColumnName("l_name");
                         });
 
                     b.HasKey("Id")
@@ -219,7 +222,7 @@ namespace PetHome.Infrastructure.Migrations
             modelBuilder.Entity("PetHome.Domain.PetEntity.Breed", b =>
                 {
                     b.HasOne("PetHome.Domain.PetEntity.Species", null)
-                        .WithMany("Breeds")
+                        .WithMany("BreedList")
                         .HasForeignKey("species_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -229,7 +232,7 @@ namespace PetHome.Infrastructure.Migrations
             modelBuilder.Entity("PetHome.Domain.PetEntity.Pet", b =>
                 {
                     b.HasOne("PetHome.Domain.VolunteerEntity.Volunteer", null)
-                        .WithMany("Pets")
+                        .WithMany("PetList")
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
@@ -404,12 +407,12 @@ namespace PetHome.Infrastructure.Migrations
 
             modelBuilder.Entity("PetHome.Domain.PetEntity.Species", b =>
                 {
-                    b.Navigation("Breeds");
+                    b.Navigation("BreedList");
                 });
 
             modelBuilder.Entity("PetHome.Domain.VolunteerEntity.Volunteer", b =>
                 {
-                    b.Navigation("Pets");
+                    b.Navigation("PetList");
                 });
 #pragma warning restore 612, 618
         }

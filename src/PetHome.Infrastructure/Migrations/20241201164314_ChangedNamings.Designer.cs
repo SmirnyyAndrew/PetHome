@@ -13,8 +13,8 @@ using PetHome.Infrastructure;
 namespace PetHome.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241128153219_Initial")]
-    partial class Initial
+    [Migration("20241201164314_ChangedNamings")]
+    partial class ChangedNamings
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,11 +64,11 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateOnly>("BirthDate")
+                    b.Property<DateOnly?>("BirthDate")
                         .HasColumnType("date")
                         .HasColumnName("bith_date");
 
-                    b.Property<Guid>("BreedId")
+                    b.Property<Guid?>("BreedId")
                         .HasColumnType("uuid")
                         .HasColumnName("breed_id");
 
@@ -194,9 +194,8 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("email");
 
-                    b.Property<string>("StartVolunteeringDate")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<DateOnly>("StartVolunteeringDate")
+                        .HasColumnType("date")
                         .HasColumnName("start_volunteering_date");
 
                     b.ComplexProperty<Dictionary<string, object>>("FullName", "PetHome.Domain.VolunteerEntity.Volunteer.FullName#FullName", b1 =>
@@ -206,12 +205,12 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("f_name");
+                                .HasColumnName("first_name");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("l_name");
+                                .HasColumnName("last_name");
                         });
 
                     b.HasKey("Id")
@@ -223,7 +222,7 @@ namespace PetHome.Infrastructure.Migrations
             modelBuilder.Entity("PetHome.Domain.PetEntity.Breed", b =>
                 {
                     b.HasOne("PetHome.Domain.PetEntity.Species", null)
-                        .WithMany("BreedList")
+                        .WithMany("Breeds")
                         .HasForeignKey("species_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -233,7 +232,7 @@ namespace PetHome.Infrastructure.Migrations
             modelBuilder.Entity("PetHome.Domain.PetEntity.Pet", b =>
                 {
                     b.HasOne("PetHome.Domain.VolunteerEntity.Volunteer", null)
-                        .WithMany("PetList")
+                        .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
@@ -276,8 +275,7 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Navigation("Values");
                         });
 
-                    b.Navigation("RequisitesDetails")
-                        .IsRequired();
+                    b.Navigation("RequisitesDetails");
                 });
 
             modelBuilder.Entity("PetHome.Domain.VolunteerEntity.Volunteer", b =>
@@ -400,24 +398,21 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Navigation("Values");
                         });
 
-                    b.Navigation("PhoneNumberDetails")
-                        .IsRequired();
+                    b.Navigation("PhoneNumberDetails");
 
-                    b.Navigation("RequisitesDetails")
-                        .IsRequired();
+                    b.Navigation("RequisitesDetails");
 
-                    b.Navigation("SocialNetworkDetails")
-                        .IsRequired();
+                    b.Navigation("SocialNetworkDetails");
                 });
 
             modelBuilder.Entity("PetHome.Domain.PetEntity.Species", b =>
                 {
-                    b.Navigation("BreedList");
+                    b.Navigation("Breeds");
                 });
 
             modelBuilder.Entity("PetHome.Domain.VolunteerEntity.Volunteer", b =>
                 {
-                    b.Navigation("PetList");
+                    b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
         }

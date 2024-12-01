@@ -1,23 +1,22 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Domain.PetEntity
+namespace PetHome.Domain.PetEntity;
+public record PetName
 {
-    public record PetName
+    public string Value { get; }
+
+    private PetName() { } 
+    private PetName(string value)
     {
-        public string Value { get; }
+        Value = value;
+    }
 
-        private PetName() { } 
-        private PetName(string value)
-        {
-            Value = value;
-        }
+    public static Result<PetName, Error> Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.Validation("Кличка");
 
-        public static Result<PetName> Create(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return Result.Failure<PetName>("Введите имя");
-
-            return new PetName(value);
-        }
+        return new PetName(value);
     }
 }
