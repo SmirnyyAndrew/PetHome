@@ -101,7 +101,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         ////requisites
         builder.OwnsOne(r => r.RequisitesDetails, d =>
         {
-            d.ToJson("requisites");
+            d.ToJson();
             d.OwnsMany(d => d.Values, rb =>
             {
                 rb.Property(r => r.Name)
