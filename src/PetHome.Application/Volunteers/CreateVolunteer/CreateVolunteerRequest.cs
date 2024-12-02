@@ -2,15 +2,15 @@
 
 namespace PetHome.Application.Volunteers.CreateVolunteer;
 
-public record RequisitesesDto(string Name, string Desc, PaymentMethodEnum PaymentMethod);
+public record RequisitesesDto(string name, string desc, PaymentMethodEnum paymentMethod);
 
 public record CreateVolunteerRequest(
-        string FirstName,
-        string LastName,
-        string Email,
-        string Description,
-        DateOnly StartVolunteeringDate,
-        List<string> PhoneNumbers,
-        List<string> SocialNetworks,
-        List<RequisitesesDto> RequisitesesDto);
+        string firstName,
+        string lastName,
+        string email,
+        string description,
+        DateOnly startVolunteeringDate,
+        List<string> phoneNumbers,
+        List<string> socialNetworks,
+        List<RequisitesesDto> requisitesesDto);
 
