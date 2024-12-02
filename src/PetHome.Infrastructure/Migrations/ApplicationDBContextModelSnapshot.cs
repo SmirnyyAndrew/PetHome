@@ -244,7 +244,7 @@ namespace PetHome.Infrastructure.Migrations
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("RequisitesDetails");
+                            b1.ToJson("requisites");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
@@ -298,7 +298,7 @@ namespace PetHome.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("PhoneNumberDetails");
+                            b1.ToJson("phonenumbers");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")
@@ -339,7 +339,7 @@ namespace PetHome.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("SocialNetworkDetails");
+                            b1.ToJson("social_networks");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")
@@ -380,7 +380,7 @@ namespace PetHome.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("RequisitesDetails");
+                            b1.ToJson("requisites");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")

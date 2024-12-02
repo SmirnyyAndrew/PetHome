@@ -63,7 +63,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         //phonenumbers
         builder.OwnsOne(p => p.PhoneNumberDetails, d =>
         {
-            d.ToJson();
+            d.ToJson("phonenumbers");
             d.OwnsMany(d => d.Values, pb =>
             {
                 pb.Property(p => p.Value)
@@ -74,7 +74,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         //social networks
         builder.OwnsOne(s => s.SocialNetworkDetails, d =>
         {
-            d.ToJson();
+            d.ToJson("social_networks");
             d.OwnsMany(d => d.Values, sb =>
             {
                 sb.Property(p => p.Value)
@@ -85,7 +85,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         //requisites
         builder.OwnsOne(r => r.RequisitesDetails, d =>
         {
-            d.ToJson();
+            d.ToJson("requisites");
             d.OwnsMany(d => d.Values, rb =>
             {
                 rb.Property(r => r.Name)

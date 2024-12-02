@@ -45,9 +45,9 @@ namespace PetHome.Infrastructure.Migrations
                     start_volunteering_date = table.Column<DateOnly>(type: "date", nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumberDetails = table.Column<string>(type: "jsonb", nullable: true),
-                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true),
-                    SocialNetworkDetails = table.Column<string>(type: "jsonb", nullable: true)
+                    phonenumbers = table.Column<string>(type: "jsonb", nullable: true),
+                    requisites = table.Column<string>(type: "jsonb", nullable: true),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,7 +93,7 @@ namespace PetHome.Infrastructure.Migrations
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true)
+                    requisites = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
