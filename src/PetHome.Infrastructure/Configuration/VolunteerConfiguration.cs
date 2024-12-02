@@ -64,21 +64,39 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.OwnsOne(p => p.PhoneNumberDetails, d =>
         {
             d.ToJson();
-            d.OwnsMany(d => d.Values);
+            d.OwnsMany(d => d.Values, pb =>
+            {
+                pb.Property(p => p.Value)
+                .IsRequired();
+            });
         });
 
         //social networks
         builder.OwnsOne(s => s.SocialNetworkDetails, d =>
         {
             d.ToJson();
-            d.OwnsMany(d => d.Values);
+            d.OwnsMany(d => d.Values, sb =>
+            {
+                sb.Property(p => p.Value)
+                .IsRequired();
+            });
         });
 
         //requisites
         builder.OwnsOne(r => r.RequisitesDetails, d =>
         {
             d.ToJson();
-            d.OwnsMany(d => d.Values);
+            d.OwnsMany(d => d.Values, rb =>
+            {
+                rb.Property(r => r.Name)
+                .IsRequired();
+
+                rb.Property(r=>r.Description)
+                .IsRequired();
+
+                rb.Property(r=>r.PaymentMethod)
+                .IsRequired();
+            });
         });
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PetHome.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,8 +43,8 @@ namespace PetHome.Infrastructure.Migrations
                     email = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     start_volunteering_date = table.Column<DateOnly>(type: "date", nullable: false),
-                    f_name = table.Column<string>(type: "text", nullable: false),
-                    l_name = table.Column<string>(type: "text", nullable: false),
+                    first_name = table.Column<string>(type: "text", nullable: false),
+                    last_name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumberDetails = table.Column<string>(type: "jsonb", nullable: true),
                     RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true),
                     SocialNetworkDetails = table.Column<string>(type: "jsonb", nullable: true)

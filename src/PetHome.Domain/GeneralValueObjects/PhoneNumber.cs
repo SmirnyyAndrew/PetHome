@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace PetHome.Domain.GeneralValueObjects;
 public record PhoneNumber
 { 
-    private const string PhoneNumberRegex = @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$";
+    private const string PhoneNumberRegex = @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$";
     public string Value { get; }
 
     private PhoneNumber() { }
@@ -16,9 +16,11 @@ public record PhoneNumber
 
     public static Result<PhoneNumber, Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))//|| (!Regex.IsMatch(value, PhoneNumberRegex)))
+        string number = value.Trim();
+
+        if (string.IsNullOrWhiteSpace(number) || (!Regex.IsMatch(number, PhoneNumberRegex)))
             return Errors.Validation("Номер телефона");
 
-        return new PhoneNumber(value);
+        return new PhoneNumber(number);
     }
 }

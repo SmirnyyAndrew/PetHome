@@ -15,59 +15,44 @@ public class CreateVolunteerUseCase
     }
 
     public async Task<Result<Guid, Error>> Execute(CreateVolunteerRequest request, CancellationToken ct)
-    {
-        CreateVolunteerRequestDto dto = request.CreateVolunteerDto;
-
+    {  
         VolunteerId id = VolunteerId.Create();
 
-        FullName fullName = FullName.Create(dto.firstName, dto.lastName).Value;
+        FullName fullName = FullName.Create(request.firstName, request.lastName).Value;
 
-        Email email = Email.Create(dto.email).Value;
+        Email email = Email.Create(request.email).Value;
 
-        Date startVolunteeringDate = Date.Create(dto.startVolunteeringDate).Value;
+        Date startVolunteeringDate = Date.Create(request.startVolunteeringDate).Value;
 
 
-        PhoneNumbersDetails phoneNumberDetails = null;
-        if (dto.phoneNumbers != null)
-        {
-            List<PhoneNumber> phoneNumberList = dto.phoneNumbers
+        List<PhoneNumber> phoneNumberList = request.phoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
                 .ToList();
-            phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
-        }
+        PhoneNumbersDetails phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
 
 
-        SocialNetworkDetails socialNetworkDetails = null;
-        if (dto.socialNetworks != null)
-        {
-            List<SocialNetwork> socialNetworkList = dto.socialNetworks
+        List<SocialNetwork> socialNetworkList = request.socialNetworks
                 .Select(x => SocialNetwork.Create(x).Value)
                 .ToList();
-            socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
-        }
+        SocialNetworkDetails socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
 
 
-        RequisitesDetails requisitesDetails = null;
-        if (dto.requisiteses != null)
-        {
-            List<Requisites> requisitesList = dto.requisiteses
+        List<Requisites> requisitesList = request.requisitesesDto
                  .Select(x => Requisites.Create(x.name, x.desc, x.paymentMethod).Value)
                  .ToList();
-            requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
-        }
-
+        RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
+          
 
         Volunteer volunteer = Volunteer.Create(
             id,
             fullName,
             email,
-            dto.description,
+            request.description,
             startVolunteeringDate,
             phoneNumberDetails,
             socialNetworkDetails,
             requisitesDetails)
             .Value;
-
 
         var result = await VolunteerRepository.Add(volunteer);
 

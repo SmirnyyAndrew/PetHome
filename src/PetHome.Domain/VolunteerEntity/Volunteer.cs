@@ -51,17 +51,10 @@ public class Volunteer
         Email email,
         string description,
         Date startVolunteeringDate,
-        PhoneNumbersDetails phoneNumbersDetails,
-        SocialNetworkDetails socialNetworkDetails,
-        RequisitesDetails requisitesDetails)
-    {
-        if (string.IsNullOrWhiteSpace(description))
-            return Errors.Validation("Описание");
-
-        if (startVolunteeringDate == null)
-            return Errors.Validation("Дата начала волонтёрства");
-
-
+        PhoneNumbersDetails? phoneNumbersDetails,
+        SocialNetworkDetails? socialNetworkDetails,
+        RequisitesDetails? requisitesDetails)
+    { 
         return new Volunteer(id, fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
     }
 }

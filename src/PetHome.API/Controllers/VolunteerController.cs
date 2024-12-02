@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
 using PetHome.API.Extentions;
 using PetHome.API.Response;
 using PetHome.Application.Volunteers.CreateVolunteer;
@@ -14,15 +14,20 @@ public class VolunteerController : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] CreateVolunteerUseCase useCase,
+        [FromServices] CreateVolunteerUseCase createUseCase,
+        [FromServices] IValidator<CreateVolunteerRequest> validator,
         [FromBody] CreateVolunteerRequest request,
         CancellationToken ct = default)
     {
-        Result<Guid,Error> result = await useCase.Execute(request, ct);
+        var validatorResult = await validator.ValidateAsync(request, ct);
 
-        if (result.IsFailure) 
-            return result.Error.GetSatusCode();
+        if (validatorResult.IsValid == false)
+            return BadRequest(ResponseEnvelope.Error(validatorResult));
 
-        return Ok(ResponseEnvelope.Ok(result.Value)); 
+        Result<Guid, Error> result = await createUseCase.Execute(request, ct);
+         if (result.IsFailure)
+             return result.Error.GetSatusCode();
+
+        return Ok(ResponseEnvelope.Ok(result.Value));
     }
 }
