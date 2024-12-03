@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using PetHome.Application.Volunteers.CreateVolunteer;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Validator;
 public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerRequest>
@@ -12,7 +13,9 @@ public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteer
 
         RuleFor(c => c.Email).MustBeValueObject(Email.Create);
 
-        RuleFor(c => c.Description).Must(x => !string.IsNullOrWhiteSpace(x));
+        RuleFor(c => c.Description)
+            .Must(x => !string.IsNullOrWhiteSpace(x))
+            .WithError(Errors.Validation("Описание"));
 
         RuleFor(c=>c.StartVolunteeringDate).MustBeValueObject(Date.Create);
 

@@ -1,27 +1,27 @@
-﻿namespace PetHome.Domain.Shared.Error; 
+﻿namespace PetHome.Domain.Shared.Error;
 public static class Errors
 {
     public static Error Validation(string value)
     {
-        string checkedValue = string.IsNullOrWhiteSpace(value) ? "Value" : value; 
-        return Error.Validation("Value.is.invalid", $"Значение \"{checkedValue}\" некорректно. Проверьте входные данные.");
+        string checkedValue = string.IsNullOrWhiteSpace(value) ? "Value" : value;
+        return Error.Validation("Value.is.invalid", checkedValue, $"Значение \"{checkedValue}\" некорректно. Проверьте входные данные.");
     }
 
     public static Error NotFound(string value)
     {
         string checkedValue = string.IsNullOrEmpty(value) ? "М" : value;
-        return Error.NotFound("Value.is.notfound", $"Значение \"{checkedValue}\" не найдено. Проверьте входные данные.");
+        return Error.NotFound("Value.is.notfound", checkedValue, $"Значение \"{checkedValue}\" не найдено. Проверьте входные данные.");
     }
 
     public static Error Failure(string value)
     {
         string checkedValue = string.IsNullOrEmpty(value) ? "Value" : value;
-        return Error.Failure("Value.is.failure", $"\"Ошибка. Проверьте входные данные.");
+        return Error.Failure("Value.is.failure", checkedValue, "\"Ошибка. Проверьте входные данные.");
     }
 
     public static Error Conflict(string value)
     {
         string checkedValue = string.IsNullOrEmpty(value) ? "Value" : value;
-        return Error.Conflict("Value.is.conflict", $"Значение \"{checkedValue}\" вызвало конфликт. Проверьте входные данные.");
+        return Error.Conflict("Value.is.conflict", checkedValue, $"Значение \"{checkedValue}\" вызвало конфликт. Проверьте входные данные.");
     }
 }
