@@ -10,7 +10,7 @@ public record CreateVolunteerRequest(
         string Email,
         string Description,
         DateOnly StartVolunteeringDate,
-        List<string> PhoneNumbers,
-        List<string> SocialNetworks,
-        List<RequisitesesDto> RequisitesesDto);
+        IEnumerable<string> PhoneNumbers,
+        IEnumerable<string> SocialNetworks,
+        IEnumerable<RequisitesesDto> RequisitesesDto);
 

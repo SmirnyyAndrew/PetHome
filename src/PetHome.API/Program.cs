@@ -1,9 +1,8 @@
+using PetHome.API.Validation;
 using PetHome.Application;
-using PetHome.Application.Volunteers;
-using PetHome.Application.Volunteers.CreateVolunteer;
 using PetHome.Infrastructure;
-using PetHome.Infrastructure.Repositories;
-
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using SharpGrip.FluentValidation.AutoValidation.Shared;
 namespace PetHome.API;
 public class Program
 {
@@ -17,6 +16,13 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+
+        //Auto validation
+        builder.Services.AddFluentValidationAutoValidation(configuration =>
+        {
+            configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
+        });
+        
 
         //Подключение сервисов
         builder.Services

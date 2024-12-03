@@ -15,7 +15,6 @@ public record Date
         Value = value;
     }
 
-
     public static Result<Date, Error> Create(DateOnly value)
     {
         if (value == null || value.Year > MAX_YEAR || value.Year < MIN_YEAR)
