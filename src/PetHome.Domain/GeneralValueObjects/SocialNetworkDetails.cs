@@ -4,13 +4,13 @@ public record SocialNetworkDetails
     public IReadOnlyList<SocialNetwork> Values { get; }
      
     private SocialNetworkDetails() { }
-    public SocialNetworkDetails(IReadOnlyList<SocialNetwork> values)
+    public SocialNetworkDetails(IEnumerable<SocialNetwork> values)
     {
-        Values = values;
+        Values = values.ToList();
     }
 
-    public static SocialNetworkDetails Create(List<SocialNetwork> values)
+    public static SocialNetworkDetails Create(IEnumerable<SocialNetwork> values)
     {
-        return new SocialNetworkDetails(values);
+        return new SocialNetworkDetails(values.ToList());
     }
 }

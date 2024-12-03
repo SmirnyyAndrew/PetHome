@@ -10,8 +10,8 @@ public record PhoneNumbersDetails
         Values = values;
     }
 
-    public static PhoneNumbersDetails Create(List<PhoneNumber> values)
+    public static PhoneNumbersDetails Create(IEnumerable<PhoneNumber> values)
     {
-        return new PhoneNumbersDetails(values);
+        return new PhoneNumbersDetails(values.ToList());
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Response;
 using PetHome.Domain.Shared.Error;
 
@@ -15,11 +16,11 @@ public static class ResponseExtentions
             ErrorType.Failure => StatusCodes.Status500InternalServerError,
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
-        };
+        }; 
 
-        var envelope = ResponseEnvelope.Error(error);
+        var envelope = ResponseEnvelope.Error(new List<Error> { error });
 
-        return new ObjectResult(error)
+        return new ObjectResult(envelope)
         {
             StatusCode = statusCode
         };

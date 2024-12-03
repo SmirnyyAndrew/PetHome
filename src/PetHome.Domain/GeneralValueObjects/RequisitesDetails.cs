@@ -7,13 +7,13 @@ public record RequisitesDetails
     public IReadOnlyList<Requisites> Values { get; }
      
     private RequisitesDetails() { }
-    public RequisitesDetails(IReadOnlyList<Requisites> values)
+    public RequisitesDetails(IEnumerable<Requisites> values)
     {
-        Values = values;
+        Values = values.ToList();
     }
 
-    public static Result<RequisitesDetails> Create(List<Requisites> values)
+    public static Result<RequisitesDetails> Create(IEnumerable<Requisites> values)
     {
-        return new RequisitesDetails(values);
+        return new RequisitesDetails(values.ToList());
     }
 }

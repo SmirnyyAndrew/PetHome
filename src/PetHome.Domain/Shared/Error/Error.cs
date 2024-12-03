@@ -12,10 +12,8 @@ public record Error
         Type = type;
     }
 
-    public static Error Validation(string code, string message) => new Error(code, message, ErrorType.Validation);  
-    public static Error NotFound(string code, string message) => new Error(code,message, ErrorType.NotFound);
-    public static Error Failure(string code, string message) => new Error(code,message, ErrorType.Failure);
-    public static Error Conflict(string code, string message) => new Error(code,message, ErrorType.Conflict);
-
-
+    public static Error Validation(string code, string message) => new Error(code, message, ErrorType.Validation);
+    public static Error NotFound(string code, string message) => new Error(code, message, ErrorType.NotFound);
+    public static Error Failure(string code, string message) => new Error(code, message, ErrorType.Failure);
+    public static Error Conflict(string code, string message) => new Error(code, message, ErrorType.Conflict);
 }

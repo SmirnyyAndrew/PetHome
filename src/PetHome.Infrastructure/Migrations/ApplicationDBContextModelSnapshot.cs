@@ -259,6 +259,17 @@ namespace PetHome.Infrastructure.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
+                                    b2.Property<string>("Description")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<int>("PaymentMethod")
+                                        .HasColumnType("integer");
+
                                     b2.HasKey("RequisitesDetailsPetId", "__synthesizedOrdinal")
                                         .HasName("pk_pets");
 
@@ -302,8 +313,11 @@ namespace PetHome.Infrastructure.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
-                                    b2.HasKey("PhoneNumbersDetailsVolunteerId", "__synthesizedOrdinal")
-                                        .HasName("pk_volunteers");
+                                    b2.Property<string>("Value")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("PhoneNumbersDetailsVolunteerId", "__synthesizedOrdinal");
 
                                     b2.ToTable("volunteers");
 
@@ -340,12 +354,11 @@ namespace PetHome.Infrastructure.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
-                                    b2.Property<string>("Url")
+                                    b2.Property<string>("Value")
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.HasKey("SocialNetworkDetailsVolunteerId", "__synthesizedOrdinal")
-                                        .HasName("pk_volunteers");
+                                    b2.HasKey("SocialNetworkDetailsVolunteerId", "__synthesizedOrdinal");
 
                                     b2.ToTable("volunteers");
 
@@ -380,6 +393,17 @@ namespace PetHome.Infrastructure.Migrations
 
                                     b2.Property<int>("__synthesizedOrdinal")
                                         .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    b2.Property<string>("Description")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<int>("PaymentMethod")
                                         .HasColumnType("integer");
 
                                     b2.HasKey("RequisitesDetailsVolunteerId", "__synthesizedOrdinal")

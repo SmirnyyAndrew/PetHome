@@ -16,6 +16,7 @@ public record VolunteerId
 
     public static VolunteerId CreateEmpty() => new VolunteerId(Guid.Empty);
 
+
     public static implicit operator Guid(VolunteerId volunteerId)
     {
         if (volunteerId == null)

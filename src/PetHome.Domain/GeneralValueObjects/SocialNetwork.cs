@@ -10,8 +10,7 @@ public record SocialNetwork
     private SocialNetwork(string value)
     {
         Value = value;
-    }
-    public string Url { get; private set; }
+    } 
 
     public static Result<SocialNetwork, Error> Create(string value)
     {

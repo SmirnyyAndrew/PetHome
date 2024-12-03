@@ -17,9 +17,11 @@ public record Email
 
     public static Result<Email,Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || !Regex.IsMatch(value, EmailRegex))
+        string email = value.Trim();
+
+        if (string.IsNullOrWhiteSpace(email) || !Regex.IsMatch(email, EmailRegex))
             return Errors.Validation("Email");
 
-        return new Email(value);
+        return new Email(email);
     }
 }

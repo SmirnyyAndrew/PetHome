@@ -102,7 +102,17 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.OwnsOne(r => r.RequisitesDetails, d =>
         {
             d.ToJson();
-            d.OwnsMany(d => d.Values);
+            d.OwnsMany(d => d.Values, rb =>
+            {
+                rb.Property(r => r.Name)
+                .IsRequired();
+
+                rb.Property(r=>r.Description)
+                .IsRequired();
+
+                rb.Property(r => r.PaymentMethod)
+                .IsRequired();
+            });
         });
          
         //create date
