@@ -18,27 +18,27 @@ public class CreateVolunteerUseCase
     {  
         VolunteerId id = VolunteerId.Create();
 
-        FullName fullName = FullName.Create(request.firstName, request.lastName).Value;
+        FullName fullName = FullName.Create(request.FirstName, request.LastName).Value;
 
-        Email email = Email.Create(request.email).Value;
+        Email email = Email.Create(request.Email).Value;
 
-        Date startVolunteeringDate = Date.Create(request.startVolunteeringDate).Value;
+        Date startVolunteeringDate = Date.Create(request.StartVolunteeringDate).Value;
 
 
-        List<PhoneNumber> phoneNumberList = request.phoneNumbers
+        List<PhoneNumber> phoneNumberList = request.PhoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
                 .ToList();
         PhoneNumbersDetails phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
 
 
-        List<SocialNetwork> socialNetworkList = request.socialNetworks
+        List<SocialNetwork> socialNetworkList = request.SocialNetworks
                 .Select(x => SocialNetwork.Create(x).Value)
                 .ToList();
         SocialNetworkDetails socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
 
 
-        List<Requisites> requisitesList = request.requisitesesDto
-                 .Select(x => Requisites.Create(x.name, x.desc, x.paymentMethod).Value)
+        List<Requisites> requisitesList = request.RequisitesesDto
+                 .Select(x => Requisites.Create(x.Name, x.Desc, x.PaymentMethod).Value)
                  .ToList();
         RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
           
@@ -47,7 +47,7 @@ public class CreateVolunteerUseCase
             id,
             fullName,
             email,
-            request.description,
+            request.Description,
             startVolunteeringDate,
             phoneNumberDetails,
             socialNetworkDetails,
