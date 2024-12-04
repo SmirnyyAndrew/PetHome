@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using PetHome.API.Extentions;
 using PetHome.API.Validation;
 using PetHome.Application;
 using PetHome.Infrastructure;
@@ -22,7 +24,7 @@ public class Program
         {
             configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
         });
-        
+
 
         //Подключение сервисов
         builder.Services
@@ -31,12 +33,14 @@ public class Program
 
 
         var app = builder.Build();
-         
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            //Automigration
+            app.ApplyAutoMigrations();
         }
 
         app.UseHttpsRedirection();
@@ -45,6 +49,6 @@ public class Program
 
         app.MapControllers();
 
-        app.Run(); 
+        app.Run();
     }
 }
