@@ -25,7 +25,9 @@ public class CreateVolunteerUseCase
     {
         VolunteerId id = VolunteerId.Create();
 
-        FullName fullName = FullName.Create(request.FirstName, request.LastName).Value;
+        FullName fullName = FullName.Create(
+            request.FullNameDto.FirstName, 
+            request.FullNameDto.LastName).Value;
 
         Email email = Email.Create(request.Email).Value;
 
