@@ -7,9 +7,12 @@ public class ExceptionMiddleware
 {
     private readonly RequestDelegate _nextMiddleware;
 
-    public ExceptionMiddleware(RequestDelegate nextMiddleware)
+    private readonly ILogger<ExceptionMiddleware> _logger;
+
+    public ExceptionMiddleware(RequestDelegate nextMiddleware, ILogger<ExceptionMiddleware> logger)
     {
         _nextMiddleware = nextMiddleware;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -28,6 +31,8 @@ public class ExceptionMiddleware
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(envelope);
+
+            _logger.LogError("ОШИБКА " + ex, ex.Message);
         }
     }
 }

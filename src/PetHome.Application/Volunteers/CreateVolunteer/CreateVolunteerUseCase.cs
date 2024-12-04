@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using PetHome.Domain.GeneralValueObjects;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.VolunteerEntity;
@@ -7,15 +8,21 @@ namespace PetHome.Application.Volunteers.CreateVolunteer;
 
 public class CreateVolunteerUseCase
 {
-    private readonly IVolunteerRepository VolunteerRepository;
+    private readonly IVolunteerRepository _volunteerRepository;
+    private readonly ILogger<CreateVolunteerUseCase> _logger;
 
-    public CreateVolunteerUseCase(IVolunteerRepository volunteerRepository)
+    public CreateVolunteerUseCase(
+        IVolunteerRepository volunteerRepository,
+        ILogger<CreateVolunteerUseCase> logger)
     {
-        VolunteerRepository = volunteerRepository;
+        _volunteerRepository = volunteerRepository;
+        _logger = logger;
     }
 
-    public async Task<Result<Guid, Error>> Execute(CreateVolunteerRequest request, CancellationToken ct)
-    {  
+    public async Task<Result<Guid, Error>> Execute(
+        CreateVolunteerRequest request,
+        CancellationToken ct)
+    {
         VolunteerId id = VolunteerId.Create();
 
         FullName fullName = FullName.Create(request.FirstName, request.LastName).Value;
@@ -41,7 +48,7 @@ public class CreateVolunteerUseCase
                  .Select(x => Requisites.Create(x.Name, x.Desc, x.PaymentMethod).Value)
                  .ToList();
         RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
-          
+
 
         Volunteer volunteer = Volunteer.Create(
             id,
@@ -54,7 +61,9 @@ public class CreateVolunteerUseCase
             requisitesDetails)
             .Value;
 
-        var result = await VolunteerRepository.Add(volunteer);
+        var result = await _volunteerRepository.Add(volunteer);
+
+        _logger.LogInformation("Волонетёр с id={0} был создан", volunteer.Id.Value);
 
         return volunteer.Id.Value;
     }

@@ -1,17 +1,23 @@
-using Microsoft.EntityFrameworkCore;
 using PetHome.API.Extentions;
-using PetHome.API.Middlewares;
+using PetHome.API.Loggers;
 using PetHome.API.Validation;
 using PetHome.Application;
 using PetHome.Infrastructure;
+using Serilog;
+using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using SharpGrip.FluentValidation.AutoValidation.Shared;
 namespace PetHome.API;
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+
+        //Включить логгер от Serilog
+        builder.Services.AddSerilog();
+        //Логирование через Seq 
+        Log.Logger = SeqLogger.InitDefaultSeqConfiguration();
 
 
         // Add services to the container.
@@ -39,6 +45,7 @@ public class Program
         //Middleware для отлова исключений (-стэк трейс)
         app.UseExceptionHandler();
 
+        app.UseSerilogRequestLogging();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
