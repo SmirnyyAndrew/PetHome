@@ -22,7 +22,6 @@ public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
             foreach (var error in validationErrors)
             {
                 errors.Add(Errors.Validation(error));
-                //errors.Add(Error.Validation(invalidField, error));
             }  
         }
 

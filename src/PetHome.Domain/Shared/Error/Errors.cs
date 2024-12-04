@@ -4,7 +4,7 @@ public static class Errors
     public static Error Validation(string value)
     {
         string checkedValue = string.IsNullOrWhiteSpace(value) ? "Value" : value;
-        return Error.Validation("Value.is.invalid", checkedValue, $"Значение \"{checkedValue}\" некорректно. Проверьте входные данные.");
+        return Error.Validation("Value.is.invalid", checkedValue, $"\"{checkedValue}\" - проверьте входные данные.");
     }
 
     public static Error NotFound(string value)

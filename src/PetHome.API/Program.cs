@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PetHome.API.Extentions;
+using PetHome.API.Middlewares;
 using PetHome.API.Validation;
 using PetHome.Application;
 using PetHome.Infrastructure;
@@ -11,6 +12,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
 
         // Add services to the container.
         builder.Services.AddControllers();
@@ -33,6 +35,10 @@ public class Program
 
 
         var app = builder.Build();
+
+        //Middleware для отлова исключений (-стэк трейс)
+        app.UseExceptionHandler();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

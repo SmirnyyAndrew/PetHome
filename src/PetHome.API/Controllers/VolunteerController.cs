@@ -17,7 +17,9 @@ public class VolunteerController : ControllerBase
         [FromServices] CreateVolunteerUseCase createUseCase,
         [FromBody] CreateVolunteerRequest request,
         CancellationToken ct = default)
-    { 
+    {
+
+        //throw new ApplicationException("Something went wrong");
 
         Result<Guid, Error> result = await createUseCase.Execute(request, ct);
          if (result.IsFailure)
