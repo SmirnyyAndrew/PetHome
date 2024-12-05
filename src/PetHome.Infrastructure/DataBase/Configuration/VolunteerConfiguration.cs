@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
-using PetHome.Domain.Shared;
 
 namespace PetHome.Infrastructure.DataBase.Configuration;
 public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
@@ -101,5 +99,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .IsRequired();
             });
         });
+
+        //Is soft deleted
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

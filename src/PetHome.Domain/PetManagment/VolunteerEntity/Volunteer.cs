@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -42,6 +41,7 @@ public class Volunteer
     public PhoneNumbersDetails? PhoneNumberDetails { get; private set; }
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
+    private bool _isDeleted  = false;
 
 
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
@@ -56,7 +56,15 @@ public class Volunteer
         SocialNetworkDetails? socialNetworkDetails,
         RequisitesDetails? requisitesDetails)
     {
-        return new Volunteer(id, fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
+        return new Volunteer(
+            id, 
+            fullName, 
+            email, 
+            description, 
+            startVolunteeringDate, 
+            phoneNumbersDetails, 
+            socialNetworkDetails, 
+            requisitesDetails) { };
     }
 
     public void UpdateMainInfo(
@@ -70,4 +78,7 @@ public class Volunteer
         PhoneNumberDetails = phoneNumbersDetails;
         Email = email;
     }
+
+    public void SoftDelete() => _isDeleted = true;
+    public void Restore() => _isDeleted = false;
 }

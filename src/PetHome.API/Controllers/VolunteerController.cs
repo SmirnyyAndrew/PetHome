@@ -51,7 +51,7 @@ public class VolunteerController : ParentController
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(
+    public async Task<IActionResult> HardDelete(
         [FromRoute] Guid id,
         [FromServices] HardDeleteVolunteerUseCase hardDeleteUseCase,
         [FromServices] ILogger<HardDeleteVolunteerUseCase> logger,

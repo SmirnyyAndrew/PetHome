@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -10,7 +9,7 @@ public class Pet
     private Pet() { }
 
     private Pet(
-        PetId Id,
+        PetId id,
         PetName name,
         SpeciesId speciesId,
         Description description,
@@ -25,7 +24,7 @@ public class Pet
         RequisitesDetails requisitesDetails,
         Date profileCreateDate)
     {
-        Id = Id;
+        Id = id;
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -56,6 +55,7 @@ public class Pet
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
+    private bool IsDeleted = false;
 
     public static Result<Pet, Error> Create(
         PetId id,
@@ -64,7 +64,7 @@ public class Pet
         Description description,
         BreedId breedId,
         Color color,
-        PetShelterId address,
+        PetShelterId ShelterId,
         double weight,
         bool isCastrated,
         Date birthDate,
@@ -72,25 +72,29 @@ public class Pet
         PetStatusEnum status,
         RequisitesDetails requisitesDetails,
         Date profileCreateDate)
-    { 
+    {
 
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
 
         return new Pet(
-            id, 
-            name, 
-            speciesId, 
-            description, 
-            breedId, 
-            color, 
-            address, 
-            weight, 
-            isCastrated, 
+            id,
+            name,
+            speciesId,
+            description,
+            breedId,
+            color,
+            ShelterId,
+            weight,
+            isCastrated,
             birthDate,
-            isVaccinated, 
-            status, 
-            requisitesDetails, 
-            profileCreateDate) { };
+            isVaccinated,
+            status,
+            requisitesDetails,
+            profileCreateDate)
+        { };
     }
+
+    public void SoftDelete() => IsDeleted = true;
+    public void Restore() => IsDeleted = false;
 }

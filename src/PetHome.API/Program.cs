@@ -53,7 +53,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
             //Automigration
-            app.ApplyAutoMigrations();
+            //app.ApplyAutoMigrations();
         }
 
         app.UseHttpsRedirection();

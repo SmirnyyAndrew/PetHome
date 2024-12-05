@@ -7,7 +7,7 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
 {
     public void Configure(EntityTypeBuilder<Species> builder)
     {
-        builder.ToTable("species");
+        builder.ToTable("specieses");
 
         //id
         builder.HasKey(x => x.Id);

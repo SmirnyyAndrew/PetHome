@@ -133,5 +133,11 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => VolunteerId.Create(value))
             .IsRequired()
             .HasColumnName("volunteer_id");
+
+       // //is soft deleted
+        builder.Property<bool>("IsDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
+
     }
 }
