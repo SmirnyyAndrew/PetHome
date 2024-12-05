@@ -19,7 +19,7 @@ public class CreateVolunteerUseCase
         _logger = logger;
     }
 
-    public async Task<Result<Guid, Error>> Execute(
+    public async Task<Guid> Execute(
         CreateVolunteerRequest request,
         CancellationToken ct)
     {

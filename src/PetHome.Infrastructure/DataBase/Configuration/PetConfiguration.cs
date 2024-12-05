@@ -135,7 +135,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("volunteer_id");
 
        // //is soft deleted
-        builder.Property<bool>("IsDeleted")
+        builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted");
 

@@ -6,6 +6,8 @@ using PetHome.API.Extentions;
 using PetHome.API.Response;
 using PetHome.Application.Features.Volunteers.CreateVolunteer;
 using PetHome.Application.Features.Volunteers.HardDeleteVolunteer;
+using PetHome.Application.Features.Volunteers.SoftDeleteRestoreVolunteer;
+using PetHome.Application.Features.Volunteers.SoftDeleteVolunteer;
 using PetHome.Application.Features.Volunteers.UpdateMainInfoVolunteer;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
@@ -50,16 +52,45 @@ public class VolunteerController : ParentController
         return Ok(ResponseEnvelope.Ok(result.Value));
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("hard/{id:guid}")]
     public async Task<IActionResult> HardDelete(
-        [FromRoute] Guid id,
-        [FromServices] HardDeleteVolunteerUseCase hardDeleteUseCase,
-        [FromServices] ILogger<HardDeleteVolunteerUseCase> logger,
-        CancellationToken ct)
+         [FromRoute] Guid id,
+         [FromServices] HardDeleteVolunteerUseCase hardDeleteUseCase,
+         CancellationToken ct)
     {
         VolunteerId volunteerId = VolunteerId.Create(id);
 
         var result = await hardDeleteUseCase.Execute(volunteerId, ct);
+        if (result.IsFailure)
+            result.Error.GetSatusCode();
+
+        return Ok(ResponseEnvelope.Ok(result.Value));
+    }
+
+    [HttpPatch("/soft/{id:guid}")]
+    public async Task<IActionResult> SoftDelete(
+        [FromRoute] Guid id,
+        [FromServices] SoftDeleteVolunteerUseCase softDeleteVoUseCase,
+        CancellationToken ct = default)
+    {
+        VolunteerId volunteerId = VolunteerId.Create(id);
+
+        var result = await softDeleteVoUseCase.Execute(id, ct);
+        if (result.IsFailure)
+            result.Error.GetSatusCode();
+
+        return Ok(ResponseEnvelope.Ok(result.Value));
+    }
+
+    [HttpPatch("/soft-re/{id:guid}")]
+    public async Task<IActionResult> SoftRestore(
+        [FromRoute] Guid id,
+        [FromServices] SoftRestoreVolunteerUseCase softRestoreUseCase,
+        CancellationToken ct = default)
+    {
+        VolunteerId volunteerId = VolunteerId.Create(id);
+
+        var result = await softRestoreUseCase.Execute(id, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 

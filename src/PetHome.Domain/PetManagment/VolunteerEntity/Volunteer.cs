@@ -2,9 +2,10 @@
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
+using PetHome.Domain.Shared.Interfaces;
 
 namespace PetHome.Domain.PetManagment.VolunteerEntity;
-public class Volunteer
+public class Volunteer : ISoftDeletableEntity
 {
     private Volunteer() { }
 
@@ -34,14 +35,14 @@ public class Volunteer
     public Email? Email { get; private set; }
     public Description Description { get; private set; }
     public Date StartVolunteeringDate { get; private set; }
-    public IReadOnlyList<Pet> Pets { get; private set; }
+    public List<Pet> Pets { get; private set; }
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
     public int FreePetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isFree);
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);
     public PhoneNumbersDetails? PhoneNumberDetails { get; private set; }
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
-    private bool _isDeleted  = false;
+    private bool _isDeleted = false;
 
 
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
@@ -57,14 +58,15 @@ public class Volunteer
         RequisitesDetails? requisitesDetails)
     {
         return new Volunteer(
-            id, 
-            fullName, 
-            email, 
-            description, 
-            startVolunteeringDate, 
-            phoneNumbersDetails, 
-            socialNetworkDetails, 
-            requisitesDetails) { };
+            id,
+            fullName,
+            email,
+            description,
+            startVolunteeringDate,
+            phoneNumbersDetails,
+            socialNetworkDetails,
+            requisitesDetails)
+        { };
     }
 
     public void UpdateMainInfo(
@@ -79,6 +81,15 @@ public class Volunteer
         Email = email;
     }
 
-    public void SoftDelete() => _isDeleted = true;
-    public void Restore() => _isDeleted = false;
+    public void SoftDelete()
+    {
+        _isDeleted = true;
+        Pets.ForEach(pet => pet.SoftDelete());
+    }
+
+    public void SoftRestore()
+    {
+        _isDeleted = false;
+        Pets.ForEach(pet => pet.SoftRestore());
+    }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Infrastructure.Interceptors;
 
 namespace PetHome.Infrastructure.DataBase;
 
@@ -17,6 +18,8 @@ public class ApplicationDBContext(IConfiguration configuration) : DbContext
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
+        //Interceptor пока не нужен
+        //optionBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
