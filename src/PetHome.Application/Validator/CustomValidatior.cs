@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.AspNetCore.Routing;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Validator;
@@ -15,7 +16,17 @@ public static class CustomValidatior
             if (result.IsSuccess)
                 return;
 
-            context.AddFailure(result.Error.Message);
+            context.AddFailure(result.Error.InvalidField);
         });
+    }
+
+}
+public static class RuleBuilderExtention
+{
+    public static IRuleBuilder<T, TProperty> WithError<T, TProperty>(
+        this IRuleBuilderOptions<T, TProperty> rule,
+        Error error)
+    {
+        return rule.WithMessage(error.Message);
     }
 }

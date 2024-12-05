@@ -16,4 +16,5 @@ public class ResponseEnvelope
 
     public static ResponseEnvelope Ok(object? result) => new ResponseEnvelope(result, null);
     public static ResponseEnvelope Error(IEnumerable<Error> errors) => new ResponseEnvelope(null, errors);
+    public static ResponseEnvelope Error(Error error) => new ResponseEnvelope(null, new List<Error>() { error });
 }
