@@ -31,7 +31,7 @@ public class VolunteerRepository : IVolunteerRepository
     }
 
     //Найти волонтера по ID
-    public async Task<Result<Volunteer,Error>> GetById(Guid id, CancellationToken ct = default)
+    public async Task<Result<Volunteer, Error>> GetById(Guid id, CancellationToken ct = default)
     {
         var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
@@ -58,5 +58,19 @@ public class VolunteerRepository : IVolunteerRepository
         Volunteer volunteer = GetById(id, ct).Result.Value;
         await Remove(volunteer, ct);
         return true;
+    }
+
+    //Удалить коллекцию 
+    public void Remove(IEnumerable<Volunteer> volunteers)
+    {
+        _dBContext.RemoveRange(volunteers);
+        _dBContext.SaveChanges();
+    }
+
+    public IReadOnlyList<Volunteer> GetDeleted(CancellationToken ct)
+    {
+        return _dBContext.Volunteers
+            .Where(x => x._isDeleted == true)
+            .ToList();
     }
 }

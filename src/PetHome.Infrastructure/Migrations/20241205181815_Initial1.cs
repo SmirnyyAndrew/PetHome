@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PetHome.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initia2 : Migration
+    public partial class Initial1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,6 +43,8 @@ namespace PetHome.Infrastructure.Migrations
                     email = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "text", nullable: false),
                     start_volunteering_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumberDetails = table.Column<string>(type: "jsonb", nullable: true),
@@ -90,8 +92,10 @@ namespace PetHome.Infrastructure.Migrations
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     profile_create_date = table.Column<DateOnly>(type: "date", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
                     RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true)
                 },

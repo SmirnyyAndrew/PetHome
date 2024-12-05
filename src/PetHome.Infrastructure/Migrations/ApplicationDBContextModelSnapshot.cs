@@ -74,6 +74,10 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("color");
 
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_deleted_date");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
@@ -82,10 +86,6 @@ namespace PetHome.Infrastructure.Migrations
                     b.Property<bool>("IsCastrated")
                         .HasColumnType("boolean")
                         .HasColumnName("is_castrated");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
 
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("boolean")
@@ -121,6 +121,10 @@ namespace PetHome.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -183,6 +187,10 @@ namespace PetHome.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_deleted_date");
 
                     b.Property<string>("Description")
                         .IsRequired()

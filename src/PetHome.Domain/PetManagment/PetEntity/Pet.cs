@@ -5,7 +5,7 @@ using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
 
 namespace PetHome.Domain.PetManagment.PetEntity;
-public class Pet : ISoftDeletableEntity
+public class Pet : SoftDeletableEntity
 {
     private Pet() { }
 
@@ -56,7 +56,7 @@ public class Pet : ISoftDeletableEntity
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
-    private bool _isDeleted = false;
+    // private bool _isDeleted = false;
 
     public static Result<Pet, Error> Create(
         PetId id,
@@ -95,8 +95,7 @@ public class Pet : ISoftDeletableEntity
             profileCreateDate)
         { };
     }
-
-
-    public void SoftDelete() => _isDeleted = true;
-    public void SoftRestore() => _isDeleted = false;
+     
+    public override void SoftDelete() => base.SoftDelete();
+    public override void SoftRestore() => base.SoftRestore();
 }

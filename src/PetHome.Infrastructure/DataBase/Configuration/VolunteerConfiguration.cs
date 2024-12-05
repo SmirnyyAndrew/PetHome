@@ -40,13 +40,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("email");
 
         //desc
-        builder.Property(d=>d.Description)
+        builder.Property(d => d.Description)
             .HasConversion(
-                desc=>desc.Value,
-                value=>Description.Create(value).Value)
+                desc => desc.Value,
+                value => Description.Create(value).Value)
             .IsRequired()
             .HasColumnName("description");
-                
+
         //StartVolunteeringDate
         builder.Property(i => i.StartVolunteeringDate)
             .HasConversion(
@@ -104,5 +104,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted");
+
+        //has been deleted date
+        builder.Property<DateTime>("DeletionDate")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("soft_deleted_date");
     }
 }

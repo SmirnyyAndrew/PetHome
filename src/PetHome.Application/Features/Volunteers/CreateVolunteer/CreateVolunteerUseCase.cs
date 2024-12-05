@@ -65,7 +65,7 @@ public class CreateVolunteerUseCase
             requisitesDetails)
             .Value;
 
-        var result = await _volunteerRepository.Add(volunteer);
+        var result = await _volunteerRepository.Add(volunteer, ct);
 
         _logger.LogInformation("Волонетёр с id={0} был создан", volunteer.Id.Value);
 

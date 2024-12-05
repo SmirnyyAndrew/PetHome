@@ -21,11 +21,11 @@ public class SoftDeleteVolunteerUseCase
     }
 
     public async Task<Result<Guid,Error>> Execute(
-        Guid id, CancellationToken cancellationToken)
+        Guid id, CancellationToken ct)
     {
-        Volunteer volunteer = _volunteerRepository.GetById(id).Result.Value;
+        Volunteer volunteer = _volunteerRepository.GetById(id,ct).Result.Value;
         volunteer.SoftDelete();
-        await _volunteerRepository.Update(volunteer, cancellationToken);
+        await _volunteerRepository.Update(volunteer, ct);
 
         _logger.LogInformation("Волонтёр с id = {0} и его сущности soft deleted", id);
 

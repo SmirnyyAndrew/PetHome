@@ -5,7 +5,7 @@ using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
 
 namespace PetHome.Domain.PetManagment.VolunteerEntity;
-public class Volunteer : ISoftDeletableEntity
+public class Volunteer : SoftDeletableEntity
 {
     private Volunteer() { }
 
@@ -42,7 +42,7 @@ public class Volunteer : ISoftDeletableEntity
     public PhoneNumbersDetails? PhoneNumberDetails { get; private set; }
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
-    private bool _isDeleted = false;
+    //private bool _isDeleted = false;
 
 
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
@@ -81,15 +81,16 @@ public class Volunteer : ISoftDeletableEntity
         Email = email;
     }
 
-    public void SoftDelete()
+
+    public override void SoftDelete()
     {
-        _isDeleted = true;
+        base.SoftDelete();
         Pets.ForEach(pet => pet.SoftDelete());
     }
 
-    public void SoftRestore()
+    public override void SoftRestore()
     {
-        _isDeleted = false;
+        base.SoftRestore();
         Pets.ForEach(pet => pet.SoftRestore());
-    }
+    } 
 }

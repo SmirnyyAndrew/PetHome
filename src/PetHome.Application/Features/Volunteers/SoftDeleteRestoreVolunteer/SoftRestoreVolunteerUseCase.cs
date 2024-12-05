@@ -20,7 +20,7 @@ public class SoftRestoreVolunteerUseCase
     public async Task<Result<Guid,Error>> Execute(
         Guid id, CancellationToken ct)
     {
-        Volunteer volunteer = _volunteerRepository.GetById(id).Result.Value;
+        Volunteer volunteer = _volunteerRepository.GetById(id, ct).Result.Value;
         volunteer.SoftRestore();
         await _volunteerRepository.Update(volunteer, ct);
 
