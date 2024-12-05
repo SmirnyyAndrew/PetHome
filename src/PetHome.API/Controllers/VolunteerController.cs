@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Extentions;
 using PetHome.API.Response;
 using PetHome.Application.Features.Volunteers.CreateVolunteer;
+using PetHome.Application.Features.Volunteers.HardDeleteVolunteer;
 using PetHome.Application.Features.Volunteers.UpdateMainInfoVolunteer;
+using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Controllers;
@@ -44,6 +46,22 @@ public class VolunteerController : ParentController
         Result<Guid, Error> result = await updateMainInfoUseCase.Execute(request, ct);
         if (result.IsFailure)
             return result.Error.GetSatusCode();
+
+        return Ok(ResponseEnvelope.Ok(result.Value));
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(
+        [FromRoute] Guid id,
+        [FromServices] HardDeleteVolunteerUseCase hardDeleteUseCase,
+        [FromServices] ILogger<HardDeleteVolunteerUseCase> logger,
+        CancellationToken ct)
+    {
+        VolunteerId volunteerId = VolunteerId.Create(id);
+
+        var result = await hardDeleteUseCase.Execute(volunteerId, ct);
+        if (result.IsFailure)
+            result.Error.GetSatusCode();
 
         return Ok(ResponseEnvelope.Ok(result.Value));
     }

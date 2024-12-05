@@ -24,9 +24,7 @@ public class UpdateMainInfoVolunteerUseCase
     {
         UpdateMainInfoVolunteerDto updateInfoDto = request.UpdateMainInfoDto;
 
-        Volunteer volunteer = _volunteerRepository.GetById(request.Id, ct).Result;
-        if (volunteer == null)
-            return Errors.NotFound($"Волонтёр с id = {request.Id}");
+        Volunteer volunteer = _volunteerRepository.GetById(request.Id, ct).Result.Value;
 
         FullName fullName = FullName.Create(
             updateInfoDto.FullNameDto.FirstName,
