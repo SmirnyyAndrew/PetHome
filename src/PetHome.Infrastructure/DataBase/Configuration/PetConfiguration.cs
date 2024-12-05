@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared;
@@ -40,7 +41,9 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
         //desc
         builder.Property(d => d.Description)
-            .HasMaxLength(Constants.MAX_DESC_LENGHT)
+            .HasConversion(
+            desc => desc.Value,
+            value => Description.Create(value).Value)
             .IsRequired()
             .HasColumnName("description");
 

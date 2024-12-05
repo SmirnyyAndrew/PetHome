@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Features.Volunteers;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -32,6 +33,8 @@ public class CreateVolunteerUseCase
 
         Email email = Email.Create(request.Email).Value;
 
+        Description description = Description.Create(request.Description).Value;
+
         Date startVolunteeringDate = Date.Create(request.StartVolunteeringDate).Value;
 
 
@@ -57,7 +60,7 @@ public class CreateVolunteerUseCase
             id,
             fullName,
             email,
-            request.Description,
+            description,
             startVolunteeringDate,
             phoneNumberDetails,
             socialNetworkDetails,

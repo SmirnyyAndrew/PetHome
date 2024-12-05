@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -12,7 +13,7 @@ public class Volunteer
         VolunteerId id,
         FullName fullName,
         Email email,
-        string description,
+        Description description,
         Date startVolunteeringDate,
         PhoneNumbersDetails phoneNumbersDetails,
         SocialNetworkDetails socialNetworkDetails,
@@ -32,7 +33,7 @@ public class Volunteer
     public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
     public Email? Email { get; private set; }
-    public string Description { get; private set; }
+    public Description Description { get; private set; }
     public Date StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Pet> Pets { get; private set; }
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
@@ -49,12 +50,21 @@ public class Volunteer
         VolunteerId id,
         FullName fullName,
         Email email,
-        string description,
+        Description description,
         Date startVolunteeringDate,
         PhoneNumbersDetails? phoneNumbersDetails,
         SocialNetworkDetails? socialNetworkDetails,
         RequisitesDetails? requisitesDetails)
     {
         return new Volunteer(id, fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
+    }  
+
+    public IUnitResult<Error> UpdateMainInfo(
+        FullName fullName, 
+        string description)
+    {
+
+
+        return default;
     }
 }

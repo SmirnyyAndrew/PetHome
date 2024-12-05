@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -12,7 +13,7 @@ public class Pet
         PetId Id,
         PetName name,
         SpeciesId speciesId,
-        string description,
+        Description description,
         BreedId breedId,
         Color color,
         PetShelterId shelterId,
@@ -43,7 +44,7 @@ public class Pet
     public PetId Id { get; private set; }
     public PetName Name { get; private set; }
     public SpeciesId SpeciesId;
-    public string Description { get; private set; }
+    public Description Description { get; private set; }
     public BreedId? BreedId { get; private set; }
     public Color Color { get; private set; }
     public PetShelterId ShelterId { get; private set; }
@@ -60,7 +61,7 @@ public class Pet
         PetId id,
         PetName name,
         SpeciesId speciesId,
-        string description,
+        Description description,
         BreedId breedId,
         Color color,
         PetShelterId address,
@@ -71,14 +72,25 @@ public class Pet
         PetStatusEnum status,
         RequisitesDetails requisitesDetails,
         Date profileCreateDate)
-    {
-
-        if (string.IsNullOrWhiteSpace(description))
-            return Errors.Validation("Описание");
+    { 
 
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
 
-        return new Pet(id, name, speciesId, description, breedId, color, address, weight, isCastrated, birthDate, isVaccinated, status, requisitesDetails, profileCreateDate) { };
+        return new Pet(
+            id, 
+            name, 
+            speciesId, 
+            description, 
+            breedId, 
+            color, 
+            address, 
+            weight, 
+            isCastrated, 
+            birthDate,
+            isVaccinated, 
+            status, 
+            requisitesDetails, 
+            profileCreateDate) { };
     }
 }

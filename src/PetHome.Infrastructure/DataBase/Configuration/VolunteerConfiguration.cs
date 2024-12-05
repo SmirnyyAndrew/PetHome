@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared;
 
@@ -41,11 +42,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("email");
 
         //desc
-        builder.Property(d => d.Description)
-            .HasMaxLength(Constants.MAX_DESC_LENGHT)
+        builder.Property(d=>d.Description)
+            .HasConversion(
+                desc=>desc.Value,
+                value=>Description.Create(value).Value)
             .IsRequired()
             .HasColumnName("description");
-
+                
         //StartVolunteeringDate
         builder.Property(i => i.StartVolunteeringDate)
             .HasConversion(
