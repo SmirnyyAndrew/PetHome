@@ -21,14 +21,21 @@ public class VolunteerRepository : IVolunteerRepository
         return volunteer.Id;
     }
 
+    //Изменение волонтёра
+    public async Task<Guid> Update(Volunteer volunteer, CancellationToken ct = default)
+    {
+        _dBContext.Volunteers.Attach(volunteer); 
+        await _dBContext.SaveChangesAsync(ct);
+        return volunteer.Id;
+    }
 
     //Найти волонтера по ID
-    public async Task<Volunteer> GetById(VolunteerId id, CancellationToken ct = default)
+    public async Task<Volunteer> GetById(Guid id, CancellationToken ct = default)
     {
         var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
             .Include(x => x.Pets)
-            .FirstAsync(ct);
+            .FirstOrDefaultAsync(ct);
 
         return volunteer;
     }
@@ -43,7 +50,7 @@ public class VolunteerRepository : IVolunteerRepository
     }
 
     //Удаление волонтера по id
-    public async Task<bool> RemoveById(VolunteerId id, CancellationToken ct = default)
+    public async Task<bool> RemoveById(Guid id, CancellationToken ct = default)
     {
         Volunteer volunteer = GetById(id).Result;
 

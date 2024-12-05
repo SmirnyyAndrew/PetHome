@@ -1,9 +1,6 @@
-﻿using PetHome.Domain.GeneralValueObjects;
+﻿using PetHome.Application.Features.Volunteers.VolunteerDtos;
 
 namespace PetHome.Application.Features.Volunteers.CreateVolunteer;
-
-public record RequisitesesDto(string Name, string Desc, PaymentMethodEnum PaymentMethod);
-public record FullNameDto(string FirstName, string LastName);
 
 public record CreateVolunteerRequest(
         FullNameDto FullNameDto,

@@ -1,4 +1,4 @@
-﻿namespace PetHome.Domain.GeneralValueObjects;
+﻿namespace PetHome.Domain.PetManagment.GeneralValueObjects;
 
 public record PhoneNumbersDetails
 {

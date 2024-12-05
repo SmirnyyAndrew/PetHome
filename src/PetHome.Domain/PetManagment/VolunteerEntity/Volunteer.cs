@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.GeneralValueObjects;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
@@ -57,14 +57,17 @@ public class Volunteer
         RequisitesDetails? requisitesDetails)
     {
         return new Volunteer(id, fullName, email, description, startVolunteeringDate, phoneNumbersDetails, socialNetworkDetails, requisitesDetails) { };
-    }  
+    }
 
-    public IUnitResult<Error> UpdateMainInfo(
-        FullName fullName, 
-        string description)
+    public void UpdateMainInfo(
+        FullName fullName,
+        Description description,
+        PhoneNumbersDetails phoneNumbersDetails,
+        Email email)
     {
-
-
-        return default;
+        FullName = fullName;
+        Description = description;
+        PhoneNumberDetails = phoneNumbersDetails;
+        Email = email;
     }
 }
