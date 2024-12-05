@@ -23,11 +23,7 @@ public class ResponseEnvelope
         List<Error> errors = new();
         foreach (var failure in validationFailures)
         {
-            Error error = Domain.Shared.Error.Error.Validation(
-                failure.ErrorCode,
-                failure.PropertyName,
-                failure.ErrorMessage);
-
+            Error error = Domain.Shared.Error.Errors.Validation(failure.ErrorMessage);
             errors.Add(error);
         }
 
