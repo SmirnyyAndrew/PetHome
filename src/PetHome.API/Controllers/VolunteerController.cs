@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Extentions;
 using PetHome.API.Response;
-using PetHome.Application.Volunteers.CreateVolunteer;
+using PetHome.Application.Features.Volunteers.CreateVolunteer;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Controllers;

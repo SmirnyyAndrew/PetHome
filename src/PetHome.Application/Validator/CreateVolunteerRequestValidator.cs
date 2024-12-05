@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PetHome.Application.Volunteers.CreateVolunteer;
+using PetHome.Application.Features.Volunteers.CreateVolunteer;
 using PetHome.Domain.GeneralValueObjects;
 using PetHome.Domain.Shared.Error;
 

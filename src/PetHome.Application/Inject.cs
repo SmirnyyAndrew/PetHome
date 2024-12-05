@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Volunteers.CreateVolunteer;
+using PetHome.Application.Features.Volunteers.CreateVolunteer;
 
-namespace PetHome.Application; 
+namespace PetHome.Application;
 public static class Inject
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
