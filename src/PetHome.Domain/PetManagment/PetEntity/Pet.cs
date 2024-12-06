@@ -3,6 +3,7 @@ using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PetHome.Domain.PetManagment.PetEntity;
 public class Pet : SoftDeletableEntity
@@ -56,7 +57,7 @@ public class Pet : SoftDeletableEntity
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
-    // private bool _isDeleted = false;
+    public SerialNumber SerialNumber { get; private set; }
 
     public static Result<Pet, Error> Create(
         PetId id,
@@ -95,7 +96,29 @@ public class Pet : SoftDeletableEntity
             profileCreateDate)
         { };
     }
-     
+
     public override void SoftDelete() => base.SoftDelete();
     public override void SoftRestore() => base.SoftRestore();
+    // Присвоить serial number = max + 1
+    public void InitSerialNumer(IEnumerable<Pet> pets)
+    {
+        SerialNumber serialNumber = pets.Count() == 0
+            ? SerialNumber.Create(1)
+            : SerialNumber.Create(pets.ToList().Select(x => x.SerialNumber).Max().Value + 1);
+
+        SerialNumber = serialNumber;
+    }
+    //Изменить serial number
+    public void ChangeSerialNumber(IEnumerable<Pet> pets, int number)
+    {
+        pets.Where(x => x.SerialNumber.Value >= number)
+            .Select(x => x.SerialNumber = SerialNumber.Create(SerialNumber.Value + 1));
+
+        SerialNumber = SerialNumber.Create(number);
+    }
+    // Присвоить serial number =  1
+    public void ChangeSerialNumberToBegining(IEnumerable<Pet> pets)
+    {
+        ChangeSerialNumber(pets, 1);
+    }
 }

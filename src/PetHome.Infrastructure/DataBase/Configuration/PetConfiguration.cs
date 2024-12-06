@@ -144,5 +144,13 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .IsRequired()
             .HasColumnName("soft_deleted_date");
+
+        //serial number
+        builder.Property(s => s.SerialNumber)
+            .HasConversion(
+                num => num.Value,
+                value => SerialNumber.Create(value))
+            .IsRequired()
+            .HasColumnName("serial_number");
     }
 }
