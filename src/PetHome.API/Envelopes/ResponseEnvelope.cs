@@ -1,4 +1,5 @@
-﻿using PetHome.Domain.Shared.Error;
+﻿using FluentValidation.Results;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Response;
 public class ResponseEnvelope
@@ -15,6 +16,17 @@ public class ResponseEnvelope
     }
 
     public static ResponseEnvelope Ok(object? result) => new ResponseEnvelope(result, null);
-    public static ResponseEnvelope Error(IEnumerable<Error> errors) => new ResponseEnvelope(null, errors);
     public static ResponseEnvelope Error(Error error) => new ResponseEnvelope(null, new List<Error>() { error });
+    public static ResponseEnvelope Error(IEnumerable<Error> errors) => new ResponseEnvelope(null, errors);
+    public static ResponseEnvelope Error(IEnumerable<ValidationFailure> validationFailures)
+    {
+        List<Error> errors = new();
+        foreach (var failure in validationFailures)
+        {
+            Error error = Domain.Shared.Error.Errors.Validation(failure.ErrorMessage);
+            errors.Add(error);
+        }
+
+        return Error(errors);
+    }
 }
