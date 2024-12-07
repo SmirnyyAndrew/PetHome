@@ -36,7 +36,7 @@ public class Program
 
         //Подключение сервисов
         builder.Services
-            .AddInfrastructure()
+            .AddInfrastructure(builder.Configuration)
             .AddApplication();
 
 
