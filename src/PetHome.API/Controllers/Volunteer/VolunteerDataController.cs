@@ -13,8 +13,8 @@ using PetHome.Application.Features.Volunteers.UpdateMainInfoVolunteer;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.API.Controllers;
-public class VolunteerController : ParentController
+namespace PetHome.API.Controllers.Volunteer;
+public class VolunteerDataController : ParentController
 {
     [HttpPost]
     public async Task<IActionResult> Create(

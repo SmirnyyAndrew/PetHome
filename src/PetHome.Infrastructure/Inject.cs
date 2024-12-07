@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using Minio.AspNetCore;
 using PetHome.Application.Features.Volunteers;
+using PetHome.Application.Interfaces;
 using PetHome.Infrastructure.DataBase;
 using PetHome.Infrastructure.DataBase.Repositories;
 using PetHome.Infrastructure.Options;
+using PetHome.Infrastructure.Providers.Minio;
 using MinioOptions = PetHome.Infrastructure.Options.MinioOptions;
 
 namespace PetHome.Infrastructure;
@@ -18,6 +20,7 @@ public static class Inject
         services.AddScoped<ApplicationDBContext>();
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
         services.AddMinio(configuration);
+        services.AddScoped<IFilesProvider, MinioProvider>();
         return services;
     }
 
@@ -30,7 +33,7 @@ public static class Inject
         services.AddMinio(options =>
         {
             options.WithEndpoint(minioOptions.Endpoint);
-            options.WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey);
+            options.WithCredentials(minioOptions.Accesskey, minioOptions.Secretkey);
             options.WithSSL(minioOptions.IsWithSSL);
         });
         return services;
