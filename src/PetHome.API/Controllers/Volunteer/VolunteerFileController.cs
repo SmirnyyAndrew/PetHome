@@ -8,9 +8,9 @@ namespace PetHome.API.Controllers.Volunteer;
 public class VolunteerFileController : ParentController
 {
     private readonly MinioProvider _minioProvider;
-    public VolunteerFileController(IMinioClient minioClient)
+    public VolunteerFileController(IMinioClient minioClient, ILogger<MinioProvider> logger)
     {
-        _minioProvider = new MinioProvider(minioClient);
+        _minioProvider = new MinioProvider(minioClient, logger);
     }
 
     [HttpPost]

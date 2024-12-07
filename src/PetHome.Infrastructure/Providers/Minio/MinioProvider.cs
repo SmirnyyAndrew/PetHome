@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;
@@ -10,10 +11,12 @@ namespace PetHome.Infrastructure.Providers.Minio;
 public class MinioProvider : IFilesProvider
 {
     private IMinioClient _minioClient;
+    private ILogger<MinioProvider> _logger;
 
-    public MinioProvider(IMinioClient minioClient)
+    public MinioProvider(IMinioClient minioClient, ILogger<MinioProvider> logger)
     {
         _minioClient = minioClient;
+        _logger = logger;
     }
 
     //Удалить файл
@@ -30,7 +33,8 @@ public class MinioProvider : IFilesProvider
             .WithObject(fileInfoDto.FileName);
         await _minioClient.RemoveObjectAsync(minioFileArgs).ConfigureAwait(false);
 
-        return $"Файл {fileInfoDto.FileName} успешно удалён";
+        _logger.LogInformation($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName}  успешно удалён");
+        return $"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} успешно удалён";
     }
 
     //Скачать файл
@@ -48,19 +52,22 @@ public class MinioProvider : IFilesProvider
         try
         {
             string fileExtension = Path.GetExtension(fileInfoDto.FileName);
+            fileSavePath = $"{fileSavePath}{fileExtension}";
             var minioFileArgs = new GetObjectArgs()
                 .WithBucket(fileInfoDto.BucketName)
                 .WithObject(fileInfoDto.FileName)
-                .WithFile($"{fileSavePath}{fileExtension}");
+                .WithFile(fileSavePath);
 
             ObjectStat presignedUrl = await _minioClient.GetObjectAsync(minioFileArgs, ct)
                 .ConfigureAwait(false);
 
-            return fileInfoDto.FileName;
+            _logger.LogInformation($"Файл {fileInfoDto.FileName} из bucket {fileInfoDto.BucketName} сохранён по пути = {fileSavePath}");
+            return fileSavePath;
         }
         catch (Exception ex)
         {
-            return Errors.Failure($"Файл {fileInfoDto.FileName} не найден");
+            _logger.LogError($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} не найден");
+            return Errors.Failure($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} не найден");
         }
     }
 
@@ -92,6 +99,7 @@ public class MinioProvider : IFilesProvider
 
         var result = await _minioClient.PutObjectAsync(minioFileArgs, ct);
 
+        _logger.LogInformation($"Файл {result.ObjectName} загружен в bucket = {bucketName}");
         return result.ObjectName;
     }
 
@@ -117,11 +125,13 @@ public class MinioProvider : IFilesProvider
                 .PresignedGetObjectAsync(minioPresignedArgs)
                 .ConfigureAwait(false);
 
+            _logger.LogInformation($"Для файла {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} получена временная ссылка для скачивание = {presignedUrl}");
             return presignedUrl;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Errors.Failure($"Файл {fileInfoDto.FileName} не найден");
+            _logger.LogError($"{ex.Source}\n{ex.InnerException}\nФайл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} не найден");
+            return Errors.Failure($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} не найден");
         }
 
     }
@@ -134,8 +144,10 @@ public class MinioProvider : IFilesProvider
         IReadOnlyList<string> bucketNames = buckets.Buckets.Select(x => x.Name.ToLower()).ToList();
 
         if (bucketNames.Any(x => x == bucketName) == false)
+        {
+            _logger.LogError($"Bucket с именем {bucketName} не существует");
             return Errors.NotFound($"Bucket с именем {bucketName}");
-
+        }
         return bucketName;
     }
 }
