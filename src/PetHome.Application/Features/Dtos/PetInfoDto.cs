@@ -1,2 +1,2 @@
 ﻿namespace PetHome.Application.Features.Dtos;
-public record PetInfoDto(PetMainInfoDto PetMainInfoDto, List<PhotoDto> PhotoDetailsDto);
+public record PetInfoDto(PetMainInfoDto PetMainInfoDto, List<MediaDto> PhotoDetailsDto);

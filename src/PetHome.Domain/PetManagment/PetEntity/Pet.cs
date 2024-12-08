@@ -3,6 +3,7 @@ using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace PetHome.Domain.PetManagment.PetEntity;
@@ -25,8 +26,7 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        RequisitesDetails requisitesDetails,
-        MediaDetails photoDetails)
+        RequisitesDetails requisitesDetails)
     {
         Id = PetId.Create();
         Name = name;
@@ -42,7 +42,7 @@ public class Pet : SoftDeletableEntity
         RequisitesDetails = requisitesDetails;
         VolunteerId = volunteerId;
         ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
-        PhotoDetails = photoDetails;
+        MediaDetails = MediaDetails.Create().Value;
     }
 
 
@@ -62,7 +62,7 @@ public class Pet : SoftDeletableEntity
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
-    public MediaDetails PhotoDetails { get; private set; }
+    public MediaDetails MediaDetails { get; private set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -77,8 +77,7 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        RequisitesDetails requisitesDetails,
-        MediaDetails photoDetails)
+        RequisitesDetails requisitesDetails)
     {
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
@@ -96,8 +95,7 @@ public class Pet : SoftDeletableEntity
             isVaccinated,
             status,
             volunteerId,
-            requisitesDetails,
-            photoDetails);
+            requisitesDetails);
 
         pet.InitSerialNumer();
         Pets.Add(pet);
@@ -161,5 +159,25 @@ public class Pet : SoftDeletableEntity
     public UnitResult<Error> ChangeSerialNumberToBegining()
     {
         return ChangeSerialNumber(1);
+    }
+
+    //Добавить медиа
+    public UnitResult<Error> UploadMedia(IEnumerable<Media> newMedias)
+    { 
+        MediaDetails = MediaDetails.AddMedia(newMedias);
+          
+        return Result.Success<Error>();
+    }
+
+    //Удалить медиа
+    public UnitResult<Error> RemoveMedia(IEnumerable<Media> oldMedia, IEnumerable<Media> newMedia)
+    {
+        List<Media> currentMedias = new List<Media>();
+        currentMedias.AddRange(oldMedia);
+        currentMedias.AddRange(newMedia);
+
+        MediaDetails = MediaDetails.Create(currentMedias).Value;
+
+        return Result.Success<Error>();
     }
 }

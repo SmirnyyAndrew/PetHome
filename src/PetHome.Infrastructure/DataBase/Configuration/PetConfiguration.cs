@@ -154,7 +154,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("serial_number");
 
       //photo details
-      builder.OwnsOne(d => d.PhotoDetails, db =>
+      builder.OwnsOne(d => d.MediaDetails, db =>
       {
           db.ToJson();
           db.OwnsMany(db => db.Values, pb =>

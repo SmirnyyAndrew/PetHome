@@ -15,4 +15,12 @@ public record MediaDetails
     {
         return new MediaDetails(values);
     }
+    public static Result<MediaDetails, Error> Create()
+    {
+        return new MediaDetails(new List<Media>());
+    }
+    public MediaDetails AddMedia(IEnumerable<Media> addNewMedias)
+    {
+        return Create(addNewMedias).Value;
+    }
 }

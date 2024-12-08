@@ -105,8 +105,7 @@ public class Volunteer : SoftDeletableEntity
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails,
-        MediaDetails photoDetails)
+        RequisitesDetails requisitesDetails)
     {
         var result = Pet.Create(
               name,
@@ -121,8 +120,7 @@ public class Volunteer : SoftDeletableEntity
               isVaccinated,
               status,
               Id,
-              requisitesDetails,
-              photoDetails);
+              requisitesDetails);
         if (result.IsFailure)
             return result.Error;
 

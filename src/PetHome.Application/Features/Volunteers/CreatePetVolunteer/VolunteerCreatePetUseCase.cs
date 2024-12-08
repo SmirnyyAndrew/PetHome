@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Features.Dtos;
-using PetHome.Application.Features.Volunteers.RepositoryInterfaces;
+using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
@@ -54,10 +54,10 @@ public class VolunteerCreatePetUseCase
             .ToList();
         RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisites).Value;
 
-        List<Media> photos = petRequest.PhotosDto
-            .Select(x => Media.Create(x.BucketName, x.FileName).Value)
-            .ToList();
-        MediaDetails photoDetails = MediaDetails.Create(photos).Value;
+        //List<Media> photos = petRequest.PhotosDto
+        //    .Select(x => Media.Create(x.BucketName, x.FileName).Value)
+        //    .ToList();
+        //MediaDetails photoDetails = MediaDetails.Create(photos).Value;
 
         var result = volunteer.CreatePet(
              petName,
@@ -71,8 +71,7 @@ public class VolunteerCreatePetUseCase
              petBirthDate,
              mainInfoDto.IsVaccinated,
              mainInfoDto.Status,
-             requisitesDetails,
-             photoDetails);
+             requisitesDetails);
 
         if (result.IsFailure)
         {

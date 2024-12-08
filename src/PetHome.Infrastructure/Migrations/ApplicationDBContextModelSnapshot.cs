@@ -243,7 +243,7 @@ namespace PetHome.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("PetHome.Domain.PetManagment.GeneralValueObjects.PhotoDetails", "PhotoDetails", b1 =>
+                    b.OwnsOne("PetHome.Domain.PetManagment.GeneralValueObjects.MediaDetails", "MediaDetails", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid")
@@ -253,15 +253,15 @@ namespace PetHome.Infrastructure.Migrations
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("PhotoDetails");
+                            b1.ToJson("MediaDetails");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_id");
 
-                            b1.OwnsMany("PetHome.Domain.PetManagment.GeneralValueObjects.Photo", "Values", b2 =>
+                            b1.OwnsMany("PetHome.Domain.PetManagment.GeneralValueObjects.Media", "Values", b2 =>
                                 {
-                                    b2.Property<Guid>("PhotoDetailsPetId")
+                                    b2.Property<Guid>("MediaDetailsPetId")
                                         .HasColumnType("uuid");
 
                                     b2.Property<int>("__synthesizedOrdinal")
@@ -276,14 +276,14 @@ namespace PetHome.Infrastructure.Migrations
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.HasKey("PhotoDetailsPetId", "__synthesizedOrdinal")
+                                    b2.HasKey("MediaDetailsPetId", "__synthesizedOrdinal")
                                         .HasName("pk_pets");
 
                                     b2.ToTable("pets");
 
                                     b2.WithOwner()
-                                        .HasForeignKey("PhotoDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_photo_details_pet_id");
+                                        .HasForeignKey("MediaDetailsPetId")
+                                        .HasConstraintName("fk_pets_pets_media_details_pet_id");
                                 });
 
                             b1.Navigation("Values");
@@ -338,7 +338,7 @@ namespace PetHome.Infrastructure.Migrations
                             b1.Navigation("Values");
                         });
 
-                    b.Navigation("PhotoDetails")
+                    b.Navigation("MediaDetails")
                         .IsRequired();
 
                     b.Navigation("RequisitesDetails");

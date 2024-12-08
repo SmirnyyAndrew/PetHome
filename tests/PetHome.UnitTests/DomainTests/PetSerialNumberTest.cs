@@ -34,8 +34,7 @@ public class PetSerialNumberTest
                 false,
                 PetStatusEnum.isHomed,
                 VolunteerId.CreateEmpty().Value,
-                requisitesDetails,
-                default)
+                requisitesDetails)
                 .Value;
         }
 

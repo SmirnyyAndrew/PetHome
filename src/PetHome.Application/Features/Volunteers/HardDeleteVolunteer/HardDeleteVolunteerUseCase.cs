@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Features.Volunteers.RepositoryInterfaces;
+using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -21,11 +21,14 @@ public class HardDeleteVolunteerUseCase
     public async Task<Result<bool, Error>> Execute(
         VolunteerId id, CancellationToken ct)
     {
-        bool hasDeleted = _volunteerRepository.RemoveById(id, ct).Result;
+        var result = _volunteerRepository.RemoveById(id, ct).Result;
+
+        if (result.IsFailure)
+            return result.Error;
 
         _loger.LogInformation("Волонтёр с id = {0} навсегда удалён", id);
 
-        return hasDeleted;
+        return result.Value;
     }
 
 

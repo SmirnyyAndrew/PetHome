@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PetHome.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,15 +62,14 @@ namespace PetHome.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
-                    species_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    species_id1 = table.Column<Guid>(type: "uuid", nullable: true)
+                    species_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_breeds", x => x.id);
                     table.ForeignKey(
                         name: "fk_breeds_specieses_species_id",
-                        column: x => x.species_id1,
+                        column: x => x.species_id,
                         principalTable: "specieses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -98,7 +97,7 @@ namespace PetHome.Infrastructure.Migrations
                     status = table.Column<string>(type: "text", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    PhotoDetails = table.Column<string>(type: "jsonb", nullable: false),
+                    MediaDetails = table.Column<string>(type: "jsonb", nullable: false),
                     RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
@@ -115,7 +114,7 @@ namespace PetHome.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "ix_breeds_species_id",
                 table: "breeds",
-                column: "species_id1");
+                column: "species_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_pets_volunteer_id",

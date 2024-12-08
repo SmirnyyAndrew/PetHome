@@ -4,12 +4,13 @@ using Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;
 using PetHome.Application.Interfaces;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.Shared.Error;
-using System.Security.AccessControl;
 
 namespace PetHome.Infrastructure.Providers.Minio;
 public class MinioProvider : IFilesProvider
 {
+    private readonly int MAX_STREAMS_LENGHT = 5;
     private IMinioClient _minioClient;
     private ILogger<MinioProvider> _logger;
 
@@ -18,6 +19,10 @@ public class MinioProvider : IFilesProvider
         _minioClient = minioClient;
         _logger = logger;
     }
+
+
+
+
 
     //Удалить файл
     public async Task<Result<string, Error>> DeleteFile(
@@ -36,6 +41,11 @@ public class MinioProvider : IFilesProvider
         _logger.LogInformation($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName}  успешно удалён");
         return $"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} успешно удалён";
     }
+
+
+
+
+
 
     //Скачать файл
     public async Task<Result<string, Error>> DownloadFile(
@@ -71,8 +81,44 @@ public class MinioProvider : IFilesProvider
         }
     }
 
+
+
+
     //Загрузить файл
-    public async Task<Result<string, Error>> UploadFile(
+    public async Task<Result<Media, Error>> UploadFile(
+        Stream stream,
+        string bucketName,
+        string filename,
+        bool createBucketIfNotExist,
+        CancellationToken ct)
+
+    {
+        //Расширение файла
+        string fileExtension = Path.GetExtension(filename);
+
+        Guid newFilePath = Guid.NewGuid();
+        string fullName = $"{newFilePath}{fileExtension}";
+        PutObjectArgs minioFileArgs = new PutObjectArgs()
+        .WithBucket(bucketName.ToLower())
+            .WithStreamData(stream)
+            .WithObjectSize(stream.Length)
+            .WithObject(fullName);
+
+        var result = await _minioClient.PutObjectAsync(minioFileArgs, ct);
+        string message = $"Файл {result.ObjectName} загружен в bucket = {bucketName}";
+        _logger.LogInformation(message);
+       
+        return Media.Create(bucketName, fullName);
+    }
+
+
+
+
+
+
+
+    //Загрузить файл
+    public async Task<UnitResult<Error>> UploadFileWithDataChecking(
         Stream stream,
         string bucketName,
         string filename,
@@ -80,28 +126,29 @@ public class MinioProvider : IFilesProvider
         CancellationToken ct)
     {
         var isExistBucketResult = await IsExistBucket(bucketName, ct);
-        if (isExistBucketResult.IsFailure && createBucketIfNotExist == true)
+        if (isExistBucketResult.IsFailure && createBucketIfNotExist == false)
+        {
+            _logger.LogError($"Bucket с именем {bucketName} не найден");
+            return Errors.Failure($"Bucket с именем {bucketName} не найден");
+        }
+        else
         {
             var makeBucketArgs = new MakeBucketArgs()
                 .WithBucket(bucketName);
             await _minioClient.MakeBucketAsync(makeBucketArgs, ct);
         }
 
-        //Расширение файла
-        string fileExtension = Path.GetExtension(filename);
+        await UploadFile(stream, bucketName, filename, createBucketIfNotExist, ct);
 
-        Guid newFilePath = Guid.NewGuid();
-        PutObjectArgs minioFileArgs = new PutObjectArgs()
-            .WithBucket(bucketName.ToLower())
-            .WithStreamData(stream)
-            .WithObjectSize(stream.Length)
-            .WithObject($"{newFilePath}{fileExtension}");
-
-        var result = await _minioClient.PutObjectAsync(minioFileArgs, ct);
-
-        _logger.LogInformation($"Файл {result.ObjectName} загружен в bucket = {bucketName}");
-        return result.ObjectName;
+        return Result.Success<Error>();
     }
+
+
+
+
+
+
+
 
     //Получить ссылку на файл
     public async Task<Result<string, Error>> GetFilePresignedPath(
@@ -136,6 +183,12 @@ public class MinioProvider : IFilesProvider
 
     }
 
+
+
+
+
+
+
     // Проверить, существует ли bucket
     private async Task<Result<string, Error>> IsExistBucket(string bucketName, CancellationToken ct)
     {
@@ -150,4 +203,66 @@ public class MinioProvider : IFilesProvider
         }
         return bucketName;
     }
+
+
+
+
+
+
+
+    //Загрузить несколько файлов
+    public async Task<Result<IReadOnlyList<Media>, Error>> UploadFile(
+        IEnumerable<Stream> streams,
+        string bucketName,
+        IEnumerable<string> fileNames,
+        bool createBucketIfNotExist,
+        CancellationToken ct)
+    {
+        if (fileNames.Count() != streams.Count())
+        {
+            _logger.LogError($"Несовпадение количества файлов и их Dto");
+            return Errors.Conflict($"Несовпадение количества файлов и их Dto");
+        }
+        var bucketExistingCheck = await IsExistBucket(bucketName, ct);
+        if (createBucketIfNotExist == false
+            && bucketExistingCheck.IsFailure)
+        {
+            _logger.LogError($"Bucket с именем {bucketName} не найден");
+            return Errors.Failure($"Bucket с именем {bucketName} не найден");
+        }
+
+
+        var semaphoreSlim = new SemaphoreSlim(MAX_STREAMS_LENGHT);
+        List<Task> uploadTasks = new List<Task>();
+        List<Media> medias = new List<Media>();
+        try
+        {
+            for (int i = 0; i < streams.Count(); i++)
+            {
+
+                var taskResult = UploadFile(
+                            streams.ToList()[i],
+                            bucketName,
+                            fileNames.ToList()[i],
+                            createBucketIfNotExist,
+                            ct);
+                uploadTasks.Add(taskResult);
+                await semaphoreSlim.WaitAsync(ct);
+
+                medias.Add(taskResult.Result.Value);
+            }
+
+            await Task.WhenAll(uploadTasks);
+        }
+        finally
+        {
+            semaphoreSlim.Release();
+        }
+
+        string result = uploadTasks.Count(x => x.IsCompleted).ToString();
+        _logger.LogError($"В {bucketName} было добавлено {result} медиа файла(-ов)");
+        return medias;
+    }
+
+
 }

@@ -21,10 +21,10 @@ public class VolunteerCreatePetRequestValidator : AbstractValidator<VolunteerCre
         RuleForEach(p => p.MainInfoDto.Requisites)
             .MustBeValueObject(r => Requisites.Create(r.Name, r.Desc, r.PaymentMethod));
 
-        RuleForEach(p => p.PhotosDto)
-            .Must(dto => !string.IsNullOrWhiteSpace(dto.BucketName)
-                      && !string.IsNullOrWhiteSpace(dto.FileName))
-            .WithError(Errors.Validation("Название bucket и файла"));
+        //RuleForEach(p => p.PhotosDto)
+        //    .Must(dto => !string.IsNullOrWhiteSpace(dto.BucketName)
+        //              && !string.IsNullOrWhiteSpace(dto.FileName))
+        //    .WithError(Errors.Validation("Название bucket и файла"));
 
         RuleFor(p => p.VolunteerId).MustBeValueObject(VolunteerId.Create);
         RuleFor(p => p.MainInfoDto.ProfileCreateDate).MustBeValueObject(Date.Create);

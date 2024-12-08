@@ -2,7 +2,7 @@
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers.RepositoryInterfaces;
+namespace PetHome.Application.Interfaces.RepositoryInterfaces;
 
 //Инверсия управления
 public interface IVolunteerRepository
@@ -19,7 +19,7 @@ public interface IVolunteerRepository
     public Task<Guid> Remove(Volunteer volunteer, CancellationToken ct);
 
     //Удаление волонтера по id
-    public Task<bool> RemoveById(VolunteerId id, CancellationToken ct);
+    public Task<Result<bool, Error>> RemoveById(VolunteerId id, CancellationToken ct);
 
     //Удалить коллекцию
     public void Remove(IEnumerable<Volunteer> volunteers);

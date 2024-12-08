@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Features.Volunteers.CreateSpeciesVolunteer;
-using PetHome.Application.Features.Volunteers.RepositoryInterfaces;
+using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
 

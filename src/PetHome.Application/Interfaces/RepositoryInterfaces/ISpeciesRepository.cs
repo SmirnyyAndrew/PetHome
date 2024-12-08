@@ -3,7 +3,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers.RepositoryInterfaces;
+namespace PetHome.Application.Interfaces.RepositoryInterfaces;
 public interface ISpeciesRepository
 {
     //Добавить вид животного

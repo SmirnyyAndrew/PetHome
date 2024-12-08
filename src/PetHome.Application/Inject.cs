@@ -9,6 +9,7 @@ using PetHome.Application.Features.Volunteers.HardDeleteVolunteer;
 using PetHome.Application.Features.Volunteers.SoftDeleteRestoreVolunteer;
 using PetHome.Application.Features.Volunteers.SoftDeleteVolunteer;
 using PetHome.Application.Features.Volunteers.UpdateMainInfoVolunteer;
+using PetHome.Application.Features.Volunteers.UploadPetMediaFilesVolunteer;
 
 namespace PetHome.Application;
 public static class Inject
@@ -24,6 +25,7 @@ public static class Inject
         services.AddScoped<VolunteerCreatePetUseCase>();
         services.AddScoped<VolunteerCreateSpeciesUseCase>();
         services.AddScoped<VolunteerCreateBreedUseCase>();
+        services.AddScoped<UploadPetMediaFilesVolunteerUseCase>();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         return services;
     }
