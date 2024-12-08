@@ -14,7 +14,7 @@ using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Controllers.Volunteer;
-public class VolunteerDataController : ParentController
+public class VolunteerDataManegmentController : ParentController
 {
     [HttpPost]
     public async Task<IActionResult> Create(

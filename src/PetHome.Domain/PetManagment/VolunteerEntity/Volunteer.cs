@@ -35,7 +35,7 @@ public class Volunteer : SoftDeletableEntity
     public Email? Email { get; private set; }
     public Description Description { get; private set; }
     public Date StartVolunteeringDate { get; private set; }
-    public List<Pet> Pets { get; private set; }
+    public List<Pet> Pets { get; private set; } = new List<Pet>();
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
     public int FreePetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isFree);
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);
@@ -105,7 +105,8 @@ public class Volunteer : SoftDeletableEntity
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails)
+        RequisitesDetails requisitesDetails,
+        MediaDetails photoDetails)
     {
         var result = Pet.Create(
               name,
@@ -120,7 +121,8 @@ public class Volunteer : SoftDeletableEntity
               isVaccinated,
               status,
               Id,
-              requisitesDetails);
+              requisitesDetails,
+              photoDetails);
         if (result.IsFailure)
             return result.Error;
 

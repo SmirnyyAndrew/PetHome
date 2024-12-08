@@ -13,8 +13,8 @@ using PetHome.Infrastructure.DataBase;
 namespace PetHome.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241206123722_AddedSerialNumberToPet")]
-    partial class AddedSerialNumberToPet
+    [Migration("20241208133519_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,8 +64,8 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateOnly?>("BirthDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("bith_date");
 
                     b.Property<Guid?>("BreedId")
@@ -99,8 +99,8 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<DateOnly>("ProfileCreateDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("ProfileCreateDate")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("profile_create_date");
 
                     b.Property<int>("SerialNumber")
@@ -208,8 +208,8 @@ namespace PetHome.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("email");
 
-                    b.Property<DateOnly>("StartVolunteeringDate")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("StartVolunteeringDate")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("start_volunteering_date");
 
                     b.Property<bool>("_isDeleted")
@@ -254,6 +254,52 @@ namespace PetHome.Infrastructure.Migrations
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
+
+                    b.OwnsOne("PetHome.Domain.PetManagment.GeneralValueObjects.PhotoDetails", "PhotoDetails", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.HasKey("PetId");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("PhotoDetails");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId")
+                                .HasConstraintName("fk_pets_pets_id");
+
+                            b1.OwnsMany("PetHome.Domain.PetManagment.GeneralValueObjects.Photo", "Values", b2 =>
+                                {
+                                    b2.Property<Guid>("PhotoDetailsPetId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("__synthesizedOrdinal")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    b2.Property<string>("BucketName")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("FileName")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("PhotoDetailsPetId", "__synthesizedOrdinal")
+                                        .HasName("pk_pets");
+
+                                    b2.ToTable("pets");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("PhotoDetailsPetId")
+                                        .HasConstraintName("fk_pets_pets_photo_details_pet_id");
+                                });
+
+                            b1.Navigation("Values");
+                        });
 
                     b.OwnsOne("PetHome.Domain.PetManagment.GeneralValueObjects.RequisitesDetails", "RequisitesDetails", b1 =>
                         {
@@ -303,6 +349,9 @@ namespace PetHome.Infrastructure.Migrations
 
                             b1.Navigation("Values");
                         });
+
+                    b.Navigation("PhotoDetails")
+                        .IsRequired();
 
                     b.Navigation("RequisitesDetails");
                 });

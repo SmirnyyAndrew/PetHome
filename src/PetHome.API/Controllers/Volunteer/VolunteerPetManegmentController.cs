@@ -16,7 +16,6 @@ public class VolunteerPetManegmentController : ParentController
     public async Task<IActionResult> CreatePet(
         [FromRoute] Guid volunteerId,
         [FromBody] PetInfoDto petInfoDto,
-        IFormFile file,
         [FromServices] VolunteerCreatePetUseCase createPetUseCase,
         [FromServices] IValidator<VolunteerCreatePetRequest> validator,
         CancellationToken ct = default)
@@ -35,6 +34,6 @@ public class VolunteerPetManegmentController : ParentController
         if (result.IsFailure)
             return BadRequest(ResponseEnvelope.Error(result.Error));
 
-        return Ok(result);
+        return Ok(ResponseEnvelope.Ok(result.Value));
     }   
 }

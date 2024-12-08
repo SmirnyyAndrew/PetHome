@@ -1,9 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers;
+namespace PetHome.Application.Features.Volunteers.RepositoryInterfaces;
 
 //Инверсия управления
 public interface IVolunteerRepository

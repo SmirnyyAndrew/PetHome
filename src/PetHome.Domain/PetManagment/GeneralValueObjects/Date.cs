@@ -20,6 +20,6 @@ public record Date
         if (value == null || value.Year > MAX_YEAR || value.Year < MIN_YEAR)
             return Errors.Validation("Дата");
 
-        return new Date(value);
+        return new Date(value.ToUniversalTime());
     }
 }

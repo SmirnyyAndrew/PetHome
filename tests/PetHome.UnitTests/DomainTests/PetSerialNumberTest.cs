@@ -33,8 +33,9 @@ public class PetSerialNumberTest
                 Domain.PetManagment.GeneralValueObjects.Date.Create(DateTime.Parse("10.10.2024")).Value,
                 false,
                 PetStatusEnum.isHomed,
-                VolunteerId.CreateEmpty().Value, 
-                requisitesDetails)
+                VolunteerId.CreateEmpty().Value,
+                requisitesDetails,
+                default)
                 .Value;
         }
 

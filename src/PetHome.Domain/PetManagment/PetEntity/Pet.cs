@@ -25,7 +25,8 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        RequisitesDetails requisitesDetails)
+        RequisitesDetails requisitesDetails,
+        MediaDetails photoDetails)
     {
         Id = PetId.Create();
         Name = name;
@@ -41,6 +42,7 @@ public class Pet : SoftDeletableEntity
         RequisitesDetails = requisitesDetails;
         VolunteerId = volunteerId;
         ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
+        PhotoDetails = photoDetails;
     }
 
 
@@ -60,6 +62,7 @@ public class Pet : SoftDeletableEntity
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
+    public MediaDetails PhotoDetails { get; private set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -74,7 +77,8 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        RequisitesDetails requisitesDetails)
+        RequisitesDetails requisitesDetails,
+        MediaDetails photoDetails)
     {
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
@@ -92,7 +96,8 @@ public class Pet : SoftDeletableEntity
             isVaccinated,
             status,
             volunteerId,
-            requisitesDetails);
+            requisitesDetails,
+            photoDetails);
 
         pet.InitSerialNumer();
         Pets.Add(pet);

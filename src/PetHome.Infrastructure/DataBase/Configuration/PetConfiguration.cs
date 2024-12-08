@@ -152,5 +152,19 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 value => SerialNumber.Create(value))
             .IsRequired()
             .HasColumnName("serial_number");
+
+      //photo details
+      builder.OwnsOne(d => d.PhotoDetails, db =>
+      {
+          db.ToJson();
+          db.OwnsMany(db => db.Values, pb =>
+          {
+              pb.Property(p => p.BucketName)
+              .IsRequired();
+      
+              pb.Property(p => p.FileName)
+              .IsRequired();
+          });
+      });
     }
 }

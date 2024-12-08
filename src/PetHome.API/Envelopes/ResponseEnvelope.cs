@@ -13,7 +13,7 @@ public class ResponseEnvelope
     {
         Errors = errors?.ToList();
         Result = result;
-        TimeGenerated = DateTime.Now;
+        TimeGenerated = DateTime.UtcNow;
     }
 
     public static ResponseEnvelope Ok(object? result) => new ResponseEnvelope(result, null);

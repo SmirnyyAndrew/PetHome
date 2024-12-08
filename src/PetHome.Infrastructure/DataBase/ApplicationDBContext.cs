@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Infrastructure.Interceptors;
 
@@ -11,6 +12,7 @@ public class ApplicationDBContext(IConfiguration configuration) : DbContext
     private const string DATABASE = "PetHomeConnectionString";
 
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
+    public DbSet<Species> Specieses => Set<Species>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     {

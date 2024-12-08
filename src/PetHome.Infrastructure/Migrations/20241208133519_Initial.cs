@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PetHome.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial1 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,7 +42,7 @@ namespace PetHome.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     email = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "text", nullable: false),
-                    start_volunteering_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
@@ -88,15 +88,17 @@ namespace PetHome.Infrastructure.Migrations
                     shelter_id = table.Column<Guid>(type: "uuid", nullable: false),
                     weight = table.Column<double>(type: "double precision", maxLength: 500, nullable: false),
                     is_castrated = table.Column<bool>(type: "boolean", nullable: false),
-                    bith_date = table.Column<DateOnly>(type: "date", nullable: true),
+                    bith_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
-                    profile_create_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    profile_create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    serial_number = table.Column<int>(type: "integer", nullable: false),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
+                    PhotoDetails = table.Column<string>(type: "jsonb", nullable: false),
                     RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>

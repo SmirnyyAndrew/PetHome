@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Background;
+using PetHome.Application.Features.Volunteers.CreateBreedVolunteer;
 using PetHome.Application.Features.Volunteers.CreatePetVolunteer;
+using PetHome.Application.Features.Volunteers.CreateSpeciesVolunteer;
 using PetHome.Application.Features.Volunteers.CreateVolunteer;
 using PetHome.Application.Features.Volunteers.HardDeleteVolunteer;
 using PetHome.Application.Features.Volunteers.SoftDeleteRestoreVolunteer;
@@ -20,6 +22,8 @@ public static class Inject
         services.AddScoped<SoftRestoreVolunteerUseCase>();
         services.AddScoped<SoftDeletedEntitiesToHardDeleteUseCase>();
         services.AddScoped<VolunteerCreatePetUseCase>();
+        services.AddScoped<VolunteerCreateSpeciesUseCase>();
+        services.AddScoped<VolunteerCreateBreedUseCase>();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         return services;
     }

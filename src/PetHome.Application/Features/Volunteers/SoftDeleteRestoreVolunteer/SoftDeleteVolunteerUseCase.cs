@@ -5,6 +5,7 @@ using CSharpFunctionalExtensions;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using Microsoft.Extensions.Logging;
+using PetHome.Application.Features.Volunteers.RepositoryInterfaces;
 
 namespace PetHome.Application.Features.Volunteers.SoftDeleteVolunteer;
 public class SoftDeleteVolunteerUseCase

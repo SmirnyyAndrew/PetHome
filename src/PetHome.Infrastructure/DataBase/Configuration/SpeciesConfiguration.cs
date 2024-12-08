@@ -27,10 +27,10 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
             .HasColumnName("name");
 
         //breeds
-        builder.HasMany(b => b.Breeds)
+        builder.HasMany(s => s.Breeds)
             .WithOne()
-            .IsRequired()
-            .HasForeignKey("species_id")
+            .IsRequired(false)
+            .HasForeignKey(x => x.SpeciesId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
