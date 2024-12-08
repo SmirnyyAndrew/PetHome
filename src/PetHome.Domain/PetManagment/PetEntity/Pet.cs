@@ -125,9 +125,9 @@ public class Pet : SoftDeletableEntity
         }
 
         int maxSerialNumber = Pets.Max(s => s.SerialNumber.Value);
-        if (number > maxSerialNumber)
+        if (number > maxSerialNumber || number < 1)
         {
-            return Errors.Conflict($"Новый серийный номер {number} превышает максимальное значение {maxSerialNumber}");
+            return Errors.Conflict($"Новый серийный номер {number} не можеть превышать максимальное значение {maxSerialNumber} и быть меньше 1");
         }
 
         if (number > SerialNumber.Value)
