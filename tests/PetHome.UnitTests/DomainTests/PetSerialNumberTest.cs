@@ -1,9 +1,9 @@
-﻿using PetHome.Domain.PetManagment.GeneralValueObjects;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
+using PetHome.API.Response;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
-using System.Drawing;
-using System.Xml.Linq;
 using Xunit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Color = PetHome.Domain.PetManagment.PetEntity.Color;
 
 namespace PetHome.UnitTests.DomainTests;
@@ -13,9 +13,9 @@ public class PetSerialNumberTest
     [Fact]
     public void Execute()
     {
-        int petsCount = 20;
+        int petCount = 20;
 
-        for (int i = 0; i < petsCount; i++)
+        for (int i = 0; i < petCount; i++)
         {
             Pet pet = Pet.Create(
                 PetId.Create(),
@@ -35,8 +35,8 @@ public class PetSerialNumberTest
         }
 
         //Проверка инициализации и уникальности serial number
-        Assert.Equal(GetUniqueSerialNumbersCount(), petsCount);
-        CheckOrderAssert(petsCount);
+        Assert.Equal(GetUniqueSerialNumbersCount(), petCount);
+        CheckOrderAssert(petCount);
 
 
         //Проверка переноса serial number вначало, уникальности всех номеров и их порядок
@@ -45,23 +45,37 @@ public class PetSerialNumberTest
         Pet.Pets[numToCheck].ChangeSerialNumberToBegining();
         string nameWithNewSerialNumber = Pet.Pets[0].Name.Value;
 
-        Assert.Equal(GetUniqueSerialNumbersCount(), petsCount);
-        CheckOrderAssert(petsCount);
+        Assert.Equal(GetUniqueSerialNumbersCount(), petCount);
+        CheckOrderAssert(petCount);
         Assert.Equal(nameWithOldSerialNumber, nameWithNewSerialNumber);
 
 
-        //Проверка переноса serial number на n-ую позицию, уникальности всех номеров и их порядок
+        //Проверка переноса serial number НА УБЫВАНИЕ, уникальности всех номеров и их порядок
         numToCheck = 18;
         int newSerialNumber = 12;
         nameWithOldSerialNumber = Pet.Pets[numToCheck].Name.Value;
         Pet.Pets[numToCheck].ChangeSerialNumber(newSerialNumber);
         nameWithNewSerialNumber = Pet.Pets[newSerialNumber - 1].Name.Value;
 
-        Assert.Equal(GetUniqueSerialNumbersCount(), petsCount);
-        CheckOrderAssert(petsCount);
+        Assert.Equal(GetUniqueSerialNumbersCount(), petCount);
+        CheckOrderAssert(petCount);
         Assert.Equal(nameWithOldSerialNumber, nameWithNewSerialNumber);
-    }
 
+
+        //Проверка переноса serial number НА ВОЗРАСТАНИЕ, уникальности всех номеров и их порядок
+        numToCheck = 11;
+        newSerialNumber = 20;
+        nameWithOldSerialNumber = Pet.Pets[numToCheck].Name.Value;
+        Pet.Pets[numToCheck].ChangeSerialNumber(newSerialNumber);
+        nameWithNewSerialNumber = Pet.Pets[newSerialNumber - 1].Name.Value;
+
+        Assert.Equal(GetUniqueSerialNumbersCount(), petCount);
+        CheckOrderAssert(petCount);
+        Assert.Equal(nameWithOldSerialNumber, nameWithNewSerialNumber);
+
+
+    }
+    
     private int GetUniqueSerialNumbersCount() => Pet.Pets.Select(x => x.SerialNumber.Value).Distinct().Count();
 
     private void CheckOrderAssert(int petsCount)
@@ -70,5 +84,5 @@ public class PetSerialNumberTest
         {
             Assert.Equal(Pet.Pets[i].SerialNumber.Value, i + 1);
         }
-    }
+    } 
 }

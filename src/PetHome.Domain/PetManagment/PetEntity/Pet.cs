@@ -105,33 +105,58 @@ public class Pet : SoftDeletableEntity
     public override void SoftRestore() => base.SoftRestore();
 
     // Присвоить serial number = max + 1
-    public void InitSerialNumer()
+    public UnitResult<Error> InitSerialNumer()
     {
         SerialNumber serialNumber = Pets.Count == 0
             ? SerialNumber.Create(1)
             : SerialNumber.Create(Pets.Select(x => x.SerialNumber.Value).Max() + 1);
 
         SerialNumber = serialNumber;
+        return Result.Success<Error>();
     }
 
     //Изменить serial number
-    public void ChangeSerialNumber(int number)
+    public UnitResult<Error> ChangeSerialNumber(int number)
     {
+        if (Pets.Count == 0)
+        {
+            InitSerialNumer();
+            return Result.Success<Error>();
+        }
 
-        Pets.Where(p =>
-                p.SerialNumber.Value >= number
-                && p.SerialNumber.Value < SerialNumber.Value)
-            .ToList()
-            .ForEach(s => s.SerialNumber = SerialNumber.Create(s.SerialNumber.Value + 1));
+        int maxSerialNumber = Pets.Max(s => s.SerialNumber.Value);
+        if (number > maxSerialNumber)
+        {
+            return Errors.Conflict($"Новый серийный номер {number} превышает максимальное значение {maxSerialNumber}");
+        }
+
+        if (number > SerialNumber.Value)
+        {
+            Pets.Where(p =>
+              p.SerialNumber.Value > SerialNumber.Value
+              && p.SerialNumber.Value <= number)
+          .ToList()
+         .ForEach(s => s.SerialNumber = SerialNumber.Create(s.SerialNumber.Value - 1));
+        }
+        else if (number < SerialNumber.Value)
+        {
+            Pets.Where(p =>
+               p.SerialNumber.Value < SerialNumber.Value
+               && p.SerialNumber.Value >= number)
+           .ToList()
+           .ForEach(s => s.SerialNumber = SerialNumber.Create(s.SerialNumber.Value + 1));
+        }
 
         SerialNumber = SerialNumber.Create(number);
 
         Pets = Pets.OrderBy(x => x.SerialNumber.Value).ToList();
+
+        return Result.Success<Error>();
     }
 
     // Присвоить serial number =  1
-    public void ChangeSerialNumberToBegining()
+    public UnitResult<Error> ChangeSerialNumberToBegining()
     {
-        ChangeSerialNumber(1);
+        return ChangeSerialNumber(1);
     }
 }
