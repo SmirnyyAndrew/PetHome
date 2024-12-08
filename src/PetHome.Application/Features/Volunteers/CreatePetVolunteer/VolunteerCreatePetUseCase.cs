@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Application.Features.Dtos;
 using PetHome.Application.Features.Volunteers.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -10,20 +11,33 @@ namespace PetHome.Application.Features.Volunteers.CreatePetVolunteer;
 public class VolunteerCreatePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
+    private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<VolunteerCreatePetUseCase> _logger;
 
     public VolunteerCreatePetUseCase(
         IVolunteerRepository volunteerRepository,
+        ISpeciesRepository speciesRepository,
         ILogger<VolunteerCreatePetUseCase> logger)
     {
         _volunteerRepository = volunteerRepository;
+        _speciesRepository = speciesRepository;
         _logger = logger;
     }
 
 
     public async Task<Result<Pet, Error>> Execute(VolunteerCreatePetRequest petRequest, CancellationToken ct)
     {
-        var mainInfoDto = petRequest.MainInfoDto;
+        PetMainInfoDto mainInfoDto = petRequest.MainInfoDto;
+
+        var IsSpeciesExist = await _speciesRepository.GetById(mainInfoDto.SpeciesId, ct);
+        if (IsSpeciesExist.IsFailure)
+            return Errors.NotFound($"Species с id {mainInfoDto.SpeciesId} не найден");
+
+        var IsBreedExist = IsSpeciesExist.Value.Breeds
+            .Any(x => x.Id == mainInfoDto.BreedId);
+        if (IsBreedExist == false)
+            return Errors.NotFound($"Breed с id {mainInfoDto.SpeciesId} не найден");
+
 
         Volunteer volunteer = _volunteerRepository.GetById(petRequest.VolunteerId, ct).Result.Value;
         PetName petName = PetName.Create(mainInfoDto.Name).Value;
@@ -67,6 +81,8 @@ public class VolunteerCreatePetUseCase
         }
 
         Pet pet = result.Value;
+        await _volunteerRepository.Update(volunteer, ct);
+
         _logger.LogInformation($"Pet с id {pet.Id} и volunteer_id {pet.VolunteerId} создан");
         return pet;
     }

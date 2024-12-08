@@ -126,6 +126,9 @@ public class Volunteer : SoftDeletableEntity
         if (result.IsFailure)
             return result.Error;
 
-        return result.Value;
+        Pet pet = result.Value;
+        Pets.Add(pet);
+
+        return pet;
     }
 }
