@@ -15,7 +15,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(i => i.Id)
             .HasConversion(
                 id => id.Value,
-                value => VolunteerId.Create(value))
+                value => VolunteerId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
 

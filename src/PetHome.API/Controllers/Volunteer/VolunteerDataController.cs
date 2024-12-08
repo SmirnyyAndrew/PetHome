@@ -61,7 +61,7 @@ public class VolunteerDataController : ParentController
          [FromServices] HardDeleteVolunteerUseCase hardDeleteUseCase,
          CancellationToken ct)
     {
-        VolunteerId volunteerId = VolunteerId.Create(id);
+        VolunteerId volunteerId = VolunteerId.Create(id).Value;
 
         var result = await hardDeleteUseCase.Execute(volunteerId, ct);
         if (result.IsFailure)
@@ -77,7 +77,7 @@ public class VolunteerDataController : ParentController
         [FromServices] SoftDeleteVolunteerUseCase softDeleteVoUseCase,
         CancellationToken ct = default)
     {
-        VolunteerId volunteerId = VolunteerId.Create(id);
+        VolunteerId volunteerId = VolunteerId.Create(id).Value;
 
         var result = await softDeleteVoUseCase.Execute(id, ct);
         if (result.IsFailure)
@@ -93,7 +93,7 @@ public class VolunteerDataController : ParentController
         [FromServices] SoftRestoreVolunteerUseCase softRestoreUseCase,
         CancellationToken ct = default)
     {
-        VolunteerId volunteerId = VolunteerId.Create(id);
+        VolunteerId volunteerId = VolunteerId.Create(id).Value;
 
         var result = await softRestoreUseCase.Execute(id, ct);
         if (result.IsFailure)

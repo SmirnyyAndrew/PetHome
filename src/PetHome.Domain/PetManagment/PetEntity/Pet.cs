@@ -13,7 +13,6 @@ public class Pet : SoftDeletableEntity
     private Pet() { }
 
     private Pet(
-        PetId id,
         PetName name,
         SpeciesId speciesId,
         Description description,
@@ -25,10 +24,10 @@ public class Pet : SoftDeletableEntity
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails,
-        Date profileCreateDate)
+        VolunteerId volunteerId,
+        RequisitesDetails requisitesDetails)
     {
-        Id = id;
+        Id = PetId.Create();
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -40,7 +39,8 @@ public class Pet : SoftDeletableEntity
         IsVaccinated = isVaccinated;
         Status = status;
         RequisitesDetails = requisitesDetails;
-        ProfileCreateDate = profileCreateDate;
+        VolunteerId = volunteerId;
+        ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
     }
 
 
@@ -62,7 +62,6 @@ public class Pet : SoftDeletableEntity
     public SerialNumber SerialNumber { get; private set; }
 
     public static Result<Pet, Error> Create(
-        PetId id,
         PetName name,
         SpeciesId speciesId,
         Description description,
@@ -74,14 +73,13 @@ public class Pet : SoftDeletableEntity
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails,
-        Date profileCreateDate)
+        VolunteerId volunteerId,
+        RequisitesDetails requisitesDetails)
     {
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
 
         Pet pet = new Pet(
-            id,
             name,
             speciesId,
             description,
@@ -93,8 +91,8 @@ public class Pet : SoftDeletableEntity
             birthDate,
             isVaccinated,
             status,
-            requisitesDetails,
-            profileCreateDate);
+            volunteerId,
+            requisitesDetails);
 
         pet.InitSerialNumer();
         Pets.Add(pet);

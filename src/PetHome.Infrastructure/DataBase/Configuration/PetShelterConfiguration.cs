@@ -14,7 +14,7 @@ public class PetShelterConfiguration : IEntityTypeConfiguration<PetShelter>
         builder.Property(i => i.Id)
             .HasConversion(
                 id => id.Value,
-                value => PetShelterId.Create(value))
+                value => PetShelterId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
 

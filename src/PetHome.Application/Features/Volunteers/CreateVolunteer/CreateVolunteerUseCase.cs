@@ -23,7 +23,7 @@ public class CreateVolunteerUseCase
         CreateVolunteerRequest request,
         CancellationToken ct)
     {
-        VolunteerId id = VolunteerId.Create();
+        VolunteerId id = VolunteerId.Create().Value;
 
         FullName fullName = FullName.Create(
             request.FullNameDto.FirstName,

@@ -51,7 +51,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.BreedId)
             .HasConversion(
                 b => b.Value,
-                value => BreedId.Create(value))
+                value => BreedId.Create(value).Value)
             .IsRequired(false)
             .HasColumnName("breed_id");
 
@@ -67,7 +67,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.ShelterId)
             .HasConversion(
                 id => id.Value,
-                value => PetShelterId.Create(value))
+                value => PetShelterId.Create(value).Value)
             .IsRequired()
             .HasColumnName("shelter_id");
 
@@ -130,7 +130,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.VolunteerId)
             .HasConversion(
                 id => id.Value,
-                value => VolunteerId.Create(value))
+                value => VolunteerId.Create(value).Value)
             .IsRequired()
             .HasColumnName("volunteer_id");
 

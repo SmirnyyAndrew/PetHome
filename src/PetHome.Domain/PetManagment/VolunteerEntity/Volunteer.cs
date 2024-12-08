@@ -42,7 +42,6 @@ public class Volunteer : SoftDeletableEntity
     public PhoneNumbersDetails? PhoneNumberDetails { get; private set; }
     public RequisitesDetails? RequisitesDetails { get; private set; }
     public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
-    //private bool _isDeleted = false;
 
 
     private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
@@ -92,5 +91,39 @@ public class Volunteer : SoftDeletableEntity
     {
         base.SoftRestore();
         Pets.ForEach(pet => pet.SoftRestore());
-    } 
+    }
+
+    public Result<Pet, Error> CreatePet(
+        PetName name,
+        SpeciesId speciesId,
+        Description description,
+        BreedId breedId,
+        Color color,
+        PetShelterId shelterId,
+        double weight,
+        bool isCastrated,
+        Date birthDate,
+        bool isVaccinated,
+        PetStatusEnum status,
+        RequisitesDetails requisitesDetails)
+    {
+        var result = Pet.Create(
+              name,
+              speciesId,
+              description,
+              breedId,
+              color,
+              shelterId,
+              weight,
+              isCastrated,
+              birthDate,
+              isVaccinated,
+              status,
+              Id,
+              requisitesDetails);
+        if (result.IsFailure)
+            return result.Error;
+
+        return result.Value;
+    }
 }

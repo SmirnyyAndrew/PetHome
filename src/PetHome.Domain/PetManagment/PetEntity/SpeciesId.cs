@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Domain.PetManagment.PetEntity;
 
@@ -12,11 +13,11 @@ public record SpeciesId
         Value = value;
     }
 
-    public static Result<SpeciesId> Create() => new SpeciesId(Guid.NewGuid());
+    public static Result<SpeciesId, Error> Create() => new SpeciesId(Guid.NewGuid());
 
-    public static Result<SpeciesId> Create(Guid id) => new SpeciesId(id);
+    public static Result<SpeciesId, Error> Create(Guid id) => new SpeciesId(id);
 
-    public static Result<SpeciesId> CreateEmpty() => new SpeciesId(Guid.Empty);
+    public static Result<SpeciesId,Error> CreateEmpty() => new SpeciesId(Guid.Empty);
 
     public static implicit operator Guid(SpeciesId speciesId)
     {

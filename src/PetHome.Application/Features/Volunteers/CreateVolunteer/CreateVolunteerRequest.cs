@@ -6,7 +6,7 @@ public record CreateVolunteerRequest(
         FullNameDto FullNameDto,
         string Email,
         string Description,
-        DateOnly StartVolunteeringDate,
+        DateTime StartVolunteeringDate,
         IEnumerable<string> PhoneNumbers,
         IEnumerable<string> SocialNetworks,
         IEnumerable<RequisitesesDto> RequisitesesDto);

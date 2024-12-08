@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.API.Response;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.Domain.PetManagment.VolunteerEntity;
 using Xunit;
 using Color = PetHome.Domain.PetManagment.PetEntity.Color;
 
@@ -17,21 +18,24 @@ public class PetSerialNumberTest
 
         for (int i = 0; i < petCount; i++)
         {
+            RequisitesDetails requisitesDetails =
+                RequisitesDetails.Create(new List<Requisites>() { Requisites.Create("name", "desc", PaymentMethodEnum.Cash).Value }).Value;
+
             Pet pet = Pet.Create(
-                PetId.Create(),
                 PetName.Create(i.ToString()).Value,
                 SpeciesId.Create().Value,
                 Description.Create("Описание").Value,
-                BreedId.Create(),
+                BreedId.Create().Value,
                 Color.Create("Чёрный").Value,
-                PetShelterId.Create(),
+                PetShelterId.Create().Value,
                 23,
                 false,
-                Domain.PetManagment.GeneralValueObjects.Date.Create(DateOnly.Parse("10.10.2024")).Value,
+                Domain.PetManagment.GeneralValueObjects.Date.Create(DateTime.Parse("10.10.2024")).Value,
                 false,
                 PetStatusEnum.isHomed,
-                RequisitesDetails.Create(new List<Requisites>() { Requisites.Create("name", "desc", PaymentMethodEnum.Cash).Value }).Value,
-                Domain.PetManagment.GeneralValueObjects.Date.Create(DateOnly.Parse("10.10.2024")).Value).Value;
+                VolunteerId.CreateEmpty().Value, 
+                requisitesDetails)
+                .Value;
         }
 
         //Проверка инициализации и уникальности serial number
@@ -75,7 +79,7 @@ public class PetSerialNumberTest
 
 
     }
-    
+
     private int GetUniqueSerialNumbersCount() => Pet.Pets.Select(x => x.SerialNumber.Value).Distinct().Count();
 
     private void CheckOrderAssert(int petsCount)
@@ -84,5 +88,5 @@ public class PetSerialNumberTest
         {
             Assert.Equal(Pet.Pets[i].SerialNumber.Value, i + 1);
         }
-    } 
+    }
 }
