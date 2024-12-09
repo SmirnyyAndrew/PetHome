@@ -13,7 +13,7 @@ using PetHome.Infrastructure.DataBase;
 namespace PetHome.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241208210818_Init")]
+    [Migration("20241209114100_Init")]
     partial class Init
     {
         /// <inheritdoc />

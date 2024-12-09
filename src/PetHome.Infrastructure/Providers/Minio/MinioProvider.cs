@@ -107,7 +107,7 @@ public class MinioProvider : IFilesProvider
         var result = await _minioClient.PutObjectAsync(minioFileArgs, ct);
         string message = $"Файл {result.ObjectName} загружен в bucket = {bucketName}";
         _logger.LogInformation(message);
-       
+
         return Media.Create(bucketName, fullName);
     }
 
@@ -235,11 +235,13 @@ public class MinioProvider : IFilesProvider
         var semaphoreSlim = new SemaphoreSlim(MAX_STREAMS_LENGHT);
         List<Task> uploadTasks = new List<Task>();
         List<Media> medias = new List<Media>();
-        try
-        {
-            for (int i = 0; i < streams.Count(); i++)
-            {
 
+
+        for (int i = 0; i < streams.Count(); i++)
+        {
+            await semaphoreSlim.WaitAsync(ct);
+            try
+            {
                 var taskResult = UploadFile(
                             streams.ToList()[i],
                             bucketName,
@@ -247,22 +249,20 @@ public class MinioProvider : IFilesProvider
                             createBucketIfNotExist,
                             ct);
                 uploadTasks.Add(taskResult);
-                await semaphoreSlim.WaitAsync(ct);
+
 
                 medias.Add(taskResult.Result.Value);
             }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
+        }
 
-            await Task.WhenAll(uploadTasks);
-        }
-        finally
-        {
-            semaphoreSlim.Release();
-        }
+        await Task.WhenAll(uploadTasks);
 
         string result = uploadTasks.Count(x => x.IsCompleted).ToString();
         _logger.LogError($"В {bucketName} было добавлено {result} медиа файла(-ов)");
         return medias;
     }
-
-
 }

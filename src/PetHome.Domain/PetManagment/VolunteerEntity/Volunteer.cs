@@ -35,7 +35,7 @@ public class Volunteer : SoftDeletableEntity
     public Email? Email { get; private set; }
     public Description Description { get; private set; }
     public Date StartVolunteeringDate { get; private set; }
-    public List<Pet> Pets { get; private set; } = new List<Pet>();
+    public List<Pet> Pets { get; private set; }
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
     public int FreePetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isFree);
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);

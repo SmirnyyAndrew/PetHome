@@ -27,7 +27,7 @@ public class VolunteerCreatePetUseCase
 
     public async Task<Result<Pet, Error>> Execute(VolunteerCreatePetRequest petRequest, CancellationToken ct)
     {
-        PetMainInfoDto mainInfoDto = petRequest.MainInfoDto;
+        PetMainInfoDto mainInfoDto = petRequest.PetMainInfoDto;
 
         var IsSpeciesExist = await _speciesRepository.GetById(mainInfoDto.SpeciesId, ct);
         if (IsSpeciesExist.IsFailure)
@@ -53,11 +53,7 @@ public class VolunteerCreatePetUseCase
             .Select(r => Requisites.Create(r.Name, r.Desc, r.PaymentMethod).Value)
             .ToList();
         RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisites).Value;
-
-        //List<Media> photos = petRequest.PhotosDto
-        //    .Select(x => Media.Create(x.BucketName, x.FileName).Value)
-        //    .ToList();
-        //MediaDetails photoDetails = MediaDetails.Create(photos).Value;
+         
 
         var result = volunteer.CreatePet(
              petName,

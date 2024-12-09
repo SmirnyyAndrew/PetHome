@@ -1,7 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
+using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
@@ -31,31 +33,38 @@ public class UploadPetMediaFilesVolunteerUseCase
         UploadPetMediaFilesVolunteerRequest uploadPetMediaRequest,
         Guid volunteerId,
         CancellationToken ct)
-    {
-
+    { 
         var volunteerResult = await _volunteerRepository.GetById(volunteerId, ct);
         if (volunteerResult.IsFailure)
             return Errors.NotFound($"Волонтёр с id {volunteerId} не найден");
 
-        Pet pet = volunteerResult.Value.Pets
+        Volunteer volunteer = volunteerResult.Value;
+        Pet pet = volunteer.Pets
             .FirstOrDefault(x => x.Id == uploadPetMediaRequest.UploadPetMediaDto.PetId);
         if (pet == null)
             return Errors.NotFound($"Питомец с id {uploadPetMediaRequest.UploadPetMediaDto.PetId} не найден");
 
-        var result = await filesProvider.UploadFile(
+
+        var uploadResult = await filesProvider.UploadFile(
                 uploadPetMediaRequest.Streams,
                 uploadPetMediaRequest.UploadPetMediaDto.BucketName,
                 uploadPetMediaRequest.FileNames,
                 uploadPetMediaRequest.UploadPetMediaDto.CreateBucketIfNotExist,
                 ct);
-        if (result.IsFailure)
-            return result.Error;
+        if (uploadResult.IsFailure)
+            return uploadResult.Error;
 
-        pet.UploadMedia(result.Value);
-        await _volunteerRepository.Update(volunteerResult.Value, ct);
+
+        IReadOnlyList<Media> oldPetMedias = pet.MediaDetails.Values.ToList();
+        IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
+
+        pet.UploadMedia(oldPetMedias, uploadPetMedias);
+
+        await _volunteerRepository.Update(volunteer, ct);
 
         string message = $"В bucket {uploadPetMediaRequest.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
-            $"у volunteer {volunteerResult.Value.Id} добавлены следующие файлы:\n {String.Join("\n", result.Value.Select(x => x.FileName))}";
+            $"у volunteer {volunteer.Id} добавлены следующие файлы:\n " +
+            $"{String.Join("\n", uploadResult.Value.Select(x => x.FileName))}";
         return message;
     }
 }

@@ -27,17 +27,20 @@ public class VolunteerPetManegmentController : ParentController
 
 
 
+
+
+
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> CreatePet(
         [FromRoute] Guid volunteerId,
-        [FromBody] PetInfoDto petInfoDto,
+        [FromBody] PetMainInfoDto PetMainInfoDto,
         [FromServices] VolunteerCreatePetUseCase createPetUseCase,
         [FromServices] IValidator<VolunteerCreatePetRequest> validator,
         CancellationToken ct = default)
     {
         VolunteerCreatePetRequest createPetRequest = new VolunteerCreatePetRequest(
                         volunteerId,
-                        petInfoDto.PetMainInfoDto);
+                        PetMainInfoDto);
 
         var validationResult = await validator.ValidateAsync(createPetRequest, ct);
         if (validationResult.IsValid == false)
@@ -50,6 +53,10 @@ public class VolunteerPetManegmentController : ParentController
 
         return Ok(ResponseEnvelope.Ok(result.Value));
     }
+
+
+
+
 
     [HttpPost("{volunteerId:guid}/pets/media")]
     public async Task<IActionResult> UploadMedia(

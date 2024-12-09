@@ -19,8 +19,4 @@ public record MediaDetails
     {
         return new MediaDetails(new List<Media>());
     }
-    public MediaDetails AddMedia(IEnumerable<Media> addNewMedias)
-    {
-        return Create(addNewMedias).Value;
-    }
 }

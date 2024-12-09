@@ -162,19 +162,23 @@ public class Pet : SoftDeletableEntity
     }
 
     //Добавить медиа
-    public UnitResult<Error> UploadMedia(IEnumerable<Media> newMedias)
-    { 
-        MediaDetails = MediaDetails.AddMedia(newMedias);
-          
+    public UnitResult<Error> UploadMedia(IEnumerable<Media> oldMedias, IEnumerable<Media> uploadMedias)
+    {
+        List<Media> currentMedias = new List<Media>();
+        currentMedias.AddRange(uploadMedias);
+        oldMedias.ToList().ForEach(x => currentMedias.Add(Media.Create(x.BucketName,x.FileName).Value));
+
+        MediaDetails = MediaDetails.Create(currentMedias).Value;
+
         return Result.Success<Error>();
     }
 
     //Удалить медиа
-    public UnitResult<Error> RemoveMedia(IEnumerable<Media> oldMedia, IEnumerable<Media> newMedia)
+    public UnitResult<Error> RemoveMedia(IEnumerable<Media> oldMedia, IEnumerable<Media> removeMedia)
     {
         List<Media> currentMedias = new List<Media>();
         currentMedias.AddRange(oldMedia);
-        currentMedias.AddRange(newMedia);
+        currentMedias = currentMedias.Except(removeMedia).ToList();
 
         MediaDetails = MediaDetails.Create(currentMedias).Value;
 

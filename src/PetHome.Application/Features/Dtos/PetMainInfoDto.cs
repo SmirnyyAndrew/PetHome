@@ -3,7 +3,6 @@ using PetHome.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Application.Features.Dtos;
 public record PetMainInfoDto(
-            Guid PetId,
             string Name,
             Guid SpeciesId,
             string Description,

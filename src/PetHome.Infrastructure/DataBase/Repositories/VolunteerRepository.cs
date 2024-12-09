@@ -36,7 +36,8 @@ public class VolunteerRepository : IVolunteerRepository
     {
         var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
-            .Include(x=>x.Pets)
+            .Include(p=>p.Pets) 
+            .ThenInclude(d=>d.MediaDetails)
             .FirstOrDefaultAsync(ct);
         if (volunteer == null)
             return Errors.NotFound($"Волонтёр с id = {id}");
