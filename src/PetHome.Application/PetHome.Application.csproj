@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Features\Dtos\MinioFileInfoDto.cs" />
+    <None Include="Features\Dtos\General\MinioFileInfoDto.cs" />
   </ItemGroup>
 
   <ItemGroup>

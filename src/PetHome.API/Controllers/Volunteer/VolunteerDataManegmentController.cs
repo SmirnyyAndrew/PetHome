@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Extentions;
 using PetHome.API.Response;
 using PetHome.Application.Features.Background;
-using PetHome.Application.Features.Volunteers.CreateVolunteer;
-using PetHome.Application.Features.Volunteers.HardDeleteVolunteer;
-using PetHome.Application.Features.Volunteers.SoftDeleteRestoreVolunteer;
-using PetHome.Application.Features.Volunteers.SoftDeleteVolunteer;
-using PetHome.Application.Features.Volunteers.UpdateMainInfoVolunteer;
+using PetHome.Application.Features.Volunteers.VolunteerManegment.CreateVolunteer;
+using PetHome.Application.Features.Volunteers.VolunteerManegment.HardDeleteVolunteer;
+using PetHome.Application.Features.Volunteers.VolunteerManegment.SoftDeleteRestoreVolunteer;
+using PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
