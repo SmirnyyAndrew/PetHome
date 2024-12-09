@@ -54,20 +54,28 @@ public class PetManegmentController : ParentController
         IEnumerable<IFormFile> formFiles,
         [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
         [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
+        [FromServices] IValidator<UploadPetMediaFilesRequest> validator,
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
+        streams = formFiles.Select(x => x.OpenReadStream()).ToList();
         Result<string, Error> result;
+
+        UploadPetMediaFilesRequest uploadPetMediaRequest =
+            new UploadPetMediaFilesRequest(
+                streams,
+                formFiles.ToList().Select(x => x.FileName),
+                uploadPetMediaDto);
+
+        var validationResult = await validator.ValidateAsync(
+            uploadPetMediaRequest,
+            ct);
+
+        if (validationResult.IsValid == false)
+            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
+
         try
         {
-            streams = formFiles.Select(x => x.OpenReadStream()).ToList();
-
-            UploadPetMediaFilesRequest uploadPetMediaRequest =
-                new UploadPetMediaFilesRequest(
-                    streams,
-                    formFiles.ToList().Select(x => x.FileName),
-                    uploadPetMediaDto);
-
             result = await uploadPetMediaUseCase.Execute(
               _minioProvider,
               uploadPetMediaRequest,
@@ -90,10 +98,15 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         [FromBody] DeletePetMediaFilesDto deleteMediaDto,
         [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
+        [FromServices] IValidator<DeletePetMediaFilesRequest> validator,
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
             new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
+
+        var validationResult = await validator.ValidateAsync(deleteMediaRequest, ct);
+        if (validationResult.IsValid == false)
+            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
 
         var deleteResult = await deletePetMediaFUseCase.Execute(
             _minioProvider,
