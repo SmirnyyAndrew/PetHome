@@ -20,25 +20,28 @@ public partial class MinioProvider : IFilesProvider
         {{"response-content-type","application/json"}};
 
 
-        try
+        foreach (var fileName in fileInfoDto.FileNames)
         {
-            string fileExtension = Path.GetExtension(fileInfoDto.FileName);
-            fileSavePath = $"{fileSavePath}{fileExtension}";
-            var minioFileArgs = new GetObjectArgs()
-                .WithBucket(fileInfoDto.BucketName)
-                .WithObject(fileInfoDto.FileName)
-                .WithFile(fileSavePath);
+            try
+            {
+                string fileExtension = Path.GetExtension(fileName);
+                fileSavePath = $"{fileSavePath}{fileExtension}";
+                var minioFileArgs = new GetObjectArgs()
+                    .WithBucket(fileInfoDto.BucketName)
+                    .WithObject(fileName)
+                    .WithFile(fileSavePath);
 
-            ObjectStat presignedUrl = await _minioClient.GetObjectAsync(minioFileArgs, ct)
-                .ConfigureAwait(false);
+                ObjectStat presignedUrl = await _minioClient.GetObjectAsync(minioFileArgs, ct)
+                    .ConfigureAwait(false);
 
-            _logger.LogInformation($"Файл {fileInfoDto.FileName} из bucket {fileInfoDto.BucketName} сохранён по пути = {fileSavePath}");
-            return fileSavePath;
+                _logger.LogInformation($"Файл {fileName} из bucket {fileInfoDto.BucketName} сохранён по пути = {fileSavePath}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Файл {fileName} в bucket {fileInfoDto.BucketName} не найден");
+            }
         }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} не найден");
-            return Errors.Failure($"Файл {fileInfoDto.FileName} в bucket {fileInfoDto.BucketName} не найден");
-        }
+        string message = $"В bucket {fileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", fileInfoDto.FileNames)}";
+        return message;
     }
 }

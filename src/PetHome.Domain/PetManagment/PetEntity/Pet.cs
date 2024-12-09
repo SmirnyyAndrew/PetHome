@@ -162,25 +162,28 @@ public class Pet : SoftDeletableEntity
     }
 
     //Добавить медиа
-    public UnitResult<Error> UploadMedia(IEnumerable<Media> oldMedias, IEnumerable<Media> uploadMedias)
+    public UnitResult<Error> UploadMedia(IEnumerable<Media> mediasToUpload)
     {
-        List<Media> currentMedias = new List<Media>();
-        currentMedias.AddRange(uploadMedias);
-        oldMedias.ToList().ForEach(x => currentMedias.Add(Media.Create(x.BucketName,x.FileName).Value));
+        List<Media> newMediaFiles = new List<Media>();
+        newMediaFiles.AddRange(mediasToUpload);
 
-        MediaDetails = MediaDetails.Create(currentMedias).Value;
+        IReadOnlyList<Media> oldMedias = MediaDetails.Values.ToList();
+        oldMedias.ToList().ForEach(x => newMediaFiles.Add(Media.Create(x.BucketName, x.FileName).Value));
+
+        MediaDetails = MediaDetails.Create(newMediaFiles).Value;
 
         return Result.Success<Error>();
     }
 
     //Удалить медиа
-    public UnitResult<Error> RemoveMedia(IEnumerable<Media> oldMedia, IEnumerable<Media> removeMedia)
+    public UnitResult<Error> RemoveMedia(IEnumerable<Media> mediasToDelete)
     {
-        List<Media> currentMedias = new List<Media>();
-        currentMedias.AddRange(oldMedia);
-        currentMedias = currentMedias.Except(removeMedia).ToList();
+        List<Media> oldMediaFiles = MediaDetails.Values
+            .Select(m=>Media.Create(m.BucketName,m.FileName).Value).ToList();
 
-        MediaDetails = MediaDetails.Create(currentMedias).Value;
+        List<Media> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
+
+        MediaDetails = MediaDetails.Create(newMediaFiles).Value;
 
         return Result.Success<Error>();
     }

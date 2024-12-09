@@ -37,6 +37,6 @@ public interface IFilesProvider
     public Task<Result<string, Error>> DownloadFile(
          MinioFileInfoDto fileInfoDto, string fileSavePath, CancellationToken ct);
 
-    public Task<Result<string, Error>> GetFilePresignedPath(
+    public Task<Result<List<string>, Error>> GetFilePresignedPath(
         MinioFileInfoDto fileInfoDto, CancellationToken ct);
 }

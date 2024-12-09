@@ -19,7 +19,5 @@ public record Media
             return Errors.Validation("Название bucket и файла не должны бать пустыми");
 
         return new Media(bucketName, fileName);
-    }
-
-
+    } 
 }

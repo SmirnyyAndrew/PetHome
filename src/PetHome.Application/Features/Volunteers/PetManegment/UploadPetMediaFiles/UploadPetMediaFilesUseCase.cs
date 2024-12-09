@@ -48,10 +48,9 @@ public class UploadPetMediaFilesUseCase
             return uploadResult.Error;
 
 
-        IReadOnlyList<Media> oldPetMedias = pet.MediaDetails.Values.ToList();
         IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
 
-        pet.UploadMedia(oldPetMedias, uploadPetMedias);
+        pet.UploadMedia(uploadPetMedias);
 
         await _volunteerRepository.Update(volunteer, ct);
 

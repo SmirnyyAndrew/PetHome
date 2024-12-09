@@ -1,10 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
-using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 using Minio;
-using PetHome.API.Extentions;
 using PetHome.API.Response;
 using PetHome.Application.Features.Dtos.Pet;
 using PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
@@ -86,15 +83,25 @@ public class PetManegmentController : ParentController
 
         return Ok(ResponseEnvelope.Ok(result.Value));
     }
-    
+
 
     [HttpDelete("{volunteerId:guid}/pets/media")]
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
-        [FromBody] DeletePetMediaFilesDto deletePetMediaDto,
+        [FromBody] DeletePetMediaFilesDto deleteMediaDto,
         [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
         CancellationToken ct)
     {
-        return default;
+        DeletePetMediaFilesRequest deleteMediaRequest =
+            new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
+
+        var deleteResult = await deletePetMediaFUseCase.Execute(
+            _minioProvider,
+            deleteMediaRequest,
+            ct);
+        if (deleteResult.IsFailure)
+            return BadRequest(ResponseEnvelope.Error(deleteResult.Error)); ;
+
+        return Ok(ResponseEnvelope.Ok(deleteResult.Value));
     }
 }
