@@ -41,17 +41,16 @@ public class UpdateMainInfoVolunteerUseCase
 
             Description description = Description.Create(updateInfoDto.Description).Value;
 
-            IEnumerable<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
-                .ToList()
-                .Select(p => PhoneNumber.Create(p).Value);
-            PhoneNumbersDetails phoneNumbersDetails = PhoneNumbersDetails.Create(phoneNumbers);
+            List<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
+                .Select(p => PhoneNumber.Create(p).Value)
+                .ToList(); 
 
             Email email = Email.Create(updateInfoDto.Email).Value;
 
             volunteer.UpdateMainInfo(
                 fullName,
                 description,
-                phoneNumbersDetails,
+                phoneNumbers,
                 email);
 
             await _volunteerRepository.Update(volunteer, ct);

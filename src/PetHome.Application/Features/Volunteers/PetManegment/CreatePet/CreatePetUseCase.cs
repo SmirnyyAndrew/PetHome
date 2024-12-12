@@ -57,8 +57,7 @@ public class CreatePetUseCase
 
             List<Requisites> requisites = mainInfoDto.Requisites
                 .Select(r => Requisites.Create(r.Name, r.Desc, r.PaymentMethod).Value)
-                .ToList();
-            RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisites).Value;
+                .ToList(); 
 
 
             var result = volunteer.CreatePet(
@@ -73,7 +72,7 @@ public class CreatePetUseCase
                  petBirthDate,
                  mainInfoDto.IsVaccinated,
                  mainInfoDto.Status,
-                 requisitesDetails);
+                 requisites);
 
             if (result.IsFailure)
             {

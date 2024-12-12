@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using PetHome.API.Response;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -18,8 +19,7 @@ public class PetSerialNumberTest
 
         for (int i = 0; i < petCount; i++)
         {
-            RequisitesDetails requisitesDetails =
-                RequisitesDetails.Create(new List<Requisites>() { Requisites.Create("name", "desc", PaymentMethodEnum.Cash).Value }).Value;
+            List<Requisites> requisites = new List<Requisites>() { Requisites.Create("name", "desc", PaymentMethodEnum.Cash).Value };
 
             Pet pet = Pet.Create(
                 PetName.Create(i.ToString()).Value,
@@ -34,7 +34,7 @@ public class PetSerialNumberTest
                 false,
                 PetStatusEnum.isHomed,
                 VolunteerId.CreateEmpty().Value,
-                requisitesDetails)
+                requisites)
                 .Value;
         }
 

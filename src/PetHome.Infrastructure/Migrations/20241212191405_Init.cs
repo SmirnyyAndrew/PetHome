@@ -47,9 +47,9 @@ namespace PetHome.Infrastructure.Migrations
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumberDetails = table.Column<string>(type: "jsonb", nullable: true),
-                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true),
-                    SocialNetworkDetails = table.Column<string>(type: "jsonb", nullable: true)
+                    phone_numbers = table.Column<string>(type: "jsonb", nullable: false),
+                    requisites = table.Column<string>(type: "jsonb", nullable: false),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,8 +97,8 @@ namespace PetHome.Infrastructure.Migrations
                     status = table.Column<string>(type: "text", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    MediaDetails = table.Column<string>(type: "jsonb", nullable: false),
-                    RequisitesDetails = table.Column<string>(type: "jsonb", nullable: true)
+                    photos = table.Column<string>(type: "jsonb", nullable: false),
+                    requisites = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {

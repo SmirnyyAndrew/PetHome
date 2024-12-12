@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Domain.Shared;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        RequisitesDetails requisitesDetails)
+        ValueObjectList<Requisites> requisites)
     {
         Id = PetId.Create();
         Name = name;
@@ -39,10 +40,10 @@ public class Pet : SoftDeletableEntity
         IsCastrated = isCastrated;
         IsVaccinated = isVaccinated;
         Status = status;
-        RequisitesDetails = requisitesDetails;
+        Requisites = requisites;
         VolunteerId = volunteerId;
-        ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
-        MediaDetails = MediaDetails.Create().Value;
+        ProfileCreateDate = Date.Create(DateTime.UtcNow).Value; 
+        Medias = new List<Media>();
     }
 
 
@@ -58,11 +59,11 @@ public class Pet : SoftDeletableEntity
     public Date? BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public PetStatusEnum Status;
-    public RequisitesDetails? RequisitesDetails { get; private set; }
+    public ValueObjectList<Requisites> Requisites { get; private set; }
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
-    public MediaDetails MediaDetails { get; private set; }
+    public ValueObjectList<Media> Medias { get; private set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -77,7 +78,7 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        RequisitesDetails requisitesDetails)
+        ValueObjectList<Requisites> requisites)
     {
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
@@ -95,7 +96,7 @@ public class Pet : SoftDeletableEntity
             isVaccinated,
             status,
             volunteerId,
-            requisitesDetails);
+            requisites);
 
         pet.InitSerialNumer();
         Pets.Add(pet);
@@ -167,10 +168,11 @@ public class Pet : SoftDeletableEntity
         List<Media> newMediaFiles = new List<Media>();
         newMediaFiles.AddRange(mediasToUpload);
 
-        IReadOnlyList<Media> oldMedias = MediaDetails.Values.ToList();
+        IReadOnlyList<Media> oldMedias = Medias.Values.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(Media.Create(x.BucketName, x.FileName).Value));
 
-        MediaDetails = MediaDetails.Create(newMediaFiles).Value;
+        //Medias = MediaDetails.Create(newMediaFiles).Value;
+        Medias = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -178,12 +180,13 @@ public class Pet : SoftDeletableEntity
     //Удалить медиа
     public UnitResult<Error> RemoveMedia(IEnumerable<Media> mediasToDelete)
     {
-        List<Media> oldMediaFiles = MediaDetails.Values
-            .Select(m=>Media.Create(m.BucketName,m.FileName).Value).ToList();
+        List<Media> oldMediaFiles = Medias.Values
+            .Select(m => Media.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<Media> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
 
-        MediaDetails = MediaDetails.Create(newMediaFiles).Value;
+        //Medias = MediaDetails.Create(newMediaFiles).Value;
+        Medias = newMediaFiles;
 
         return Result.Success<Error>();
     }

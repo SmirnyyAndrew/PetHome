@@ -39,35 +39,28 @@ public class CreateVolunteerUseCase
         Description description = Description.Create(request.Description).Value;
 
         Date startVolunteeringDate = Date.Create(request.StartVolunteeringDate).Value;
-
-
+         
         List<PhoneNumber> phoneNumberList = request.PhoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
-                .ToList();
-        PhoneNumbersDetails phoneNumberDetails = PhoneNumbersDetails.Create(phoneNumberList);
-
-
+                .ToList(); 
+         
         List<SocialNetwork> socialNetworkList = request.SocialNetworks
                 .Select(x => SocialNetwork.Create(x).Value)
-                .ToList();
-        SocialNetworkDetails socialNetworkDetails = SocialNetworkDetails.Create(socialNetworkList);
-
-
+                .ToList(); 
+         
         List<Requisites> requisitesList = request.RequisitesesDto
                  .Select(x => Requisites.Create(x.Name, x.Desc, x.PaymentMethod).Value)
-                 .ToList();
-        RequisitesDetails requisitesDetails = RequisitesDetails.Create(requisitesList).Value;
-
-
+                 .ToList(); 
+         
         Volunteer volunteer = Volunteer.Create(
             id,
             fullName,
             email,
             description,
             startVolunteeringDate,
-            phoneNumberDetails,
-            socialNetworkDetails,
-            requisitesDetails)
+            phoneNumberList,
+            requisitesList,
+            socialNetworkList)
             .Value;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);

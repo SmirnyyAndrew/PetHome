@@ -102,9 +102,9 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("status");
 
         ////requisites
-        builder.OwnsOne(r => r.RequisitesDetails, d =>
+        builder.OwnsOne(r => r.Requisites, d =>
         {
-            d.ToJson();
+            d.ToJson("requisites");
             d.OwnsMany(d => d.Values, rb =>
             {
                 rb.Property(r => r.Name)
@@ -153,10 +153,10 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasColumnName("serial_number");
 
-      //photo details
-      builder.OwnsOne(d => d.MediaDetails, db =>
+      //photos
+      builder.OwnsOne(d => d.Medias, db =>
       {
-          db.ToJson();
+          db.ToJson("photos");
           db.OwnsMany(db => db.Values, pb =>
           {
               pb.Property(p => p.BucketName)

@@ -47,7 +47,7 @@ public class DeletePetMediaFilesUseCase
             if (pet == null)
                 return Errors.NotFound($"Питомец с id {deleteMediaRequest.DeletePetMediaFilesDto.PetId}");
 
-            List<string> oldFileNames = pet.MediaDetails.Values.Select(x => x.FileName).ToList();
+            List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
             List<Media> mediasToDelete = deleteMediaRequest.DeletePetMediaFilesDto.FilesName
                 .Intersect(oldFileNames)
                 .Select(m => Media.Create(deleteMediaRequest.DeletePetMediaFilesDto.BucketName, m).Value).ToList();

@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.Domain.Shared;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
 
@@ -15,18 +16,18 @@ public class Volunteer : SoftDeletableEntity
         Email email,
         Description description,
         Date startVolunteeringDate,
-        PhoneNumbersDetails phoneNumbersDetails,
-        SocialNetworkDetails socialNetworkDetails,
-        RequisitesDetails requisitesDetails)
+        ValueObjectList<PhoneNumber> phoneNumbers,
+        ValueObjectList<SocialNetwork> socialNetworks,
+        ValueObjectList<Requisites> requisites)
     {
         Id = id;
         FullName = fullName;
         Email = email;
         Description = description;
         StartVolunteeringDate = startVolunteeringDate;
-        PhoneNumberDetails = phoneNumbersDetails;
-        SocialNetworkDetails = socialNetworkDetails;
-        RequisitesDetails = requisitesDetails;
+        PhoneNumbers = phoneNumbers;
+        SocialNetworks = socialNetworks;
+        Requisites = requisites;
 
     }
 
@@ -39,12 +40,12 @@ public class Volunteer : SoftDeletableEntity
     public int HomedPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isHomed);
     public int FreePetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isFree);
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);
-    public PhoneNumbersDetails? PhoneNumberDetails { get; private set; }
-    public RequisitesDetails? RequisitesDetails { get; private set; }
-    public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
+    public ValueObjectList<PhoneNumber> PhoneNumbers { get; private set; }
+    public ValueObjectList<Requisites> Requisites { get; private set; }
+    public ValueObjectList<SocialNetwork> SocialNetworks { get; private set; }
 
 
-    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Where(pet => pet.Status == status && pet.VolunteerId == Id).Count();
+    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Count(pet => pet.Status == status && pet.VolunteerId == Id);
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
@@ -52,9 +53,9 @@ public class Volunteer : SoftDeletableEntity
         Email email,
         Description description,
         Date startVolunteeringDate,
-        PhoneNumbersDetails? phoneNumbersDetails,
-        SocialNetworkDetails? socialNetworkDetails,
-        RequisitesDetails? requisitesDetails)
+        ValueObjectList<PhoneNumber> phoneNumbers,
+        ValueObjectList<Requisites> requisites,
+        ValueObjectList<SocialNetwork> socialNetworks)
     {
         return new Volunteer(
             id,
@@ -62,21 +63,21 @@ public class Volunteer : SoftDeletableEntity
             email,
             description,
             startVolunteeringDate,
-            phoneNumbersDetails,
-            socialNetworkDetails,
-            requisitesDetails)
+            phoneNumbers,
+            socialNetworks,
+            requisites)
         { };
     }
 
     public void UpdateMainInfo(
         FullName fullName,
         Description description,
-        PhoneNumbersDetails phoneNumbersDetails,
+        ValueObjectList<PhoneNumber> phoneNumbers,
         Email email)
     {
         FullName = fullName;
         Description = description;
-        PhoneNumberDetails = phoneNumbersDetails;
+        PhoneNumbers = phoneNumbers;
         Email = email;
     }
 
@@ -105,7 +106,7 @@ public class Volunteer : SoftDeletableEntity
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails)
+        ValueObjectList<Requisites> requisites)
     {
         var result = Pet.Create(
               name,
@@ -120,7 +121,7 @@ public class Volunteer : SoftDeletableEntity
               isVaccinated,
               status,
               Id,
-              requisitesDetails);
+              requisites);
         if (result.IsFailure)
             return result.Error;
 

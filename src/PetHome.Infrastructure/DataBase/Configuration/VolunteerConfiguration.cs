@@ -61,10 +61,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        //phonenumbers
-        builder.OwnsOne(p => p.PhoneNumberDetails, d =>
+        //phone numbers
+        builder.OwnsOne(p => p.PhoneNumbers, d =>
         {
-            d.ToJson();
+            d.ToJson("phone_numbers");
             d.OwnsMany(d => d.Values, pb =>
             {
                 pb.Property(p => p.Value)
@@ -73,9 +73,9 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         //social networks
-        builder.OwnsOne(s => s.SocialNetworkDetails, d =>
+        builder.OwnsOne(s => s.SocialNetworks, d =>
         {
-            d.ToJson();
+            d.ToJson("social_networks");
             d.OwnsMany(d => d.Values, sb =>
             {
                 sb.Property(p => p.Value)
@@ -84,9 +84,9 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         //requisites
-        builder.OwnsOne(r => r.RequisitesDetails, d =>
+        builder.OwnsOne(r => r.Requisites, d =>
         {
-            d.ToJson();
+            d.ToJson("requisites");
             d.OwnsMany(d => d.Values, rb =>
             {
                 rb.Property(r => r.Name)
