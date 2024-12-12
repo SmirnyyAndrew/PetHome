@@ -108,6 +108,8 @@ public class Volunteer : SoftDeletableEntity
         PetStatusEnum status,
         ValueObjectList<Requisites> requisites)
     {
+        Pet.Pets = Pets;
+
         var result = Pet.Create(
               name,
               speciesId,
