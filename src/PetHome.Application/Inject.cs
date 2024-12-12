@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Background;
+using PetHome.Application.Features.Volunteers.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateBreedVolunteer;
 using PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateSpeciesVolunteer;
@@ -27,6 +28,7 @@ public static class Inject
         services.AddScoped<CreateBreedUseCase>();
         services.AddScoped<UploadPetMediaFilesUseCase>();
         services.AddScoped<DeletePetMediaFilesUseCase>();
+        services.AddScoped<ChangePetSerialNumberUseCase>();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         return services;
     }

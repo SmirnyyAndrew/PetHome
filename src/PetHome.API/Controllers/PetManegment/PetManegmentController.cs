@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Minio;
 using PetHome.API.Response;
 using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Features.Volunteers.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
 using PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
 using PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFilesVolunteer;
 using PetHome.Domain.Shared.Error;
 using PetHome.Infrastructure.Providers.Minio;
 
-namespace PetHome.API.Controllers.Volunteer;
+namespace PetHome.API.Controllers.PetManegment;
 
 public class PetManegmentController : ParentController
 {
@@ -116,5 +117,25 @@ public class PetManegmentController : ParentController
             return BadRequest(ResponseEnvelope.Error(deleteResult.Error)); ;
 
         return Ok(ResponseEnvelope.Ok(deleteResult.Value));
+    }
+
+
+    [HttpPatch("{volunteerId:guid}/pets/serial-number")]
+    public async Task<IActionResult> ChangeSerialNumber(
+        [FromRoute] Guid volunteerId,
+        [FromBody] ChangePetSerialNumberDto changeNumberDto,
+        [FromServices] ChangePetSerialNumberUseCase changeNumberUseCase,
+        CancellationToken ct = default)
+    {
+        ChangePetSerialNumberRequest request =
+            new ChangePetSerialNumberRequest(
+                volunteerId,
+                changeNumberDto);
+
+        var executeResult = await changeNumberUseCase.Execute(request, ct);
+        if (executeResult.IsFailure)
+            return BadRequest(ResponseEnvelope.Error(executeResult.Error));
+
+        return Ok(ResponseEnvelope.Ok(executeResult.Value));
     }
 }

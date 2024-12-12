@@ -3,7 +3,7 @@ using PetHome.API.Response;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateBreedVolunteer;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateSpeciesVolunteer;
 
-namespace PetHome.API.Controllers.Volunteer;
+namespace PetHome.API.Controllers.PetManegment;
 
 public class SpeciesBreedController : ParentController
 {

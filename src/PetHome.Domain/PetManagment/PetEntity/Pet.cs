@@ -4,13 +4,11 @@ using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared;
 using PetHome.Domain.Shared.Error;
 using PetHome.Domain.Shared.Interfaces;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 namespace PetHome.Domain.PetManagment.PetEntity;
 public class Pet : SoftDeletableEntity
 {
-    public static List<Pet> Pets { get; private set; } = new List<Pet>();
+    public static List<Pet> Pets { get; set; } = new List<Pet>();
 
     private Pet() { }
 
@@ -150,9 +148,7 @@ public class Pet : SoftDeletableEntity
         }
 
         SerialNumber = SerialNumber.Create(number);
-
         Pets = Pets.OrderBy(x => x.SerialNumber.Value).ToList();
-
         return Result.Success<Error>();
     }
 
