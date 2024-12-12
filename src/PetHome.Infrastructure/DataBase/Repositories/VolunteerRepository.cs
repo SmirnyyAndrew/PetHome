@@ -18,7 +18,6 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Guid> Add(Volunteer volunteer, CancellationToken ct = default)
     {
         await _dBContext.Volunteers.AddAsync(volunteer, ct);
-        await _dBContext.SaveChangesAsync(ct);
         return volunteer.Id;
     }
 
@@ -26,7 +25,6 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Guid> Update(Volunteer volunteer, CancellationToken ct = default)
     {
         _dBContext.Volunteers.Update(volunteer);
-        await _dBContext.SaveChangesAsync(ct);
         return volunteer.Id;
     }
 
@@ -35,8 +33,8 @@ public class VolunteerRepository : IVolunteerRepository
     {
         var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
-            .Include(p=>p.Pets) 
-            .ThenInclude(d=>d.MediaDetails)
+            .Include(p => p.Pets)
+            .ThenInclude(d => d.MediaDetails)
             .FirstOrDefaultAsync(ct);
         if (volunteer == null)
             return Errors.NotFound($"Волонтёр с id = {id}");
@@ -48,8 +46,6 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Guid> Remove(Volunteer volunteer, CancellationToken ct = default)
     {
         _dBContext.Remove(volunteer);
-        await _dBContext.SaveChangesAsync(ct);
-
         return volunteer.Id;
     }
 
@@ -64,14 +60,13 @@ public class VolunteerRepository : IVolunteerRepository
         return true;
     }
 
-     
+
 
 
     //Удалить коллекцию 
     public void Remove(IEnumerable<Volunteer> volunteers)
     {
         _dBContext.RemoveRange(volunteers);
-        _dBContext.SaveChanges();
     }
 
     public IReadOnlyList<Volunteer> GetDeleted(CancellationToken ct)

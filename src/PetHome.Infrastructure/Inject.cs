@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using Minio.AspNetCore;
+using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Infrastructure.DataBase;
@@ -22,6 +23,7 @@ public static class Inject
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
         services.AddMinio(configuration);
         services.AddScoped<IFilesProvider, MinioProvider>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

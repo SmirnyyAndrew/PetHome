@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
@@ -8,27 +9,42 @@ namespace PetHome.Application.Features.Volunteers.VolunteerManegment.HardDeleteV
 public class HardDeleteVolunteerUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
-    private readonly ILogger<HardDeleteVolunteerUseCase> _loger;
+    private readonly ILogger<HardDeleteVolunteerUseCase> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public HardDeleteVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
-        ILogger<HardDeleteVolunteerUseCase> logger)
+        ILogger<HardDeleteVolunteerUseCase> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteerRepository = volunteerRepository;
-        _loger = logger;
+        _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<bool, Error>> Execute(
         VolunteerId id, CancellationToken ct)
     {
-        var result = _volunteerRepository.RemoveById(id, ct).Result;
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+        try
+        {
+            var result = _volunteerRepository.RemoveById(id, ct).Result;
 
-        if (result.IsFailure)
-            return result.Error;
+            if (result.IsFailure)
+                return result.Error;
 
-        _loger.LogInformation("Волонтёр с id = {0} навсегда удалён", id);
+            await _unitOfWork.SaveChages(ct);
+            transaction.Commit();
 
-        return result.Value;
+            _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", id);
+            return result.Value;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            _logger.LogInformation($"Не удалось удалить навсегда волонтёра");
+            return Errors.Failure("Database.is.failed");
+        }
     }
 
 

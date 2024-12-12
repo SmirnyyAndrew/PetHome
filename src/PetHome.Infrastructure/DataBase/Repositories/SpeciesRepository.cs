@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Infrastructure.DataBase.Repositories;
@@ -19,7 +18,6 @@ public class SpeciesRepository : ISpeciesRepository
     public async Task<Result<Guid, Error>> Add(Species species, CancellationToken ct)
     {
         await _dbContext.Specieses.AddAsync(species, ct);
-        await _dbContext.SaveChangesAsync(ct);
         return species.Id.Value;
     }
 
@@ -53,8 +51,6 @@ public class SpeciesRepository : ISpeciesRepository
     public async Task<Guid> Remove(Species species, CancellationToken ct = default)
     {
         _dbContext.Remove(species);
-        await _dbContext.SaveChangesAsync(ct);
-
         return species.Id;
     }
 
@@ -70,14 +66,12 @@ public class SpeciesRepository : ISpeciesRepository
     public void Remove(IEnumerable<Species> species)
     {
         _dbContext.RemoveRange(species);
-        _dbContext.SaveChanges();
     }
 
     //Обновление вида
     public async Task<Guid> Update(Species species, CancellationToken ct)
     {
         _dbContext.Specieses.Update(species);
-        await _dbContext.SaveChangesAsync(ct);
         return species.Id;
     }
 

@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
@@ -10,13 +11,16 @@ public class UpdateMainInfoVolunteerUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<UpdateMainInfoVolunteerUseCase> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateMainInfoVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
-        ILogger<UpdateMainInfoVolunteerUseCase> logger)
+        ILogger<UpdateMainInfoVolunteerUseCase> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, Error>> Execute(
@@ -25,31 +29,44 @@ public class UpdateMainInfoVolunteerUseCase
     {
         UpdateMainInfoVolunteerDto updateInfoDto = request.UpdateMainInfoDto;
 
-        Volunteer volunteer = _volunteerRepository.GetById(request.Id, ct).Result.Value;
 
-        FullName fullName = FullName.Create(
-            updateInfoDto.FullNameDto.FirstName,
-            updateInfoDto.FullNameDto.LastName).Value;
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+        try
+        {
+            Volunteer volunteer = _volunteerRepository.GetById(request.Id, ct).Result.Value;
 
-        Description description = Description.Create(updateInfoDto.Description).Value;
+            FullName fullName = FullName.Create(
+                updateInfoDto.FullNameDto.FirstName,
+                updateInfoDto.FullNameDto.LastName).Value;
 
-        IEnumerable<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
-            .ToList()
-            .Select(p => PhoneNumber.Create(p).Value);
-        PhoneNumbersDetails phoneNumbersDetails = PhoneNumbersDetails.Create(phoneNumbers);
+            Description description = Description.Create(updateInfoDto.Description).Value;
 
-        Email email = Email.Create(updateInfoDto.Email).Value;
+            IEnumerable<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
+                .ToList()
+                .Select(p => PhoneNumber.Create(p).Value);
+            PhoneNumbersDetails phoneNumbersDetails = PhoneNumbersDetails.Create(phoneNumbers);
 
-        volunteer.UpdateMainInfo(
-            fullName,
-            description,
-            phoneNumbersDetails,
-            email);
+            Email email = Email.Create(updateInfoDto.Email).Value;
 
-        await _volunteerRepository.Update(volunteer, ct);
+            volunteer.UpdateMainInfo(
+                fullName,
+                description,
+                phoneNumbersDetails,
+                email);
 
-        _logger.LogInformation("Обновлена информация волонтёра с id = {0}", request.Id);
+            await _volunteerRepository.Update(volunteer, ct);
 
-        return request.Id;
+            await _unitOfWork.SaveChages(ct);
+            transaction.Commit();
+
+            _logger.LogInformation("Обновлена информация волонтёра с id = {0}", request.Id);
+            return request.Id;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            _logger.LogInformation($"Не удалось обнавить информацию волонтёра");
+            return Errors.Failure("Database.is.failed");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
@@ -11,16 +12,19 @@ public class CreateVolunteerUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
-        ILogger<CreateVolunteerUseCase> logger)
+        ILogger<CreateVolunteerUseCase> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Execute(
+    public async Task<Result<Guid, Error>> Execute(
         CreateVolunteerRequest request,
         CancellationToken ct)
     {
@@ -66,10 +70,22 @@ public class CreateVolunteerUseCase
             requisitesDetails)
             .Value;
 
-        var result = await _volunteerRepository.Add(volunteer, ct);
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+        try
+        {
+            var result = await _volunteerRepository.Add(volunteer, ct);
 
-        _logger.LogInformation("Волонетёр с id={0} был создан", volunteer.Id.Value);
+            await _unitOfWork.SaveChages(ct);
+            transaction.Commit();
 
-        return volunteer.Id.Value;
+            _logger.LogInformation("Волонетёр с id={0} был создан", volunteer.Id.Value);
+            return volunteer.Id.Value;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            _logger.LogInformation($"Не удалось создать волонтёра");
+            return Errors.Failure("Database.is.failed");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
@@ -12,13 +13,16 @@ public class UploadPetMediaFilesUseCase
 {
     private IVolunteerRepository _volunteerRepository;
     private ILogger<UploadPetMediaFilesUseCase> _logger;
+    private IUnitOfWork _unitOfWork;
 
     public UploadPetMediaFilesUseCase(
         IVolunteerRepository volunteerRepository,
-        ILogger<UploadPetMediaFilesUseCase> logger)
+        ILogger<UploadPetMediaFilesUseCase> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<string, Error>> Execute(
@@ -27,37 +31,50 @@ public class UploadPetMediaFilesUseCase
         Guid volunteerId,
         CancellationToken ct)
     {
-        var volunteerResult = await _volunteerRepository.GetById(volunteerId, ct);
-        if (volunteerResult.IsFailure)
-            return Errors.NotFound($"Волонтёр с id {volunteerId} не найден");
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+        try
+        {
+            var volunteerResult = await _volunteerRepository.GetById(volunteerId, ct);
+            if (volunteerResult.IsFailure)
+                return Errors.NotFound($"Волонтёр с id {volunteerId} не найден");
 
-        Volunteer volunteer = volunteerResult.Value;
-        Pet pet = volunteer.Pets
-            .FirstOrDefault(x => x.Id == uploadPetMediaRequest.UploadPetMediaDto.PetId);
-        if (pet == null)
-            return Errors.NotFound($"Питомец с id {uploadPetMediaRequest.UploadPetMediaDto.PetId} не найден");
-
-
-        var uploadResult = await filesProvider.UploadFile(
-                uploadPetMediaRequest.Streams,
-                uploadPetMediaRequest.UploadPetMediaDto.BucketName,
-                uploadPetMediaRequest.FileNames,
-                uploadPetMediaRequest.UploadPetMediaDto.CreateBucketIfNotExist,
-                ct);
-        if (uploadResult.IsFailure)
-            return uploadResult.Error;
+            Volunteer volunteer = volunteerResult.Value;
+            Pet pet = volunteer.Pets
+                .FirstOrDefault(x => x.Id == uploadPetMediaRequest.UploadPetMediaDto.PetId);
+            if (pet == null)
+                return Errors.NotFound($"Питомец с id {uploadPetMediaRequest.UploadPetMediaDto.PetId} не найден");
 
 
-        IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
+            var uploadResult = await filesProvider.UploadFile(
+                    uploadPetMediaRequest.Streams,
+                    uploadPetMediaRequest.UploadPetMediaDto.BucketName,
+                    uploadPetMediaRequest.FileNames,
+                    uploadPetMediaRequest.UploadPetMediaDto.CreateBucketIfNotExist,
+                    ct);
+            if (uploadResult.IsFailure)
+                return uploadResult.Error;
 
-        pet.UploadMedia(uploadPetMedias);
 
-        await _volunteerRepository.Update(volunteer, ct);
+            IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
 
-        string message = $"В bucket {uploadPetMediaRequest.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
-            $"у volunteer {volunteer.Id} добавлены следующие файлы:\n " +
-            $"{string.Join("\n", uploadResult.Value.Select(x => x.FileName))}";
-        _logger.LogInformation(message);
-        return message;
+            pet.UploadMedia(uploadPetMedias);
+
+            await _volunteerRepository.Update(volunteer, ct);
+
+            await _unitOfWork.SaveChages(ct);
+            transaction.Commit();
+
+            string message = $"В bucket {uploadPetMediaRequest.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
+                $"у volunteer {volunteer.Id} добавлены следующие файлы:\n " +
+                $"{string.Join("\n", uploadResult.Value.Select(x => x.FileName))}";
+            _logger.LogInformation(message);
+            return message;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            _logger.LogInformation($"Не удалось создать медиаданные питомца");
+            return Errors.Failure("Database.is.failed");
+        }
     }
 }
