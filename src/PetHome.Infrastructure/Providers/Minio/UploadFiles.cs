@@ -28,34 +28,27 @@ public partial class MinioProvider : IFilesProvider
             return Errors.Failure($"Bucket с именем {bucketName} не найден");
         }
 
-
         var semaphoreSlim = new SemaphoreSlim(MAX_STREAMS_LENGHT);
-        List<Task> uploadTasks = new List<Task>();
         List<Media> medias = new List<Media>();
-
-
-        for (int i = 0; i < streams.Count(); i++)
+        int index = 0;
+        IEnumerable<Task> uploadTasks = streams.Select(async stream =>
         {
-            await semaphoreSlim.WaitAsync(ct);
             try
             {
-                var taskResult = UploadFile(
-                            streams.ToList()[i],
-                            bucketName,
-                            fileNames.ToList()[i],
-                            createBucketIfNotExist,
-                            ct);
-                uploadTasks.Add(taskResult);
-
-
-                medias.Add(taskResult.Result.Value);
+                await semaphoreSlim.WaitAsync(ct);
+                var result = await UploadFile(
+                                stream,
+                                bucketName,
+                                fileNames.ToList()[index++],
+                                createBucketIfNotExist,
+                                ct);
+                medias.Add(result.Value);
             }
             finally
             {
                 semaphoreSlim.Release();
             }
-        }
-
+        });
         await Task.WhenAll(uploadTasks);
 
         string result = uploadTasks.Count(x => x.IsCompleted).ToString();
