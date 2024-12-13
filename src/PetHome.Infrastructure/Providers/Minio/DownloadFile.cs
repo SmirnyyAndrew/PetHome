@@ -34,11 +34,12 @@ public partial class MinioProvider : IFilesProvider
                 ObjectStat presignedUrl = await _minioClient.GetObjectAsync(minioFileArgs, ct)
                     .ConfigureAwait(false);
 
-                _logger.LogInformation($"Файл {fileName} из bucket {fileInfoDto.BucketName} сохранён по пути = {fileSavePath}");
+                _logger.LogInformation("Файл {0} из bucket {1} сохранён по пути = {2}",
+                    fileName, fileInfoDto.BucketName, fileSavePath);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Файл {fileName} в bucket {fileInfoDto.BucketName} не найден");
+                _logger.LogError("Файл {0} в bucket {1} не найден", fileName, fileInfoDto.BucketName);
             }
         }
         string message = $"В bucket {fileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", fileInfoDto.FileNames)}";

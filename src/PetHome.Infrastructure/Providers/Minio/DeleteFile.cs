@@ -22,7 +22,7 @@ public partial class MinioProvider : IFilesProvider
                 .WithObject(fileName);
             await _minioClient.RemoveObjectAsync(minioFileArgs).ConfigureAwait(false);
 
-            _logger.LogInformation($"Файл {fileInfoDto.FileNames} в bucket {fileInfoDto.BucketName}  успешно удалён");
+            _logger.LogInformation("Файл {0} в bucket {1}  успешно удалён", fileInfoDto.FileNames, fileInfoDto.BucketName);
         }
         string message = $"В bucket {fileInfoDto.BucketName} успешно удалены удалены:\n\t {string.Join("\n\t", fileInfoDto.FileNames)}";
         return message;

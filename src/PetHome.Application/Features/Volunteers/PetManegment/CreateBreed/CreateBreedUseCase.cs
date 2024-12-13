@@ -59,13 +59,13 @@ public class CreateBreedUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation($"Породы {breedsInLine} добавлена(-ы)");
+            _logger.LogInformation("Породы {0} добавлена(-ы)", breedsInLine);
             return updateBreedResult;
         }
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось создать породу животного");
+            _logger.LogInformation("Не удалось создать породу животного");
             return Errors.Failure("Database.is.failed");
         }
     }

@@ -73,7 +73,7 @@ public class UploadPetMediaFilesUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось создать медиаданные питомца");
+            _logger.LogInformation("Не удалось создать медиаданные питомца");
             return Errors.Failure("Database.is.failed");
         }
     }

@@ -57,7 +57,7 @@ public class ChangePetSerialNumberUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось изменить серийный номер питомца");
+            _logger.LogInformation("Не удалось изменить серийный номер питомца {0}", request.ChangeNumberDto.PetId);
             return Errors.Failure("Database.is.failed");
         }
     }

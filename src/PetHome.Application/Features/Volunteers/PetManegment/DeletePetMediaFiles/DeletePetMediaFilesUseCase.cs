@@ -74,7 +74,7 @@ public class DeletePetMediaFilesUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось удалить медиаданные питомца");
+            _logger.LogInformation("Не удалось удалить медиаданные питомца {0}", deleteMediaRequest.DeletePetMediaFilesDto.PetId);
             return Errors.Failure("Database.is.failed");
         }
     }

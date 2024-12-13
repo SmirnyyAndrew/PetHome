@@ -44,13 +44,13 @@ public class CreateSpeciesUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation($"Вид животного с именем {speciesName} добавлен");
+            _logger.LogInformation("Вид животного с именем {0} добавлен", speciesName);
             return addResult.Value;
         }
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось создать вид питомца");
+            _logger.LogInformation("Не удалось создать вид питомца");
             return Errors.Failure("Database.is.failed");
         }
     }

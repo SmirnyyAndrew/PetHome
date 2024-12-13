@@ -41,7 +41,7 @@ public class SoftRestoreVolunteerUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось восстановить волонтёра");
+            _logger.LogInformation("Не удалось восстановить волонтёра с id = {0}", id);
             return Errors.Failure("Database.is.failed");
         }
     }

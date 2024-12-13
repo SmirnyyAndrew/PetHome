@@ -17,15 +17,17 @@ public partial class MinioProvider : IFilesProvider
     {
         if (fileNames.Count() != streams.Count())
         {
-            _logger.LogError($"Несовпадение количества файлов и их Dto");
-            return Errors.Conflict($"Несовпадение количества файлов и их Dto");
+            string message = "Несовпадение количества файлов и их Dto";
+            _logger.LogError(message);
+            return Errors.Conflict(message);
         }
         var bucketExistingCheck = await CheckIsExistBucket(bucketName, ct);
         if (createBucketIfNotExist == false
             && bucketExistingCheck.IsFailure)
         {
-            _logger.LogError($"Bucket с именем {bucketName} не найден");
-            return Errors.Failure($"Bucket с именем {bucketName} не найден");
+            string message = $"Bucket с именем {bucketName} не найден";
+            _logger.LogError(message);
+            return Errors.Failure(message);
         }
 
         var semaphoreSlim = new SemaphoreSlim(MAX_STREAMS_LENGHT);
@@ -52,7 +54,8 @@ public partial class MinioProvider : IFilesProvider
         await Task.WhenAll(uploadTasks);
 
         string result = uploadTasks.Count(x => x.IsCompleted).ToString();
-        _logger.LogError($"В {bucketName} было добавлено {result} медиа файла(-ов)");
+        _logger.LogError("В {0} было добавлено {1} медиа файла(-ов)",
+          bucketName, result);
         return medias;
     }
 }

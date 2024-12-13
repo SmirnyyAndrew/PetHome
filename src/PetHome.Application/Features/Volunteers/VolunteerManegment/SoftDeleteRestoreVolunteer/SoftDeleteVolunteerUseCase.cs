@@ -41,7 +41,7 @@ public class SoftDeleteVolunteerUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось удалить (soft) волонтёра");
+            _logger.LogInformation("Не удалось удалить (soft) волонтёра с id = {0}", id);
             return Errors.Failure("Database.is.failed");
         }
     }

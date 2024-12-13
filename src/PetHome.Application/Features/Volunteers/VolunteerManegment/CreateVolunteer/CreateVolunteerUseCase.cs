@@ -71,13 +71,13 @@ public class CreateVolunteerUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation("Волонетёр с id={0} был создан", volunteer.Id.Value);
+            _logger.LogInformation("Волонетёр с id = {0} был создан", volunteer.Id.Value);
             return volunteer.Id.Value;
         }
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось создать волонтёра");
+            _logger.LogInformation("Не удалось создать волонтёра с id = {0}", volunteer.Id.Value);
             return Errors.Failure("Database.is.failed");
         }
     }

@@ -18,8 +18,9 @@ public partial class MinioProvider : IFilesProvider
         var isExistBucketResult = await CheckIsExistBucket(bucketName, ct);
         if (isExistBucketResult.IsFailure && createBucketIfNotExist == false)
         {
-            _logger.LogError($"Bucket с именем {bucketName} не найден");
-            return Errors.Failure($"Bucket с именем {bucketName} не найден");
+            string message = "Bucket с именем {bucketName} не найден";
+            _logger.LogError(message);
+            return Errors.Failure(message);
         }
         else
         {

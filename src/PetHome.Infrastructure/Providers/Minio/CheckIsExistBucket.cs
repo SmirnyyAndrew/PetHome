@@ -5,7 +5,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Infrastructure.Providers.Minio;
 public partial class MinioProvider : IFilesProvider
-{ 
+{
     // Проверить, существует ли bucket
     private async Task<Result<string, Error>> CheckIsExistBucket(string bucketName, CancellationToken ct)
     {
@@ -15,7 +15,7 @@ public partial class MinioProvider : IFilesProvider
 
         if (bucketNames.Any(x => x == bucketName) == false)
         {
-            _logger.LogError($"Bucket с именем {bucketName} не существует");
+            _logger.LogError("Bucket с именем {0} не существует", bucketName);
             return Errors.NotFound($"Bucket с именем {bucketName}");
         }
         return bucketName;

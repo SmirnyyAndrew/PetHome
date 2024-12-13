@@ -32,7 +32,7 @@ public class ExceptionMiddleware
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(envelope);
 
-            _logger.LogError("ОШИБКА " + ex, ex.Message);
+            _logger.LogError("ОШИБКА \n\r" + ex, ex.Message);
         }
     }
 }

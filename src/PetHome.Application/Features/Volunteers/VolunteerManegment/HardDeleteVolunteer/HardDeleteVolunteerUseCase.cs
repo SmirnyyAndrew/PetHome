@@ -36,13 +36,13 @@ public class HardDeleteVolunteerUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", id);
+            _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", id.Value);
             return result.Value;
         }
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось удалить навсегда волонтёра");
+            _logger.LogInformation("Не удалось удалить навсегда волонтёра");
             return Errors.Failure("Database.is.failed");
         }
     }

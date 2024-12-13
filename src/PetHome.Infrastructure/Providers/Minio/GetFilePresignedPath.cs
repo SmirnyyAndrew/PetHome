@@ -33,12 +33,14 @@ public partial class MinioProvider : IFilesProvider
                     .PresignedGetObjectAsync(minioPresignedArgs)
                     .ConfigureAwait(false);
 
-                _logger.LogInformation($"Для файла {fileName} в bucket {fileInfoDto.BucketName} получена временная ссылка для скачивание = {presignedUrl}");
+                _logger.LogInformation("Для файла {0} в bucket {1} получена временная ссылка для скачивание = {2}",
+                    fileName, fileInfoDto.BucketName, presignedUrl);
                 presignedPathes.Add(presignedUrl);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Source}\n{ex.InnerException}\nФайл {fileName} в bucket {fileInfoDto.BucketName} не найден");
+                _logger.LogError("{0}\n\t{1}\n\tФайл {2} в bucket {3} не найден",
+                   ex.Source, ex.InnerException, fileName, fileInfoDto.BucketName);
             }
         }
         return presignedPathes;

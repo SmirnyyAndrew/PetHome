@@ -64,7 +64,7 @@ public class UpdateMainInfoVolunteerUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation($"Не удалось обнавить информацию волонтёра");
+            _logger.LogInformation("Не удалось обнавить информацию волонтёра с id = {0}", request.Id);
             return Errors.Failure("Database.is.failed");
         }
     }
