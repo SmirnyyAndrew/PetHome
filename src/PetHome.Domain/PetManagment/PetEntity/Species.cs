@@ -14,7 +14,8 @@ public class Species
     }
     public SpeciesId Id { get; private set; }
     public SpeciesName Name { get; private set; }
-    public IReadOnlyList<Breed> Breeds { get; private set; }
+    private List<Breed> _breeds = [];
+    public IReadOnlyList<Breed> Breeds => _breeds;
 
     public static Result<Species, Error> Create(string name)
     {
@@ -28,7 +29,6 @@ public class Species
 
     public UnitResult<Error> UpdateBreeds(IEnumerable<string> breedNames)
     {
-        List<Breed> newBreads = new List<Breed>();
         foreach (var breed in breedNames)
         {
             bool isNotUniqueBreed = Breeds.Any(x => x.Name.Value.ToLower() == breed.ToLower());
@@ -39,10 +39,9 @@ public class Species
             if (createBreedResult.IsFailure)
                 return createBreedResult.Error;
 
-            newBreads.Add(createBreedResult.Value);
+            _breeds.Add(createBreedResult.Value);
         }
-        newBreads.AddRange(Breeds);
-        Breeds = newBreads;
+        _breeds.AddRange(Breeds);
         return Result.Success<Error>();
-    } 
+    }
 }
