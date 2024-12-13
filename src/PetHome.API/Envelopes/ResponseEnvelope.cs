@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Minio.DataModel;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Response;
@@ -12,7 +13,7 @@ public class ResponseEnvelope
     {
         Errors = errors?.ToList();
         Result = result;
-        TimeGenerated = DateTime.Now;
+        TimeGenerated = DateTime.UtcNow;
     }
 
     public static ResponseEnvelope Ok(object? result) => new ResponseEnvelope(result, null);
@@ -28,5 +29,17 @@ public class ResponseEnvelope
         }
 
         return Error(errors);
+    }
+
+    public static ResponseEnvelope ConvertObjectStat(ObjectStat objectStat)
+    {
+        var result = new
+        {
+            objectStat.ObjectName,
+            objectStat.Size,
+            objectStat.LastModified
+        };
+
+        return new ResponseEnvelope(result, null);
     }
 }

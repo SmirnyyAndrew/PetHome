@@ -14,7 +14,7 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
         builder.Property(i => i.Id)
             .HasConversion(
                 id => id.Value,
-                value => BreedId.Create(value))
+                value => BreedId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
 
@@ -26,12 +26,13 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
            .IsRequired()
            .HasColumnName("name");
 
-        //species id
-        builder.Property(i => i.SpeciesId)
-           .HasConversion(
-               id => id.Value,
-               value => SpeciesId.Create(value).Value)
-           .IsRequired()
-           .HasColumnName("species_id");
+        //Лишнее
+        ////species id
+        //builder.Property(i => i.SpeciesId)
+        //   .HasConversion(
+        //       id => id.Value,
+        //       value => SpeciesId.Create(value).Value)
+        //   .IsRequired()
+        //   .HasColumnName("species_id");
     }
 }

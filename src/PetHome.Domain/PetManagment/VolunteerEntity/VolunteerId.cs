@@ -1,4 +1,7 @@
-﻿namespace PetHome.Domain.PetManagment.VolunteerEntity;
+﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
+
+namespace PetHome.Domain.PetManagment.VolunteerEntity;
 public record VolunteerId
 {
     public Guid Value { get; }
@@ -10,12 +13,11 @@ public record VolunteerId
         Value = value;
     }
 
-    public static VolunteerId Create() => new VolunteerId(Guid.NewGuid());
+    public static Result<VolunteerId, Error> Create() => new VolunteerId(Guid.NewGuid());
 
-    public static VolunteerId Create(Guid id) => new VolunteerId(id);
+    public static Result<VolunteerId, Error> Create(Guid id) => new VolunteerId(id);
 
-    public static VolunteerId CreateEmpty() => new VolunteerId(Guid.Empty);
-
+    public static Result<VolunteerId, Error> CreateEmpty() => new VolunteerId(Guid.Empty);
 
     public static implicit operator Guid(VolunteerId volunteerId)
     {

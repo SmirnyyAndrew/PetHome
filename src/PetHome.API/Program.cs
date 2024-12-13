@@ -36,7 +36,7 @@ public class Program
 
         //Подключение сервисов
         builder.Services
-            .AddInfrastructure()
+            .AddInfrastructure(builder.Configuration)
             .AddApplication();
 
 
@@ -53,7 +53,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
             //Automigration
-            app.ApplyAutoMigrations();
+            //app.ApplyAutoMigrations();
         }
 
         app.UseHttpsRedirection();

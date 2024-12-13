@@ -1,16 +1,18 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Domain.Shared;
 using PetHome.Domain.Shared.Error;
+using PetHome.Domain.Shared.Interfaces;
 
 namespace PetHome.Domain.PetManagment.PetEntity;
-public class Pet
+public class Pet : SoftDeletableEntity
 {
+    public static List<Pet> Pets { get; set; } = new List<Pet>();
+
     private Pet() { }
 
     private Pet(
-        PetId Id,
         PetName name,
         SpeciesId speciesId,
         Description description,
@@ -22,10 +24,10 @@ public class Pet
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails,
-        Date profileCreateDate)
+        VolunteerId volunteerId,
+        ValueObjectList<Requisites> requisites)
     {
-        Id = Id;
+        Id = PetId.Create();
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -36,8 +38,10 @@ public class Pet
         IsCastrated = isCastrated;
         IsVaccinated = isVaccinated;
         Status = status;
-        RequisitesDetails = requisitesDetails;
-        ProfileCreateDate = profileCreateDate;
+        Requisites = requisites;
+        VolunteerId = volunteerId;
+        ProfileCreateDate = Date.Create(DateTime.UtcNow).Value; 
+        Medias = new List<Media>();
     }
 
 
@@ -53,44 +57,133 @@ public class Pet
     public Date? BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public PetStatusEnum Status;
-    public RequisitesDetails? RequisitesDetails { get; private set; }
+    public ValueObjectList<Requisites> Requisites { get; private set; }
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
+    public SerialNumber SerialNumber { get; private set; }
+    public ValueObjectList<Media> Medias { get; private set; }
 
     public static Result<Pet, Error> Create(
-        PetId id,
         PetName name,
         SpeciesId speciesId,
         Description description,
         BreedId breedId,
         Color color,
-        PetShelterId address,
+        PetShelterId ShelterId,
         double weight,
         bool isCastrated,
         Date birthDate,
         bool isVaccinated,
         PetStatusEnum status,
-        RequisitesDetails requisitesDetails,
-        Date profileCreateDate)
-    { 
-
+        VolunteerId volunteerId,
+        ValueObjectList<Requisites> requisites)
+    {
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
 
-        return new Pet(
-            id, 
-            name, 
-            speciesId, 
-            description, 
-            breedId, 
-            color, 
-            address, 
-            weight, 
-            isCastrated, 
+        Pet pet = new Pet(
+            name,
+            speciesId,
+            description,
+            breedId,
+            color,
+            ShelterId,
+            weight,
+            isCastrated,
             birthDate,
-            isVaccinated, 
-            status, 
-            requisitesDetails, 
-            profileCreateDate) { };
+            isVaccinated,
+            status,
+            volunteerId,
+            requisites);
+
+        pet.InitSerialNumer();
+        Pets.Add(pet);
+        return pet;
+    }
+
+    public override void SoftDelete() => base.SoftDelete();
+    public override void SoftRestore() => base.SoftRestore();
+
+    // Присвоить serial number = max + 1
+    public UnitResult<Error> InitSerialNumer()
+    {
+        SerialNumber serialNumber = Pets.Count == 0
+            ? SerialNumber.Create(1)
+            : SerialNumber.Create(Pets.Select(x => x.SerialNumber.Value).Max() + 1);
+
+        SerialNumber = serialNumber;
+        return Result.Success<Error>();
+    }
+
+    //Изменить serial number
+    public UnitResult<Error> ChangeSerialNumber(int number)
+    {
+        if (Pets.Count == 0)
+        {
+            InitSerialNumer();
+            return Result.Success<Error>();
+        }
+
+        int maxSerialNumber = Pets.Max(s => s.SerialNumber.Value);
+        if (number > maxSerialNumber || number < 1)
+        {
+            return Errors.Conflict($"Новый серийный номер {number} не можеть превышать максимальное значение {maxSerialNumber} и быть меньше 1");
+        }
+
+        if (number > SerialNumber.Value)
+        {
+            Pets.Where(p =>
+              p.SerialNumber.Value > SerialNumber.Value
+              && p.SerialNumber.Value <= number)
+          .ToList()
+         .ForEach(s => s.SerialNumber = SerialNumber.Create(s.SerialNumber.Value - 1));
+        }
+        else if (number < SerialNumber.Value)
+        {
+            Pets.Where(p =>
+               p.SerialNumber.Value < SerialNumber.Value
+               && p.SerialNumber.Value >= number)
+           .ToList()
+           .ForEach(s => s.SerialNumber = SerialNumber.Create(s.SerialNumber.Value + 1));
+        }
+
+        SerialNumber = SerialNumber.Create(number);
+        Pets = Pets.OrderBy(x => x.SerialNumber.Value).ToList();
+        return Result.Success<Error>();
+    }
+
+    // Присвоить serial number =  1
+    public UnitResult<Error> ChangeSerialNumberToBegining()
+    {
+        return ChangeSerialNumber(1);
+    }
+
+    //Добавить медиа
+    public UnitResult<Error> UploadMedia(IEnumerable<Media> mediasToUpload)
+    {
+        List<Media> newMediaFiles = new List<Media>();
+        newMediaFiles.AddRange(mediasToUpload);
+
+        IReadOnlyList<Media> oldMedias = Medias.Values.ToList();
+        oldMedias.ToList().ForEach(x => newMediaFiles.Add(Media.Create(x.BucketName, x.FileName).Value));
+
+        //Medias = MediaDetails.Create(newMediaFiles).Value;
+        Medias = newMediaFiles;
+
+        return Result.Success<Error>();
+    }
+
+    //Удалить медиа
+    public UnitResult<Error> RemoveMedia(IEnumerable<Media> mediasToDelete)
+    {
+        List<Media> oldMediaFiles = Medias.Values
+            .Select(m => Media.Create(m.BucketName, m.FileName).Value).ToList();
+
+        List<Media> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
+
+        //Medias = MediaDetails.Create(newMediaFiles).Value;
+        Medias = newMediaFiles;
+
+        return Result.Success<Error>();
     }
 }

@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.VolunteerEntity;
-using PetHome.Domain.Shared;
 
 namespace PetHome.Infrastructure.DataBase.Configuration;
 public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
@@ -17,7 +15,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(i => i.Id)
             .HasConversion(
                 id => id.Value,
-                value => VolunteerId.Create(value))
+                value => VolunteerId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
 
@@ -42,13 +40,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasColumnName("email");
 
         //desc
-        builder.Property(d=>d.Description)
+        builder.Property(d => d.Description)
             .HasConversion(
-                desc=>desc.Value,
-                value=>Description.Create(value).Value)
+                desc => desc.Value,
+                value => Description.Create(value).Value)
             .IsRequired()
             .HasColumnName("description");
-                
+
         //StartVolunteeringDate
         builder.Property(i => i.StartVolunteeringDate)
             .HasConversion(
@@ -63,10 +61,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        //phonenumbers
-        builder.OwnsOne(p => p.PhoneNumberDetails, d =>
+        //phone numbers
+        builder.OwnsOne(p => p.PhoneNumbers, d =>
         {
-            d.ToJson();
+            d.ToJson("phone_numbers");
             d.OwnsMany(d => d.Values, pb =>
             {
                 pb.Property(p => p.Value)
@@ -75,9 +73,9 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         //social networks
-        builder.OwnsOne(s => s.SocialNetworkDetails, d =>
+        builder.OwnsOne(s => s.SocialNetworks, d =>
         {
-            d.ToJson();
+            d.ToJson("social_networks");
             d.OwnsMany(d => d.Values, sb =>
             {
                 sb.Property(p => p.Value)
@@ -86,9 +84,9 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         //requisites
-        builder.OwnsOne(r => r.RequisitesDetails, d =>
+        builder.OwnsOne(r => r.Requisites, d =>
         {
-            d.ToJson();
+            d.ToJson("requisites");
             d.OwnsMany(d => d.Values, rb =>
             {
                 rb.Property(r => r.Name)
@@ -101,5 +99,15 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .IsRequired();
             });
         });
+
+        //Is soft deleted
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
+
+        //has been deleted date
+        builder.Property<DateTime>("DeletionDate")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("soft_deleted_date");
     }
 }

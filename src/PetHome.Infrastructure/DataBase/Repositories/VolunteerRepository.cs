@@ -1,7 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Application.Features.Volunteers;
+using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Infrastructure.DataBase.Repositories;
 public class VolunteerRepository : IVolunteerRepository
@@ -17,25 +18,26 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Guid> Add(Volunteer volunteer, CancellationToken ct = default)
     {
         await _dBContext.Volunteers.AddAsync(volunteer, ct);
-        await _dBContext.SaveChangesAsync(ct);
         return volunteer.Id;
     }
 
     //Изменение волонтёра
     public async Task<Guid> Update(Volunteer volunteer, CancellationToken ct = default)
     {
-        _dBContext.Volunteers.Attach(volunteer); 
-        await _dBContext.SaveChangesAsync(ct);
+        _dBContext.Volunteers.Update(volunteer);
         return volunteer.Id;
     }
 
     //Найти волонтера по ID
-    public async Task<Volunteer> GetById(Guid id, CancellationToken ct = default)
+    public async Task<Result<Volunteer, Error>> GetById(Guid id, CancellationToken ct = default)
     {
         var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
-            .Include(x => x.Pets)
+            .Include(p => p.Pets)
+            .ThenInclude(d => d.Medias)
             .FirstOrDefaultAsync(ct);
+        if (volunteer == null)
+            return Errors.NotFound($"Волонтёр с id = {id}");
 
         return volunteer;
     }
@@ -44,20 +46,33 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Guid> Remove(Volunteer volunteer, CancellationToken ct = default)
     {
         _dBContext.Remove(volunteer);
-        await _dBContext.SaveChangesAsync(ct);
-
         return volunteer.Id;
     }
 
     //Удаление волонтера по id
-    public async Task<bool> RemoveById(Guid id, CancellationToken ct = default)
+    public async Task<Result<bool, Error>> RemoveById(VolunteerId id, CancellationToken ct = default)
     {
-        Volunteer volunteer = GetById(id).Result;
+        var result = GetById(id, ct);
+        if (result.Result.IsFailure)
+            return result.Result.Error;
 
-        if (volunteer == null)
-            return false;
-
-        await Remove(volunteer, ct);
+        await Remove(result.Result.Value, ct);
         return true;
+    }
+
+
+
+
+    //Удалить коллекцию 
+    public void Remove(IEnumerable<Volunteer> volunteers)
+    {
+        _dBContext.RemoveRange(volunteers);
+    }
+
+    public IReadOnlyList<Volunteer> GetDeleted(CancellationToken ct)
+    {
+        return _dBContext.Volunteers
+            .Where(x => x._isDeleted == true)
+            .ToList();
     }
 }

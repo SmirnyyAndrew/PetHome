@@ -51,7 +51,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.BreedId)
             .HasConversion(
                 b => b.Value,
-                value => BreedId.Create(value))
+                value => BreedId.Create(value).Value)
             .IsRequired(false)
             .HasColumnName("breed_id");
 
@@ -67,7 +67,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.ShelterId)
             .HasConversion(
                 id => id.Value,
-                value => PetShelterId.Create(value))
+                value => PetShelterId.Create(value).Value)
             .IsRequired()
             .HasColumnName("shelter_id");
 
@@ -102,9 +102,9 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("status");
 
         ////requisites
-        builder.OwnsOne(r => r.RequisitesDetails, d =>
+        builder.OwnsOne(r => r.Requisites, d =>
         {
-            d.ToJson();
+            d.ToJson("requisites");
             d.OwnsMany(d => d.Values, rb =>
             {
                 rb.Property(r => r.Name)
@@ -130,8 +130,41 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.VolunteerId)
             .HasConversion(
                 id => id.Value,
-                value => VolunteerId.Create(value))
+                value => VolunteerId.Create(value).Value)
             .IsRequired()
             .HasColumnName("volunteer_id");
+
+        //is soft deleted
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
+
+        //has been soft deleted date
+        builder.Property<DateTime>("DeletionDate")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .IsRequired()
+            .HasColumnName("soft_deleted_date");
+
+        //serial number
+        builder.Property(s => s.SerialNumber)
+            .HasConversion(
+                num => num.Value,
+                value => SerialNumber.Create(value))
+            .IsRequired()
+            .HasColumnName("serial_number");
+
+      //photos
+      builder.OwnsOne(d => d.Medias, db =>
+      {
+          db.ToJson("photos");
+          db.OwnsMany(db => db.Values, pb =>
+          {
+              pb.Property(p => p.BucketName)
+              .IsRequired();
+      
+              pb.Property(p => p.FileName)
+              .IsRequired();
+          });
+      });
     }
 }
