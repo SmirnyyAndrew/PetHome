@@ -35,37 +35,23 @@ public class CreateBreedUseCase
                 return Errors.NotFound($"Вид животного с id {createBreedRequst.SpeciesId} не найден");
 
             Species species = getSpeciesByIdResult.Value;
+            var updateBreedResult = species.UpdateBreeds(createBreedRequst.Breeds);
+            if (updateBreedResult.IsFailure)
+                return updateBreedResult.Error;
 
-            List<Breed> breeds = new List<Breed>();
-            foreach (var breed in createBreedRequst.Breeds)
-            {
-                var createBreedResult = Breed.Create(breed, createBreedRequst.SpeciesId);
-                bool isNotUniqueBreed = species.Breeds.Select(x => x.Name.Value.ToLower() == breed.ToLower()).Any();
-                if (isNotUniqueBreed)
-                    return Errors.Conflict($"Порода с именем {breed} уже существует");
-
-                if (createBreedResult.IsFailure)
-                    return createBreedResult.Error;
-
-                breeds.Add(createBreedResult.Value);
-            }
-
-            species.UpdateBreeds(breeds);
-
-            var updateBreedResult = _speciesRepository.Update(species, ct).Result;
-
-            string breedsInLine = string.Join(", ", breeds.Select(x => x.Name).ToList());
+            var updateRepositoryResult = await _speciesRepository.Update(species, ct);
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
+            string breedsInLine = string.Join(", ", createBreedRequst.Breeds);
             _logger.LogInformation("Породы {0} добавлена(-ы)", breedsInLine);
-            return updateBreedResult;
+            return updateRepositoryResult;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             transaction.Rollback();
-            _logger.LogInformation("Не удалось создать породу животного");
+            _logger.LogInformation("Не удалось создать породу животного\n\r{0}", ex);
             return Errors.Failure("Database.is.failed");
         }
     }
