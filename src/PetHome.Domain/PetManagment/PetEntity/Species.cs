@@ -14,7 +14,7 @@ public class Species
     }
     public SpeciesId Id { get; private set; }
     public SpeciesName Name { get; private set; }
-    public List<Breed> Breeds { get; private set; } = new List<Breed>();
+    public IReadOnlyList<Breed> Breeds { get; private set; }
 
     public static Result<Species, Error> Create(string name)
     {
@@ -31,17 +31,18 @@ public class Species
         List<Breed> newBreads = new List<Breed>();
         foreach (var breed in breedNames)
         {
-            var createBreedResult = Breed.Create(breed, Id.Value);
             bool isNotUniqueBreed = Breeds.Any(x => x.Name.Value.ToLower() == breed.ToLower());
             if (isNotUniqueBreed)
                 return Errors.Conflict($"Порода с именем {breed} уже существует");
 
+            var createBreedResult = Breed.Create(breed, Id.Value);
             if (createBreedResult.IsFailure)
                 return createBreedResult.Error;
 
             newBreads.Add(createBreedResult.Value);
         }
-        Breeds.AddRange(newBreads);
+        newBreads.AddRange(Breeds);
+        Breeds = newBreads;
         return Result.Success<Error>();
     } 
 }
