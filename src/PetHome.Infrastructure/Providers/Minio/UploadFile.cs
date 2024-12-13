@@ -12,26 +12,20 @@ public partial class MinioProvider : IFilesProvider
     public async Task<Result<Media, Error>> UploadFile(
         Stream stream,
         string bucketName,
-        string filename,
+        MinioFileName filename,
         bool createBucketIfNotExist,
-        CancellationToken ct)
-
-    {
-        //Расширение файла
-        string fileExtension = Path.GetExtension(filename);
-
-        Guid newFilePath = Guid.NewGuid();
-        string fullName = $"{newFilePath}{fileExtension}";
+        CancellationToken ct) 
+    {   
         PutObjectArgs minioFileArgs = new PutObjectArgs()
         .WithBucket(bucketName.ToLower())
             .WithStreamData(stream)
             .WithObjectSize(stream.Length)
-            .WithObject(fullName);
+            .WithObject(filename.Value);
 
         var result = await _minioClient.PutObjectAsync(minioFileArgs, ct);
         string message = $"Файл {result.ObjectName} загружен в bucket = {bucketName}";
         _logger.LogInformation(message);
 
-        return Media.Create(bucketName, fullName);
+        return Media.Create(bucketName, filename.Value);
     }
 }

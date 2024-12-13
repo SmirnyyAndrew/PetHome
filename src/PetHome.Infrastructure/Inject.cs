@@ -6,8 +6,10 @@ using Minio.AspNetCore;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
+using PetHome.Infrastructure.Background;
 using PetHome.Infrastructure.DataBase;
 using PetHome.Infrastructure.DataBase.Repositories;
+using PetHome.Infrastructure.MessageQueues;
 using PetHome.Infrastructure.Options;
 using PetHome.Infrastructure.Providers.Minio;
 using MinioOptions = PetHome.Infrastructure.Options.MinioOptions;
@@ -22,8 +24,11 @@ public static class Inject
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
         services.AddMinio(configuration);
-        services.AddScoped<IFilesProvider, MinioProvider>();
+        //services.AddScoped<IFilesProvider, MinioProvider>();
+        services.AddSingleton<IFilesProvider, MinioProvider>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
+        services.AddHostedService<FilesCleanerHostedService>();
         return services;
     }
 

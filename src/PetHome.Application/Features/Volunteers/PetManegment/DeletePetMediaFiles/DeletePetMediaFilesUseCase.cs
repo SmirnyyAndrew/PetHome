@@ -9,6 +9,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 using PetHome.Infrastructure.Providers.Minio;
+using System.IO.Pipelines;
 using System.Linq;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
@@ -56,7 +57,7 @@ public class DeletePetMediaFilesUseCase
             await _volunteerRepository.Update(volunteer, ct);
 
 
-            MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(
+            FileInfoDto minioFileInfoDto = new FileInfoDto(
                 deleteMediaRequest.DeletePetMediaFilesDto.BucketName,
                 mediasToDelete.Select(x => x.FileName));
 

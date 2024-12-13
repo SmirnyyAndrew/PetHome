@@ -10,7 +10,7 @@ public partial class MinioProvider : IFilesProvider
 {
     //Скачать файл
     public async Task<Result<string, Error>> DownloadFile(
-         MinioFileInfoDto fileInfoDto, string fileSavePath, CancellationToken ct)
+         FileInfoDto fileInfoDto, string fileSavePath, CancellationToken ct)
     {
         var isExistBucketResult = await CheckIsExistBucket(fileInfoDto.BucketName, ct);
         if (isExistBucketResult.IsFailure)
@@ -43,6 +43,7 @@ public partial class MinioProvider : IFilesProvider
             }
         }
         string message = $"В bucket {fileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", fileInfoDto.FileNames)}";
+        _logger.LogInformation(message);
         return message;
     }
 }

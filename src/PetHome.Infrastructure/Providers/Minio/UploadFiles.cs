@@ -11,7 +11,7 @@ public partial class MinioProvider : IFilesProvider
     public async Task<Result<IReadOnlyList<Media>, Error>> UploadFile(
         IEnumerable<Stream> streams,
         string bucketName,
-        IEnumerable<string> fileNames,
+        IEnumerable<MinioFileName> fileNames,
         bool createBucketIfNotExist,
         CancellationToken ct)
     {
@@ -51,10 +51,10 @@ public partial class MinioProvider : IFilesProvider
                 semaphoreSlim.Release();
             }
         });
-        await Task.WhenAll(uploadTasks);
+        await Task.WhenAll(uploadTasks); 
 
         string result = uploadTasks.Count(x => x.IsCompleted).ToString();
-        _logger.LogError("В {0} было добавлено {1} медиа файла(-ов)",
+        _logger.LogInformation("В {0} было добавлено {1} медиа файла(-ов)",
           bucketName, result);
         return medias;
     }
