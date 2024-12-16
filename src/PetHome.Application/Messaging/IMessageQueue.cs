@@ -1,4 +1,4 @@
-﻿namespace PetHome.Infrastructure.MessageQueues;
+﻿namespace PetHome.Application.Messaging;
 
 public interface IMessageQueue
 {

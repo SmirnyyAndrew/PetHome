@@ -5,7 +5,7 @@ using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers.PetManegment.CreateSpeciesVolunteer;
+namespace PetHome.Application.Features.Volunteers.PetManegment.CreateSpecies;
 public class CreateSpeciesUseCase
 {
     private readonly ISpeciesRepository _speciesRepository;

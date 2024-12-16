@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Interfaces;
-using PetHome.Infrastructure.MessageQueues;
+using PetHome.Application.Messaging;
 using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.Infrastructure.Background;

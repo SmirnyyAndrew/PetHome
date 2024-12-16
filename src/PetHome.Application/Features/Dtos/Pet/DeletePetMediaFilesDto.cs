@@ -1,4 +1,4 @@
-﻿namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
+﻿namespace PetHome.Application.Features.Dtos.Pet;
 
 public record DeletePetMediaFilesDto(
     Guid PetId,

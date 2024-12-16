@@ -2,12 +2,12 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
-using PetHome.API.Response;
+using PetHome.API.Envelopes;
 using PetHome.Application.Features.Dtos.Pet;
 using PetHome.Application.Features.Volunteers.PetManegment.ChangeSerialNumber;
-using PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
+using PetHome.Application.Features.Volunteers.PetManegment.CreatePet;
 using PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
-using PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFilesVolunteer;
+using PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFiles;
 using PetHome.Domain.Shared.Error;
 using PetHome.Infrastructure.Providers.Minio;
 

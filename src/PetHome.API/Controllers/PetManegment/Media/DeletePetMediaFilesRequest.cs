@@ -1,4 +1,5 @@
-﻿using PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
+﻿using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
 
 public record DeletePetMediaFilesRequest(
     Guid VolunteerId,

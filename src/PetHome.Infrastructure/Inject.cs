@@ -6,6 +6,7 @@ using Minio.AspNetCore;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
+using PetHome.Application.Messaging;
 using PetHome.Infrastructure.Background;
 using PetHome.Infrastructure.DataBase;
 using PetHome.Infrastructure.DataBase.Repositories;

@@ -1,4 +1,5 @@
-﻿using PetHome.Infrastructure.Providers.Minio;
+﻿using PetHome.Application.Messaging;
+using PetHome.Infrastructure.Providers.Minio;
 using System.Threading.Channels;
 
 namespace PetHome.Infrastructure.MessageQueues;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Minio;
 using PetHome.API.Controllers.PetManegment.Media;
-using PetHome.API.Response;
+using PetHome.API.Envelopes;
 using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.API.Controllers.Volunteer;

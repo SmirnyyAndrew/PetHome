@@ -3,13 +3,13 @@ using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
+using PetHome.Application.Messaging;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.MessageQueues;
 
-namespace PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFilesVolunteer;
+namespace PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFiles;
 public class UploadPetMediaFilesUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;

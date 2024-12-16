@@ -8,7 +8,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
+namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePet;
 public class CreatePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;

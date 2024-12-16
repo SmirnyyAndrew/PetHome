@@ -1,4 +1,6 @@
-﻿namespace PetHome.Application.Features.Volunteers.PetManegment.CreateBreedVolunteer;
+﻿using PetHome.Application.Features.Volunteers.PetManegment.CreateBreed;
+
+namespace PetHome.API.Controllers.PetManegment.Requests;
 
 public record CreateBreedRequst(Guid SpeciesId, IEnumerable<string> Breeds)
 {

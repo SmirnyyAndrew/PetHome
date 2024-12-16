@@ -1,5 +1,5 @@
 ﻿using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFilesVolunteer;
+using PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFiles;
 
 public record UploadPetMediaFilesRequest(
     IEnumerable<Stream> Streams,
