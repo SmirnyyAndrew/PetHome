@@ -8,7 +8,6 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 using PetHome.Infrastructure.MessageQueues;
-using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFilesVolunteer;
 public class UploadPetMediaFilesUseCase
@@ -53,15 +52,18 @@ public class UploadPetMediaFilesUseCase
             List<MinioFileName> initedMinioFileNames = uploadPetMediaCommand.FileNames
                 .Select(n => filesProvider.InitName(n))
                 .ToList();
+            MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
+                uploadPetMediaCommand.UploadPetMediaDto.BucketName,
+                initedMinioFileNames);
             var uploadResult = await filesProvider.UploadFile(
-                    uploadPetMediaCommand.Streams,
-                    uploadPetMediaCommand.UploadPetMediaDto.BucketName,
-                    initedMinioFileNames,
-                    uploadPetMediaCommand.UploadPetMediaDto.CreateBucketIfNotExist,
-                    ct);
+                uploadPetMediaCommand.Streams,
+                minioFilesInfoDto,
+                uploadPetMediaCommand.UploadPetMediaDto.CreateBucketIfNotExist,
+                ct);
+
             if (uploadResult.IsFailure)
             {
-                MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(
+                MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
                     uploadPetMediaCommand.UploadPetMediaDto.BucketName,
                     initedMinioFileNames);
                 await _messageQueue.WriteAsync(minioFileInfoDto, ct);

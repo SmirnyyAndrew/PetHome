@@ -1,5 +1,4 @@
-﻿using PetHome.Application.Features.Dtos.Volunteer;
-using PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer;
+﻿using PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer;
 
 public record UpdateMainInfoVolunteerRequest(
     Guid Id,
@@ -7,8 +6,8 @@ public record UpdateMainInfoVolunteerRequest(
 {
     public static implicit operator UpdateMainInfoVolunteerCommand(UpdateMainInfoVolunteerRequest request)
     {
-        PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer.UpdateMainInfoVolunteerDto dto =
-            new(request.UpdateMainInfoDto.FullNameDto,
+        UpdateMainInfoVolunteerDto dto = new UpdateMainInfoVolunteerDto(
+            request.UpdateMainInfoDto.FullNameDto,
             request.UpdateMainInfoDto.Description,
             request.UpdateMainInfoDto.PhoneNumbers,
             request.UpdateMainInfoDto.Email);
@@ -16,10 +15,4 @@ public record UpdateMainInfoVolunteerRequest(
         return new UpdateMainInfoVolunteerCommand(
             request.Id, dto);
     }
-}
-
-public record UpdateMainInfoVolunteerDto(
-    FullNameDto FullNameDto,
-    string Description,
-    IEnumerable<string> PhoneNumbers,
-    string Email);
+} 

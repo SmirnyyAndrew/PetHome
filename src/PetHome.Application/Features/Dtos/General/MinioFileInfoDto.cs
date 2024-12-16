@@ -1,2 +1,1 @@
-﻿namespace PetHome.Infrastructure.Providers.Minio;
-public record MinioFileInfoDto(string BucketName, IEnumerable<MinioFileName> FileNames);
+﻿public record MinioFileInfoDto(string BucketName, MinioFileName FileName);

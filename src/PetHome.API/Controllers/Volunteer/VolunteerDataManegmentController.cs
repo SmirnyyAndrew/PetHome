@@ -107,7 +107,7 @@ public class VolunteerDataManegmentController : ParentController
         [FromServices] SoftDeletedEntitiesToHardDeleteUseCase useCase,
         CancellationToken ct = default)
     {
-        var result = await useCase.Execute(ct);
+        var result = useCase.Execute(ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 

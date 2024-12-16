@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
@@ -8,8 +7,6 @@ using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.Providers.Minio;
-using System.Linq;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
 public class DeletePetMediaFilesUseCase
@@ -55,10 +52,10 @@ public class DeletePetMediaFilesUseCase
 
             await _volunteerRepository.Update(volunteer, ct);
 
-
-            MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(
+            List<MinioFileName> minioFileNames = mediasToDelete.Select(m => MinioFileName.Create(m.FileName).Value).ToList();
+            MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
                 deleteMediaCommand.DeletePetMediaFilesDto.BucketName,
-                mediasToDelete.Select(x => x.FileName));
+                minioFileNames);
 
             var deleteResult = await filesProvider.DeleteFile(minioFileInfoDto, ct);
             if (deleteResult.IsFailure)

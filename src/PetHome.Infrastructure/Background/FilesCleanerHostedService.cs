@@ -33,9 +33,9 @@ public class FilesCleanerHostedService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             var readResult = await _messageQueue.ReadAsync(stoppingToken); 
-            FileInfoDto fileInfoDto = new FileInfoDto(
+            MinioFilesInfoDto fileInfoDto = new MinioFilesInfoDto(
                 readResult.BucketName,
-                readResult.FileNames.Select(f => f.Value));
+                readResult.FileNames.Select(f => MinioFileName.Create(f.Value).Value));
 
             await _filesProvider.DeleteFile(fileInfoDto, stoppingToken);
         }
