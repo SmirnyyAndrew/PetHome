@@ -11,7 +11,7 @@ public partial class MinioProvider : IFilesProvider
     public async Task<UnitResult<Error>> UploadFileWithDataChecking(
         Stream stream,
         string bucketName,
-        string filename,
+        MinioFileName filename,
         bool createBucketIfNotExist,
         CancellationToken ct)
     {

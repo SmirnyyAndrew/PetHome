@@ -9,7 +9,7 @@ public partial class MinioProvider : IFilesProvider
 {
     //Удалить файлы
     public async Task<Result<string, Error>> DeleteFile(
-         MinioFileInfoDto fileInfoDto, CancellationToken ct)
+         FileInfoDto fileInfoDto, CancellationToken ct)
     {
         var isExistBucketResult = await CheckIsExistBucket(fileInfoDto.BucketName, ct);
         if (isExistBucketResult.IsFailure)
@@ -25,6 +25,7 @@ public partial class MinioProvider : IFilesProvider
             _logger.LogInformation("Файл {0} в bucket {1}  успешно удалён", fileInfoDto.FileNames, fileInfoDto.BucketName);
         }
         string message = $"В bucket {fileInfoDto.BucketName} успешно удалены удалены:\n\t {string.Join("\n\t", fileInfoDto.FileNames)}";
+        _logger.LogInformation(message);
         return message;
     }
 }

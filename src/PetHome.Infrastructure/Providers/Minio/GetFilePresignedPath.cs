@@ -9,7 +9,7 @@ public partial class MinioProvider : IFilesProvider
 
 { //Получить ссылку на файл
     public async Task<Result<List<string>, Error>> GetFilePresignedPath(
-        MinioFileInfoDto fileInfoDto, CancellationToken ct)
+        FileInfoDto fileInfoDto, CancellationToken ct)
     {
         List<string> presignedPathes = new List<string>();
 

@@ -7,22 +7,27 @@ using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
+using PetHome.Infrastructure.MessageQueues;
+using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFilesVolunteer;
 public class UploadPetMediaFilesUseCase
 {
-    private IVolunteerRepository _volunteerRepository;
-    private ILogger<UploadPetMediaFilesUseCase> _logger;
-    private IUnitOfWork _unitOfWork;
+    private readonly IVolunteerRepository _volunteerRepository;
+    private readonly ILogger<UploadPetMediaFilesUseCase> _logger;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMessageQueue _messageQueue;
 
     public UploadPetMediaFilesUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<UploadPetMediaFilesUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IMessageQueue messageQueue)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _messageQueue = messageQueue;
     }
 
     public async Task<Result<string, Error>> Execute(
@@ -45,15 +50,23 @@ public class UploadPetMediaFilesUseCase
                 return Errors.NotFound($"Питомец с id {uploadPetMediaRequest.UploadPetMediaDto.PetId} не найден");
 
 
+            List<MinioFileName> initedMinioFileNames = uploadPetMediaRequest.FileNames
+                .Select(n => filesProvider.InitName(n))
+                .ToList();
             var uploadResult = await filesProvider.UploadFile(
                     uploadPetMediaRequest.Streams,
                     uploadPetMediaRequest.UploadPetMediaDto.BucketName,
-                    uploadPetMediaRequest.FileNames,
+                    initedMinioFileNames,
                     uploadPetMediaRequest.UploadPetMediaDto.CreateBucketIfNotExist,
                     ct);
             if (uploadResult.IsFailure)
+            {
+                MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(
+                    uploadPetMediaRequest.UploadPetMediaDto.BucketName,
+                    initedMinioFileNames);
+                await _messageQueue.WriteAsync(minioFileInfoDto, ct);
                 return uploadResult.Error;
-
+            }
 
             IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
 
