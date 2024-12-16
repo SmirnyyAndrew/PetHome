@@ -25,7 +25,7 @@ public class CreateVolunteerUseCase
     }
 
     public async Task<Result<Guid, Error>> Execute(
-        CreateVolunteerRequest request,
+        CreateVolunteerCommand request,
         CancellationToken ct)
     {
         VolunteerId id = VolunteerId.Create().Value;

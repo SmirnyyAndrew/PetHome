@@ -23,7 +23,7 @@ public class CreateBreedUseCase
     }
 
     public async Task<Result<Guid, Error>> Execute(
-        CreateBreedRequst createBreedRequst,
+        CreateBreedCommand createBreedRequst,
         CancellationToken ct)
     {
         //Использование транзакции через UnitOfWork

@@ -32,7 +32,7 @@ public class UploadPetMediaFilesUseCase
 
     public async Task<Result<string, Error>> Execute(
         IFilesProvider filesProvider,
-        UploadPetMediaFilesRequest uploadPetMediaRequest,
+        UploadPetMediaFilesCommand uploadPetMediaRequest,
         Guid volunteerId,
         CancellationToken ct)
     {

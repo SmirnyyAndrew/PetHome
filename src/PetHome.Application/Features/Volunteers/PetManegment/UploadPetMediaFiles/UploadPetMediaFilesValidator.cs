@@ -4,7 +4,7 @@ using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFiles;
-public class UploadPetMediaFilesValidator : AbstractValidator<UploadPetMediaFilesRequest>
+public class UploadPetMediaFilesValidator : AbstractValidator<UploadPetMediaFilesCommand>
 {
     public UploadPetMediaFilesValidator()
     {

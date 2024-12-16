@@ -24,7 +24,7 @@ public class ChangePetSerialNumberUseCase
     }
 
     public async Task<Result<string, Error>> Execute(
-        ChangePetSerialNumberRequest request,
+        ChangePetSerialNumberCommand request,
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);

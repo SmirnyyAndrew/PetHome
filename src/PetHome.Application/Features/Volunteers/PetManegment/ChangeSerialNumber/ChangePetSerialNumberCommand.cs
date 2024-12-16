@@ -1,5 +1,5 @@
 ﻿namespace PetHome.Application.Features.Volunteers.PetManegment.ChangeSerialNumber;
-public record ChangePetSerialNumberRequest(
+public record ChangePetSerialNumberCommand(
     Guid VolunteerId, 
     ChangePetSerialNumberDto ChangeNumberDto);
 

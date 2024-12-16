@@ -1,2 +1,2 @@
 ﻿namespace PetHome.Application.Features.Volunteers.PetManegment.CreateSpeciesVolunteer;
-public record CreateSpeciesRequest(Guid SpeciesId, string BreedName);
+public record CreateSpeciesCommand(Guid SpeciesId, string BreedName);

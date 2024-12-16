@@ -1,7 +1,7 @@
 ﻿using PetHome.Application.Features.Dtos.Volunteer;
 
 namespace PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer;
-public record UpdateMainInfoVolunteerRequest(
+public record UpdateMainInfoVolunteerCommand(
     Guid Id,
     UpdateMainInfoVolunteerDto UpdateMainInfoDto);
 

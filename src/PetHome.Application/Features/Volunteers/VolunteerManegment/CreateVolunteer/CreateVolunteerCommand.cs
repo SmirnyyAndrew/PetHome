@@ -2,7 +2,7 @@
 
 namespace PetHome.Application.Features.Volunteers.VolunteerManegment.CreateVolunteer;
 
-public record CreateVolunteerRequest(
+public record CreateVolunteerCommand(
         FullNameDto FullNameDto,
         string Email,
         string Description,

@@ -4,7 +4,7 @@ using PetHome.Domain.PetManagment.GeneralValueObjects;
 
 namespace PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer;
 public class UpdateMainInfoVolunteerRequestValidator
-    : AbstractValidator<UpdateMainInfoVolunteerRequest>
+    : AbstractValidator<UpdateMainInfoVolunteerCommand>
 {
     public UpdateMainInfoVolunteerRequestValidator()
     {

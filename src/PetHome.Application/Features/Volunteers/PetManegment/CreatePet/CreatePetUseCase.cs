@@ -28,7 +28,7 @@ public class CreatePetUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<Pet, Error>> Execute(CreatePetRequest petRequest, CancellationToken ct)
+    public async Task<Result<Pet, Error>> Execute(CreatePetCommand petRequest, CancellationToken ct)
     {
         PetMainInfoDto mainInfoDto = petRequest.PetMainInfoDto;
 
