@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Messaging;
-using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.Infrastructure.Background;
 public class FilesCleanerHostedService : BackgroundService
@@ -32,7 +31,7 @@ public class FilesCleanerHostedService : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            var readResult = await _messageQueue.ReadAsync(stoppingToken); 
+            var readResult = await _messageQueue.ReadAsync(stoppingToken);
             MinioFilesInfoDto fileInfoDto = new MinioFilesInfoDto(
                 readResult.BucketName,
                 readResult.FileNames.Select(f => MinioFileName.Create(f.Value).Value));

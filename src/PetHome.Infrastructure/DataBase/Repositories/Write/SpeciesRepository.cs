@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
+using PetHome.Infrastructure.DataBase.DBContexts;
 
-namespace PetHome.Infrastructure.DataBase.Repositories;
+namespace PetHome.Infrastructure.DataBase.Repositories.Write;
 public class SpeciesRepository : ISpeciesRepository
 {
-    private readonly ApplicationDBContext _dbContext;
-    public SpeciesRepository(ApplicationDBContext dBContext)
+    private readonly WriteDBContext _dbContext;
+    public SpeciesRepository(WriteDBContext dBContext)
     {
         _dbContext = dBContext;
     }

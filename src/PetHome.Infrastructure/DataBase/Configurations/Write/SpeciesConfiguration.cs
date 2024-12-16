@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.PetManagment.PetEntity;
 
-namespace PetHome.Infrastructure.DataBase.Configuration;
+namespace PetHome.Infrastructure.DataBase.Configurations.Write;
 public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
 {
     public void Configure(EntityTypeBuilder<Species> builder)

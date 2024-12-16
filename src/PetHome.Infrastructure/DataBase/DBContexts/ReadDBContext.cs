@@ -1,22 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
-using PetHome.Infrastructure.Interceptors;
+using PetHome.Infrastructure.Shared;
 
-namespace PetHome.Infrastructure.DataBase;
+namespace PetHome.Infrastructure.DataBase.DBContexts;
 
-public class ApplicationDBContext(IConfiguration configuration) : DbContext
+public class ReadDBContext(IConfiguration configuration) : DbContext
 {
-    private const string DATABASE = "PetHomeConnectionString";
-
-    public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-    public DbSet<Species> Specieses => Set<Species>();
+    public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
+    public DbSet<PetDto> Specieses => Set<PetDto>();
+    public DbSet<SpeciesDto> Specieses => Set<SpeciesDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     {
-        optionBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
+        optionBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
@@ -29,6 +26,6 @@ public class ApplicationDBContext(IConfiguration configuration) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDBContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WriteDBContext).Assembly);
     }
 }

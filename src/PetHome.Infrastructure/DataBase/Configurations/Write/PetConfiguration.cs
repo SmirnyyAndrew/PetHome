@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared;
 
-namespace PetHome.Infrastructure.DataBase.Configuration;
+namespace PetHome.Infrastructure.DataBase.Configurations.Write;
 
 public class PetConfiguration : IEntityTypeConfiguration<Pet>
 {
@@ -153,18 +152,18 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasColumnName("serial_number");
 
-      //photos
-      builder.OwnsOne(d => d.Medias, db =>
-      {
-          db.ToJson("photos");
-          db.OwnsMany(db => db.Values, pb =>
-          {
-              pb.Property(p => p.BucketName)
-              .IsRequired();
-      
-              pb.Property(p => p.FileName)
-              .IsRequired();
-          });
-      });
+        //photos
+        builder.OwnsOne(d => d.Medias, db =>
+        {
+            db.ToJson("photos");
+            db.OwnsMany(db => db.Values, pb =>
+            {
+                pb.Property(p => p.BucketName)
+                .IsRequired();
+
+                pb.Property(p => p.FileName)
+                .IsRequired();
+            });
+        });
     }
 }
