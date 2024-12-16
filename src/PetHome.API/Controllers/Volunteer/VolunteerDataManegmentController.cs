@@ -37,7 +37,7 @@ public class VolunteerDataManegmentController : ParentController
         [FromRoute] Guid id,
         [FromBody] UpdateMainInfoVolunteerDto updateInfoDto,
         [FromServices] UpdateMainInfoVolunteerUseCase updateMainInfoUseCase,
-        [FromServices] IValidator<UpdateMainInfoVolunteerRequest> validator,
+        [FromServices] IValidator<UpdateMainInfoVolunteerCommand> validator,
         CancellationToken ct = default)
     {
         UpdateMainInfoVolunteerRequest request = new UpdateMainInfoVolunteerRequest(id, updateInfoDto);

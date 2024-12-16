@@ -30,7 +30,7 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         [FromBody] PetMainInfoDto PetMainInfoDto,
         [FromServices] CreatePetUseCase createPetUseCase,
-        [FromServices] IValidator<CreatePetRequest> validator,
+        [FromServices] IValidator<CreatePetCommand> validator,
         CancellationToken ct = default)
     {
         CreatePetRequest createPetRequest = new CreatePetRequest(
@@ -55,7 +55,7 @@ public class PetManegmentController : ParentController
         IEnumerable<IFormFile> formFiles,
         [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
         [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
-        [FromServices] IValidator<UploadPetMediaFilesRequest> validator,
+        [FromServices] IValidator<UploadPetMediaFilesCommand> validator,
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
@@ -99,7 +99,7 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         [FromBody] DeletePetMediaFilesDto deleteMediaDto,
         [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
-        [FromServices] IValidator<DeletePetMediaFilesRequest> validator,
+        [FromServices] IValidator<DeletePetMediaFilesCommand> validator,
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
