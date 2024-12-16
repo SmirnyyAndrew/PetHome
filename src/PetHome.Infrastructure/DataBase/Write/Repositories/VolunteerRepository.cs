@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.DataBase.DBContexts;
+using PetHome.Infrastructure.DataBase.Write.DBContext;
 
-namespace PetHome.Infrastructure.DataBase.Repositories.Write;
+namespace PetHome.Infrastructure.DataBase.Write.Repositories;
 public class VolunteerRepository : IVolunteerRepository
 {
     private readonly WriteDBContext _dBContext;

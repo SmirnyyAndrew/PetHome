@@ -5,13 +5,12 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Infrastructure.Shared;
 
-namespace PetHome.Infrastructure.DataBase.DBContexts;
+namespace PetHome.Infrastructure.DataBase.Write.DBContext;
 
 public class WriteDBContext(IConfiguration configuration) : DbContext
 {
-
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-    public DbSet<Species> Specieses => Set<Species>();
+    public DbSet<Species> Species => Set<Species>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     {

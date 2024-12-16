@@ -28,8 +28,4 @@
 	  <ProjectReference Include="..\PetHome.Domain\PetHome.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataBase\Configurations\Read\" />
-  </ItemGroup>
-
 </Project>

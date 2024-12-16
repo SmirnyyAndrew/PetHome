@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetHome.API.Middlewares;
-using PetHome.Infrastructure.DataBase.DBContexts;
+using PetHome.Infrastructure.DataBase.Write.DBContext;
 
 namespace PetHome.API.Extentions;
 

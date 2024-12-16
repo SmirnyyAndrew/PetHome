@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.DataBase.DBContexts;
+using PetHome.Infrastructure.DataBase.Write.DBContext;
 
-namespace PetHome.Infrastructure.DataBase.Repositories.Write;
+namespace PetHome.Infrastructure.DataBase.Write.Repositories;
 public class SpeciesRepository : ISpeciesRepository
 {
     private readonly WriteDBContext _dbContext;
@@ -18,7 +18,7 @@ public class SpeciesRepository : ISpeciesRepository
     //Добавить вид животного
     public async Task<Result<Guid, Error>> Add(Species species, CancellationToken ct)
     {
-        await _dbContext.Specieses.AddAsync(species, ct);
+        await _dbContext.Species.AddAsync(species, ct);
         return species.Id.Value;
     }
 
@@ -27,7 +27,7 @@ public class SpeciesRepository : ISpeciesRepository
     public async Task<Result<Species, Error>> GetById(Guid id, CancellationToken ct)
     {
         SpeciesId speciesId = SpeciesId.Create(id).Value;
-        Species species = await _dbContext.Specieses
+        Species species = await _dbContext.Species
             .Include(x => x.Breeds)
             .FirstOrDefaultAsync(s => s.Id == speciesId, ct);
         if (species == null)
@@ -39,7 +39,7 @@ public class SpeciesRepository : ISpeciesRepository
     //Получить вид животного по имени
     public async Task<Result<Species, Error>> GetByName(string name, CancellationToken ct)
     {
-        var result = _dbContext.Specieses
+        var result = _dbContext.Species
                  .Include(x => x.Breeds)
                  .TryFirst(s => s.Name.Value.ToLower() == name.ToLower());
         if (result == null)
@@ -72,7 +72,7 @@ public class SpeciesRepository : ISpeciesRepository
     //Обновление вида
     public async Task<Guid> Update(Species species, CancellationToken ct)
     {
-        _dbContext.Specieses.Update(species);
+        _dbContext.Species.Update(species);
         return species.Id;
     }
 

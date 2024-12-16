@@ -5,7 +5,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared;
 
-namespace PetHome.Infrastructure.DataBase.Configurations.Write;
+namespace PetHome.Infrastructure.DataBase.Write.Configuration;
 
 public class PetConfiguration : IEntityTypeConfiguration<Pet>
 {

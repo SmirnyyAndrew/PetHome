@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetHome.Infrastructure.DataBase.Read.Interfaces;
 using PetHome.Infrastructure.Shared;
 
-namespace PetHome.Infrastructure.DataBase.DBContexts;
+namespace PetHome.Infrastructure.DataBase.Read.DBContext;
 
-public class ReadDBContext(IConfiguration configuration) : DbContext
+public class ReadDBContext(IConfiguration configuration) : DbContext, IReadDBContext
 {
     public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
-    public DbSet<PetDto> Specieses => Set<PetDto>();
-    public DbSet<SpeciesDto> Specieses => Set<SpeciesDto>();
+    public DbSet<PetDto> Pets => Set<PetDto>();
+    public DbSet<SpeciesDto> Species => Set<SpeciesDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     {
@@ -17,6 +18,7 @@ public class ReadDBContext(IConfiguration configuration) : DbContext
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
+        optionBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         //Interceptor пока не нужен
         //optionBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
@@ -26,6 +28,6 @@ public class ReadDBContext(IConfiguration configuration) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WriteDBContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadDBContext).Assembly);
     }
 }
