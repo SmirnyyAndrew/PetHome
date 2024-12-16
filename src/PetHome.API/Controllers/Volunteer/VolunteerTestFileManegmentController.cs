@@ -34,11 +34,11 @@ public class VolunteerTestFileManegmentController : ParentController
 
     [HttpPut]
     public async Task<IActionResult> DownloadFile(
-        [FromBody] FileInfoDto fileInfoDto,
+        [FromBody] MinioFileName minioFileName,
         [FromQuery] string fileSavePath = "",
         CancellationToken ct = default)
     {
-        var result = await _minioProvider.DownloadFile(fileInfoDto, fileSavePath, ct);
+        var result = await _minioProvider.DownloadFile(minioFileName, fileSavePath, ct);
         if (result.IsFailure)
             return BadRequest(ResponseEnvelope.Error(result.Error));
 

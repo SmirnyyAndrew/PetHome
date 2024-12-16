@@ -24,25 +24,25 @@ public class ChangePetSerialNumberUseCase
     }
 
     public async Task<Result<string, Error>> Execute(
-        ChangePetSerialNumberCommand request,
+        ChangePetSerialNumberCommand command,
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var volunteerResult = await _volunteerRepository.GetById(request.VolunteerId, ct);
+            var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
             if (volunteerResult.IsFailure)
                 return volunteerResult.Error;
 
             Volunteer volunteer = volunteerResult.Value;
 
-            Pet? pet = volunteer.Pets.Where(x => x.Id == request.ChangeNumberDto.PetId).FirstOrDefault();
+            Pet? pet = volunteer.Pets.Where(x => x.Id == command.ChangeNumberDto.PetId).FirstOrDefault();
             if (pet == null)
-                return Errors.NotFound($"Питомец {request.ChangeNumberDto.PetId} у волонтёра {request.VolunteerId}");
+                return Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}");
 
             Pet.Pets = volunteer.Pets;
 
-            var changeNumberResult = pet.ChangeSerialNumber(request.ChangeNumberDto.NewSerialNumber);
+            var changeNumberResult = pet.ChangeSerialNumber(command.ChangeNumberDto.NewSerialNumber);
             if (changeNumberResult.IsFailure)
                 return changeNumberResult.Error;
 
@@ -50,14 +50,14 @@ public class ChangePetSerialNumberUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            string message = $"У питомца с id {request.ChangeNumberDto.PetId} серийный номер изменён на {request.ChangeNumberDto.NewSerialNumber}";
+            string message = $"У питомца с id {command.ChangeNumberDto.PetId} серийный номер изменён на {command.ChangeNumberDto.NewSerialNumber}";
             _logger.LogInformation(message);
             return message;
         }
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation("Не удалось изменить серийный номер питомца {0}", request.ChangeNumberDto.PetId);
+            _logger.LogInformation("Не удалось изменить серийный номер питомца {0}", command.ChangeNumberDto.PetId);
             return Errors.Failure("Database.is.failed");
         }
     }

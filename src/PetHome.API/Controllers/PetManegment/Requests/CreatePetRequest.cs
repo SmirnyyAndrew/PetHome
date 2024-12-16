@@ -1,4 +1,10 @@
 ﻿using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
 
-namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
-public record CreatePetRequest(Guid VolunteerId, PetMainInfoDto PetMainInfoDto);
+public record CreatePetRequest(Guid VolunteerId, PetMainInfoDto PetMainInfoDto)
+{
+    public static implicit operator CreatePetCommand(CreatePetRequest request)
+    {
+        return new CreatePetCommand(request.VolunteerId, request.PetMainInfoDto);
+    }
+}

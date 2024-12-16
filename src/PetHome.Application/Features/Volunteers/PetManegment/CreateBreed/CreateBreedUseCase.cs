@@ -23,19 +23,19 @@ public class CreateBreedUseCase
     }
 
     public async Task<Result<Guid, Error>> Execute(
-        CreateBreedCommand createBreedRequst,
+        CreateBreedCommand createBreedCommand,
         CancellationToken ct)
     {
         //Использование транзакции через UnitOfWork
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var getSpeciesByIdResult = await _speciesRepository.GetById(createBreedRequst.SpeciesId, ct);
+            var getSpeciesByIdResult = await _speciesRepository.GetById(createBreedCommand.SpeciesId, ct);
             if (getSpeciesByIdResult.IsFailure)
-                return Errors.NotFound($"Вид животного с id {createBreedRequst.SpeciesId} не найден");
+                return Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден");
 
             Species species = getSpeciesByIdResult.Value;
-            var updateBreedResult = species.UpdateBreeds(createBreedRequst.Breeds);
+            var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);
             if (updateBreedResult.IsFailure)
                 return updateBreedResult.Error;
 
@@ -44,7 +44,7 @@ public class CreateBreedUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            string breedsInLine = string.Join(", ", createBreedRequst.Breeds);
+            string breedsInLine = string.Join(", ", createBreedCommand.Breeds);
             _logger.LogInformation("Породы {0} добавлена(-ы)", breedsInLine);
             return updateRepositoryResult;
         }
