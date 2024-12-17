@@ -22,7 +22,7 @@ public class SoftDeleteVolunteerUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<Guid, Error>> Execute(
+    public async Task<Result<Guid, ErrorList>> Execute(
         Guid id, CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
@@ -42,7 +42,7 @@ public class SoftDeleteVolunteerUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить (soft) волонтёра с id = {0}", id);
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

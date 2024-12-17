@@ -45,7 +45,7 @@ public class CreateBreedUseCase
             Species species = getSpeciesByIdResult.Value;
             var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);
             if (updateBreedResult.IsFailure)
-                return updateBreedResult.Error;
+                return (ErrorList)updateBreedResult.Error;
 
             var updateRepositoryResult = await _speciesRepository.Update(species, ct);
 
@@ -60,7 +60,7 @@ public class CreateBreedUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать породу животного\n\r{0}", ex);
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

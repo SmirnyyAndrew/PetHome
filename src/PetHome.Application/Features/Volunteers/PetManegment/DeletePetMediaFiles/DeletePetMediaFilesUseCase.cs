@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
@@ -11,38 +12,43 @@ using PetHome.Domain.Shared.Error;
 namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
 public class DeletePetMediaFilesUseCase
 {
-    private IVolunteerRepository _volunteerRepository;
-    private ILogger<DeletePetMediaFilesUseCase> _logger;
-    private IUnitOfWork _unitOfWork;
-
+    private readonly IVolunteerRepository _volunteerRepository;
+    private readonly ILogger<DeletePetMediaFilesUseCase> _logger;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidator<DeletePetMediaFilesCommand> _validator;
 
     public DeletePetMediaFilesUseCase(
           IVolunteerRepository volunteerRepository,
           ILogger<DeletePetMediaFilesUseCase> logger,
-          IUnitOfWork unitOfWork)
+          IUnitOfWork unitOfWork,
+          IValidator<DeletePetMediaFilesCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<string, Error>> Execute(
+    public async Task<Result<string, ErrorList>> Execute(
         IFilesProvider filesProvider,
         DeletePetMediaFilesCommand deleteMediaCommand,
         CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(deleteMediaCommand, ct);
+        if (validationResult.IsValid is false)
+            return (ErrorList)validationResult.Errors;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
             var getVolunteerResult = await _volunteerRepository.GetById(deleteMediaCommand.VolunteerId, ct);
             if (getVolunteerResult.IsFailure)
-                return Errors.NotFound($"Волонтёр с id {deleteMediaCommand.VolunteerId}");
+                return (ErrorList)Errors.NotFound($"Волонтёр с id {deleteMediaCommand.VolunteerId}");
 
             Volunteer volunteer = getVolunteerResult.Value;
             Pet? pet = volunteer.Pets.Where(x => x.Id == deleteMediaCommand.DeletePetMediaFilesDto.PetId).FirstOrDefault();
             if (pet == null)
-                return Errors.NotFound($"Питомец с id {deleteMediaCommand.DeletePetMediaFilesDto.PetId}");
+                return (ErrorList)Errors.NotFound($"Питомец с id {deleteMediaCommand.DeletePetMediaFilesDto.PetId}");
 
             List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
             List<Media> mediasToDelete = deleteMediaCommand.DeletePetMediaFilesDto.FilesName
@@ -59,7 +65,7 @@ public class DeletePetMediaFilesUseCase
 
             var deleteResult = await filesProvider.DeleteFile(minioFileInfoDto, ct);
             if (deleteResult.IsFailure)
-                return deleteResult.Error;
+                return (ErrorList)deleteResult.Error;
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
@@ -72,7 +78,7 @@ public class DeletePetMediaFilesUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить медиаданные питомца {0}", deleteMediaCommand.DeletePetMediaFilesDto.PetId);
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

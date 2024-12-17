@@ -18,7 +18,7 @@ public class SoftDeletedEntitiesToHardDeleteUseCase
         _logger = logger;
     }
 
-    public Result<int, Error> Execute(CancellationToken ct)
+    public Result<int, ErrorList> Execute(CancellationToken ct)
     {
         List<Volunteer> volunteersToHardDelete = _volunteerRepository
             .GetDeleted(ct)

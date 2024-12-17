@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
@@ -12,28 +13,34 @@ public class UpdateMainInfoVolunteerUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<UpdateMainInfoVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidator<UpdateMainInfoVolunteerCommand> _validator;
 
     public UpdateMainInfoVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<UpdateMainInfoVolunteerUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IValidator<UpdateMainInfoVolunteerCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> Execute(
-        UpdateMainInfoVolunteerCommand request,
+    public async Task<Result<Guid, ErrorList>> Execute(
+        UpdateMainInfoVolunteerCommand command,
         CancellationToken ct)
     {
-        UpdateMainInfoVolunteerDto updateInfoDto = request.UpdateMainInfoDto;
+        var validationResult = await _validator.ValidateAsync(command, ct);
+        if (validationResult.IsValid is false)
+            return (ErrorList)validationResult.Errors;
 
+        UpdateMainInfoVolunteerDto updateInfoDto = command.UpdateMainInfoDto;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            Volunteer volunteer = _volunteerRepository.GetById(request.Id, ct).Result.Value;
+            Volunteer volunteer = _volunteerRepository.GetById(command.Id, ct).Result.Value;
 
             FullName fullName = FullName.Create(
                 updateInfoDto.FullNameDto.FirstName,
@@ -43,7 +50,7 @@ public class UpdateMainInfoVolunteerUseCase
 
             List<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
                 .Select(p => PhoneNumber.Create(p).Value)
-                .ToList(); 
+                .ToList();
 
             Email email = Email.Create(updateInfoDto.Email).Value;
 
@@ -58,14 +65,14 @@ public class UpdateMainInfoVolunteerUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation("Обновлена информация волонтёра с id = {0}", request.Id);
-            return request.Id;
+            _logger.LogInformation("Обновлена информация волонтёра с id = {0}", command.Id);
+            return command.Id;
         }
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation("Не удалось обнавить информацию волонтёра с id = {0}", request.Id);
-            return Errors.Failure("Database.is.failed");
+            _logger.LogInformation("Не удалось обнавить информацию волонтёра с id = {0}", command.Id);
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

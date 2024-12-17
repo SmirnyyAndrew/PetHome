@@ -9,11 +9,11 @@ public class SpeciesBreedController : ParentController
 {
     [HttpPost("species")]
     public async Task<IActionResult> CreateSpecies(
-        [FromBody] string speciesName,
+        [FromBody] CreateSpeciesCommand createSpeciesCommand,
         [FromServices] CreateSpeciesUseCase createSpeciesUseCase,
         CancellationToken ct = default)
     {
-        var result = await createSpeciesUseCase.Execute(speciesName, ct);
+        var result = await createSpeciesUseCase.Execute(createSpeciesCommand, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
