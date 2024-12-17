@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.Shared.Error;
+using PetHome.Domain.Shared.Error; 
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.CreateBreed;
 public class CreateBreedUseCase
@@ -11,28 +12,35 @@ public class CreateBreedUseCase
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreateBreedUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidator<CreateBreedCommand> _validator;
 
     public CreateBreedUseCase(
         ISpeciesRepository speciesRepository,
         ILogger<CreateBreedUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IValidator<CreateBreedCommand> validator)
     {
         _speciesRepository = speciesRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> Execute(
+    public async Task<Result<Guid, ErrorList>> Execute(
         CreateBreedCommand createBreedCommand,
         CancellationToken ct)
     {
-        //Использование транзакции через UnitOfWork
-        var transaction = await _unitOfWork.BeginTransaction(ct);
+        var validationResult = await _validator.ValidateAsync(createBreedCommand, ct);
+        if (validationResult.IsValid == false)
+            return (ErrorList)validationResult.Errors;
+
+            //Использование транзакции через UnitOfWork
+            var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
             var getSpeciesByIdResult = await _speciesRepository.GetById(createBreedCommand.SpeciesId, ct);
             if (getSpeciesByIdResult.IsFailure)
-                return Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден");
+                return (ErrorList)Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден");
 
             Species species = getSpeciesByIdResult.Value;
             var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);

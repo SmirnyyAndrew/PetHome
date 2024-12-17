@@ -29,16 +29,11 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         [FromBody] PetMainInfoDto PetMainInfoDto,
         [FromServices] CreatePetUseCase createPetUseCase,
-        [FromServices] IValidator<CreatePetCommand> validator,
         CancellationToken ct = default)
     {
         CreatePetRequest createPetRequest = new CreatePetRequest(
                         volunteerId,
                         PetMainInfoDto);
-
-        var validationResult = await validator.ValidateAsync(createPetRequest, ct);
-        if (validationResult.IsValid == false)
-            return BadRequest(validationResult.Errors);
 
         var result = await createPetUseCase.Execute(createPetRequest, ct);
         if (result.IsFailure)
@@ -53,8 +48,7 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         IEnumerable<IFormFile> formFiles,
         [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
-        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
-        [FromServices] IValidator<UploadPetMediaFilesCommand> validator,
+        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase, 
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
@@ -66,14 +60,7 @@ public class PetManegmentController : ParentController
                 streams,
                 formFiles.ToList().Select(x => x.FileName),
                 uploadPetMediaDto);
-
-        var validationResult = await validator.ValidateAsync(
-            uploadPetMediaRequest,
-            ct);
-
-        if (validationResult.IsValid == false)
-            return BadRequest(validationResult.Errors);
-
+          
         try
         {
             result = await uploadPetMediaUseCase.Execute(
@@ -97,17 +84,12 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
         [FromBody] DeletePetMediaFilesDto deleteMediaDto,
-        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
-        [FromServices] IValidator<DeletePetMediaFilesCommand> validator,
+        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase, 
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
             new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
-
-        var validationResult = await validator.ValidateAsync(deleteMediaRequest, ct);
-        if (validationResult.IsValid == false)
-            return BadRequest(validationResult.Errors);
-
+          
         var deleteResult = await deletePetMediaFUseCase.Execute(
             _minioProvider,
             deleteMediaRequest,

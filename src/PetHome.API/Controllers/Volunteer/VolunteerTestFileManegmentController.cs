@@ -2,7 +2,6 @@
 using Minio;
 using PetHome.API.Controllers.PetManegment.Media;
 using PetHome.API.Envelopes;
-using PetHome.Application.Features.Dtos.General;
 using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.API.Controllers.Volunteer;
@@ -53,7 +52,7 @@ public class VolunteerTestFileManegmentController : ParentController
             request.FilesInfoDto.BucketName,
             minioFileNames);
 
-        var result = await _minioProvider.DownloadFile(
+        var result = await _minioProvider.DownloadFiles(
             minioFilesInfoDto,
             request.FilePathToSave,
             ct);
@@ -65,10 +64,13 @@ public class VolunteerTestFileManegmentController : ParentController
 
     [HttpPut("presigned-path")]
     public async Task<IActionResult> GetFilePresignedPath(
-        [FromBody] FileInfoDto fileInfoDto,
+        [FromBody] FilesInfoDto filesInfoDto,
         CancellationToken ct = default)
     {
-        var result = await _minioProvider.GetFilePresignedPath(fileInfoDto, ct);
+        MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
+            filesInfoDto.BucketName,
+            filesInfoDto.FileNames.Select(f => MinioFileName.Create(f).Value).ToList());
+        var result = await _minioProvider.GetFilePresignedPath(minioFilesInfoDto, ct);
         if (result.IsFailure)
             return BadRequest(ResponseEnvelope.Error(result.Error));
 
