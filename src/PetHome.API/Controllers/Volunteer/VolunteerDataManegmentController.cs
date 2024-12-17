@@ -22,7 +22,7 @@ public class VolunteerDataManegmentController : ParentController
 
         //throw new ApplicationException("Something went wrong");
 
-        Result<Guid, Error> result = await createVolunteerUseCase.Execute(request, ct);
+        Result<Guid, ErrorList> result = await createVolunteerUseCase.Execute(request, ct);
         if (result.IsFailure)
             return result.Error.GetSatusCode();
 
@@ -39,7 +39,7 @@ public class VolunteerDataManegmentController : ParentController
     {
         UpdateMainInfoVolunteerRequest request = new UpdateMainInfoVolunteerRequest(id, updateInfoDto);
 
-        Result<Guid, Error> result = await updateMainInfoUseCase.Execute(request, ct);
+        Result<Guid, ErrorList> result = await updateMainInfoUseCase.Execute(request, ct);
         if (result.IsFailure)
             return result.Error.GetSatusCode();
 

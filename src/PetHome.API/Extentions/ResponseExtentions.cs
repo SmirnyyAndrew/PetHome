@@ -16,7 +16,7 @@ public static class ResponseExtentions
             ErrorType.Failure => StatusCodes.Status500InternalServerError,
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
-        }; 
+        };
 
         var envelope = ResponseEnvelope.Error(new List<Error> { error });
 
@@ -25,4 +25,6 @@ public static class ResponseExtentions
             StatusCode = statusCode
         };
     }
+    public static ActionResult GetSatusCode(this ErrorList errorList)
+        => GetSatusCode(errorList.Errors.FirstOrDefault());
 }

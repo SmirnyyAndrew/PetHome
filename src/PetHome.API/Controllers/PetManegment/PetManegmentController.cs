@@ -53,7 +53,7 @@ public class PetManegmentController : ParentController
     {
         List<Stream> streams = new List<Stream>();
         streams = formFiles.Select(x => x.OpenReadStream()).ToList();
-        Result<string, Error> result;
+        Result<string, ErrorList> result;
 
         UploadPetMediaFilesRequest uploadPetMediaRequest =
             new UploadPetMediaFilesRequest(
@@ -67,7 +67,7 @@ public class PetManegmentController : ParentController
               _minioProvider,
               uploadPetMediaRequest,
               volunteerId,
-              ct);
+              ct); 
             if (result.IsFailure)
                 return BadRequest(result.Error);
         }
