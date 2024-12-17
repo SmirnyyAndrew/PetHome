@@ -2,6 +2,7 @@
 using Minio;
 using PetHome.API.Controllers.PetManegment.Media;
 using PetHome.API.Envelopes;
+using PetHome.Application.Features.Dtos.General;
 using PetHome.Infrastructure.Providers.Minio;
 
 namespace PetHome.API.Controllers.Volunteer;
@@ -9,7 +10,9 @@ namespace PetHome.API.Controllers.Volunteer;
 public class VolunteerTestFileManegmentController : ParentController
 {
     private readonly MinioProvider _minioProvider;
-    public VolunteerTestFileManegmentController(IMinioClient minioClient, ILogger<MinioProvider> logger)
+    public VolunteerTestFileManegmentController(
+        IMinioClient minioClient,
+        ILogger<MinioProvider> logger)
     {
         _minioProvider = new MinioProvider(minioClient, logger);
     }
@@ -24,12 +27,12 @@ public class VolunteerTestFileManegmentController : ParentController
         //Загрузить файл
         await using Stream stream = file.OpenReadStream();
 
-        MinioFileName minioFileName = MinioFileName.Create(file.FileName).Value; 
+        MinioFileName minioFileName = MinioFileName.Create(file.FileName).Value;
         MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(bucketName, minioFileName);
         var result = await _minioProvider.UploadFile(
             stream,
             minioFileInfoDto,
-            createBucketIfNotExist, 
+            createBucketIfNotExist,
             ct);
         if (result.IsFailure)
             return BadRequest(ResponseEnvelope.Error(result.Error));
@@ -44,10 +47,13 @@ public class VolunteerTestFileManegmentController : ParentController
         [FromQuery] string fileSavePath = "",
         CancellationToken ct = default)
     {
+        List<MinioFileName> minioFileNames = request.FilesInfoDto.FileNames
+            .Select(f => MinioFileName.Create(f).Value).ToList();
         MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
             request.FilesInfoDto.BucketName,
-            request.FilesInfoDto.FileNames.Select(f=>MinioFileName.Create(f).Value).ToList());
-        var result = await _minioProvider.DownloadFiles(
+            minioFileNames);
+
+        var result = await _minioProvider.DownloadFile(
             minioFilesInfoDto,
             request.FilePathToSave,
             ct);
@@ -59,7 +65,7 @@ public class VolunteerTestFileManegmentController : ParentController
 
     [HttpPut("presigned-path")]
     public async Task<IActionResult> GetFilePresignedPath(
-        [FromBody] MinioFilesInfoDto fileInfoDto,
+        [FromBody] FileInfoDto fileInfoDto,
         CancellationToken ct = default)
     {
         var result = await _minioProvider.GetFilePresignedPath(fileInfoDto, ct);

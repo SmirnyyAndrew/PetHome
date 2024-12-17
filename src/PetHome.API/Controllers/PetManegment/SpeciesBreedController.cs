@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetHome.API.Controllers.PetManegment.Requests;
+using PetHome.Application.Features.Volunteers.PetManegment.CreateBreed;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateSpecies;
 
 namespace PetHome.API.Controllers.PetManegment;
@@ -13,9 +15,9 @@ public class SpeciesBreedController : ParentController
     {
         var result = await createSpeciesUseCase.Execute(speciesName, ct);
         if (result.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(result.Error));
+            return BadRequest(result.Error);
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
     [HttpPost("breeds")]
@@ -28,9 +30,9 @@ public class SpeciesBreedController : ParentController
             createBreedRequst,
             ct);
         if (createBreedResult.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(createBreedResult.Error));
+            return BadRequest(createBreedResult.Error);
 
 
-        return Ok(ResponseEnvelope.Ok(createBreedResult.Value));
+        return Ok(createBreedResult.Value);
     }
 }

@@ -29,7 +29,7 @@ public class VolunteerDataManegmentController : ParentController
         if (result.IsFailure)
             return result.Error.GetSatusCode();
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -51,7 +51,7 @@ public class VolunteerDataManegmentController : ParentController
         if (result.IsFailure)
             return result.Error.GetSatusCode();
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -67,7 +67,7 @@ public class VolunteerDataManegmentController : ParentController
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -83,7 +83,7 @@ public class VolunteerDataManegmentController : ParentController
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -99,7 +99,7 @@ public class VolunteerDataManegmentController : ParentController
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -108,10 +108,10 @@ public class VolunteerDataManegmentController : ParentController
         [FromServices] SoftDeletedEntitiesToHardDeleteUseCase useCase,
         CancellationToken ct = default)
     {
-        var result = useCase.Execute(ct);
+        var result = await useCase.Execute(ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 }

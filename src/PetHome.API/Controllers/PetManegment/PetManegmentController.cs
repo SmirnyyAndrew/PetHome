@@ -38,13 +38,13 @@ public class PetManegmentController : ParentController
 
         var validationResult = await validator.ValidateAsync(createPetRequest, ct);
         if (validationResult.IsValid == false)
-            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
+            return BadRequest(validationResult.Errors);
 
         var result = await createPetUseCase.Execute(createPetRequest, ct);
         if (result.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(result.Error));
+            return BadRequest(result.Error);
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -72,7 +72,7 @@ public class PetManegmentController : ParentController
             ct);
 
         if (validationResult.IsValid == false)
-            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
+            return BadRequest(validationResult.Errors);
 
         try
         {
@@ -82,14 +82,14 @@ public class PetManegmentController : ParentController
               volunteerId,
               ct);
             if (result.IsFailure)
-                return BadRequest(ResponseEnvelope.Error(result.Error));
+                return BadRequest(result.Error);
         }
         finally
         {
             streams.ForEach(x => x.Dispose());
         }
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -106,16 +106,16 @@ public class PetManegmentController : ParentController
 
         var validationResult = await validator.ValidateAsync(deleteMediaRequest, ct);
         if (validationResult.IsValid == false)
-            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
+            return BadRequest(validationResult.Errors);
 
         var deleteResult = await deletePetMediaFUseCase.Execute(
             _minioProvider,
             deleteMediaRequest,
             ct);
         if (deleteResult.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(deleteResult.Error)); ;
+            return BadRequest(deleteResult.Error);
 
-        return Ok(ResponseEnvelope.Ok(deleteResult.Value));
+        return Ok(deleteResult.Value);
     }
 
 
@@ -133,8 +133,8 @@ public class PetManegmentController : ParentController
 
         var executeResult = await changeNumberUseCase.Execute(request, ct);
         if (executeResult.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(executeResult.Error));
+            return BadRequest(executeResult.Error);
 
-        return Ok(ResponseEnvelope.Ok(executeResult.Value));
+        return Ok(executeResult.Value);
     }
 }
