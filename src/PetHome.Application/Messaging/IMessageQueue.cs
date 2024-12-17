@@ -1,10 +1,7 @@
-﻿using PetHome.Infrastructure.Providers.Minio;
-using System.Threading.Channels;
-
-namespace PetHome.Infrastructure.MessageQueues;
+﻿namespace PetHome.Application.Messaging;
 
 public interface IMessageQueue
 {
-    public Task WriteAsync(MinioFileInfoDto filesInfoDto, CancellationToken ct);
-    public Task<MinioFileInfoDto> ReadAsync(CancellationToken ct);
+    public Task WriteAsync(MinioFilesInfoDto filesInfoDto, CancellationToken ct);
+    public Task<MinioFilesInfoDto> ReadAsync(CancellationToken ct);
 }

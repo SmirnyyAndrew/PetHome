@@ -2,7 +2,7 @@
 using Minio.DataModel;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.API.Response;
+namespace PetHome.API.Envelopes;
 public class ResponseEnvelope
 {
     public IReadOnlyList<Error> Errors { get; }

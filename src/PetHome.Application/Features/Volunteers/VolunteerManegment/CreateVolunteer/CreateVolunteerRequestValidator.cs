@@ -3,7 +3,7 @@ using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 
 namespace PetHome.Application.Features.Volunteers.VolunteerManegment.CreateVolunteer;
-public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerRequest>
+public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerCommand>
 {
     public CreateVolunteerRequestValidator()
     {

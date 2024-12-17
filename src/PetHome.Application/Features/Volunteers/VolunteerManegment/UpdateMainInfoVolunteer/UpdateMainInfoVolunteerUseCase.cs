@@ -24,7 +24,7 @@ public class UpdateMainInfoVolunteerUseCase
     }
 
     public async Task<Result<Guid, Error>> Execute(
-        UpdateMainInfoVolunteerRequest request,
+        UpdateMainInfoVolunteerCommand request,
         CancellationToken ct)
     {
         UpdateMainInfoVolunteerDto updateInfoDto = request.UpdateMainInfoDto;

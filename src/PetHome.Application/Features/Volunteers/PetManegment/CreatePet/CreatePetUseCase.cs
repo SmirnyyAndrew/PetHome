@@ -8,7 +8,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
+namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePet;
 public class CreatePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
@@ -28,9 +28,9 @@ public class CreatePetUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<Pet, Error>> Execute(CreatePetRequest petRequest, CancellationToken ct)
+    public async Task<Result<Pet, Error>> Execute(CreatePetCommand createPetCommand, CancellationToken ct)
     {
-        PetMainInfoDto mainInfoDto = petRequest.PetMainInfoDto;
+        PetMainInfoDto mainInfoDto = createPetCommand.PetMainInfoDto;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
@@ -45,7 +45,7 @@ public class CreatePetUseCase
                 return Errors.NotFound($"Breed с id {mainInfoDto.SpeciesId} не найден");
 
 
-            Volunteer volunteer = _volunteerRepository.GetById(petRequest.VolunteerId, ct).Result.Value;
+            Volunteer volunteer = _volunteerRepository.GetById(createPetCommand.VolunteerId, ct).Result.Value;
             PetName petName = PetName.Create(mainInfoDto.Name).Value;
             SpeciesId petSpeciesId = SpeciesId.Create(mainInfoDto.SpeciesId).Value;
             Description petDescription = Description.Create(mainInfoDto.Description).Value;
@@ -53,7 +53,7 @@ public class CreatePetUseCase
             Color petColor = Color.Create(mainInfoDto.Color).Value;
             PetShelterId shelterId = PetShelterId.Create(mainInfoDto.ShelterId).Value;
             Date petBirthDate = Date.Create(mainInfoDto.BirthDate).Value;
-            VolunteerId volunteerId = VolunteerId.Create(petRequest.VolunteerId).Value;
+            VolunteerId volunteerId = VolunteerId.Create(createPetCommand.VolunteerId).Value;
 
             List<Requisites> requisites = mainInfoDto.Requisites
                 .Select(r => Requisites.Create(r.Name, r.Desc, r.PaymentMethod).Value)

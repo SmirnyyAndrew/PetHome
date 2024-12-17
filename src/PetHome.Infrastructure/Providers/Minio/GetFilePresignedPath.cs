@@ -9,7 +9,7 @@ public partial class MinioProvider : IFilesProvider
 
 { //Получить ссылку на файл
     public async Task<Result<List<string>, Error>> GetFilePresignedPath(
-        FileInfoDto fileInfoDto, CancellationToken ct)
+        MinioFilesInfoDto fileInfoDto, CancellationToken ct)
     {
         List<string> presignedPathes = new List<string>();
 
@@ -26,7 +26,7 @@ public partial class MinioProvider : IFilesProvider
             {
                 var minioPresignedArgs = new PresignedGetObjectArgs()
                     .WithBucket(fileInfoDto.BucketName)
-                    .WithObject(fileName)
+                    .WithObject(fileName.Value)
                     .WithExpiry(1000)
                     .WithHeaders(requestParams);
                 var presignedUrl = await _minioClient

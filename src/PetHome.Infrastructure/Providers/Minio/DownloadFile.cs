@@ -9,8 +9,8 @@ namespace PetHome.Infrastructure.Providers.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     //Скачать файл
-    public async Task<Result<string, Error>> DownloadFile(
-         FileInfoDto fileInfoDto, string fileSavePath, CancellationToken ct)
+    public async Task<Result<string, Error>> DownloadFiles(
+         MinioFilesInfoDto fileInfoDto, string fileSavePath, CancellationToken ct)
     {
         var isExistBucketResult = await CheckIsExistBucket(fileInfoDto.BucketName, ct);
         if (isExistBucketResult.IsFailure)
@@ -24,11 +24,11 @@ public partial class MinioProvider : IFilesProvider
         {
             try
             {
-                string fileExtension = Path.GetExtension(fileName);
+                string fileExtension = Path.GetExtension(fileName.Value);
                 fileSavePath = $"{fileSavePath}{fileExtension}";
                 var minioFileArgs = new GetObjectArgs()
                     .WithBucket(fileInfoDto.BucketName)
-                    .WithObject(fileName)
+                    .WithObject(fileName.Value)
                     .WithFile(fileSavePath);
 
                 ObjectStat presignedUrl = await _minioClient.GetObjectAsync(minioFileArgs, ct)
@@ -43,7 +43,6 @@ public partial class MinioProvider : IFilesProvider
             }
         }
         string message = $"В bucket {fileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", fileInfoDto.FileNames)}";
-        _logger.LogInformation(message);
         return message;
     }
 }

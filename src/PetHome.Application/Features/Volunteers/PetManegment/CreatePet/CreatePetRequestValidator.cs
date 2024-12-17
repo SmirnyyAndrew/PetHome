@@ -5,8 +5,8 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePetVolunteer;
-public class CreatePetRequestValidator : AbstractValidator<CreatePetRequest>
+namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePet;
+public class CreatePetRequestValidator : AbstractValidator<CreatePetCommand>
 {
     public CreatePetRequestValidator()
     {

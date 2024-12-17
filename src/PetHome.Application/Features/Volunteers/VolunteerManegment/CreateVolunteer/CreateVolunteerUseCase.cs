@@ -25,30 +25,30 @@ public class CreateVolunteerUseCase
     }
 
     public async Task<Result<Guid, Error>> Execute(
-        CreateVolunteerRequest request,
+        CreateVolunteerCommand createVolunteerCommand,
         CancellationToken ct)
     {
         VolunteerId id = VolunteerId.Create().Value;
 
         FullName fullName = FullName.Create(
-            request.FullNameDto.FirstName,
-            request.FullNameDto.LastName).Value;
+            createVolunteerCommand.FullNameDto.FirstName,
+            createVolunteerCommand.FullNameDto.LastName).Value;
 
-        Email email = Email.Create(request.Email).Value;
+        Email email = Email.Create(createVolunteerCommand.Email).Value;
 
-        Description description = Description.Create(request.Description).Value;
+        Description description = Description.Create(createVolunteerCommand.Description).Value;
 
-        Date startVolunteeringDate = Date.Create(request.StartVolunteeringDate).Value;
+        Date startVolunteeringDate = Date.Create(createVolunteerCommand.StartVolunteeringDate).Value;
          
-        List<PhoneNumber> phoneNumberList = request.PhoneNumbers
+        List<PhoneNumber> phoneNumberList = createVolunteerCommand.PhoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
                 .ToList(); 
          
-        List<SocialNetwork> socialNetworkList = request.SocialNetworks
+        List<SocialNetwork> socialNetworkList = createVolunteerCommand.SocialNetworks
                 .Select(x => SocialNetwork.Create(x).Value)
                 .ToList(); 
          
-        List<Requisites> requisitesList = request.RequisitesesDto
+        List<Requisites> requisitesList = createVolunteerCommand.RequisitesesDto
                  .Select(x => Requisites.Create(x.Name, x.Desc, x.PaymentMethod).Value)
                  .ToList(); 
          

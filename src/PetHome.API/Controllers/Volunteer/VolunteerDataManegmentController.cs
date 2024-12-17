@@ -2,8 +2,9 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using PetHome.API.Controllers.Volunteer.Request;
+using PetHome.API.Envelopes;
 using PetHome.API.Extentions;
-using PetHome.API.Response;
 using PetHome.Application.Features.Background;
 using PetHome.Application.Features.Volunteers.VolunteerManegment.CreateVolunteer;
 using PetHome.Application.Features.Volunteers.VolunteerManegment.HardDeleteVolunteer;
@@ -37,7 +38,7 @@ public class VolunteerDataManegmentController : ParentController
         [FromRoute] Guid id,
         [FromBody] UpdateMainInfoVolunteerDto updateInfoDto,
         [FromServices] UpdateMainInfoVolunteerUseCase updateMainInfoUseCase,
-        [FromServices] IValidator<UpdateMainInfoVolunteerRequest> validator,
+        [FromServices] IValidator<UpdateMainInfoVolunteerCommand> validator,
         CancellationToken ct = default)
     {
         UpdateMainInfoVolunteerRequest request = new UpdateMainInfoVolunteerRequest(id, updateInfoDto);
@@ -107,7 +108,7 @@ public class VolunteerDataManegmentController : ParentController
         [FromServices] SoftDeletedEntitiesToHardDeleteUseCase useCase,
         CancellationToken ct = default)
     {
-        var result = await useCase.Execute(ct);
+        var result = useCase.Execute(ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 

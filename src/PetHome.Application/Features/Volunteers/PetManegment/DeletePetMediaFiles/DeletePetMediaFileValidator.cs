@@ -3,7 +3,7 @@ using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
-public class DeletePetMediaFileValidator:AbstractValidator<DeletePetMediaFilesRequest>
+public class DeletePetMediaFileValidator:AbstractValidator<DeletePetMediaFilesCommand>
 { 
     public DeletePetMediaFileValidator()
     {

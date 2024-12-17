@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces;
@@ -8,9 +7,6 @@ using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.Providers.Minio;
-using System.IO.Pipelines;
-using System.Linq;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
 public class DeletePetMediaFilesUseCase
@@ -32,34 +28,34 @@ public class DeletePetMediaFilesUseCase
 
     public async Task<Result<string, Error>> Execute(
         IFilesProvider filesProvider,
-        DeletePetMediaFilesRequest deleteMediaRequest,
+        DeletePetMediaFilesCommand deleteMediaCommand,
         CancellationToken ct)
     {
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var getVolunteerResult = await _volunteerRepository.GetById(deleteMediaRequest.VolunteerId, ct);
+            var getVolunteerResult = await _volunteerRepository.GetById(deleteMediaCommand.VolunteerId, ct);
             if (getVolunteerResult.IsFailure)
-                return Errors.NotFound($"Волонтёр с id {deleteMediaRequest.VolunteerId}");
+                return Errors.NotFound($"Волонтёр с id {deleteMediaCommand.VolunteerId}");
 
             Volunteer volunteer = getVolunteerResult.Value;
-            Pet? pet = volunteer.Pets.Where(x => x.Id == deleteMediaRequest.DeletePetMediaFilesDto.PetId).FirstOrDefault();
+            Pet? pet = volunteer.Pets.Where(x => x.Id == deleteMediaCommand.DeletePetMediaFilesDto.PetId).FirstOrDefault();
             if (pet == null)
-                return Errors.NotFound($"Питомец с id {deleteMediaRequest.DeletePetMediaFilesDto.PetId}");
+                return Errors.NotFound($"Питомец с id {deleteMediaCommand.DeletePetMediaFilesDto.PetId}");
 
             List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
-            List<Media> mediasToDelete = deleteMediaRequest.DeletePetMediaFilesDto.FilesName
+            List<Media> mediasToDelete = deleteMediaCommand.DeletePetMediaFilesDto.FilesName
                 .Intersect(oldFileNames)
-                .Select(m => Media.Create(deleteMediaRequest.DeletePetMediaFilesDto.BucketName, m).Value).ToList();
+                .Select(m => Media.Create(deleteMediaCommand.DeletePetMediaFilesDto.BucketName, m).Value).ToList();
             pet.RemoveMedia(mediasToDelete);
 
             await _volunteerRepository.Update(volunteer, ct);
 
-
-            FileInfoDto minioFileInfoDto = new FileInfoDto(
-                deleteMediaRequest.DeletePetMediaFilesDto.BucketName,
-                mediasToDelete.Select(x => x.FileName));
+            List<MinioFileName> minioFileNames = mediasToDelete.Select(m => MinioFileName.Create(m.FileName).Value).ToList();
+            MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
+                deleteMediaCommand.DeletePetMediaFilesDto.BucketName,
+                minioFileNames);
 
             var deleteResult = await filesProvider.DeleteFile(minioFileInfoDto, ct);
             if (deleteResult.IsFailure)
@@ -75,7 +71,7 @@ public class DeletePetMediaFilesUseCase
         catch (Exception)
         {
             transaction.Rollback();
-            _logger.LogInformation("Не удалось удалить медиаданные питомца {0}", deleteMediaRequest.DeletePetMediaFilesDto.PetId);
+            _logger.LogInformation("Не удалось удалить медиаданные питомца {0}", deleteMediaCommand.DeletePetMediaFilesDto.PetId);
             return Errors.Failure("Database.is.failed");
         }
     }
