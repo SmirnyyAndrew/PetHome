@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
+using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.VolunteerEntity;
-using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Background;
 public class SoftDeletedEntitiesToHardDeleteUseCase

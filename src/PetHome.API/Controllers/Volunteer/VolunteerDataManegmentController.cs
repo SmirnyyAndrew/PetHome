@@ -105,11 +105,5 @@ public class VolunteerDataManegmentController : ParentController
             result.Error.GetSatusCode();
 
         return Ok(result.Value);
-    }
-
-
-    public async Task<IActionResult> GetAll()
-    {
-
-    }
+    } 
 }

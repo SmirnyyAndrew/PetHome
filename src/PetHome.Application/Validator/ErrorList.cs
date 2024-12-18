@@ -1,4 +1,6 @@
-﻿namespace PetHome.Domain.Shared.Error;
+﻿using PetHome.Domain.Shared.Error;
+
+namespace PetHome.Application.Validator;
 
 
 public record ErrorList
