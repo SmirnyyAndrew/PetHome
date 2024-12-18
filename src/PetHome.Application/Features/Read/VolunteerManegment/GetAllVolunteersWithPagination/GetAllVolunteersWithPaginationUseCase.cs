@@ -34,13 +34,13 @@ public class GetAllVolunteersWithPaginationUseCase
 
         _logger.LogInformation("Получено {0} волонётров", volunteerDtos.Count);
 
-        PagedList<VolunteerDto> record = new PagedList<VolunteerDto>()
+        PagedList<VolunteerDto> pagedVolunteersDto = new PagedList<VolunteerDto>()
         {
             Items = volunteerDtos,
             PageNumber = query.PageNum,
             PageSize = query.PageSize
         };
 
-        return record;
+        return pagedVolunteersDto;
     }
 }
