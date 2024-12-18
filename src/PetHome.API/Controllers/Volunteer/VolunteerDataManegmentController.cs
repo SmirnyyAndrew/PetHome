@@ -112,7 +112,7 @@ public class VolunteerDataManegmentController : ParentController
     [HttpGet("paged/volunteers")]
     public async Task<IActionResult> GetAllWithPagination(
         [FromServices] GetAllVolunteersWithPaginationUseCase useCase,
-        [FromBody] GetAllVolunteersWithPaginationRequest request,
+        [FromQuery] GetAllVolunteersWithPaginationRequest request,
         CancellationToken ct = default)
     {
         var result = await useCase.Execute(request, ct);
