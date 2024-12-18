@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
 
@@ -17,9 +18,14 @@ public class GetAllVolunteersWithPaginationUseCase
     }
 
     public async Task<Result<IReadOnlyList<VolunteerDto>>> Execute(
+        GetAllVolunteersWithPaginationQuery query,
         CancellationToken ct)
     {
-        var volunteerDtos = _readDBContext.Volunteers.ToList();
+        var volunteerDtos = _readDBContext.Volunteers
+            .Skip(query.PageNum - 1 * query.PageSize)
+            .Take(query.PageSize)
+            .ToList();
+
         _logger.LogInformation("Получено {0} волонётров", volunteerDtos.Count);
         return volunteerDtos;
     }

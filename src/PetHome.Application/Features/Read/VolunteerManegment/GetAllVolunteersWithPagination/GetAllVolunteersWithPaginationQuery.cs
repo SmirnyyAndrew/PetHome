@@ -1,4 +1,2 @@
 ﻿namespace PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
-public class GetAllVolunteersWithPaginationQuery
-{
-}
+public record GetAllVolunteersWithPaginationQuery(int PageSize, int PageNum);
