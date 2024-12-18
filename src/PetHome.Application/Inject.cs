@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Background;
 using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
+using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Write.PetManegment.CreateBreed;
 using PetHome.Application.Features.Write.PetManegment.CreatePet;
@@ -24,6 +25,7 @@ public static class Inject
         services.AddScoped<SoftDeleteVolunteerUseCase>();
         services.AddScoped<SoftRestoreVolunteerUseCase>();
         services.AddScoped<GetAllVolunteersWithPaginationUseCase>();
+        services.AddScoped<GetVolunteerByIdUseCase>();
 
         services.AddScoped<SoftDeletedEntitiesToHardDeleteUseCase>();
         services.AddScoped<CreatePetUseCase>();
@@ -34,5 +36,5 @@ public static class Inject
         services.AddScoped<ChangePetSerialNumberUseCase>();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         return services;
-    }
+    } 
 }

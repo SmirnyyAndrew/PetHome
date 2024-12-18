@@ -4,6 +4,7 @@ using PetHome.API.Controllers.Volunteer.Request;
 using PetHome.API.Extentions;
 using PetHome.Application.Features.Background;
 using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
+using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
@@ -123,5 +124,16 @@ public class VolunteerDataManegmentController : ParentController
     }
 
 
+    [HttpGet("volunteer/{id:guid}")]
+    public async Task<IActionResult> GetById(
+        [FromServices] GetVolunteerByIdUseCase useCase,
+        [FromRoute] Guid id,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(id, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
 
+        return Ok(result.Value);
+    } 
 }
