@@ -24,7 +24,7 @@ public class GetAllVolunteersWithPaginationUseCase
         CancellationToken ct)
     {
         var volunteerDtos = await _readDBContext.Volunteers
-            .Skip(query.PageNum - 1 * query.PageSize)
+            .Skip((query.PageNum - 1) * query.PageSize)
             .Take(query.PageSize)
             .ToListAsync();
 
