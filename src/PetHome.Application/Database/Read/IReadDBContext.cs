@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
-namespace PetHome.Infrastructure.DataBase.Read.Interfaces;
+namespace PetHome.Application.Database.Read;
 public interface IReadDBContext
 {
     DbSet<VolunteerDto> Volunteers { get; }

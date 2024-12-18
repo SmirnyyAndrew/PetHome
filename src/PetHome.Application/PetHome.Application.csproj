@@ -27,8 +27,4 @@
 	  <ProjectReference Include="..\PetHome.Domain\PetHome.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Read\" />
-  </ItemGroup>
-
 </Project>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Infrastructure.DataBase.Read.Interfaces;
+using PetHome.Application.Database.Read;
 using PetHome.Infrastructure.Shared;
 
 namespace PetHome.Infrastructure.DataBase.Read.DBContext;
