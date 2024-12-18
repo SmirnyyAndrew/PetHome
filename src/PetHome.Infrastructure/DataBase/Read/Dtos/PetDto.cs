@@ -15,9 +15,9 @@ public class PetDto : SoftDeletableEntity
     public DateTime? BirthDate { get; init; }
     public bool IsVaccinated { get; init; }
     public PetStatusEnum Status;
-    public RequisitesesDto[] Requisites { get; init; }
+    //public RequisitesesDto[] Requisites { get; init; }
     public DateTime ProfileCreateDate { get; init; }
     public Guid VolunteerId { get; init; }
     public int SerialNumber { get; init; }
-    public MediaDto[] Medias { get; init; }
+    //public MediaDto[] Medias { get; init; }
 }

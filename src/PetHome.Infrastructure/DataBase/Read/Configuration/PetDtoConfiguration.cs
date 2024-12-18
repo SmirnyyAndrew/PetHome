@@ -66,9 +66,6 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
             .IsRequired()
             .HasColumnName("status");
 
-        ////requisites
-        builder.OwnsMany(r => r.Requisites);
-
         //create date
         builder.Property(i => i.ProfileCreateDate)
             .IsRequired()
@@ -89,9 +86,6 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Property(s => s.SerialNumber)
             .IsRequired()
             .HasColumnName("serial_number");
-
-        //photos
-        builder.OwnsMany(d => d.Medias);
 
         //Is soft deleted
         builder.Property<bool>("_isDeleted")

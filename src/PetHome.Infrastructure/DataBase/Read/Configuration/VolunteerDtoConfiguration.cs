@@ -32,20 +32,8 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
             .IsRequired()
             .HasColumnName("start_volunteering_date");
 
-        //pets
-        builder.HasMany(m => m.Pets)
-            .WithOne()
-            .HasForeignKey("volunteer_id")
-            .OnDelete(DeleteBehavior.Cascade);
-
         //phone numbers
         builder.OwnsMany(p => p.PhoneNumbers);
-
-        //social networks
-        builder.OwnsMany(s => s.SocialNetworks);
-
-        //requisites
-        builder.OwnsMany(r => r.Requisites);
 
         //Is soft deleted
         builder.Property<bool>("_isDeleted")
