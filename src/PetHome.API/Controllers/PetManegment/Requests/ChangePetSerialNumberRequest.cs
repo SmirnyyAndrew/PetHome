@@ -1,5 +1,5 @@
 ﻿using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Features.Write.Volunteers.PetManegment.ChangeSerialNumber;
+using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 
 public record ChangePetSerialNumberRequest(
     Guid VolunteerId,

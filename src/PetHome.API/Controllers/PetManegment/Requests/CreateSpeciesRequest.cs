@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Features.Write.Volunteers.PetManegment.CreateSpecies;
+﻿using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
 
 public record CreateSpeciesRequest(string SpeciesName)
 {
