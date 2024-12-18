@@ -22,7 +22,7 @@ public class HardDeleteVolunteerUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<bool, Error>> Execute(
+    public async Task<Result<bool, ErrorList>> Execute(
         VolunteerId id, CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
@@ -31,7 +31,7 @@ public class HardDeleteVolunteerUseCase
             var result = _volunteerRepository.RemoveById(id, ct).Result;
 
             if (result.IsFailure)
-                return result.Error;
+                return (ErrorList)result.Error;
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
@@ -43,7 +43,7 @@ public class HardDeleteVolunteerUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить навсегда волонтёра");
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 

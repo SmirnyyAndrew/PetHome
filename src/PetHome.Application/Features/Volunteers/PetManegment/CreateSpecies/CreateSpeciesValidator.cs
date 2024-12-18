@@ -7,6 +7,6 @@ public class CreateSpeciesValidator: AbstractValidator<CreateSpeciesCommand>
 {
     public CreateSpeciesValidator()
     {
-        RuleFor(c => c.BreedName).MustBeValueObject(BreedName.Create);
+        RuleFor(c => c.SpeciesName).MustBeValueObject(BreedName.Create);
     }
 }

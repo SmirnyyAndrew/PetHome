@@ -3,9 +3,9 @@ using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.CreateBreed;
-public class CreateBreedValidator : AbstractValidator<CreateBreedCommand>
+public class CreateBreedCommandValidator : AbstractValidator<CreateBreedCommand>
 {
-    public CreateBreedValidator()
+    public CreateBreedCommandValidator()
     {
         RuleForEach(v => v.Breeds)
             .MustBeValueObject(b => Breed.Create(b, SpeciesId.CreateEmpty().Value));

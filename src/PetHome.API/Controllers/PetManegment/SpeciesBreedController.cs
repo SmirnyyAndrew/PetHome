@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Controllers.PetManegment.Requests;
-using PetHome.API.Envelopes;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateBreed;
 using PetHome.Application.Features.Volunteers.PetManegment.CreateSpecies;
 
@@ -10,15 +9,15 @@ public class SpeciesBreedController : ParentController
 {
     [HttpPost("species")]
     public async Task<IActionResult> CreateSpecies(
-        [FromBody] string speciesName,
+        [FromBody] CreateSpeciesCommand createSpeciesCommand,
         [FromServices] CreateSpeciesUseCase createSpeciesUseCase,
         CancellationToken ct = default)
     {
-        var result = await createSpeciesUseCase.Execute(speciesName, ct);
+        var result = await createSpeciesUseCase.Execute(createSpeciesCommand, ct);
         if (result.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(result.Error));
+            return BadRequest(result.Error);
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
     [HttpPost("breeds")]
@@ -31,9 +30,9 @@ public class SpeciesBreedController : ParentController
             createBreedRequst,
             ct);
         if (createBreedResult.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(createBreedResult.Error));
+            return BadRequest(createBreedResult.Error);
 
 
-        return Ok(ResponseEnvelope.Ok(createBreedResult.Value));
+        return Ok(createBreedResult.Value);
     }
 }

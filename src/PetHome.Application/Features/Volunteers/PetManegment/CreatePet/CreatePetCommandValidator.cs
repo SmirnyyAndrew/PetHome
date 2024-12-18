@@ -6,9 +6,9 @@ using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.CreatePet;
-public class CreatePetRequestValidator : AbstractValidator<CreatePetCommand>
+public class CreatePetCommandValidator : AbstractValidator<CreatePetCommand>
 {
-    public CreatePetRequestValidator()
+    public CreatePetCommandValidator()
     {
         RuleFor(p => p.PetMainInfoDto.Name).MustBeValueObject(PetName.Create);
         RuleFor(p => p.PetMainInfoDto.SpeciesId).MustBeValueObject(SpeciesId.Create);

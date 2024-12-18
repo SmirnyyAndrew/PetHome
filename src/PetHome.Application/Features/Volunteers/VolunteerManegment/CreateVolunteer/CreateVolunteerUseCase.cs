@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
@@ -13,21 +14,28 @@ public class CreateVolunteerUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidator<CreateVolunteerCommand> _validator;
 
     public CreateVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<CreateVolunteerUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IValidator<CreateVolunteerCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> Execute(
+    public async Task<Result<Guid, ErrorList>> Execute(
         CreateVolunteerCommand createVolunteerCommand,
         CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(createVolunteerCommand, ct);
+        if (validationResult.IsValid is false)
+            return (ErrorList)validationResult.Errors;
+
         VolunteerId id = VolunteerId.Create().Value;
 
         FullName fullName = FullName.Create(
@@ -39,19 +47,19 @@ public class CreateVolunteerUseCase
         Description description = Description.Create(createVolunteerCommand.Description).Value;
 
         Date startVolunteeringDate = Date.Create(createVolunteerCommand.StartVolunteeringDate).Value;
-         
+
         List<PhoneNumber> phoneNumberList = createVolunteerCommand.PhoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
-                .ToList(); 
-         
+                .ToList();
+
         List<SocialNetwork> socialNetworkList = createVolunteerCommand.SocialNetworks
                 .Select(x => SocialNetwork.Create(x).Value)
-                .ToList(); 
-         
+                .ToList();
+
         List<Requisites> requisitesList = createVolunteerCommand.RequisitesesDto
                  .Select(x => Requisites.Create(x.Name, x.Desc, x.PaymentMethod).Value)
-                 .ToList(); 
-         
+                 .ToList();
+
         Volunteer volunteer = Volunteer.Create(
             id,
             fullName,
@@ -78,7 +86,7 @@ public class CreateVolunteerUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать волонтёра с id = {0}", volunteer.Id.Value);
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

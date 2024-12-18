@@ -23,7 +23,7 @@ public class ChangePetSerialNumberUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<string, Error>> Execute(
+    public async Task<Result<string, ErrorList>> Execute(
         ChangePetSerialNumberCommand command,
         CancellationToken ct)
     {
@@ -32,19 +32,19 @@ public class ChangePetSerialNumberUseCase
         {
             var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
             if (volunteerResult.IsFailure)
-                return volunteerResult.Error;
+                return (ErrorList)volunteerResult.Error;
 
             Volunteer volunteer = volunteerResult.Value;
 
             Pet? pet = volunteer.Pets.Where(x => x.Id == command.ChangeNumberDto.PetId).FirstOrDefault();
             if (pet == null)
-                return Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}");
+                return (ErrorList)Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}");
 
             Pet.Pets = volunteer.Pets;
 
             var changeNumberResult = pet.ChangeSerialNumber(command.ChangeNumberDto.NewSerialNumber);
             if (changeNumberResult.IsFailure)
-                return changeNumberResult.Error;
+                return (ErrorList)changeNumberResult.Error;
 
             await _volunteerRepository.Update(volunteer, ct);
             await _unitOfWork.SaveChages(ct);
@@ -58,7 +58,7 @@ public class ChangePetSerialNumberUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось изменить серийный номер питомца {0}", command.ChangeNumberDto.PetId);
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

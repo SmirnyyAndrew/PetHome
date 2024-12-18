@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
@@ -11,47 +12,54 @@ public class CreateSpeciesUseCase
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreateSpeciesUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidator<CreateSpeciesCommand> _validator;
 
     public CreateSpeciesUseCase(
         ISpeciesRepository speciesRepository,
         ILogger<CreateSpeciesUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IValidator<CreateSpeciesCommand> validator)
     {
         _speciesRepository = speciesRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid, Error>> Execute(
-        string speciesName,
+    public async Task<Result<Guid, ErrorList>> Execute(
+        CreateSpeciesCommand createSpeciesCommand,
         CancellationToken ct)
     {
-        var speciesResult = Species.Create(speciesName);
+        var validationResult = await _validator.ValidateAsync(createSpeciesCommand, ct);
+        if (validationResult.IsValid is false)
+            return (ErrorList)validationResult.Errors;
+
+        var speciesResult = Species.Create(createSpeciesCommand.SpeciesName);
         if (speciesResult.IsFailure)
-            return speciesResult.Error;
+            return (ErrorList)speciesResult.Error;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var getByNameResult = await _speciesRepository.GetByName(speciesName, ct);
+            var getByNameResult = await _speciesRepository.GetByName(createSpeciesCommand.SpeciesName, ct);
             if (getByNameResult.IsSuccess)
-                return Errors.Conflict(speciesName);
+                return (ErrorList)Errors.Conflict(createSpeciesCommand.SpeciesName);
 
             var addResult = await _speciesRepository.Add(speciesResult.Value, ct);
             if (addResult.IsFailure)
-                return addResult.Error;
+                return (ErrorList)addResult.Error;
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation("Вид животного с именем {0} добавлен", speciesName);
+            _logger.LogInformation("Вид животного с именем {0} добавлен", createSpeciesCommand.SpeciesName);
             return addResult.Value;
         }
         catch (Exception)
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать вид питомца");
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

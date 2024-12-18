@@ -3,9 +3,9 @@ using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.DeletePetMediaFiles;
-public class DeletePetMediaFileValidator:AbstractValidator<DeletePetMediaFilesCommand>
+public class DeletePetMediaFileCommandValidator:AbstractValidator<DeletePetMediaFilesCommand>
 { 
-    public DeletePetMediaFileValidator()
+    public DeletePetMediaFileCommandValidator()
     {
         RuleFor(d => d.DeletePetMediaFilesDto.BucketName)
             .Must(b => !string.IsNullOrWhiteSpace(b))

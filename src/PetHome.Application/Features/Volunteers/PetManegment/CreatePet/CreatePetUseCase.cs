@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Features.Dtos.Pet;
@@ -15,21 +16,28 @@ public class CreatePetUseCase
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreatePetUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IValidator<CreatePetCommand> _validator;
 
     public CreatePetUseCase(
         IVolunteerRepository volunteerRepository,
         ISpeciesRepository speciesRepository,
         ILogger<CreatePetUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IValidator<CreatePetCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _speciesRepository = speciesRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _validator = validator;
     }
 
-    public async Task<Result<Pet, Error>> Execute(CreatePetCommand createPetCommand, CancellationToken ct)
+    public async Task<Result<Pet, ErrorList>> Execute(CreatePetCommand createPetCommand, CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(createPetCommand, ct);
+        if(validationResult.IsValid is false)
+        return (ErrorList)validationResult.Errors;
+
         PetMainInfoDto mainInfoDto = createPetCommand.PetMainInfoDto;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
@@ -37,12 +45,12 @@ public class CreatePetUseCase
         {
             var IsSpeciesExist = await _speciesRepository.GetById(mainInfoDto.SpeciesId, ct);
             if (IsSpeciesExist.IsFailure)
-                return Errors.NotFound($"Species с id {mainInfoDto.SpeciesId} не найден");
+                return (ErrorList)Errors.NotFound($"Species с id {mainInfoDto.SpeciesId} не найден");
 
             var IsBreedExist = IsSpeciesExist.Value.Breeds
                 .Any(x => x.Id == mainInfoDto.BreedId);
             if (IsBreedExist == false)
-                return Errors.NotFound($"Breed с id {mainInfoDto.SpeciesId} не найден");
+                return (ErrorList)Errors.NotFound($"Breed с id {mainInfoDto.SpeciesId} не найден");
 
 
             Volunteer volunteer = _volunteerRepository.GetById(createPetCommand.VolunteerId, ct).Result.Value;
@@ -77,7 +85,7 @@ public class CreatePetUseCase
             if (result.IsFailure)
             {
                 _logger.LogError("Создание pet через контроллер volunteer завершился с ошибкой {0}", result.Error);
-                return result.Error;
+                return (ErrorList)result.Error;
             }
 
             Pet pet = result.Value;
@@ -93,7 +101,7 @@ public class CreatePetUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать питомца");
-            return Errors.Failure("Database.is.failed");
+            return (ErrorList)Errors.Failure("Database.is.failed");
         }
     }
 }

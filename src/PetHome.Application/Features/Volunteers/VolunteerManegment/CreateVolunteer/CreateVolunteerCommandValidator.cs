@@ -3,9 +3,9 @@ using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 
 namespace PetHome.Application.Features.Volunteers.VolunteerManegment.CreateVolunteer;
-public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerCommand>
+public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>
 {
-    public CreateVolunteerRequestValidator()
+    public CreateVolunteerCommandValidator()
     {
         RuleFor(c => c.FullNameDto)
             .MustBeValueObject(n => FullName.Create(n.FirstName, n.LastName));

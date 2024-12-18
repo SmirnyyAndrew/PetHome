@@ -3,9 +3,9 @@ using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Volunteers.PetManegment.UploadPetMediaFiles;
-public class UploadPetMediaFilesValidator : AbstractValidator<UploadPetMediaFilesCommand>
+public class UploadPetMediaFilesCommandValidator : AbstractValidator<UploadPetMediaFilesCommand>
 {
-    public UploadPetMediaFilesValidator()
+    public UploadPetMediaFilesCommandValidator()
     {
         RuleFor(d => d.UploadPetMediaDto.BucketName)
             .Must(b => !string.IsNullOrWhiteSpace(b))

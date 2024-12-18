@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
-using PetHome.API.Envelopes;
 using PetHome.Application.Features.Dtos.Pet;
 using PetHome.Application.Features.Volunteers.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Volunteers.PetManegment.CreatePet;
@@ -30,22 +29,17 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         [FromBody] PetMainInfoDto PetMainInfoDto,
         [FromServices] CreatePetUseCase createPetUseCase,
-        [FromServices] IValidator<CreatePetCommand> validator,
         CancellationToken ct = default)
     {
         CreatePetRequest createPetRequest = new CreatePetRequest(
                         volunteerId,
                         PetMainInfoDto);
 
-        var validationResult = await validator.ValidateAsync(createPetRequest, ct);
-        if (validationResult.IsValid == false)
-            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
-
         var result = await createPetUseCase.Execute(createPetRequest, ct);
         if (result.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(result.Error));
+            return BadRequest(result.Error);
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -54,43 +48,35 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         IEnumerable<IFormFile> formFiles,
         [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
-        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
-        [FromServices] IValidator<UploadPetMediaFilesCommand> validator,
+        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase, 
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
         streams = formFiles.Select(x => x.OpenReadStream()).ToList();
-        Result<string, Error> result;
+        Result<string, ErrorList> result;
 
         UploadPetMediaFilesRequest uploadPetMediaRequest =
             new UploadPetMediaFilesRequest(
                 streams,
                 formFiles.ToList().Select(x => x.FileName),
                 uploadPetMediaDto);
-
-        var validationResult = await validator.ValidateAsync(
-            uploadPetMediaRequest,
-            ct);
-
-        if (validationResult.IsValid == false)
-            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
-
+          
         try
         {
             result = await uploadPetMediaUseCase.Execute(
               _minioProvider,
               uploadPetMediaRequest,
               volunteerId,
-              ct);
+              ct); 
             if (result.IsFailure)
-                return BadRequest(ResponseEnvelope.Error(result.Error));
+                return BadRequest(result.Error);
         }
         finally
         {
             streams.ForEach(x => x.Dispose());
         }
 
-        return Ok(ResponseEnvelope.Ok(result.Value));
+        return Ok(result.Value);
     }
 
 
@@ -98,25 +84,20 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
         [FromBody] DeletePetMediaFilesDto deleteMediaDto,
-        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
-        [FromServices] IValidator<DeletePetMediaFilesCommand> validator,
+        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase, 
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
             new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
-
-        var validationResult = await validator.ValidateAsync(deleteMediaRequest, ct);
-        if (validationResult.IsValid == false)
-            return BadRequest(ResponseEnvelope.Error(validationResult.Errors));
-
+          
         var deleteResult = await deletePetMediaFUseCase.Execute(
             _minioProvider,
             deleteMediaRequest,
             ct);
         if (deleteResult.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(deleteResult.Error)); ;
+            return BadRequest(deleteResult.Error);
 
-        return Ok(ResponseEnvelope.Ok(deleteResult.Value));
+        return Ok(deleteResult.Value);
     }
 
 
@@ -134,8 +115,8 @@ public class PetManegmentController : ParentController
 
         var executeResult = await changeNumberUseCase.Execute(request, ct);
         if (executeResult.IsFailure)
-            return BadRequest(ResponseEnvelope.Error(executeResult.Error));
+            return BadRequest(executeResult.Error);
 
-        return Ok(ResponseEnvelope.Ok(executeResult.Value));
+        return Ok(executeResult.Value);
     }
 }
