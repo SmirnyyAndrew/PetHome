@@ -16,9 +16,9 @@ public class SpeciesDtoConfiguration : IEntityTypeConfiguration<SpeciesDto>
             .IsRequired()
             .HasColumnName("name");
 
-        //breeds
-        builder.HasMany(s => s.Breeds)
-            .WithOne()
-            .HasForeignKey(f => f.SpeciesId);
+        ////breeds
+        //builder.HasMany(s => s.Breeds)
+        //    .WithOne()
+        //    .HasForeignKey(f => f.SpeciesId);
     }
 }

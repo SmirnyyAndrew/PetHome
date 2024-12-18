@@ -1,7 +1,7 @@
 ﻿using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Interfaces;
 
-public class PetDto : SoftDeletableEntity
+public class PetDto// : SoftDeletableEntity
 {
     public Guid Id { get; init; }
     public string Name { get; init; }

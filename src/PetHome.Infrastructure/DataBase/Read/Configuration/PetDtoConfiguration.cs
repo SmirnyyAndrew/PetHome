@@ -87,15 +87,15 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
             .IsRequired()
             .HasColumnName("serial_number");
 
-        //Is soft deleted
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted");
+        ////Is soft deleted
+        //builder.Property<bool>("_isDeleted")
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field)
+        //    .HasColumnName("is_deleted");
 
-        //has been deleted date
-        builder.Property<DateTime>("DeletionDate")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("soft_deleted_date");
+        ////has been deleted date
+        //builder.Property<DateTime>("DeletionDate")
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field)
+        //    .HasColumnName("soft_deleted_date");
 
     }
 }
