@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
 using PetHome.Application.Models;
+using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 public class GetAllVolunteersWithPaginationUseCase
@@ -19,10 +20,13 @@ public class GetAllVolunteersWithPaginationUseCase
         _logger = logger;
     }
 
-    public async Task<Result<PagedList<VolunteerDto>>> Execute(
+    public async Task<Result<PagedList<VolunteerDto>, Error>> Execute(
         GetAllVolunteersWithPaginationQuery query,
         CancellationToken ct)
     {
+        if (query.PageNum == 0 || query.PageSize == 0)
+            return Errors.Validation("Номер и размер страницы не может быть меньше 1");
+
         var volunteerDtos = await _readDBContext.Volunteers
             .Skip((query.PageNum - 1) * query.PageSize)
             .Take(query.PageSize)
