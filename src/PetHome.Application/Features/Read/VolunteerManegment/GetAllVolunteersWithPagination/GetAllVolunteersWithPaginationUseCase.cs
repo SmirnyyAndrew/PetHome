@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Models;
 
 namespace PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 public class GetAllVolunteersWithPaginationUseCase
@@ -17,7 +18,7 @@ public class GetAllVolunteersWithPaginationUseCase
         _logger = logger;
     }
 
-    public async Task<Result<IReadOnlyList<VolunteerDto>>> Execute(
+    public async Task<Result<PagedList<VolunteerDto>>> Execute(
         GetAllVolunteersWithPaginationQuery query,
         CancellationToken ct)
     {
@@ -27,6 +28,14 @@ public class GetAllVolunteersWithPaginationUseCase
             .ToList();
 
         _logger.LogInformation("Получено {0} волонётров", volunteerDtos.Count);
-        return volunteerDtos;
+
+        PagedList<VolunteerDto> record = new PagedList<VolunteerDto>()
+        {
+            Items = volunteerDtos,
+            PageNumber = query.PageNum,
+            PageSize = query.PageSize
+        };
+
+        return record;
     }
 }
