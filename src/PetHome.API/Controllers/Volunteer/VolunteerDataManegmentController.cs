@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Controllers.Volunteer.Request;
 using PetHome.API.Extentions;
 using PetHome.Application.Features.Background;
+using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
@@ -105,5 +106,22 @@ public class VolunteerDataManegmentController : ParentController
             result.Error.GetSatusCode();
 
         return Ok(result.Value);
-    } 
+    }
+
+
+    [HttpGet("paged/volunteers")]
+    public async Task<IActionResult> GetAllWithPagination(
+        [FromServices] GetAllVolunteersWithPaginationUseCase useCase,
+        [FromBody] GetAllVolunteersWithPaginationQuery query,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(query, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+
+
 }
