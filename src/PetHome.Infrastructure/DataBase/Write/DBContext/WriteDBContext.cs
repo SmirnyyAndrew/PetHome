@@ -27,6 +27,7 @@ public class WriteDBContext(IConfiguration configuration) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WriteDBContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WriteDBContext).Assembly,
+            type => type.FullName?.Contains("DataBase.Write") ?? false);
     }
 }

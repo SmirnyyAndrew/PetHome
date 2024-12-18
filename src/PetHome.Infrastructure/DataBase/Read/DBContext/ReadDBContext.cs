@@ -25,9 +25,10 @@ public class ReadDBContext(IConfiguration configuration) : DbContext, IReadDBCon
 
     private ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => { builder.AddConsole(); });
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadDBContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadDBContext).Assembly,
+            type => type.FullName?.Contains("DataBase.Read") ?? false);
     }
 }
