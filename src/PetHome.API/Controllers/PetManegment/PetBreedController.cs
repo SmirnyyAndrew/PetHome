@@ -29,7 +29,10 @@ public class PetBreedController : ParentController
         [FromServices] GetAllBreedDtoBySpeciesIdUseCase useCase,
         CancellationToken ct)
     {
+        var result = await useCase.Execute(id, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
 
-        return default;
+        return Ok(result.Value);
     }
 }

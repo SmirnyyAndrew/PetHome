@@ -25,6 +25,7 @@ public class GetAllBreedDtoBySpeciesIdUseCase
         CancellationToken ct)
     {
         SpeciesDto? getSpeciesByIdResult = await _readDBContext.Species
+            .Include(b=>b.Breeds)
             .Where(s => s.Id == speciesId)
             .FirstOrDefaultAsync();
         if (getSpeciesByIdResult == null)
