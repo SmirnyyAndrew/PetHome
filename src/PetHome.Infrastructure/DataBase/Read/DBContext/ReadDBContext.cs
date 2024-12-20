@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Infrastructure.DataBase.Read.Interfaces;
+using PetHome.Application.Database.Read;
 using PetHome.Infrastructure.Shared;
 
 namespace PetHome.Infrastructure.DataBase.Read.DBContext;
@@ -25,9 +25,10 @@ public class ReadDBContext(IConfiguration configuration) : DbContext, IReadDBCon
 
     private ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => { builder.AddConsole(); });
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadDBContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadDBContext).Assembly,
+            type => type.FullName?.Contains("DataBase.Read") ?? false);
     }
 }

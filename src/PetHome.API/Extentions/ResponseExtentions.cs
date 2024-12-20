@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.API.Envelopes;
+using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Extentions;

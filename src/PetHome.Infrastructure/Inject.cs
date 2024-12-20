@@ -3,11 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using Minio.AspNetCore;
 using PetHome.Application.Database;
+using PetHome.Application.Database.Read;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Messaging;
 using PetHome.Infrastructure.Background;
 using PetHome.Infrastructure.DataBase;
+using PetHome.Infrastructure.DataBase.Read.DBContext;
 using PetHome.Infrastructure.DataBase.Write.DBContext;
 using PetHome.Infrastructure.DataBase.Write.Repositories;
 using PetHome.Infrastructure.MessageQueues;
@@ -21,10 +23,10 @@ public static class Inject
        this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddScoped<WriteDBContext>();
+        services.AddScoped<IReadDBContext, ReadDBContext>();
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
         services.AddMinio(configuration);
-        //services.AddScoped<IFilesProvider, MinioProvider>();
         services.AddSingleton<IFilesProvider, MinioProvider>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();

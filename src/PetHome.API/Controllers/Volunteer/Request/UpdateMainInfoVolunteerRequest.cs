@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Features.Volunteers.VolunteerManegment.UpdateMainInfoVolunteer;
+﻿using PetHome.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
 
 public record UpdateMainInfoVolunteerRequest(
     Guid Id,

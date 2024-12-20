@@ -66,9 +66,6 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
             .IsRequired()
             .HasColumnName("status");
 
-        ////requisites
-        builder.OwnsMany(r => r.Requisites);
-
         //create date
         builder.Property(i => i.ProfileCreateDate)
             .IsRequired()
@@ -79,29 +76,26 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
             .IsRequired()
             .HasColumnName("volunteer_id");
 
-        //has been soft deleted date
-        builder.Property<DateTime>("DeletionDate")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .IsRequired()
-            .HasColumnName("soft_deleted_date");
+        ////has been soft deleted date
+        //builder.Property<DateTime>("DeletionDate")
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field)
+        //    .IsRequired()
+        //    .HasColumnName("soft_deleted_date");
 
         //serial number
         builder.Property(s => s.SerialNumber)
             .IsRequired()
             .HasColumnName("serial_number");
 
-        //photos
-        builder.OwnsMany(d => d.Medias);
+        ////Is soft deleted
+        //builder.Property<bool>("_isDeleted")
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field)
+        //    .HasColumnName("is_deleted");
 
-        //Is soft deleted
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("is_deleted");
-
-        //has been deleted date
-        builder.Property<DateTime>("DeletionDate")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("soft_deleted_date");
+        ////has been deleted date
+        //builder.Property<DateTime>("DeletionDate")
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field)
+        //    .HasColumnName("soft_deleted_date");
 
     }
 }
