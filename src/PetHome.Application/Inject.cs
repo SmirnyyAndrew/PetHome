@@ -9,6 +9,7 @@ using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Write.PetManegment.CreateBreed;
 using PetHome.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
+using PetHome.Application.Features.Write.PetManegment.DeleteBreedById;
 using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
@@ -45,6 +46,7 @@ public static class Inject
 
         //Breed manegment
         services.AddScoped<GetAllBreedDtoBySpeciesIdUseCase>();
+        services.AddScoped<DeleteSpeciesByIdUseCase>();
         return services;
     } 
 }
