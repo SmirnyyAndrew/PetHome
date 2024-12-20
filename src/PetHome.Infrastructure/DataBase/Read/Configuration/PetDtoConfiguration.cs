@@ -6,7 +6,7 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
 {
     public void Configure(EntityTypeBuilder<PetDto> builder)
     {
-        builder.ToTable("Pets");
+        builder.ToTable("pets");
         //id
         builder.HasKey(x => x.Id);
 
