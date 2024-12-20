@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Background;
-using PetHome.Application.Features.Read.PetManegment.GetAllBreedDtoBySpeciesId;
-using PetHome.Application.Features.Read.PetManegment.GetAllSpecies;
+using PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
+using PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
 using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;

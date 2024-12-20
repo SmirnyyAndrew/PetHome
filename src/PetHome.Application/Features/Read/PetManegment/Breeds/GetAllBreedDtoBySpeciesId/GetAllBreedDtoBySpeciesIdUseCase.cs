@@ -6,7 +6,7 @@ using PetHome.Application.Database.Read;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Read.PetManegment.GetAllBreedDtoBySpeciesId;
+namespace PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
 public class GetAllBreedDtoBySpeciesIdUseCase
 {
     private readonly IReadDBContext _readDBContext;
@@ -25,7 +25,7 @@ public class GetAllBreedDtoBySpeciesIdUseCase
         CancellationToken ct)
     {
         SpeciesDto? getSpeciesByIdResult = await _readDBContext.Species
-            .Include(b=>b.Breeds)
+            .Include(b => b.Breeds)
             .Where(s => s.Id == speciesId)
             .FirstOrDefaultAsync();
         if (getSpeciesByIdResult == null)

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
 
-namespace PetHome.Application.Features.Read.PetManegment.GetAllSpecies;
+namespace PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
 public class GetAllSpeciesUseCase
 {
     private readonly IReadDBContext _readDBContext;
