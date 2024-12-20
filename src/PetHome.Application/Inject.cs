@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Background;
+using PetHome.Application.Features.Read.PetManegment.GetAllBreedDtoBySpeciesId;
 using PetHome.Application.Features.Read.PetManegment.GetAllSpecies;
 using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
@@ -41,6 +42,9 @@ public static class Inject
 
         //Species manegment
         services.AddScoped<GetAllSpeciesUseCase>();
+
+        //Breed manegment
+        services.AddScoped<GetAllBreedDtoBySpeciesIdUseCase>();
         return services;
     } 
 }
