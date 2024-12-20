@@ -1,11 +1,12 @@
 ﻿using FluentValidation.Results;
 using Minio.DataModel;
+using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Envelopes;
 public class ResponseEnvelope
 {
-    public IReadOnlyList<Error> Errors { get; }
+    public ErrorList Errors { get; }
     public object? Result { get; }
     public DateTime TimeGenerated { get; }
 
@@ -19,19 +20,9 @@ public class ResponseEnvelope
     public static ResponseEnvelope Ok(object? result) => new ResponseEnvelope(result, null);
     public static ResponseEnvelope Error(Error error) => new ResponseEnvelope(null, new List<Error>() { error });
     public static ResponseEnvelope Error(IEnumerable<Error> errors) => new ResponseEnvelope(null, errors);
-    public static ResponseEnvelope Error(IEnumerable<ValidationFailure> validationFailures)
-    {
-        List<Error> errors = new();
-        foreach (var failure in validationFailures)
-        {
-            Error error = Domain.Shared.Error.Errors.Validation(failure.ErrorMessage);
-            errors.Add(error);
-        }
+    public static ResponseEnvelope Error(ErrorList errors) => new ResponseEnvelope(null, errors.Errors);
 
-        return Error(errors);
-    }
-
-    public static ResponseEnvelope ConvertObjectStat(ObjectStat objectStat)
+    public static implicit operator ResponseEnvelope(ObjectStat objectStat)
     {
         var result = new
         {
@@ -41,5 +32,18 @@ public class ResponseEnvelope
         };
 
         return new ResponseEnvelope(result, null);
+    }
+
+    public static implicit operator ResponseEnvelope(
+        ValidationFailure[] validationFailures)
+    {
+        List<Error> errors = new();
+        foreach (var failure in validationFailures)
+        {
+            Error error = Domain.Shared.Error.Errors.Validation(failure.ErrorMessage);
+            errors.Add(error);
+        }
+
+        return Error(errors.ToArray());
     }
 }
