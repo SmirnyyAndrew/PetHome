@@ -224,4 +224,15 @@ public class Pet : SoftDeletableEntity
     {
         Status = newStatus;
     }
+
+    //Установить главную фотографию
+    public void SetMainPhoto(Media media)
+    {
+        List<Media> medias = new List<Media>() { media };
+        medias.AddRange(Medias
+            .Select(m => Media.Create(m.BucketName, m.FileName).Value)
+            .Except([media])
+            .ToList());
+        Medias = new ValueObjectList<Media>(medias);
+    }
 }
