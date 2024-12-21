@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using PetHome.Application.Database.Read;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Database.Read;
 using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
+using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
-using CSharpFunctionalExtensions;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
@@ -14,17 +15,20 @@ public class HardDeleteUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IReadDBContext _readDBContext;
+    private readonly IFilesProvider _filesProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ChangePetInfoUseCase> _logger;
 
     public HardDeleteUseCase(
          IVolunteerRepository volunteerRepository,
          IReadDBContext readDBContext,
+         IFilesProvider filesProvider,
          IUnitOfWork unitOfWork,
          ILogger<ChangePetInfoUseCase> logger)
     {
         _volunteerRepository = volunteerRepository;
         _readDBContext = readDBContext;
+        _filesProvider = filesProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -50,13 +54,20 @@ public class HardDeleteUseCase
             return (ErrorList)Errors.NotFound($"Питомец с id = {command.PetId}");
         }
 
-        volunteer.Pets.Remove(pet);
-        var transaction = await _unitOfWork.BeginTransaction(ct); 
+        var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
+            volunteer.Pets.Remove(pet);
             await _volunteerRepository.Update(volunteer, ct);
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
+
+            List<MinioFileName> minioFileNames = pet.Medias
+                .Select(f => MinioFileName.Create(f.FileName).Value)
+                .ToList();
+            string bucketName = pet.Medias.Select(f => f.BucketName).First();
+            MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(bucketName, minioFileNames);
+            await _filesProvider.DeleteFile(minioFileInfoDto, ct);
 
             string message = $"Питомец = {command.PetId} успешно hard deleted!";
             _logger.LogInformation(message);
