@@ -1,4 +1,4 @@
 ﻿namespace PetHome.Application.Features.Write.PetManegment.HardDelete;
-public record HardDeleteCommand(
+public record HardDeletePetCommand(
     Guid VolunteerId,
     Guid PetId);

@@ -4,7 +4,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
-public class SetMainPhotoCommandValidator:AbstractValidator<SetMainPhotoCommand>    
+public class SetMainPhotoCommandValidator:AbstractValidator<SetPetMainPhotoCommand>    
 {
     public SetMainPhotoCommandValidator()
     {

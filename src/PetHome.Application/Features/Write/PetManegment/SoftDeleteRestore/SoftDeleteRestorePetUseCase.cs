@@ -10,18 +10,18 @@ using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.SoftDelete;
-public class SoftDeleteRestoreUseCase
+public class SoftDeleteRestorePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IReadDBContext _readDBContext;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<SoftDeleteRestoreUseCase> _logger;
+    private readonly ILogger<SoftDeleteRestorePetUseCase> _logger;
 
-    public SoftDeleteRestoreUseCase(
+    public SoftDeleteRestorePetUseCase(
         IVolunteerRepository volunteerRepository,
         IReadDBContext readDBContext,
         IUnitOfWork unitOfWork,
-        ILogger<SoftDeleteRestoreUseCase> logger)
+        ILogger<SoftDeleteRestorePetUseCase> logger)
     {
         _volunteerRepository = volunteerRepository;
         _readDBContext = readDBContext;
@@ -30,7 +30,7 @@ public class SoftDeleteRestoreUseCase
     }
 
     public async Task<UnitResult<ErrorList>> Execute(
-        SoftDeleteRestoreCommand command,
+        SoftDeleteRestorePetCommand command,
         CancellationToken ct)
     {
         VolunteerDto? volunteerDto = _readDBContext.Volunteers

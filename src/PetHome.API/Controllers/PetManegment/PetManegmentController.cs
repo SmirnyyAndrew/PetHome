@@ -154,8 +154,8 @@ public class PetManegmentController : ParentController
 
     [HttpDelete("hard")]
     public async Task<IActionResult> HardDelete(
-        [FromBody] HardDeleteRequest request,
-        [FromServices] HardDeleteUseCase useCase,
+        [FromBody] HardDeletePetRequest request,
+        [FromServices] HardDeletePetUseCase useCase,
         CancellationToken ct = default)
     {
         var result = await useCase.Execute(request, ct);
@@ -168,8 +168,8 @@ public class PetManegmentController : ParentController
 
     [HttpPost("soft")]
     public async Task<IActionResult> HardDelete(
-        [FromBody] SoftDeleteRestoreRequest request,
-        [FromServices] SoftDeleteRestoreUseCase useCase,
+        [FromBody] SoftDeleteRestorePetRequest request,
+        [FromServices] SoftDeleteRestorePetUseCase useCase,
         CancellationToken ct = default)
     {
         var result = await useCase.Execute(request, ct);
@@ -182,8 +182,8 @@ public class PetManegmentController : ParentController
 
     [HttpPost("main-photo")]
     public async Task<IActionResult> SetMainPhoto(
-        [FromBody] SetMainPhotoRequest request,
-        [FromServices] SetMainPhotoUseCase useCase,
+        [FromBody] SetPetMainPhotoRequest request,
+        [FromServices] SetPetMainPhotoUseCase useCase,
         CancellationToken ct = default)
     {
         var result = await useCase.Execute(request, ct);

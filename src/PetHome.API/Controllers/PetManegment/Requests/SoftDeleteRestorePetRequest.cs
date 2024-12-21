@@ -1,14 +1,14 @@
 ﻿using PetHome.Application.Features.Write.PetManegment.SoftDelete;
 
 namespace PetHome.API.Controllers.PetManegment.Requests;
-public record SoftDeleteRestoreRequest(
+public record SoftDeleteRestorePetRequest(
     Guid VolunteerId,
     Guid PetId,
     bool ToDelete)
 {
-    public static implicit operator SoftDeleteRestoreCommand(SoftDeleteRestoreRequest request)
+    public static implicit operator SoftDeleteRestorePetCommand(SoftDeleteRestorePetRequest request)
     {
-        return new SoftDeleteRestoreCommand(
+        return new SoftDeleteRestorePetCommand(
             request.VolunteerId,
             request.PetId,
             request.ToDelete);

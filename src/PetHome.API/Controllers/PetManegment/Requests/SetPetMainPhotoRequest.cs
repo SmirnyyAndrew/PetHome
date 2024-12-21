@@ -1,16 +1,16 @@
 ﻿using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
 
 namespace PetHome.API.Controllers.PetManegment.Requests;
-public record SetMainPhotoRequest(
+public record SetPetMainPhotoRequest(
      Guid VolunteerId,
      Guid PetId,
      Stream Stream,
      string BucketName,
      string FileName)
 {
-    public static implicit operator SetMainPhotoCommand(SetMainPhotoRequest request)
+    public static implicit operator SetPetMainPhotoCommand(SetPetMainPhotoRequest request)
     {
-        return new SetMainPhotoCommand(
+        return new SetPetMainPhotoCommand(
             request.VolunteerId,
             request.PetId,
             request.Stream,
