@@ -18,7 +18,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(i => i.Id)
             .HasConversion(
                 id => id.Value,
-                value => PetId.Create(value))
+                value => PetId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
 

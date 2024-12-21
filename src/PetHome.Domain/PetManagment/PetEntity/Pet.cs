@@ -27,7 +27,7 @@ public class Pet : SoftDeletableEntity
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites)
     {
-        Id = PetId.Create();
+        Id = PetId.Create().Value;
         Name = name;
         SpeciesId = speciesId;
         Description = description;
