@@ -5,12 +5,17 @@ using PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpec
 using PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
 using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
+using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
+using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Write.PetManegment.CreateBreed;
 using PetHome.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
 using PetHome.Application.Features.Write.PetManegment.DeleteBreedById;
 using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
+using PetHome.Application.Features.Write.PetManegment.HardDelete;
+using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
+using PetHome.Application.Features.Write.PetManegment.SoftDelete;
 using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
@@ -39,6 +44,11 @@ public static class Inject
         services.AddScoped<UploadPetMediaFilesUseCase>();
         services.AddScoped<DeletePetMediaFilesUseCase>();
         services.AddScoped<ChangePetSerialNumberUseCase>();
+        services.AddScoped<ChangePetInfoUseCase>();
+        services.AddScoped<ChangePetStatusUseCase>();
+        services.AddScoped<HardDeletePetUseCase>();
+        services.AddScoped<SoftDeleteRestorePetUseCase>();
+        services.AddScoped<SetPetMainPhotoUseCase>();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 
         //Species manegment
