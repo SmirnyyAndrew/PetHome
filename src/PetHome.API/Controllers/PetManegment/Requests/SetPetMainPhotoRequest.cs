@@ -3,8 +3,7 @@
 namespace PetHome.API.Controllers.PetManegment.Requests;
 public record SetPetMainPhotoRequest(
      Guid VolunteerId,
-     Guid PetId,
-     Stream Stream,
+     Guid PetId, 
      string BucketName,
      string FileName)
 {
@@ -12,8 +11,7 @@ public record SetPetMainPhotoRequest(
     {
         return new SetPetMainPhotoCommand(
             request.VolunteerId,
-            request.PetId,
-            request.Stream,
+            request.PetId, 
             request.BucketName,
             request.FileName);
     }
