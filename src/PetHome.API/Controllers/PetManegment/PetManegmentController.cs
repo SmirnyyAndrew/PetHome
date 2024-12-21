@@ -2,10 +2,16 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
+using PetHome.API.Controllers.PetManegment.Requests;
 using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
+using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
+using PetHome.Application.Features.Write.PetManegment.HardDelete;
+using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
+using PetHome.Application.Features.Write.PetManegment.SoftDelete;
 using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 using PetHome.Application.Validator;
 using PetHome.Infrastructure.Providers.Minio;
@@ -48,7 +54,7 @@ public class PetManegmentController : ParentController
         [FromRoute] Guid volunteerId,
         IEnumerable<IFormFile> formFiles,
         [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
-        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase, 
+        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
@@ -60,14 +66,14 @@ public class PetManegmentController : ParentController
                 streams,
                 formFiles.ToList().Select(x => x.FileName),
                 uploadPetMediaDto);
-          
+
         try
         {
             result = await uploadPetMediaUseCase.Execute(
               _minioProvider,
               uploadPetMediaRequest,
               volunteerId,
-              ct); 
+              ct);
             if (result.IsFailure)
                 return BadRequest(result.Error);
         }
@@ -84,12 +90,12 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
         [FromBody] DeletePetMediaFilesDto deleteMediaDto,
-        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase, 
+        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
             new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
-          
+
         var deleteResult = await deletePetMediaFUseCase.Execute(
             _minioProvider,
             deleteMediaRequest,
@@ -119,4 +125,72 @@ public class PetManegmentController : ParentController
 
         return Ok(executeResult.Value);
     }
+
+    [HttpPost("info")]
+    public async Task<IActionResult> ChangeInfo(
+        [FromBody] ChangePetInfoRequest request,
+        [FromServices] ChangePetInfoUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpPost("status")]
+    public async Task<IActionResult> ChangeStatus(
+        [FromBody] ChangePetStatusRequest request,
+        [FromServices] ChangePetStatusUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpDelete("hard")]
+    public async Task<IActionResult> HardDelete(
+        [FromBody] HardDeleteRequest request,
+        [FromServices] HardDeleteUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok();
+    }
+
+
+    [HttpPost("soft")]
+    public async Task<IActionResult> HardDelete(
+        [FromBody] SoftDeleteRestoreRequest request,
+        [FromServices] SoftDeleteRestoreUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok();
+    }
+
+
+    [HttpPost("main-photo")]
+    public async Task<IActionResult> SetMainPhoto(
+        [FromBody] SetMainPhotoRequest request,
+        [FromServices] SetMainPhotoUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok();
+    }
+
 }

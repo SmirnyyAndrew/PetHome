@@ -33,7 +33,7 @@ public class HardDeleteUseCase
         _logger = logger;
     }
     public async Task<UnitResult<ErrorList>> Execute(
-        ChangePetInfoCommand command,
+        HardDeleteCommand command,
         CancellationToken ct)
     {
         VolunteerDto? volunteerDto = _readDBContext.Volunteers
