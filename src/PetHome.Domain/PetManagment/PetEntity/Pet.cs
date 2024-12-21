@@ -204,7 +204,7 @@ public class Pet : SoftDeletableEntity
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites)
     {
-        Name =  name;
+        Name = name;
         SpeciesId = speciesId;
         Description = description;
         BreedId = breedId;
@@ -217,5 +217,11 @@ public class Pet : SoftDeletableEntity
         Status = status;
         VolunteerId = volunteerId;
         Requisites = requisites;
+    }
+
+    //Изменение статуса питомца
+    public void ChangeStatus(PetStatusEnum newStatus)
+    {
+        Status = newStatus;
     }
 }
