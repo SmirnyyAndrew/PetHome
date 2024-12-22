@@ -25,7 +25,7 @@ public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
             }  
         }
 
-        ResponseEnvelope envelope = ResponseEnvelope.Error(errors);
+        ResponseEnvelope envelope = ResponseEnvelope.Error(errors.ToArray());
 
         return new ObjectResult(envelope)
         {

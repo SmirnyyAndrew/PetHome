@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetHome.Infrastructure.DataBase.Read.DBContext;
 
 #nullable disable
 
-namespace PetHome.Infrastructure.Migrations.Read
+namespace PetHome.Infrastructure.migrations.read
 {
     [DbContext(typeof(ReadDBContext))]
-    partial class ReadDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241220163643_addbreedconfigurationreadmigration")]
+    partial class addbreedconfigurationreadmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,7 +95,7 @@ namespace PetHome.Infrastructure.Migrations.Read
                     b.HasKey("Id")
                         .HasName("pk_pets");
 
-                    b.ToTable("pets", (string)null);
+                    b.ToTable("Pets", (string)null);
                 });
 
             modelBuilder.Entity("PetHome.Application.Database.Dtos.BreedDto", b =>
