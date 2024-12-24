@@ -6,3 +6,8 @@ public interface IQueryHandler<TResponse, in TQuery> where TQuery : IQuery
 {
     public Task<Result<TResponse, ErrorList>> Execute(TQuery query, CancellationToken ct);
 }
+
+public interface IQueryHandler<TResponse>
+{
+    public Task<Result<TResponse, ErrorList>> Execute(CancellationToken ct);
+}

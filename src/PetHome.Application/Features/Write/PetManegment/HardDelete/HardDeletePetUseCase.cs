@@ -4,6 +4,7 @@ using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
 using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
 using PetHome.Application.Interfaces;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -12,6 +13,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.HardDelete;
 public class HardDeletePetUseCase
+    : ICommandHandler<HardDeletePetCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IReadDBContext _readDBContext;
@@ -61,7 +63,7 @@ public class HardDeletePetUseCase
             await _volunteerRepository.Update(volunteer, ct);
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
-          
+
             if (pet.Medias.Count > 0)
             {
                 List<MinioFileName> minioFileNames = pet.Medias

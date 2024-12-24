@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -9,6 +10,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.CreateBreed;
 public class CreateBreedUseCase
+    : ICommandHandler<Guid, CreateBreedCommand>
 {
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreateBreedUseCase> _logger;

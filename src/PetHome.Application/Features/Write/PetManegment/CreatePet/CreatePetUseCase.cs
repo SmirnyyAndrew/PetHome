@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
 using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
@@ -14,6 +15,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.CreatePet;
 public class CreatePetUseCase
+    : ICommandHandler<Pet, CreatePetCommand>
 {
     private readonly IReadDBContext _readDBContext;
     private readonly IVolunteerRepository _volunteerRepository;
@@ -66,10 +68,10 @@ public class CreatePetUseCase
                 _logger.LogError("Вид питомца с id = {0} не найден", mainInfoDto.SpeciesId);
                 return (ErrorList)Errors.NotFound($"Вид питомца с id = {mainInfoDto.SpeciesId}");
             }
- 
+
             var isExistBreed = speciesResult
                 .SelectMany(b => b.Breeds)
-                .Any(x=>x.Id == mainInfoDto.BreedId);
+                .Any(x => x.Id == mainInfoDto.BreedId);
             if (isExistBreed == false)
             {
                 _logger.LogError("Порода с id = {0} не найдена", mainInfoDto.SpeciesId);

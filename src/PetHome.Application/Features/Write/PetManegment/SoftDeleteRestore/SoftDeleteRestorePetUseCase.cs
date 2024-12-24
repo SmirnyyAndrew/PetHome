@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -11,6 +12,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
 public class SoftDeleteRestorePetUseCase
+    : ICommandHandler<SoftDeleteRestorePetCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IReadDBContext _readDBContext;

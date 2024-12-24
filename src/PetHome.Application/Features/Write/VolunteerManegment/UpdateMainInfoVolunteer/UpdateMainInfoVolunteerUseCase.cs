@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
@@ -10,6 +11,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
 public class UpdateMainInfoVolunteerUseCase
+    : ICommandHandler<Guid, UpdateMainInfoVolunteerCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<UpdateMainInfoVolunteerUseCase> _logger;

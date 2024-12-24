@@ -2,15 +2,16 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
 public class ChangePetStatusUseCase
+    : ICommandHandler<string, ChangePetStatusCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IReadDBContext _readDBContext;

@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
@@ -12,6 +13,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
 public class SetPetMainPhotoUseCase
+    : ICommandHandler<SetPetMainPhotoCommand>
 {
     private readonly IReadDBContext _readDBContext;
     private readonly IVolunteerRepository _volunteerRepository;
@@ -42,7 +44,7 @@ public class SetPetMainPhotoUseCase
         {
             return (ErrorList)validationResult.Errors;
         }
-         
+
 
         VolunteerDto? volunteerDto = _readDBContext.Volunteers
                     .FirstOrDefault(v => v.Id == command.VolunteerId);
