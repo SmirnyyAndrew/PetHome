@@ -16,11 +16,7 @@ public class ReadDBContext : DbContext, IReadDBContext
     public ReadDBContext(string connectionString)
     {
         _connectionString = connectionString;
-    }
-    //public ReadDBContext(IConfiguration configuration)
-    //{
-    //    _connectionString = configuration.GetConnectionString(Constants.DATABASE);
-    //}
+    } 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     { 

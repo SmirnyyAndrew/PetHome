@@ -16,11 +16,7 @@ public class WriteDBContext : DbContext
     public WriteDBContext(string connectionString)
     {
         _connectionString = connectionString;
-    }
-    //public WriteDBContext(IConfiguration configuration)
-    //{
-    //    _connectionString = configuration.GetConnectionString(Constants.DATABASE);
-    //}
+    } 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     { 
