@@ -9,7 +9,7 @@ using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Write.PetManegment.SoftDelete;
+namespace PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
 public class SoftDeleteRestorePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;

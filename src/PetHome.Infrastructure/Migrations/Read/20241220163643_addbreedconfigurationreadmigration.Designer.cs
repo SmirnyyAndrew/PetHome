@@ -9,7 +9,7 @@ using PetHome.Infrastructure.DataBase.Read.DBContext;
 
 #nullable disable
 
-namespace PetHome.Infrastructure.migrations.read
+namespace PetHome.Infrastructure.Migrations.Read
 {
     [DbContext(typeof(ReadDBContext))]
     [Migration("20241220163643_addbreedconfigurationreadmigration")]

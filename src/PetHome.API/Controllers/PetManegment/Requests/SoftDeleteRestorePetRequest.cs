@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Features.Write.PetManegment.SoftDelete;
+﻿using PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
 
 namespace PetHome.API.Controllers.PetManegment.Requests;
 public record SoftDeleteRestorePetRequest(

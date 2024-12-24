@@ -11,7 +11,7 @@ using PetHome.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using PetHome.Application.Features.Write.PetManegment.HardDelete;
 using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
-using PetHome.Application.Features.Write.PetManegment.SoftDelete;
+using PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
 using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 using PetHome.Application.Validator;
 using PetHome.Infrastructure.Providers.Minio;

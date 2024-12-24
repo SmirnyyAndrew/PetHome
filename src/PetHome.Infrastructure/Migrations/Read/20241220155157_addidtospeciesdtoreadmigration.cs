@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace PetHome.Infrastructure.migrations.read
+namespace PetHome.Infrastructure.Migrations.Read
 {
     /// <inheritdoc />
     public partial class addidtospeciesdtoreadmigration : Migration

@@ -8,7 +8,7 @@ using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Write.PetManegment.DeleteBreedById;
+namespace PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
 public class DeleteSpeciesByIdUseCase
 {
     private readonly IReadDBContext _readDBContext;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
 using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
-using PetHome.Application.Features.Write.PetManegment.DeleteBreedById;
+using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
 
 namespace PetHome.API.Controllers.PetManegment;
 
