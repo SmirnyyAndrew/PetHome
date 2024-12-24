@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Messaging;
 using PetHome.Application.Validator;
@@ -13,7 +14,8 @@ using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
-public class UploadPetMediaFilesUseCase 
+public class UploadPetMediaFilesUseCase
+    : ICommandHandler<string, UploadPetMediaFilesCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<UploadPetMediaFilesUseCase> _logger;
@@ -35,9 +37,8 @@ public class UploadPetMediaFilesUseCase
         _validator = validator;
     }
 
-    public async Task<Result<string, ErrorList>> Execute( 
+    public async Task<Result<string, ErrorList>> Execute(
         UploadPetMediaFilesCommand command,
-        Guid volunteerId,
         CancellationToken ct)
     {
         var validationResult = await _validator.ValidateAsync(command, ct);
@@ -47,9 +48,9 @@ public class UploadPetMediaFilesUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var volunteerResult = await _volunteerRepository.GetById(volunteerId, ct);
+            var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
             if (volunteerResult.IsFailure)
-                return Errors.NotFound($"Волонтёр с id {volunteerId} не найден").ToErrorList();
+                return Errors.NotFound($"Волонтёр с id {command.VolunteerId} не найден").ToErrorList();
 
             Volunteer volunteer = volunteerResult.Value;
             Pet pet = volunteer.Pets

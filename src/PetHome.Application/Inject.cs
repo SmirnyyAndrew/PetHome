@@ -1,26 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Background;
-using PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
-using PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
-using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
-using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
-using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
-using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
-using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
-using PetHome.Application.Features.Write.PetManegment.CreateBreed;
-using PetHome.Application.Features.Write.PetManegment.CreatePet;
-using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
-using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
-using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
-using PetHome.Application.Features.Write.PetManegment.HardDelete;
-using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
-using PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
-using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
-using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
-using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
-using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
-using PetHome.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
 using PetHome.Application.Interfaces.FeatureManagment;
 
 namespace PetHome.Application;

@@ -61,19 +61,18 @@ public class PetManegmentController : ParentController
         streams = formFiles.Select(x => x.OpenReadStream()).ToList();
         Result<string, ErrorList> result;
 
-        UploadPetMediaFilesRequest uploadPetMediaRequest =
+
+        UploadPetMediaFilesRequest request =
             new UploadPetMediaFilesRequest(
                 streams,
                 formFiles.ToList().Select(x => x.FileName),
-                uploadPetMediaDto);
+                uploadPetMediaDto,
+                volunteerId,
+                _minioProvider);
 
         try
         {
-            result = await uploadPetMediaUseCase.Execute(
-              _minioProvider,
-              uploadPetMediaRequest,
-              volunteerId,
-              ct);
+            result = await uploadPetMediaUseCase.Execute(request, ct);
             if (result.IsFailure)
                 return BadRequest(result.Error);
         }
