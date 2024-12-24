@@ -7,12 +7,12 @@ namespace PetHome.IntegrationTests;
 public class BaseTest
     : IClassFixture<IntegrationTestFactory>, IAsyncLifetime
 {
-    private readonly IntegrationTestFactory _factory;
-    private readonly Fixture _fixture; 
-    private readonly IServiceScope _scope;
-    private readonly IReadDBContext _readDbContext;
-    private readonly IReadDBContext _writeDbContext;
-
+    protected readonly IntegrationTestFactory _factory;
+    protected readonly Fixture _fixture; 
+    protected readonly IServiceScope _scope;
+    protected readonly IReadDBContext _readDbContext;
+    protected readonly IReadDBContext _writeDbContext; 
+    
     
     public BaseTest(IntegrationTestFactory factory)
     {
@@ -31,10 +31,5 @@ public class BaseTest
     public Task InitializeAsync()
     {
         return Task.CompletedTask;
-    }
-    [Fact]
-    public void n()
-    {
-        Assert.Equal(1, 1);
     }
 }
