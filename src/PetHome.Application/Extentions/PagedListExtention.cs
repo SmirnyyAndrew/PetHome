@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetHome.Application.Models;
+using System.Linq.Expressions;
 
 namespace PetHome.Application.Extentions;
 public static class PagedListExtention
@@ -22,5 +23,13 @@ public static class PagedListExtention
             PageNumber = pageNum,
             PageSize = pageSize
         };
+    }
+
+    public static IQueryable<T> WhereIf<T>(
+        this IQueryable<T> source,
+        bool condition,
+        Expression<Func<T, bool>> predicate)
+    {
+        return condition ? source.Where(predicate) : source;
     }
 }
