@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Models;
 using PetHome.Domain.Shared.Error;
 
@@ -27,20 +28,11 @@ public class GetAllVolunteersWithPaginationUseCase
         if (query.PageNum == 0 || query.PageSize == 0)
             return Errors.Validation("Номер и размер страницы не может быть меньше 1");
 
-        var volunteerDtos = await _readDBContext.Volunteers
-            .Skip((query.PageNum - 1) * query.PageSize)
-            .Take(query.PageSize)
-            .ToListAsync();
+        var pagedVolunteerDtos = await _readDBContext.Volunteers
+            .ToPagedList(query.PageNum, query.PageSize, ct); 
 
-        _logger.LogInformation("Получено {0} волонётров", volunteerDtos.Count);
-
-        PagedList<VolunteerDto> pagedVolunteersDto = new PagedList<VolunteerDto>()
-        {
-            Items = volunteerDtos,
-            PageNumber = query.PageNum,
-            PageSize = query.PageSize
-        };
-
-        return pagedVolunteersDto;
+        _logger.LogInformation("Получено {0} волонётров", pagedVolunteerDtos.Count);
+          
+        return pagedVolunteerDtos;
     }
 }
