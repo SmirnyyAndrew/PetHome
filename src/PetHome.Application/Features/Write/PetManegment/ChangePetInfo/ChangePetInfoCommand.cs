@@ -1,4 +1,5 @@
-﻿using PetHome.Domain.PetManagment.PetEntity;
+﻿using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
 public record ChangePetInfoCommand(
@@ -15,4 +16,4 @@ public record ChangePetInfoCommand(
         bool IsVaccinated,
         PetStatusEnum Status,
         Guid VolunteerId,
-        IReadOnlyList<RequisitesesDto> Requisiteses);
+        IReadOnlyList<RequisitesesDto> Requisiteses) : ICommand;
