@@ -94,10 +94,9 @@ public class PetManegmentController : ParentController
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
-            new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
+            new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto, _minioProvider);
 
         var deleteResult = await deletePetMediaFUseCase.Execute(
-            _minioProvider,
             deleteMediaRequest,
             ct);
         if (deleteResult.IsFailure)

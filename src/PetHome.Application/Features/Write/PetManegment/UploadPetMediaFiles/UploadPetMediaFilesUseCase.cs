@@ -35,13 +35,12 @@ public class UploadPetMediaFilesUseCase
         _validator = validator;
     }
 
-    public async Task<Result<string, ErrorList>> Execute(
-        IFilesProvider filesProvider,
-        UploadPetMediaFilesCommand uploadPetMediaCommand,
+    public async Task<Result<string, ErrorList>> Execute( 
+        UploadPetMediaFilesCommand command,
         Guid volunteerId,
         CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(uploadPetMediaCommand, ct);
+        var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is false)
             return validationResult.Errors.ToErrorList();
 
@@ -54,27 +53,27 @@ public class UploadPetMediaFilesUseCase
 
             Volunteer volunteer = volunteerResult.Value;
             Pet pet = volunteer.Pets
-                .FirstOrDefault(x => x.Id == uploadPetMediaCommand.UploadPetMediaDto.PetId);
+                .FirstOrDefault(x => x.Id == command.UploadPetMediaDto.PetId);
             if (pet == null)
-                return Errors.NotFound($"Питомец с id {uploadPetMediaCommand.UploadPetMediaDto.PetId} не найден").ToErrorList();
+                return Errors.NotFound($"Питомец с id {command.UploadPetMediaDto.PetId} не найден").ToErrorList();
 
 
-            List<MinioFileName> initedMinioFileNames = uploadPetMediaCommand.FileNames
-                .Select(n => filesProvider.InitName(n))
+            List<MinioFileName> initedMinioFileNames = command.FileNames
+                .Select(n => command.FilesProvider.InitName(n))
                 .ToList();
             MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
-                uploadPetMediaCommand.UploadPetMediaDto.BucketName,
+                command.UploadPetMediaDto.BucketName,
                 initedMinioFileNames);
-            var uploadResult = await filesProvider.UploadFile(
-                uploadPetMediaCommand.Streams,
+            var uploadResult = await command.FilesProvider.UploadFile(
+                command.Streams,
                 minioFilesInfoDto,
-                uploadPetMediaCommand.UploadPetMediaDto.CreateBucketIfNotExist,
+                command.UploadPetMediaDto.CreateBucketIfNotExist,
                 ct);
 
             if (uploadResult.IsFailure)
             {
                 MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
-                    uploadPetMediaCommand.UploadPetMediaDto.BucketName,
+                    command.UploadPetMediaDto.BucketName,
                     initedMinioFileNames);
                 await _messageQueue.WriteAsync(minioFileInfoDto, ct);
                 return uploadResult.Error.ToErrorList();
@@ -89,7 +88,7 @@ public class UploadPetMediaFilesUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            string message = $"В bucket {uploadPetMediaCommand.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
+            string message = $"В bucket {command.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
                 $"у volunteer {volunteer.Id} добавлены следующие файлы:\n " +
                 $"{string.Join("\n", uploadResult.Value.Select(x => x.FileName))}";
             _logger.LogInformation(message);

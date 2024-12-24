@@ -9,5 +9,6 @@ public interface IQueryHandler<TResponse, in TQuery> where TQuery : IQuery
 
 public interface IQueryHandler<TResponse>
 {
-    public Task<Result<TResponse, ErrorList>> Execute(CancellationToken ct);
+    public Task<TResponse> Execute(CancellationToken ct);
 }
+ 

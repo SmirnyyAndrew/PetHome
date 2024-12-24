@@ -1,6 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
 using PetHome.Application.Extentions;

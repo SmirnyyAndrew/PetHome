@@ -4,12 +4,14 @@ using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
 using PetHome.Application.Extentions;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
 public class DeleteSpeciesByIdUseCase
+    : ICommandHandler<string, DeleteSpeciesByIdCommand>
 {
     private readonly IReadDBContext _readDBContext;
     private readonly ISpeciesRepository _speciesRepository;
