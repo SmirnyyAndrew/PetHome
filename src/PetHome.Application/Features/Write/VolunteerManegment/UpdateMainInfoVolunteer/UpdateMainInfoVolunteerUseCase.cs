@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -36,7 +37,7 @@ public class UpdateMainInfoVolunteerUseCase
     {
         var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         UpdateMainInfoVolunteerDto updateInfoDto = command.UpdateMainInfoDto;
 
@@ -75,7 +76,7 @@ public class UpdateMainInfoVolunteerUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось обнавить информацию волонтёра с id = {0}", command.Id);
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.FeatureManagment;
@@ -43,7 +44,7 @@ public class HardDeletePetUseCase
         if (volunteerDto == null)
         {
             _logger.LogError("Волонтёр с id = {0} не найден", command.VolunteerId);
-            return (ErrorList)Errors.NotFound($"Волонтёр с id = {command.VolunteerId}");
+            return Errors.NotFound($"Волонтёр с id = {command.VolunteerId}").ToErrorList();
         }
 
         Volunteer volunteer = _volunteerRepository
@@ -53,7 +54,7 @@ public class HardDeletePetUseCase
         if (pet == null)
         {
             _logger.LogError("Питомец с id = {0} не найдена", command.PetId);
-            return (ErrorList)Errors.NotFound($"Питомец с id = {command.PetId}");
+            return Errors.NotFound($"Питомец с id = {command.PetId}").ToErrorList();
         }
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
@@ -82,7 +83,7 @@ public class HardDeletePetUseCase
             transaction.Rollback();
             string message = $"Не удалось hard delete питомца = {command.PetId}";
             _logger.LogError(message);
-            return (ErrorList)Errors.Failure(message);
+            return Errors.Failure(message).ToErrorList();
         }
     }
 }

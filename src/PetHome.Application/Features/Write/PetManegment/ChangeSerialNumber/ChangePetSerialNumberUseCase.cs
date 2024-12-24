@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -35,19 +36,20 @@ public class ChangePetSerialNumberUseCase
         {
             var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
             if (volunteerResult.IsFailure)
-                return (ErrorList)volunteerResult.Error;
+                return volunteerResult.Error.ToErrorList();
 
             Volunteer volunteer = volunteerResult.Value;
 
             Pet? pet = volunteer.Pets.Where(x => x.Id == command.ChangeNumberDto.PetId).FirstOrDefault();
             if (pet == null)
-                return (ErrorList)Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}");
+                return Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}")
+                    .ToErrorList();
 
             Pet.Pets = volunteer.Pets;
 
             var changeNumberResult = pet.ChangeSerialNumber(command.ChangeNumberDto.NewSerialNumber);
             if (changeNumberResult.IsFailure)
-                return (ErrorList)changeNumberResult.Error;
+                return changeNumberResult.Error.ToErrorList();
 
             await _volunteerRepository.Update(volunteer, ct);
             await _unitOfWork.SaveChages(ct);
@@ -61,7 +63,7 @@ public class ChangePetSerialNumberUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось изменить серийный номер питомца {0}", command.ChangeNumberDto.PetId);
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

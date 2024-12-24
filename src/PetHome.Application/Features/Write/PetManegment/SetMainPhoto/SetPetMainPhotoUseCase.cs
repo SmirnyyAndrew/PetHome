@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -42,7 +43,7 @@ public class SetPetMainPhotoUseCase
         var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is false)
         {
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
         }
 
 
@@ -51,7 +52,7 @@ public class SetPetMainPhotoUseCase
         if (volunteerDto == null)
         {
             _logger.LogError("Волонтёр с id = {0} не найден", command.VolunteerId);
-            return (ErrorList)Errors.NotFound($"Волонтёр с id = {command.VolunteerId}");
+            return Errors.NotFound($"Волонтёр с id = {command.VolunteerId}").ToErrorList();
         }
 
 
@@ -62,7 +63,7 @@ public class SetPetMainPhotoUseCase
         if (pet == null)
         {
             _logger.LogError("Питомец с id = {0} не найдена", command.PetId);
-            return (ErrorList)Errors.NotFound($"Питомец с id = {command.PetId}");
+            return Errors.NotFound($"Питомец с id = {command.PetId}").ToErrorList();
         }
 
         Media media = Media.Create(command.BucketName, command.FileName).Value;
@@ -83,7 +84,7 @@ public class SetPetMainPhotoUseCase
             transaction.Rollback();
             string message = $"Не удалось изменить главную фотографию питомца = {command.PetId}";
             _logger.LogError(message);
-            return (ErrorList)Errors.Failure(message);
+            return Errors.Failure(message).ToErrorList();
         }
     }
 }

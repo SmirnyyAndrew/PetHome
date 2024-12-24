@@ -29,7 +29,7 @@ public class GetAllVolunteersWithPaginationUseCase
         CancellationToken ct)
     {
         if (query.PageNum == 0 || query.PageSize == 0)
-            return (ErrorList)Errors.Validation("Номер и размер страницы не может быть меньше 1");
+            return Errors.Validation("Номер и размер страницы не может быть меньше 1").ToErrorList();
 
         var pagedVolunteerDtos = await _readDBContext.Volunteers
             .ToPagedList(query.PageNum, query.PageSize, ct);

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
@@ -31,7 +32,7 @@ public class GetVolunteerByIdUseCase
         if (volunteer == null)
         {
             _logger.LogError("Волонтёр с id = {0} не найден", query.VolunteerId);
-            return (ErrorList)Errors.NotFound($"Волонтёр с id = {query.VolunteerId}");
+            return Errors.NotFound($"Волонтёр с id = {query.VolunteerId}").ToErrorList();
         }
         return volunteer;
     }

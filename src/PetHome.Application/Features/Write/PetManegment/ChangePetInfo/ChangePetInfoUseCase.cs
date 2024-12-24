@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -41,7 +42,7 @@ public class ChangePetInfoUseCase
         if (volunteerDto == null)
         {
             _logger.LogError("Волонтёр с id = {0} не найден", command.VolunteerId);
-            return (ErrorList)Errors.NotFound($"Волонтёр с id = {command.VolunteerId}");
+            return Errors.NotFound($"Волонтёр с id = {command.VolunteerId}").ToErrorList();
         }
 
         var speciesResult = _readDBContext.Species
@@ -49,7 +50,7 @@ public class ChangePetInfoUseCase
         if (speciesResult.Count() == 0)
         {
             _logger.LogError("Вид питомца с id = {0} не найден", command.SpeciesId);
-            return (ErrorList)Errors.NotFound($"Вид питомца с id = {command.SpeciesId}");
+            return Errors.NotFound($"Вид питомца с id = {command.SpeciesId}").ToErrorList();
         }
 
         var isBreedExist = speciesResult
@@ -58,7 +59,7 @@ public class ChangePetInfoUseCase
         if (isBreedExist == false)
         {
             _logger.LogError("Порода с id = {0} не найдена", command.SpeciesId);
-            return (ErrorList)Errors.NotFound($"Порода с id = {command.SpeciesId}");
+            return Errors.NotFound($"Порода с id = {command.SpeciesId}").ToErrorList();
         }
 
         Volunteer volunteer = _volunteerRepository
@@ -68,7 +69,7 @@ public class ChangePetInfoUseCase
         if (pet == null)
         {
             _logger.LogError("Питомец с id = {0} не найдена", command.PetId);
-            return (ErrorList)Errors.NotFound($"Питомец с id = {command.PetId}");
+            return Errors.NotFound($"Питомец с id = {command.PetId}").ToErrorList();
         }
 
         PetName name = PetName.Create(command.Name).Value;
@@ -114,7 +115,7 @@ public class ChangePetInfoUseCase
             transaction.Rollback();
             string message = $"Не удалось изменить информацию питомца = {command.PetId}";
             _logger.LogError(message);
-            return (ErrorList)Errors.Failure(message);
+            return Errors.Failure(message).ToErrorList();
         }
     }
 }

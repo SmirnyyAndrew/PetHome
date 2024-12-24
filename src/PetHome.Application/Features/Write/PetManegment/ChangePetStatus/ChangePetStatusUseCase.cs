@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -39,7 +40,7 @@ public class ChangePetStatusUseCase
         if (volunteerDto == null)
         {
             _logger.LogError("Волонтёр с id = {0} не найден", command.VolunteerId);
-            return (ErrorList)Errors.NotFound($"Волонтёр с id = {command.VolunteerId}");
+            return Errors.NotFound($"Волонтёр с id = {command.VolunteerId}").ToErrorList();
         }
 
         Volunteer volunteer = _volunteerRepository
@@ -49,7 +50,7 @@ public class ChangePetStatusUseCase
         if (pet == null)
         {
             _logger.LogError("Питомец с id = {0} не найдена", command.PetId);
-            return (ErrorList)Errors.NotFound($"Питомец с id = {command.PetId}");
+            return Errors.NotFound($"Питомец с id = {command.PetId}").ToErrorList();
         }
 
         pet.ChangeStatus(command.NewPetStatus);
@@ -69,7 +70,7 @@ public class ChangePetStatusUseCase
             transaction.Rollback();
             string message = $"Не удалось изменить статус питомца = {command.PetId}";
             _logger.LogError(message);
-            return (ErrorList)Errors.Failure(message);
+            return Errors.Failure(message).ToErrorList();
         }
     }
 }

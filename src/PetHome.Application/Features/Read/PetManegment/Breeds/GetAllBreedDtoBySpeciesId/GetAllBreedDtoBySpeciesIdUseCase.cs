@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database.Dtos;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
@@ -33,7 +34,7 @@ public class GetAllBreedDtoBySpeciesIdUseCase
         if (getSpeciesByIdResult == null)
         {
             _logger.LogError("Вид животного с id - {0} не найден", query.SpeciesId);
-            return (ErrorList)Errors.NotFound($"вид животного с id - {query.SpeciesId}");
+            return Errors.NotFound($"вид животного с id - {query.SpeciesId}").ToErrorList();
         }
 
         var breedDtos = getSpeciesByIdResult.Breeds.ToList();

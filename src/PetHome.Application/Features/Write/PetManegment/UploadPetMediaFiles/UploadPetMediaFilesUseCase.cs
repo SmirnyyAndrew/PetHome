@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Messaging;
@@ -42,20 +43,20 @@ public class UploadPetMediaFilesUseCase
     {
         var validationResult = await _validator.ValidateAsync(uploadPetMediaCommand, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
             var volunteerResult = await _volunteerRepository.GetById(volunteerId, ct);
             if (volunteerResult.IsFailure)
-                return (ErrorList)Errors.NotFound($"Волонтёр с id {volunteerId} не найден");
+                return Errors.NotFound($"Волонтёр с id {volunteerId} не найден").ToErrorList();
 
             Volunteer volunteer = volunteerResult.Value;
             Pet pet = volunteer.Pets
                 .FirstOrDefault(x => x.Id == uploadPetMediaCommand.UploadPetMediaDto.PetId);
             if (pet == null)
-                return (ErrorList)Errors.NotFound($"Питомец с id {uploadPetMediaCommand.UploadPetMediaDto.PetId} не найден");
+                return Errors.NotFound($"Питомец с id {uploadPetMediaCommand.UploadPetMediaDto.PetId} не найден").ToErrorList();
 
 
             List<MinioFileName> initedMinioFileNames = uploadPetMediaCommand.FileNames
@@ -76,7 +77,7 @@ public class UploadPetMediaFilesUseCase
                     uploadPetMediaCommand.UploadPetMediaDto.BucketName,
                     initedMinioFileNames);
                 await _messageQueue.WriteAsync(minioFileInfoDto, ct);
-                return (ErrorList)uploadResult.Error;
+                return uploadResult.Error.ToErrorList();
             }
 
             IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
@@ -98,7 +99,7 @@ public class UploadPetMediaFilesUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать медиаданные питомца");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
@@ -38,7 +39,7 @@ public class DeleteSpeciesByIdUseCase
         {
             string message = $"Не удалось удалить вид - {command.SpeciesId}, так как питомец(-цы) с данным видом уже существует";
             _logger.LogError(message);
-            return (ErrorList)Errors.Conflict(message);
+            return Errors.Conflict(message).ToErrorList();
         }
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
@@ -57,7 +58,7 @@ public class DeleteSpeciesByIdUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить вид питомца");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

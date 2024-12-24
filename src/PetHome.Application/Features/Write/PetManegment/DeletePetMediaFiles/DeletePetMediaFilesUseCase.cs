@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -37,19 +38,19 @@ public class DeletePetMediaFilesUseCase
     {
         var validationResult = await _validator.ValidateAsync(deleteMediaCommand, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
             var getVolunteerResult = await _volunteerRepository.GetById(deleteMediaCommand.VolunteerId, ct);
             if (getVolunteerResult.IsFailure)
-                return (ErrorList)Errors.NotFound($"Волонтёр с id {deleteMediaCommand.VolunteerId}");
+                return Errors.NotFound($"Волонтёр с id {deleteMediaCommand.VolunteerId}").ToErrorList();
 
             Volunteer volunteer = getVolunteerResult.Value;
             Pet? pet = volunteer.Pets.Where(x => x.Id == deleteMediaCommand.DeletePetMediaFilesDto.PetId).FirstOrDefault();
             if (pet == null)
-                return (ErrorList)Errors.NotFound($"Питомец с id {deleteMediaCommand.DeletePetMediaFilesDto.PetId}");
+                return Errors.NotFound($"Питомец с id {deleteMediaCommand.DeletePetMediaFilesDto.PetId}").ToErrorList();
 
             List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
             List<Media> mediasToDelete = deleteMediaCommand.DeletePetMediaFilesDto.FilesName
@@ -66,7 +67,7 @@ public class DeletePetMediaFilesUseCase
 
             var deleteResult = await filesProvider.DeleteFile(minioFileInfoDto, ct);
             if (deleteResult.IsFailure)
-                return (ErrorList)deleteResult.Error;
+                return deleteResult.Error.ToErrorList();
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
@@ -79,7 +80,7 @@ public class DeletePetMediaFilesUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить медиаданные питомца {0}", deleteMediaCommand.DeletePetMediaFilesDto.PetId);
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

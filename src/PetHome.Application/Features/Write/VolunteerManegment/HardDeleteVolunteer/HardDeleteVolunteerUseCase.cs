@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -34,7 +35,7 @@ public class HardDeleteVolunteerUseCase
             var result = _volunteerRepository.RemoveById(command.VolunteerId, ct).Result;
 
             if (result.IsFailure)
-                return (ErrorList)result.Error;
+                return result.Error.ToErrorList();
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
@@ -46,7 +47,7 @@ public class HardDeleteVolunteerUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить навсегда волонтёра");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 

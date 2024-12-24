@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
@@ -37,7 +38,7 @@ public class CreateVolunteerUseCase
     {
         var validationResult = await _validator.ValidateAsync(createVolunteerCommand, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         VolunteerId id = VolunteerId.Create().Value;
 
@@ -89,7 +90,7 @@ public class CreateVolunteerUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать волонтёра с id = {0}", volunteer.Id.Value);
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }
