@@ -8,9 +8,9 @@ namespace PetHome.Infrastructure.DataBase.Read.DBContext;
 
 public class ReadDBContext(IConfiguration configuration) : DbContext, IReadDBContext
 {
-    public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
-    public DbSet<PetDto> Pets => Set<PetDto>();
-    public DbSet<SpeciesDto> Species => Set<SpeciesDto>();
+    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
+    public IQueryable<PetDto> Pets => Set<PetDto>();
+    public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
     {
