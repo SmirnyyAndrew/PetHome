@@ -21,12 +21,22 @@ using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 using PetHome.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
+using PetHome.Application.Interfaces.FeatureManagment;
 
 namespace PetHome.Application;
 public static class Inject
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+        .AddClasses(classes => classes
+            .AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
+        .AsSelfWithInterfaces()
+        .WithScopedLifetime());
+
+        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
+
+        /*
         //Volunteer manegment
         services.AddScoped<CreateVolunteerUseCase>();
         services.AddScoped<UpdateMainInfoVolunteerUseCase>();
@@ -49,14 +59,13 @@ public static class Inject
         services.AddScoped<HardDeletePetUseCase>();
         services.AddScoped<SoftDeleteRestorePetUseCase>();
         services.AddScoped<SetPetMainPhotoUseCase>();
-        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 
         //Species manegment
         services.AddScoped<GetAllSpeciesUseCase>();
 
         //Breed manegment
         services.AddScoped<GetAllBreedDtoBySpeciesIdUseCase>();
-        services.AddScoped<DeleteSpeciesByIdUseCase>();
+        services.AddScoped<DeleteSpeciesByIdUseCase>();*/
         return services;
-    } 
+    }
 }
