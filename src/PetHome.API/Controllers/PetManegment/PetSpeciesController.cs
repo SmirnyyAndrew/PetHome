@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetHome.API.Controllers.PetManegment.Requests;
 using PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
 using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
 using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
@@ -37,7 +38,8 @@ public class PetSpeciesController : ParentController
         [FromServices] DeleteSpeciesByIdUseCase useCase,
         CancellationToken ct)
     {
-        var result = await useCase.Execute(id, ct);
+        DeleteSpeciesByIdRequest request = new DeleteSpeciesByIdRequest(id);
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 

@@ -29,7 +29,8 @@ public class PetBreedController : ParentController
         [FromServices] GetAllBreedDtoBySpeciesIdUseCase useCase,
         CancellationToken ct)
     {
-        var result = await useCase.Execute(id, ct);
+        GetAllBreedDtoBySpeciesIdRequest request = new GetAllBreedDtoBySpeciesIdRequest(id);
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
