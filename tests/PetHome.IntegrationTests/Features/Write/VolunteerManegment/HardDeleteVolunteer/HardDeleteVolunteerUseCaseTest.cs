@@ -2,10 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.VolunteerManegment.HardDeleteVolunteer;
-public class HardDeleteVolunteerUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class HardDeleteVolunteerUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<bool, HardDeleteVolunteerCommand> _sut;
     public HardDeleteVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)

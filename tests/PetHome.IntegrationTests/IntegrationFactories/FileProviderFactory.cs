@@ -4,8 +4,8 @@ using NSubstitute;
 using PetHome.Application.Interfaces;
 using Xunit;
 
-namespace PetHome.IntegrationTests;
-public class FileProviderFactory : BaseTest, IClassFixture<IntegrationTestFactory>
+namespace PetHome.IntegrationTests.IntegrationFactories;
+public class FileProviderFactory : BaseFactory, IClassFixture<IntegrationTestFactory>
 {
     protected readonly IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
     private static IntegrationTestFactory _factory;

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
-public class SoftDeleteVolunteerUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class SoftDeleteVolunteerUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<Guid, SoftDeleteRestoreVolunteerCommand> _sut;
     public SoftDeleteVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)

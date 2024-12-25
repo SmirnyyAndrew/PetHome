@@ -53,7 +53,7 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> UploadMedia(
         [FromRoute] Guid volunteerId,
         IEnumerable<IFormFile> formFiles,
-        [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
+        [FromQuery] UploadPetMediaFilesDto uploadPetMediaDto,
         [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
         CancellationToken ct = default)
     {

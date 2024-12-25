@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection; 
+﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.ChangePetStatus;
-public class ChangePetStatusUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class ChangePetStatusUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<string, ChangePetStatusCommand> _sut;
  

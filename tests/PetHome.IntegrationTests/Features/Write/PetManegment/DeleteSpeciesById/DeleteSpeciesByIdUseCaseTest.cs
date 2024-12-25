@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.DeleteSpeciesById;
-public class DeleteSpeciesByIdUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class DeleteSpeciesByIdUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<string, DeleteSpeciesByIdCommand> _sut;
     public DeleteSpeciesByIdUseCaseTest(IntegrationTestFactory factory) : base(factory)

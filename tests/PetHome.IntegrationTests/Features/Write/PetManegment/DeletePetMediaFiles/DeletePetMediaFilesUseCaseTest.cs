@@ -2,6 +2,7 @@
 using PetHome.Application.Features.Dtos.Pet;
 using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.DeletePetMediaFiles;

@@ -9,8 +9,8 @@ using PetHome.Domain.Shared;
 using PetHome.Infrastructure.DataBase.Write.DBContext;
 using Xunit;
 
-namespace PetHome.IntegrationTests;
-public class BaseTest
+namespace PetHome.IntegrationTests.IntegrationFactories;
+public class BaseFactory
     : IClassFixture<IntegrationTestFactory>, IAsyncLifetime
 {
     protected readonly IntegrationTestFactory _factory;
@@ -19,7 +19,7 @@ public class BaseTest
     protected readonly IReadDBContext _readDbContext;
     protected readonly WriteDBContext _writeDbContext;
 
-    public BaseTest(IntegrationTestFactory factory)
+    public BaseFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _fixture = new Fixture();
@@ -145,7 +145,7 @@ public class BaseTest
             double weight = 20d;
             bool isCastrated = false;
             bool isVaccinated = false;
-              
+
             volunteers[volunteerRandomIndex].CreatePet(
                 name,
                 speciesId,

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.PetManegment.CreateBreed;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.CreateBreed;
-public class CreateBreedUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class CreateBreedUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<Guid, CreateBreedCommand> _sut;
     public CreateBreedUseCaseTest(IntegrationTestFactory factory) : base(factory)

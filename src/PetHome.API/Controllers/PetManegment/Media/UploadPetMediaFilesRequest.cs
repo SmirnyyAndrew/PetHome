@@ -5,7 +5,7 @@ using PetHome.Application.Interfaces;
 public record UploadPetMediaFilesRequest(
     IEnumerable<Stream> Streams,
     IEnumerable<string> FileNames,
-    UploadPetMediaFilesVolunteerDto UploadPetMediaDto,
+    UploadPetMediaFilesDto UploadPetMediaDto,
     Guid VolunteerId,
     IFilesProvider FilesProvider)
 {

@@ -2,10 +2,11 @@
 using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
 using PetHome.Application.Features.Write.PetManegment.HardDelete;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.HardDelete;
-public class HardDeletePetUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class HardDeletePetUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<HardDeletePetCommand> _sut;
     public HardDeletePetUseCaseTest(IntegrationTestFactory factory) : base(factory)

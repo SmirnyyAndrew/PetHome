@@ -17,7 +17,7 @@ using System.Data.Common;
 using Testcontainers.PostgreSql;
 using Xunit;
 
-namespace PetHome.IntegrationTests;
+namespace PetHome.IntegrationTests.IntegrationFactories;
 
 public class IntegrationTestFactory
     : WebApplicationFactory<API.Program>, IAsyncLifetime
@@ -44,12 +44,12 @@ public class IntegrationTestFactory
         services.RemoveAll(typeof(IReadDBContext));
         services.RemoveAll(typeof(WriteDBContext));
         services.RemoveAll(typeof(IFilesProvider));
-         
-        services.AddScoped<WriteDBContext>(_ =>
+
+        services.AddScoped(_ =>
                new WriteDBContext(_dbContainer.GetConnectionString()));
         services.AddScoped<IReadDBContext, ReadDBContext>(_ =>
-              new ReadDBContext(_dbContainer.GetConnectionString())); 
-        services.AddTransient<IFilesProvider>(_ => _fileServiceMock);
+              new ReadDBContext(_dbContainer.GetConnectionString()));
+        services.AddTransient(_ => _fileServiceMock);
     }
 
     public async Task InitializeAsync()

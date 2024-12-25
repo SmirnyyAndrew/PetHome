@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.ChangePetInfo;
-public class ChangePetInfoUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class ChangePetInfoUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<string, ChangePetInfoCommand> _sut;
     public ChangePetInfoUseCaseTest(IntegrationTestFactory factory) : base(factory)

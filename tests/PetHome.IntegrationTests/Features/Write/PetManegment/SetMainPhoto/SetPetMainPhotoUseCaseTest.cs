@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.SetMainPhoto;
-public class SetPetMainPhotoUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class SetPetMainPhotoUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<SetPetMainPhotoCommand> _sut;
     public SetPetMainPhotoUseCaseTest(IntegrationTestFactory factory) : base(factory)

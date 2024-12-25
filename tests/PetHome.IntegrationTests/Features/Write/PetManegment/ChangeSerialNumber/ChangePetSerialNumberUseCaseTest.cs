@@ -2,10 +2,11 @@
 using PetHome.Application.Features.Dtos.Pet;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.ChangeSerialNumber;
-public class ChangePetSerialNumberUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class ChangePetSerialNumberUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<string, ChangePetSerialNumberCommand> _sut;
 

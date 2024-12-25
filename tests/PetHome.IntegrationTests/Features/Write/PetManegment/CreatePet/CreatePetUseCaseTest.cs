@@ -4,10 +4,11 @@ using PetHome.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
 using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.IntegrationTests.IntegrationFactories;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.CreatePet;
-public class CreatePetUseCaseTest : BaseTest, IClassFixture<IntegrationTestFactory>
+public class CreatePetUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<Pet, CreatePetCommand> _sut;
 
