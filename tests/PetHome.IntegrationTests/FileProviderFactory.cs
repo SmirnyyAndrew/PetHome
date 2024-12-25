@@ -1,18 +1,19 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
+﻿
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
+using PetHome.Application.Interfaces;
 using Xunit;
 
 namespace PetHome.IntegrationTests;
 public class FileProviderFactory : BaseTest, IClassFixture<IntegrationTestFactory>
 {
-    private readonly IFileProvider _fileServiceMock = Substitute.For<IFileProvider>();
+    protected readonly IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
     private static IntegrationTestFactory _factory;
 
     public FileProviderFactory(IntegrationTestFactory factory) : base(factory)
     {
         _factory = factory;
-        _fileServiceMock = factory.Services.GetRequiredService<IFileProvider>();
+        _fileServiceMock = factory.Services.GetRequiredService<IFilesProvider>();
         _factory.SetupSuccessFileServiceMock();
     }
 
