@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using NSubstitute;
 using PetHome.Application.Database.Read;
@@ -30,10 +31,8 @@ public class IntegrationTestFactory
 
     private Respawner _respawner;
     private DbConnection _dbConnection;
-    private IServiceScope _scope;
-    private WriteDBContext _writeDbContext;
-    private IReadDBContext _readDbContext;
     private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
+    private WriteDBContext _writeDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -42,34 +41,26 @@ public class IntegrationTestFactory
 
     private void ConfigureDefault(IServiceCollection services)
     {
-        var writeDbContext = services.SingleOrDefault(s =>
-              s.ServiceType == typeof(WriteDBContext));
-        var readDbContext = services.SingleOrDefault(s =>
-              s.ServiceType == typeof(IReadDBContext));
-        var fileService = services.SingleOrDefault(s =>
-              s.ServiceType == typeof(IFilesProvider));
-
-        if (writeDbContext is not null) services.Remove(writeDbContext);
-        if (readDbContext is not null) services.Remove(readDbContext);
-        if (fileService is not null) services.Remove(fileService);
-
+        services.RemoveAll(typeof(IReadDBContext));
+        services.RemoveAll(typeof(WriteDBContext));
+        services.RemoveAll(typeof(IFilesProvider));
+         
         services.AddScoped<WriteDBContext>(_ =>
-              new WriteDBContext(_dbContainer.GetConnectionString()));
-        services.AddScoped<IReadDBContext>(_ =>
-              new ReadDBContext(_dbContainer.GetConnectionString()));
-
-        services.AddTransient<IFilesProvider>(_ => _fileServiceMock); 
+               new WriteDBContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<IReadDBContext, ReadDBContext>(_ =>
+              new ReadDBContext(_dbContainer.GetConnectionString())); 
+        services.AddTransient<IFilesProvider>(_ => _fileServiceMock);
     }
 
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
 
-        _scope = Services.CreateScope();
-        _writeDbContext = _scope.ServiceProvider.GetRequiredService<WriteDBContext>();
-        _readDbContext = _scope.ServiceProvider.GetRequiredService<IReadDBContext>();
-        await _writeDbContext.Database.EnsureCreatedAsync();
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
+        _writeDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<WriteDBContext>();
+
+        await _writeDbContext.Database.EnsureDeletedAsync();
+        await _writeDbContext.Database.EnsureCreatedAsync();
 
         await InilizeRespawner();
     }
@@ -78,6 +69,7 @@ public class IntegrationTestFactory
     {
         await _dbContainer.StopAsync();
         await _dbContainer.DisposeAsync();
+        await ResetDatabaseAsync();
     }
 
     public async Task ResetDatabaseAsync()
@@ -116,6 +108,6 @@ public class IntegrationTestFactory
                 Arg.Any<MinioFileInfoDto>(),
                 false,
                 Arg.Any<CancellationToken>())
-            .Returns(Errors.Failure("Интеграционный тест")); 
+            .Returns(Errors.Failure("Интеграционный тест"));
     }
 }

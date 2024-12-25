@@ -14,6 +14,7 @@ using PetHome.Infrastructure.DataBase.Write.DBContext;
 using PetHome.Infrastructure.DataBase.Write.Repositories;
 using PetHome.Infrastructure.MessageQueues;
 using PetHome.Infrastructure.Providers.Minio;
+using PetHome.Infrastructure.Shared;
 using MinioOptions = PetHome.Infrastructure.Options.MinioOptions;
 
 namespace PetHome.Infrastructure;
@@ -22,10 +23,14 @@ public static class Inject
     public static IServiceCollection AddInfrastructure(
        this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddScoped<WriteDBContext>();
-        services.AddScoped<IReadDBContext, ReadDBContext>();
+        services.AddScoped<WriteDBContext>(_ =>
+              new WriteDBContext(Constants.DATABASE));
+        services.AddScoped<IReadDBContext, ReadDBContext>(_ =>
+              new ReadDBContext(Constants.DATABASE));
+
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+
         services.AddMinio(configuration);
         services.AddSingleton<IFilesProvider, MinioProvider>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
