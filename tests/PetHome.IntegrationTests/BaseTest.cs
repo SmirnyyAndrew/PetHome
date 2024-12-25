@@ -43,11 +43,11 @@ public class BaseTest
 
 
     public async Task SeedVolunteersWithAggregates(
-        int volunteerCountToSeed = 30,
-        int petCountToSeed = 50,
-        int shelterCountToSeed = 10,
-        int speciesCountToSeed = 5,
-        int breedCountForOneSpeciesToSeed = 20)
+        int volunteerCountToSeed = 2,
+        int petCountToSeed = 5,
+        int shelterCountToSeed = 2,
+        int speciesCountToSeed = 4,
+        int breedCountForOneSpeciesToSeed = 4)
     {
         int speciesRandomIndex;
 
