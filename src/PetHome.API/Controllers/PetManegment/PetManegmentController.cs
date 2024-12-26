@@ -195,10 +195,11 @@ public class PetManegmentController : ParentController
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPetById(
-        [FromBody] GetPetByIdRequest request,
+        [FromRoute] Guid id,
         [FromServices] GetPetByIdUseCase useCase,
         CancellationToken ct = default)
     {
+        GetPetByIdRequest request = new GetPetByIdRequest(id);
         var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
