@@ -16,8 +16,7 @@ public class GetPetsWithPaginationAndFiltersUseCase
     private readonly IReadDBContext _readDBContext; 
 
     public GetPetsWithPaginationAndFiltersUseCase(
-        IReadDBContext readDBContext,
-        Logger<GetPetsWithPaginationAndFiltersUseCase> logger)
+        IReadDBContext readDBContext)
     {
         _readDBContext = readDBContext; 
     }
