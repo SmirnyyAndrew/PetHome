@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Minio;
 using PetHome.API.Controllers.PetManegment.Requests;
 using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Features.Read.PetManegment.Pet.GetPetById;
+using PetHome.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
 using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
@@ -191,4 +193,29 @@ public class PetManegmentController : ParentController
         return Ok();
     }
 
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetPetById(
+        [FromBody] GetPetByIdRequest request,
+        [FromServices] GetPetByIdUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpGet("sorted-filtred-paged")]
+    public async Task<IActionResult> GetSortedFiltredPagedPets(
+        [FromBody] GetPetsWithPaginationAndFiltersRequest request,
+        [FromServices] GetPetsWithPaginationAndFiltersUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request,ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
 }

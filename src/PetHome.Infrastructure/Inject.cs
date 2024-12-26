@@ -24,9 +24,9 @@ public static class Inject
        this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddScoped<WriteDBContext>(_ =>
-              new WriteDBContext(Constants.DATABASE));
+              new WriteDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
         services.AddScoped<IReadDBContext, ReadDBContext>(_ =>
-              new ReadDBContext(Constants.DATABASE));
+              new ReadDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();

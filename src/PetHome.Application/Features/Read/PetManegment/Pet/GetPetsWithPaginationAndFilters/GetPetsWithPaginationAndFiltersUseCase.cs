@@ -10,7 +10,7 @@ using PetHome.Application.Models;
 using PetHome.Application.Validator;
 
 namespace PetHome.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
-internal class GetPetsWithPaginationAndFiltersUseCase
+public class GetPetsWithPaginationAndFiltersUseCase
     : IQueryHandler<PagedList<PetDto>, GetPetsWithPaginationAndFiltersQuery>
 {
     private readonly IReadDBContext _readDBContext; 
