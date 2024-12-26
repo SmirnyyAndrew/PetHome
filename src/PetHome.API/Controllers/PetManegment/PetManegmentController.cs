@@ -206,7 +206,7 @@ public class PetManegmentController : ParentController
         return Ok(result.Value);
     }
 
-    [HttpGet("sorted-filtred-paged")]
+    [HttpPatch("sorted-filtred-paged")]
     public async Task<IActionResult> GetSortedFiltredPagedPets(
         [FromBody] GetPetsWithPaginationAndFiltersRequest request,
         [FromServices] GetPetsWithPaginationAndFiltersUseCase useCase,
