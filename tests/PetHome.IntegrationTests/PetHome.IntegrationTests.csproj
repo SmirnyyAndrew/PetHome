@@ -32,7 +32,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\PetHome.API\PetHome.API.csproj" />
-		<ProjectReference Include="..\..\src\PetHome.Domain\PetHome.Domain.csproj" />
 		<ProjectReference Include="..\..\src\PetHome.Infrastructure\PetHome.Infrastructure.csproj" />
 	</ItemGroup>
 

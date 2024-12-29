@@ -38,7 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PetHome.Domain\PetHome.Domain.csproj" />
     <ProjectReference Include="..\PetHome.Infrastructure\PetHome.Infrastructure.csproj" />
   </ItemGroup>
 

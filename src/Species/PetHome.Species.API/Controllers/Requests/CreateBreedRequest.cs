@@ -1,6 +1,6 @@
 ﻿using PetHome.Application.Features.Write.PetManegment.CreateBreed;
 
-namespace PetHome.API.Controllers.PetManegment.Requests;
+namespace PetHome.Species.API.Controllers.Requests;
 
 public record CreateBreedRequest(Guid SpeciesId, IEnumerable<string> Breeds)
 {

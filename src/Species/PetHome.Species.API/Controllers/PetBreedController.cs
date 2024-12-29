@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetHome.API.Controllers.PetManegment.Requests;
 using PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
 using PetHome.Application.Features.Write.PetManegment.CreateBreed;
+using PetHome.Species.API.Controllers.Requests;
 
 namespace PetHome.API.Controllers.PetManegment;
 
