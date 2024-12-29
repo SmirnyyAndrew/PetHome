@@ -2,22 +2,17 @@
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using Minio.AspNetCore;
-using PetHome.Application.Database;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Interfaces;
-using PetHome.Application.Interfaces.RepositoryInterfaces;
-using PetHome.Application.Messaging;
-using PetHome.Infrastructure.Background;
-using PetHome.Infrastructure.DataBase.Read.DBContext;
-using PetHome.Infrastructure.DataBase.Write.DBContext;
-using PetHome.Infrastructure.DataBase.Write.Repositories;
-using PetHome.Infrastructure.MessageQueues;
-using PetHome.Infrastructure.Providers.Minio;
-using PetHome.Infrastructure.Shared;
+using PetHome.Core.Interfaces;
+using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
 using PetHome.Volunteers.Infrastructure.Database.Write;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 using MinioOptions = PetHome.Infrastructure.Options.MinioOptions;
+using PetHome.Volunteers.Infrastructure;
+using PetHome.Volunteers.Infrastructure.Background;
+using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 
-namespace PetHome.Infrastructure;
+namespace PetHome.Volunteers.Infrastructure;
 public static class Inject
 {
     public static IServiceCollection AddInfrastructure(

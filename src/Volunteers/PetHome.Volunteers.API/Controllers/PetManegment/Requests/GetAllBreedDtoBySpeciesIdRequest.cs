@@ -1,6 +1,5 @@
-﻿using PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
-
-namespace PetHome.API.Controllers.PetManegment.Requests;
+﻿
+namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
 
 public record GetAllBreedDtoBySpeciesIdRequest(Guid SpeciesId)
 {

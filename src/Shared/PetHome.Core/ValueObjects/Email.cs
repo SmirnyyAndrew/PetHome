@@ -2,7 +2,7 @@
 using PetHome.Core.Response.Error;
 using System.Text.RegularExpressions;
 
-namespace PetHome.Domain.PetManagment.GeneralValueObjects;
+namespace PetHome.Core.ValueObjects;
 
 public record Email
 {
@@ -15,7 +15,7 @@ public record Email
         Value = value;
     }
 
-    public static Result<Email,Error> Create(string value)
+    public static Result<Email, Error> Create(string value)
     {
         string email = value.Trim();
 

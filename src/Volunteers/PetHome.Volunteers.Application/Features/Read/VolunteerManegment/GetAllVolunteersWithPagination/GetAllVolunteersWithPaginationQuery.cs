@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
+namespace PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 public record GetAllVolunteersWithPaginationQuery(int PageSize, int PageNum) : IQuery;

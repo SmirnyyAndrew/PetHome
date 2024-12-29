@@ -1,5 +1,5 @@
 ﻿
-namespace PetHome.Domain.PetManagment.PetEntity;
+namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 public record SerialNumber
 {

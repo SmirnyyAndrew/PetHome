@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+﻿using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 
-namespace PetHome.API.Controllers.Volunteer.Request;
+namespace PetHome.Volunteers.API.Controllers.Volunteer.Request;
 
 public record CreateVolunteerRequest(
         FullNameDto FullNameDto,

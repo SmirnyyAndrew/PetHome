@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Domain.PetManagment.PetEntity;
+namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public class Color : ValueObject
 {
     public string Value { get; }

@@ -1,13 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Validator;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
+namespace PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 public class GetVolunteerByIdUseCase
     : IQueryHandler<VolunteerDto, GetVolunteerByIdQuery>
 {

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.Error;
 
-namespace PetHome.Domain.PetManagment.GeneralValueObjects;
+namespace PetHome.Core.ValueObjects;
 public record Date
 {
     private const int MAX_YEAR = 3000;

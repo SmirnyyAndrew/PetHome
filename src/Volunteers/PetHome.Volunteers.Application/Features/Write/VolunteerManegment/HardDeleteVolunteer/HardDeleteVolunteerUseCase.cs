@@ -1,13 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database;
-using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Interfaces.RepositoryInterfaces;
-using PetHome.Application.Validator;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Domain.Shared.Error;
+using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
 
-namespace PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
+namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 public class HardDeleteVolunteerUseCase
     : ICommandHandler<bool, HardDeleteVolunteerCommand>
 {

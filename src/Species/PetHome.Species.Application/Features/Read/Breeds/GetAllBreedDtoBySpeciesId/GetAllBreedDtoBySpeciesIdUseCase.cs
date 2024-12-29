@@ -1,14 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database.Dtos;
-using PetHome.Application.Database.Read;
 using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
+using PetHome.Species.Application.Database.Dto;
 
-namespace PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
+namespace PetHome.Species.Application.Features.Read.Breeds.GetAllBreedDtoBySpeciesId;
 public class GetAllBreedDtoBySpeciesIdUseCase
     : IQueryHandler<IReadOnlyList<BreedDto>, GetAllBreedDtoBySpeciesIdQuery>
 {

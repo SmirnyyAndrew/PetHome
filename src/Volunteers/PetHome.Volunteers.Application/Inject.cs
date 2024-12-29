@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Background;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Models;
+using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application;
+namespace PetHome.Volunteers.Application;
 public static class Inject
 {
 

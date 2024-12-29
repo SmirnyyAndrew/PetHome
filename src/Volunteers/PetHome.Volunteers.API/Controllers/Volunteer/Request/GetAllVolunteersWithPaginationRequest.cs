@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
+﻿using PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 
-namespace PetHome.API.Controllers.Volunteer.Request;
+namespace PetHome.Volunteers.API.Controllers.Volunteer.Request;
 
 public record GetAllVolunteersWithPaginationRequest(int PageSize, int PageNum)
 {

@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
+namespace PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 public record GetVolunteerByIdQuery(Guid VolunteerId) : IQuery;

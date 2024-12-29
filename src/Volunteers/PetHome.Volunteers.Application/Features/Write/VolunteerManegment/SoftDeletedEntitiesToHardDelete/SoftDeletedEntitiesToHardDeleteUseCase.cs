@@ -1,10 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Interfaces.RepositoryInterfaces;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Application.Features.Background;
+namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeletedEntitiesToHardDelete;
 public class SoftDeletedEntitiesToHardDeleteUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;

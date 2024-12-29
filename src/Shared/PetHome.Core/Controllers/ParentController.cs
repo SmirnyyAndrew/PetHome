@@ -4,7 +4,7 @@ using PetHome.Core.Response.Envelopes;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.API.Controllers;
+namespace PetHome.Core.Controllers;
 
 [ApiController]
 [Route("[controller]")]

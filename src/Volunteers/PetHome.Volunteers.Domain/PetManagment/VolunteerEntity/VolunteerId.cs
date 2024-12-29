@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Domain.PetManagment.VolunteerEntity;
+namespace PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 public record VolunteerId
 {
     public Guid Value { get; }

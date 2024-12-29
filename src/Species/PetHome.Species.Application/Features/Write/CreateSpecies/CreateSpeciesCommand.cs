@@ -1,4 +1,3 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
-
-namespace PetHome.Application.Features.Write.PetManegment.CreateSpecies;
+﻿
+namespace PetHome.Species.Application.Features.Write.CreateSpecies;
 public record CreateSpeciesCommand(string SpeciesName) : ICommand;

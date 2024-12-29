@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Domain.PetManagment.PetEntity;
+namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public record BreedId
 {
     public Guid Value { get; }
@@ -12,7 +12,7 @@ public record BreedId
         Value = value;
     }
 
-    public static Result<BreedId,Error> Create() => new BreedId(Guid.NewGuid());
+    public static Result<BreedId, Error> Create() => new BreedId(Guid.NewGuid());
 
     public static Result<BreedId, Error> Create(Guid id) => new BreedId(id);
 

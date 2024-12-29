@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
+﻿using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 
-namespace PetHome.API.Controllers.Volunteer.Request;
+namespace PetHome.Volunteers.API.Controllers.Volunteer.Request;
 
 public record SoftDeleteRestoreVolunteerRequest(Guid VolunteerId)
 {

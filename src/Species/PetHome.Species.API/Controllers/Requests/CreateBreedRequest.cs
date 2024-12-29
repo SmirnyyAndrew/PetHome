@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Features.Write.PetManegment.CreateBreed;
+﻿using PetHome.Species.Application.Features.Write.CreateBreed;
 
 namespace PetHome.Species.API.Controllers.Requests;
 

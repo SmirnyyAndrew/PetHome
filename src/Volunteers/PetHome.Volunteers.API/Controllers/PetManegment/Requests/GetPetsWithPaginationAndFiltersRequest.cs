@@ -1,8 +1,7 @@
-﻿using PetHome.Application.Database.Dtos;
-using PetHome.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
-using PetHome.Domain.PetManagment.PetEntity;
+﻿using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
-namespace PetHome.API.Controllers.PetManegment.Requests;
+namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
 
 public record GetPetsWithPaginationAndFiltersRequest(Guid? VolunteerId,
     string? Name,

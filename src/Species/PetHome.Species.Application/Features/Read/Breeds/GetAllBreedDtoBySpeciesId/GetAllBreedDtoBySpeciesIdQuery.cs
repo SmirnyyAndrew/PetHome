@@ -1,4 +1,3 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
-
-namespace PetHome.Application.Features.Read.PetManegment.Breeds.GetAllBreedDtoBySpeciesId;
+﻿
+namespace PetHome.Species.Application.Features.Read.Breeds.GetAllBreedDtoBySpeciesId;
 public record GetAllBreedDtoBySpeciesIdQuery(Guid SpeciesId) : IQuery;

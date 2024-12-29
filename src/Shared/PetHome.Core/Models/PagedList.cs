@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace PetHome.Application.Models;
+namespace PetHome.Core.Models;
 public class PagedList<T> : IReadOnlyList<T>
 { 
     public int PageNumber { get; init; }

@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.Error;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
+using PetHome.Core.ValueObjects;
 
-namespace PetHome.Application.Interfaces;
+namespace PetHome.Core.Interfaces;
 public interface IFilesProvider
 {
     //Загрузить файл

@@ -1,5 +1,5 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
+namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 public record HardDeleteVolunteerCommand(VolunteerId VolunteerId) : ICommand;

@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 
 public record CreateVolunteerCommand(
         FullNameDto FullNameDto,

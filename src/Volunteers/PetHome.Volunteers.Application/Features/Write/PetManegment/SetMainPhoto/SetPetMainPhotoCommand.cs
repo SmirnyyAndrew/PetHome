@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 public record SetPetMainPhotoCommand(
      Guid VolunteerId,
      Guid PetId,

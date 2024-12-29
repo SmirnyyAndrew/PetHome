@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
-using PetHome.Infrastructure.Shared;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Infrastructure.DataBase.Write.DBContext;
+namespace PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
  
 public class WriteDBContext : DbContext
 {

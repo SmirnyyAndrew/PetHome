@@ -1,4 +1,4 @@
-﻿namespace PetHome.Application.Features.Dtos.Pet;
+﻿namespace PetHome.Volunteers.Application.Features.Dto.Pet;
 
 public record UploadPetMediaFilesDto(
     Guid PetId,

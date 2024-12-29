@@ -1,11 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.Interfaces;
+using PetHome.Core.ValueObjects;
 using PetHome.Domain.Shared;
 using PetHome.Domain.Shared.Error;
-using PetHome.Domain.Shared.Interfaces;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Domain.PetManagment.PetEntity;
+namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public class Pet : SoftDeletableEntity
 {
     public static List<Pet> Pets { get; set; } = new List<Pet>();

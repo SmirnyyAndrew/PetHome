@@ -2,23 +2,22 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
-using PetHome.API.Controllers.PetManegment.Requests;
-using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Features.Read.PetManegment.Pet.GetPetById;
-using PetHome.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
-using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
-using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
-using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
-using PetHome.Application.Features.Write.PetManegment.CreatePet;
-using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
-using PetHome.Application.Features.Write.PetManegment.HardDelete;
-using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
-using PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
-using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
-using PetHome.Application.Validator;
-using PetHome.Infrastructure.Providers.Minio;
+using PetHome.Core.Controllers;
+using PetHome.Volunteers.API.Controllers.PetManegment.Requests;
+using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
+using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetStatus;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangeSerialNumber;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.HardDelete;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteRestore;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 
-namespace PetHome.API.Controllers.PetManegment;
+namespace PetHome.Volunteers.API.Controllers.PetManegment;
 
 public class PetManegmentController : ParentController
 {

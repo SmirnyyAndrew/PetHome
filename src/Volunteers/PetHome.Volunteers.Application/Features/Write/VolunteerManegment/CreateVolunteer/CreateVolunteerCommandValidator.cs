@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
+using PetHome.Core.ValueObjects;
 
-namespace PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>
 {
     public CreateVolunteerCommandValidator()

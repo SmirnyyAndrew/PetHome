@@ -1,18 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Interfaces.RepositoryInterfaces;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects;
 using PetHome.Domain.Shared;
 using PetHome.Domain.Shared.Error;
+using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
 public class ChangePetInfoUseCase
     : ICommandHandler<string, ChangePetInfoCommand>
 {

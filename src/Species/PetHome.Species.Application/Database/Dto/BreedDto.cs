@@ -1,4 +1,4 @@
-﻿namespace PetHome.Application.Database.Dtos;
+﻿namespace PetHome.Species.Application.Database.Dto;
 public class BreedDto
 {
     public Guid Id { get; init; }

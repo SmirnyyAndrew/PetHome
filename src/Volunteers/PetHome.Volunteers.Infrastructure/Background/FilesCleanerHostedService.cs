@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Interfaces;
-using PetHome.Application.Messaging;
+using PetHome.Core.Interfaces;
 
-namespace PetHome.Infrastructure.Background;
+namespace PetHome.Volunteers.Infrastructure.Background;
 public class FilesCleanerHostedService : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;

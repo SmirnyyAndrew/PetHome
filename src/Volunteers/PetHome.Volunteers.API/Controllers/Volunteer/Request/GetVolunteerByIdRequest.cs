@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
+﻿using PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 
-namespace PetHome.API.Controllers.Volunteer.Request;
+namespace PetHome.Volunteers.API.Controllers.Volunteer.Request;
 
 public record GetVolunteerByIdRequest(Guid VolunteerId)
 {

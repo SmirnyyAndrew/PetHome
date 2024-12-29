@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database.Read;
-using PetHome.Infrastructure.Shared;
 
-namespace PetHome.Infrastructure.DataBase.Read.DBContext;
+namespace PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
  
 public class ReadDBContext : DbContext, IReadDBContext
 {

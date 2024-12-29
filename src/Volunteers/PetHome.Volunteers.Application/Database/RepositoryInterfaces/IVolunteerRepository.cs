@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHome.Core.Response.Error;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Application.Interfaces.RepositoryInterfaces;
+namespace PetHome.Volunteers.Application.Database.RepositoryInterfaces;
 
 //Инверсия управления
 public interface IVolunteerRepository

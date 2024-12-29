@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetHome.Application.Models;
+using PetHome.Core.Models;
 using System.Linq.Expressions;
 
 namespace PetHome.Core.Extentions.Collection;

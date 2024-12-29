@@ -1,17 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Interfaces.RepositoryInterfaces;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Domain.Shared.Error;
+using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteRestore;
 public class SoftDeleteRestorePetUseCase
     : ICommandHandler<SoftDeleteRestorePetCommand>
 {

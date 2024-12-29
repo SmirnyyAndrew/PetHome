@@ -1,6 +1,5 @@
-﻿using PetHome.Domain.PetManagment.GeneralValueObjects;
-
-namespace PetHome.Domain.Shared.Interfaces;
+﻿
+namespace PetHome.Core.Interfaces;
 public abstract class SoftDeletableEntity
 {
     public DateTime DeletionDate = default;

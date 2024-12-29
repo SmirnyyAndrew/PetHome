@@ -1,15 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database;
 using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
+using PetHome.Species.Application.Database.RepositoryInterfaces;
 
-namespace PetHome.Application.Features.Write.PetManegment.CreateBreed;
+namespace PetHome.Species.Application.Features.Write.CreateBreed;
 public class CreateBreedUseCase
     : ICommandHandler<Guid, CreateBreedCommand>
 {

@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
+﻿using PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 
-namespace PetHome.API.Controllers.PetManegment.Requests;
+namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
 public record SetPetMainPhotoRequest(
      Guid VolunteerId,
      Guid PetId, 

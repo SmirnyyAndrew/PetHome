@@ -1,18 +1,18 @@
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.API.Controllers.Volunteer.Request;
 using PetHome.API.Extentions;
-using PetHome.Application.Features.Background;
-using PetHome.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
-using PetHome.Application.Features.Read.VolunteerManegment.GetVolunteerById;
-using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
-using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
-using PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
-using PetHome.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.Controllers;
+using PetHome.Volunteers.API.Controllers.Volunteer.Request;
+using PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
+using PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeletedEntitiesToHardDelete;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.API.Controllers.Volunteer;
+namespace PetHome.Volunteers.API.Controllers.Volunteer;
 public class VolunteerDataManegmentController : ParentController
 {
     [HttpPost]

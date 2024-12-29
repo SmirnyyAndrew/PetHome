@@ -1,10 +1,6 @@
-﻿using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Response.Error;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+﻿using PetHome.Core.Response.Error;
 
-namespace PetHome.Application.Interfaces.RepositoryInterfaces;
+namespace PetHome.Species.Application.Database.RepositoryInterfaces;
 public interface ISpeciesRepository
 {
     //Добавить вид животного

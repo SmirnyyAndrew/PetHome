@@ -1,8 +1,8 @@
-﻿using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Interfaces;
-using PetHome.Application.Interfaces.FeatureManagment; 
+﻿using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Volunteers.Application.Features.Dto.Pet;
 
-namespace PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 public record DeletePetMediaFilesCommand(
     Guid VolunteerId,
     DeletePetMediaFilesDto DeletePetMediaFilesDto,

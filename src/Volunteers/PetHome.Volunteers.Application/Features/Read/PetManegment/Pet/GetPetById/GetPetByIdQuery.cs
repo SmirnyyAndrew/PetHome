@@ -1,5 +1,5 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Read.PetManegment.Pet.GetPetById;
+namespace PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
 public record GetPetByIdQuery(
   Guid PetId  ) : IQuery;

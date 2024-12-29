@@ -2,14 +2,10 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Extentions;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Application.Models;
-using PetHome.Application.Validator;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Models;
 
-namespace PetHome.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
+namespace PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 public class GetPetsWithPaginationAndFiltersUseCase
     : IQueryHandler<PagedList<PetDto>, GetPetsWithPaginationAndFiltersQuery>
 {

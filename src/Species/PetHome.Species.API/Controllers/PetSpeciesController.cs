@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetHome.API.Controllers.PetManegment.Requests;
-using PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
-using PetHome.Application.Features.Write.PetManegment.CreateSpecies;
-using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
+using PetHome.Species.API.Controllers.Requests;
+using PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
+using PetHome.Species.Application.Features.Write.CreateSpecies;
+using PetHome.Species.Application.Features.Write.DeleteSpeciesById;
 
-namespace PetHome.API.Controllers.PetManegment;
+namespace PetHome.Species.API.Controllers;
 
 public class PetSpeciesController : ParentController
 {

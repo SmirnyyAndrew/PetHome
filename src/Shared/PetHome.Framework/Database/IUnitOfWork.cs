@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace PetHome.Application.Database;
+namespace PetHome.Framework.Database;
 public interface IUnitOfWork
 {
     Task<IDbTransaction> BeginTransaction(CancellationToken ct = default);

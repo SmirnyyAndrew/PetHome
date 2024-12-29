@@ -1,7 +1,7 @@
-﻿using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+﻿using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.API.Controllers.Volunteer.Request;
+namespace PetHome.Volunteers.API.Controllers.Volunteer.Request;
 
 public record HardDeleteVolunteerRequest(VolunteerId VolunteerId)
 {

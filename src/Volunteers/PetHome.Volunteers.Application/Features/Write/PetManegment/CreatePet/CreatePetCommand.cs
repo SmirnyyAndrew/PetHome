@@ -1,5 +1,5 @@
-﻿using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Volunteers.Application.Features.Dto.Pet;
 
-namespace PetHome.Application.Features.Write.PetManegment.CreatePet;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
 public record CreatePetCommand(Guid VolunteerId, PetMainInfoDto PetMainInfoDto) : ICommand;

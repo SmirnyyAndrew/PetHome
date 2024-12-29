@@ -1,7 +1,7 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Domain.PetManagment.PetEntity;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
-namespace PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
 public record ChangePetInfoCommand(
         Guid PetId,
         string Name,

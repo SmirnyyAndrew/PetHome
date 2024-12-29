@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.Error;
 
-namespace PetHome.Domain.PetManagment.GeneralValueObjects;
+namespace PetHome.Core.ValueObjects;
 
 public record Description
 {
@@ -12,7 +12,7 @@ public record Description
         Value = value;
     }
 
-    public static Result<Description,Error> Create(string value)
+    public static Result<Description, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return Errors.Validation("Описание");

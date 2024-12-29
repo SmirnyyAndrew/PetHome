@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 public class UploadPetMediaFilesCommandValidator : AbstractValidator<UploadPetMediaFilesCommand>
 {
     public UploadPetMediaFilesCommandValidator()

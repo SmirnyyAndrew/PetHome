@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.Error;
 
-namespace PetHome.Domain.PetManagment.GeneralValueObjects;
+namespace PetHome.Core.ValueObjects;
 
 public record FullName
 {

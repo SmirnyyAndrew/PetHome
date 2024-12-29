@@ -1,5 +1,5 @@
-﻿using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Features.Write.PetManegment.CreatePet;
+﻿using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
 
 public record CreatePetRequest(Guid VolunteerId, PetMainInfoDto PetMainInfoDto)
 {

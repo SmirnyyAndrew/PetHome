@@ -2,7 +2,7 @@
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
 
-namespace PetHome.Application.Features.Write.PetManegment.CreateSpecies;
+namespace PetHome.Species.Application.Features.Write.CreateSpecies;
 public class CreateSpeciesValidator : AbstractValidator<CreateSpeciesCommand>
 {
     public CreateSpeciesValidator()

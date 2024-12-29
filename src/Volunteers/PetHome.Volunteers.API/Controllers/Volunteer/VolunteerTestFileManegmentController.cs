@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Minio;
-using PetHome.API.Controllers.PetManegment.Media;
 using PetHome.API.Envelopes;
-using PetHome.Infrastructure.Providers.Minio;
+using PetHome.Core.Controllers;
+using PetHome.Volunteers.API.Controllers.Media.Requests;
 
-namespace PetHome.API.Controllers.Volunteer;
+namespace PetHome.Volunteers.API.Controllers.Volunteer;
 
 public class VolunteerTestFileManegmentController : ParentController
 {

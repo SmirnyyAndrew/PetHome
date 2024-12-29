@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Read.PetManegment.Species.GetAllSpecies;
+namespace PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
 public class GetAllSpeciesUseCase
     : IQueryHandler<IReadOnlyList<SpeciesDto>>
 {

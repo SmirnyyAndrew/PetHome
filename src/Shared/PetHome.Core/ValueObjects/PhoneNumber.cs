@@ -2,7 +2,7 @@
 using PetHome.Core.Response.Error;
 using System.Text.RegularExpressions;
 
-namespace PetHome.Domain.PetManagment.GeneralValueObjects;
+namespace PetHome.Core.ValueObjects;
 public record PhoneNumber
 { 
     private const string PhoneNumberRegex = @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$";

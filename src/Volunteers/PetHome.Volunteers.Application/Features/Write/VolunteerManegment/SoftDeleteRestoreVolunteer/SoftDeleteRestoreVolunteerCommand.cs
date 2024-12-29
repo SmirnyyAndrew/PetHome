@@ -1,4 +1,4 @@
-﻿using PetHome.Application.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
+namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 public record SoftDeleteRestoreVolunteerCommand(Guid VolunteerId) : ICommand;

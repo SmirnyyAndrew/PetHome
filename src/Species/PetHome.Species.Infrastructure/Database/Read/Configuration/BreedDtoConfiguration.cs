@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Application.Database.Dtos;
 using PetHome.Domain.PetManagment.PetEntity;
 
-namespace PetHome.Infrastructure.DataBase.Read.Configuration;
+namespace PetHome.Species.Infrastructure.Database.Read.Configuration;
 internal class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDto>
 {
     public void Configure(EntityTypeBuilder<BreedDto> builder)

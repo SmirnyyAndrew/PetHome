@@ -1,4 +1,4 @@
-﻿namespace PetHome.Domain.PetManagment.PetEntity;
+﻿namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public enum PetStatusEnum
 {
     isFree,

@@ -1,5 +1,4 @@
-﻿using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.Shared.Interfaces;
+﻿using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 public class PetDto
 {
