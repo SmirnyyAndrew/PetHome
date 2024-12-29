@@ -2,9 +2,9 @@
 
 namespace PetHome.API.Controllers.PetManegment.Requests;
 
-public record CreateBreedRequst(Guid SpeciesId, IEnumerable<string> Breeds)
+public record CreateBreedRequest(Guid SpeciesId, IEnumerable<string> Breeds)
 {
-    public static implicit operator CreateBreedCommand(CreateBreedRequst requst)
+    public static implicit operator CreateBreedCommand(CreateBreedRequest requst)
     {
         return new CreateBreedCommand(requst.SpeciesId, requst.Breeds);
     }

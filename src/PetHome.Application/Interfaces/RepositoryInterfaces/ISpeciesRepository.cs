@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
@@ -8,6 +9,9 @@ public interface ISpeciesRepository
 {
     //Добавить вид животного
     public Task<Result<Guid, Error>> Add(Species species, CancellationToken ct);
+    
+    //Добавить коллекцию вид животного
+    public Task<UnitResult<Error>> AddRange(IEnumerable<Species> species, CancellationToken ct);
 
     //Получить вид животного по id
     public Task<Result<Species, Error>> GetById(Guid id, CancellationToken ct);
@@ -26,4 +30,7 @@ public interface ISpeciesRepository
 
     //Обновить
     public Task<Guid> Update(Species species, CancellationToken ct);
+
+    //Обновление коллекции вида
+    public Task<UnitResult<Error>> UpdateRange(IEnumerable<Species> species, CancellationToken ct);
 }

@@ -1,13 +1,15 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 public class HardDeleteVolunteerUseCase
+    : ICommandHandler<bool, HardDeleteVolunteerCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<HardDeleteVolunteerUseCase> _logger;
@@ -24,27 +26,28 @@ public class HardDeleteVolunteerUseCase
     }
 
     public async Task<Result<bool, ErrorList>> Execute(
-        VolunteerId id, CancellationToken ct)
+        HardDeleteVolunteerCommand command, 
+        CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var result = _volunteerRepository.RemoveById(id, ct).Result;
+            var result = _volunteerRepository.RemoveById(command.VolunteerId, ct).Result;
 
             if (result.IsFailure)
-                return (ErrorList)result.Error;
+                return result.Error.ToErrorList();
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", id.Value);
+            _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", command.VolunteerId.Value);
             return result.Value;
         }
         catch (Exception)
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить навсегда волонтёра");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 

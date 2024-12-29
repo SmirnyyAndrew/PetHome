@@ -2,6 +2,8 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -9,6 +11,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.CreateSpecies;
 public class CreateSpeciesUseCase
+    : ICommandHandler<Guid, CreateSpeciesCommand>
 {
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreateSpeciesUseCase> _logger;
@@ -33,22 +36,22 @@ public class CreateSpeciesUseCase
     {
         var validationResult = await _validator.ValidateAsync(createSpeciesCommand, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         var speciesResult = Species.Create(createSpeciesCommand.SpeciesName);
         if (speciesResult.IsFailure)
-            return (ErrorList)speciesResult.Error;
+            return speciesResult.Error.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
             var getByNameResult = await _speciesRepository.GetByName(createSpeciesCommand.SpeciesName, ct);
             if (getByNameResult.IsSuccess)
-                return (ErrorList)Errors.Conflict(createSpeciesCommand.SpeciesName);
+                return Errors.Conflict(createSpeciesCommand.SpeciesName).ToErrorList();
 
             var addResult = await _speciesRepository.Add(speciesResult.Value, ct);
             if (addResult.IsFailure)
-                return (ErrorList)addResult.Error;
+                return addResult.Error.ToErrorList();
 
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
@@ -60,7 +63,7 @@ public class CreateSpeciesUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать вид питомца");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

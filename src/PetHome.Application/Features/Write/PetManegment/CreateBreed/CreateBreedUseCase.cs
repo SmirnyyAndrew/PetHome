@@ -2,6 +2,8 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.PetEntity;
@@ -9,6 +11,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.CreateBreed;
 public class CreateBreedUseCase
+    : ICommandHandler<Guid, CreateBreedCommand>
 {
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreateBreedUseCase> _logger;
@@ -33,7 +36,7 @@ public class CreateBreedUseCase
     {
         var validationResult = await _validator.ValidateAsync(createBreedCommand, ct);
         if (validationResult.IsValid == false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         //Использование транзакции через UnitOfWork
         var transaction = await _unitOfWork.BeginTransaction(ct);
@@ -41,12 +44,12 @@ public class CreateBreedUseCase
         {
             var getSpeciesByIdResult = await _speciesRepository.GetById(createBreedCommand.SpeciesId, ct);
             if (getSpeciesByIdResult.IsFailure)
-                return (ErrorList)Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден");
+                return Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден").ToErrorList();
 
             Species species = getSpeciesByIdResult.Value;
             var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);
             if (updateBreedResult.IsFailure)
-                return (ErrorList)updateBreedResult.Error;
+                return updateBreedResult.Error.ToErrorList();
 
             var updateRepositoryResult = await _speciesRepository.Update(species, ct);
 
@@ -61,7 +64,7 @@ public class CreateBreedUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать породу животного\n\r{0}", ex);
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

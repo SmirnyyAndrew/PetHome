@@ -5,16 +5,22 @@ using PetHome.Application.Database.Read;
 using PetHome.Infrastructure.Shared;
 
 namespace PetHome.Infrastructure.DataBase.Read.DBContext;
-
-public class ReadDBContext(IConfiguration configuration) : DbContext, IReadDBContext
+ 
+public class ReadDBContext : DbContext, IReadDBContext
 {
-    public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
-    public DbSet<PetDto> Pets => Set<PetDto>();
-    public DbSet<SpeciesDto> Species => Set<SpeciesDto>();
+    private readonly string _connectionString = Constants.DATABASE;
+    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
+    public IQueryable<PetDto> Pets => Set<PetDto>();
+    public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
+
+    public ReadDBContext(string connectionString)
+    {
+        _connectionString = connectionString;
+    } 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-    {
-        optionBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
+    { 
+        optionBuilder.UseNpgsql(_connectionString);
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();

@@ -92,7 +92,32 @@ namespace PetHome.Infrastructure.Migrations.Read
                     b.HasKey("Id")
                         .HasName("pk_pets");
 
-                    b.ToTable("Pets", (string)null);
+                    b.ToTable("pets", (string)null);
+                });
+
+            modelBuilder.Entity("PetHome.Application.Database.Dtos.BreedDto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("SpeciesId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("species_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_breeds");
+
+                    b.HasIndex("SpeciesId")
+                        .HasDatabaseName("ix_breeds_species_id");
+
+                    b.ToTable("breeds", (string)null);
                 });
 
             modelBuilder.Entity("SpeciesDto", b =>
@@ -100,7 +125,7 @@ namespace PetHome.Infrastructure.Migrations.Read
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -147,6 +172,21 @@ namespace PetHome.Infrastructure.Migrations.Read
                         .HasName("pk_volunteers");
 
                     b.ToTable("volunteers", (string)null);
+                });
+
+            modelBuilder.Entity("PetHome.Application.Database.Dtos.BreedDto", b =>
+                {
+                    b.HasOne("SpeciesDto", null)
+                        .WithMany("Breeds")
+                        .HasForeignKey("SpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_breeds_specieses_species_id");
+                });
+
+            modelBuilder.Entity("SpeciesDto", b =>
+                {
+                    b.Navigation("Breeds");
                 });
 #pragma warning restore 612, 618
         }

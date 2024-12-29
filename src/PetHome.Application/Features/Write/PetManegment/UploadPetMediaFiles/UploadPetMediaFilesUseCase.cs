@@ -2,7 +2,9 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
+using PetHome.Application.Extentions;
 using PetHome.Application.Interfaces;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Messaging;
 using PetHome.Application.Validator;
@@ -13,6 +15,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 public class UploadPetMediaFilesUseCase
+    : ICommandHandler<string, UploadPetMediaFilesCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<UploadPetMediaFilesUseCase> _logger;
@@ -35,48 +38,46 @@ public class UploadPetMediaFilesUseCase
     }
 
     public async Task<Result<string, ErrorList>> Execute(
-        IFilesProvider filesProvider,
-        UploadPetMediaFilesCommand uploadPetMediaCommand,
-        Guid volunteerId,
+        UploadPetMediaFilesCommand command,
         CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(uploadPetMediaCommand, ct);
+        var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var volunteerResult = await _volunteerRepository.GetById(volunteerId, ct);
+            var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
             if (volunteerResult.IsFailure)
-                return (ErrorList)Errors.NotFound($"Волонтёр с id {volunteerId} не найден");
+                return Errors.NotFound($"Волонтёр с id {command.VolunteerId} не найден").ToErrorList();
 
             Volunteer volunteer = volunteerResult.Value;
             Pet pet = volunteer.Pets
-                .FirstOrDefault(x => x.Id == uploadPetMediaCommand.UploadPetMediaDto.PetId);
+                .FirstOrDefault(x => x.Id == command.UploadPetMediaDto.PetId);
             if (pet == null)
-                return (ErrorList)Errors.NotFound($"Питомец с id {uploadPetMediaCommand.UploadPetMediaDto.PetId} не найден");
+                return Errors.NotFound($"Питомец с id {command.UploadPetMediaDto.PetId} не найден").ToErrorList();
 
 
-            List<MinioFileName> initedMinioFileNames = uploadPetMediaCommand.FileNames
-                .Select(n => filesProvider.InitName(n))
+            List<MinioFileName> initedMinioFileNames = command.FileNames
+                .Select(n => command.FilesProvider.InitName(n))
                 .ToList();
             MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
-                uploadPetMediaCommand.UploadPetMediaDto.BucketName,
+                command.UploadPetMediaDto.BucketName,
                 initedMinioFileNames);
-            var uploadResult = await filesProvider.UploadFile(
-                uploadPetMediaCommand.Streams,
+            var uploadResult = await command.FilesProvider.UploadFile(
+                command.Streams,
                 minioFilesInfoDto,
-                uploadPetMediaCommand.UploadPetMediaDto.CreateBucketIfNotExist,
+                command.UploadPetMediaDto.CreateBucketIfNotExist,
                 ct);
 
             if (uploadResult.IsFailure)
             {
                 MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
-                    uploadPetMediaCommand.UploadPetMediaDto.BucketName,
+                    command.UploadPetMediaDto.BucketName,
                     initedMinioFileNames);
                 await _messageQueue.WriteAsync(minioFileInfoDto, ct);
-                return (ErrorList)uploadResult.Error;
+                return uploadResult.Error.ToErrorList();
             }
 
             IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
@@ -88,7 +89,7 @@ public class UploadPetMediaFilesUseCase
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            string message = $"В bucket {uploadPetMediaCommand.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
+            string message = $"В bucket {command.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
                 $"у volunteer {volunteer.Id} добавлены следующие файлы:\n " +
                 $"{string.Join("\n", uploadResult.Value.Select(x => x.FileName))}";
             _logger.LogInformation(message);
@@ -98,7 +99,7 @@ public class UploadPetMediaFilesUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось создать медиаданные питомца");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

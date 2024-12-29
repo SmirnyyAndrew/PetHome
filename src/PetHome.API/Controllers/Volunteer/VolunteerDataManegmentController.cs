@@ -56,8 +56,9 @@ public class VolunteerDataManegmentController : ParentController
          CancellationToken ct)
     {
         VolunteerId volunteerId = VolunteerId.Create(id).Value;
+        HardDeleteVolunteerRequest request = new HardDeleteVolunteerRequest(volunteerId);
 
-        var result = await hardDeleteUseCase.Execute(volunteerId, ct);
+        var result = await hardDeleteUseCase.Execute(request, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
@@ -72,8 +73,9 @@ public class VolunteerDataManegmentController : ParentController
         CancellationToken ct = default)
     {
         VolunteerId volunteerId = VolunteerId.Create(id).Value;
+        SoftDeleteRestoreVolunteerRequest request = new SoftDeleteRestoreVolunteerRequest(volunteerId);
 
-        var result = await softDeleteVoUseCase.Execute(id, ct);
+        var result = await softDeleteVoUseCase.Execute(request, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
@@ -88,8 +90,9 @@ public class VolunteerDataManegmentController : ParentController
         CancellationToken ct = default)
     {
         VolunteerId volunteerId = VolunteerId.Create(id).Value;
+        SoftDeleteRestoreVolunteerRequest request = new SoftDeleteRestoreVolunteerRequest(volunteerId);
 
-        var result = await softRestoreUseCase.Execute(id, ct);
+        var result = await softRestoreUseCase.Execute(request, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
@@ -130,10 +133,12 @@ public class VolunteerDataManegmentController : ParentController
         [FromRoute] Guid id,
         CancellationToken ct = default)
     {
-        var result = await useCase.Execute(id, ct);
+        GetVolunteerByIdRequest request = new GetVolunteerByIdRequest(id);
+
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
         return Ok(result.Value);
-    } 
+    }
 }

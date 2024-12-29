@@ -22,11 +22,26 @@ public class VolunteerRepository : IVolunteerRepository
         return volunteer.Id;
     }
 
+
+    //Создание коллекции волонтёра
+    public async Task<UnitResult<Error>> AddRange(IEnumerable<Volunteer> volunteers, CancellationToken ct)
+    {
+        await _dBContext.Volunteers.AddRangeAsync(volunteers, ct);
+        return Result.Success<Error>();
+    }
+
     //Изменение волонтёра
     public async Task<Guid> Update(Volunteer volunteer, CancellationToken ct = default)
     {
         _dBContext.Volunteers.Update(volunteer);
         return volunteer.Id;
+    }
+
+    //Изменение волонтёров
+    public async Task<UnitResult<Error>> UpdateRange(IEnumerable<Volunteer> volunteers, CancellationToken ct = default)
+    {
+        _dBContext.Volunteers.UpdateRange(volunteers);
+        return Result.Success<Error>();
     }
 
     //Найти волонтера по ID

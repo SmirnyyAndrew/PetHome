@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Domain.Shared.Error;
 
@@ -9,8 +10,16 @@ public interface IVolunteerRepository
 {
     //Создание волонтёра
     public Task<Guid> Add(Volunteer volunteer, CancellationToken ct);
-    //Создание волонтёра
-    public Task<Guid> Update(Volunteer volunteer, CancellationToken ct);
+   
+    //Создание коллекции волонтёра
+    public Task<UnitResult<Error>> AddRange(IEnumerable<Volunteer> volunteers, CancellationToken ct);
+
+    //Изменение волонтёра
+    public Task<Guid> Update(Volunteer volunteer, CancellationToken ct);//Изменение волонтёров
+
+    //Изменение волонтёров
+    public Task<UnitResult<Error>> UpdateRange(IEnumerable<Volunteer> volunteers, CancellationToken ct);
+ 
 
     //Найти волонтера по ID
     public Task<Result<Volunteer, Error>> GetById(Guid id, CancellationToken ct);

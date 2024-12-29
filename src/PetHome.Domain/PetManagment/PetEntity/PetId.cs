@@ -1,4 +1,7 @@
-﻿namespace PetHome.Domain.PetManagment.PetEntity;
+﻿using CSharpFunctionalExtensions;
+using PetHome.Domain.Shared.Error;
+
+namespace PetHome.Domain.PetManagment.PetEntity;
 public record class PetId
 {
     public Guid Value { get; }
@@ -9,11 +12,11 @@ public record class PetId
         Value = value;
     }
 
-    public static PetId Create() => new PetId(Guid.NewGuid());
+    public static Result<PetId, Error> Create() => new PetId(Guid.NewGuid());
 
-    public static PetId Create(Guid id) => new PetId(id);
+    public static Result<PetId, Error> Create(Guid id) => new PetId(id);
 
-    public static PetId CreateEmpty() => new PetId(Guid.Empty);
+    public static Result<PetId, Error> CreateEmpty() => new PetId(Guid.Empty);
 
     public static implicit operator Guid(PetId petId)
     {

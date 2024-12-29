@@ -6,15 +6,21 @@ using PetHome.Domain.PetManagment.VolunteerEntity;
 using PetHome.Infrastructure.Shared;
 
 namespace PetHome.Infrastructure.DataBase.Write.DBContext;
-
-public class WriteDBContext(IConfiguration configuration) : DbContext
+ 
+public class WriteDBContext : DbContext
 {
+    private readonly string _connectionString;
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
     public DbSet<Species> Species => Set<Species>();
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+    public WriteDBContext(string connectionString)
     {
-        optionBuilder.UseNpgsql(configuration.GetConnectionString(Constants.DATABASE));
+        _connectionString = connectionString;
+    } 
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+    { 
+        optionBuilder.UseNpgsql(_connectionString);
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
