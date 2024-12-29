@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
-namespace PetHome.Species.Infrastructure.Database.Write.DbContext;
+namespace PetHome.Species.Infrastructure.Database.Write.DBContext;
 
 public class SpeciesWriteDBContext : DbContext
 {

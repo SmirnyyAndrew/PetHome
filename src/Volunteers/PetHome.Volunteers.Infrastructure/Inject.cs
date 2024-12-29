@@ -11,9 +11,9 @@ using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Infrastructure;
 using PetHome.Volunteers.Infrastructure.Background;
-using PetHome.Volunteers.Infrastructure.Database.Read.DbContext;
+using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write;
-using PetHome.Volunteers.Infrastructure.Database.Write.DbContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write.Repositories; 
 
 namespace PetHome.Volunteers.Infrastructure;

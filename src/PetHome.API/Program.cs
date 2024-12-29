@@ -4,7 +4,7 @@ using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
 using PetHome.SharedKernel.Middlewares;
 using PetHome.Volunteers.Infrastructure;
-using PetHome.Volunteers.Infrastructure.Database.Write.DbContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using PetHome.Volunteers.Application;

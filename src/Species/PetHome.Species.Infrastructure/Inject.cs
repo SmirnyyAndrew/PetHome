@@ -10,7 +10,7 @@ using PetHome.SharedKernel.Options;
 using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Infrastructure;
-using PetHome.Species.Infrastructure.Database.Read.DbContext;
+using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Species.Infrastructure.Database.Write;
 using PetHome.Species.Infrastructure.Database.Write.DbContext;
 using PetHome.Species.Infrastructure.Database.Write.Repositories;
