@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Minio.DataModel.Args;
 using PetHome.Application.Interfaces;
+using PetHome.Core.Response.Error;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Infrastructure.Providers.Minio;
 public partial class MinioProvider : IFilesProvider

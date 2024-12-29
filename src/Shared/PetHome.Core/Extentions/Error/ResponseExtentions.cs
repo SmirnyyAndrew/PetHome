@@ -1,8 +1,8 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.API.Envelopes;
-using PetHome.Application.Validator;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.Envelopes;
+using PetHome.Core.Response.Error;
+using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Core.Extentions.Error;
 // Позволяет автоматически опредлетить status code ошибки в контроллерах

@@ -1,4 +1,4 @@
-﻿namespace PetHome.Domain.Shared.Error;
+﻿namespace PetHome.Core.Response.Error;
 public static class Errors
 {
     public static Error Validation(string value)

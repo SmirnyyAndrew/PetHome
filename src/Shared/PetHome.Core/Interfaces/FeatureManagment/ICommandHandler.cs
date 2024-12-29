@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Application.Validator;
+using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Application.Interfaces.FeatureManagment;
 public interface ICommandHandler<TResponse, in TCommand> where TCommand : ICommand

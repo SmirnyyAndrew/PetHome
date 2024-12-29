@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Interfaces;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.Error;
 
 namespace PetHome.Infrastructure.Providers.Minio;
 public partial class MinioProvider : IFilesProvider

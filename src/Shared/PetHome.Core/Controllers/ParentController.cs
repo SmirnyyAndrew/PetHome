@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using PetHome.API.Envelopes;
-using PetHome.Application.Validator;
+using PetHome.Core.Response.Envelopes;
+using PetHome.Core.Response.Validation.Validator;
 using PetHome.Domain.Shared.Error;
 
 namespace PetHome.API.Controllers;

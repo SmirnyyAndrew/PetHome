@@ -1,4 +1,4 @@
-﻿namespace PetHome.Domain.Shared.Error;
+﻿namespace PetHome.Core.Response.Error;
 public record Error
 {
     public string Code { get; }

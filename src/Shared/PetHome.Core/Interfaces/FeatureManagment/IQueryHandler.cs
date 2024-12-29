@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Application.Validator;
+using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Application.Interfaces.FeatureManagment;
 public interface IQueryHandler<TResponse, in TQuery> where TQuery : IQuery

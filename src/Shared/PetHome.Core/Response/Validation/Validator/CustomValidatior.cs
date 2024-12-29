@@ -1,9 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Routing;
-using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Validator;
+namespace PetHome.Core.Response.Validation.Validator;
 public static class CustomValidatior
 {
     public static IRuleBuilderOptionsConditions<T, TElement> MustBeValueObject<T, TElement, TValueObject>

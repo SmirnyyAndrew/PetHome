@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.Error;
 using System.Text.RegularExpressions;
 
 namespace PetHome.Domain.PetManagment.GeneralValueObjects;

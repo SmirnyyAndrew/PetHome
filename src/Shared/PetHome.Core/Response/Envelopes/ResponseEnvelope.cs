@@ -1,9 +1,8 @@
 ﻿using FluentValidation.Results;
 using Minio.DataModel;
-using PetHome.Application.Validator;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.API.Envelopes;
+namespace PetHome.Core.Response.Envelopes;
 public class ResponseEnvelope
 {
     public ErrorList Errors { get; }
@@ -40,7 +39,7 @@ public class ResponseEnvelope
         List<Error> errors = new();
         foreach (var failure in validationFailures)
         {
-            Error error = Domain.Shared.Error.Errors.Validation(failure.ErrorMessage);
+            Error error = Response.Error.Errors.Validation(failure.ErrorMessage);
             errors.Add(error);
         }
 

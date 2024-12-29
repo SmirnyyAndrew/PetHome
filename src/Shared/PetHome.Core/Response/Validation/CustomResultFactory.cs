@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PetHome.API.Envelopes;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.Envelopes;
+using PetHome.Core.Response.Error;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
 
-namespace PetHome.API.Validation;
+namespace PetHome.Core.Response.Validation;
 
 public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
 {
@@ -22,7 +22,7 @@ public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
             foreach (var error in validationErrors)
             {
                 errors.Add(Errors.Validation(error));
-            }  
+            }
         }
 
         ResponseEnvelope envelope = ResponseEnvelope.Error(errors.ToArray());

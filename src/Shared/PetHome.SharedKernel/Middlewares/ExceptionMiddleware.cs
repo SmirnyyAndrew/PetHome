@@ -1,5 +1,5 @@
-﻿using PetHome.API.Envelopes;
-using PetHome.Domain.Shared.Error;
+﻿using PetHome.Core.Response.Envelopes;
+using PetHome.Core.Response.Error;
 
 namespace PetHome.API.Middlewares;
 

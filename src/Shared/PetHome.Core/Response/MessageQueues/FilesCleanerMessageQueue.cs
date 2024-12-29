@@ -1,7 +1,7 @@
-﻿using PetHome.Application.Messaging;
+﻿using PetHome.Core.Response.Messaging;
 using System.Threading.Channels;
 
-namespace PetHome.Infrastructure.MessageQueues;
+namespace PetHome.Core.Response.MessageQueues;
 public class FilesCleanerMessageQueue : IMessageQueue
 {
     private readonly Channel<MinioFilesInfoDto> _channel = Channel.CreateUnbounded<MinioFilesInfoDto>();

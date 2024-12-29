@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.Shared.Error;
-
+using PetHome.Core.Response.Error;
 
 public record MinioFileName
 {

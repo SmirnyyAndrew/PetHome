@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.Error;
 
 namespace PetHome.Domain.PetManagment.GeneralValueObjects;
 public record Date

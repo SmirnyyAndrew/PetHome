@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Events;
 
-namespace PetHome.API.Loggers;
+namespace PetHome.Core.Response.Loggers;
 
 public class SeqLogger
 {
