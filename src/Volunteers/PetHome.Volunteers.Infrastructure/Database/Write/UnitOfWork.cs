@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using PetHome.Framework.Database;
-using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DbContext;
 using System.Data;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write;

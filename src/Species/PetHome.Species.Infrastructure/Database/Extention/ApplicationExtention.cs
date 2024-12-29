@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.SharedKernel.Middlewares;
-using PetHome.Species.Infrastructure.Database.Write.DBContext;
+using PetHome.Species.Infrastructure.Database.Write.DbContext;
 
 namespace PetHome.Species.Infrastructure.Database.Extention;
 

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using PetHome.Core.Constants;
 using PetHome.Volunteers.Application.Database;
 
-namespace PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
+namespace PetHome.Volunteers.Infrastructure.Database.Read.DbContext;
  
 public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
 {

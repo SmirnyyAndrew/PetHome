@@ -6,7 +6,6 @@ using Minio;
 using PetHome.Core.Controllers;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.SharedKernel.Providers.Minio;
-using PetHome.Species.API.Controllers.Requests;
 using PetHome.Volunteers.API.Controllers.PetManegment.Requests;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;

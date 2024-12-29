@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
-using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DbContext;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 public class VolunteerRepository : IVolunteerRepository

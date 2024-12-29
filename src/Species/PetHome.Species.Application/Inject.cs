@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Volunteers.Application;
+namespace PetHome.Species.Application;
 
 public static class Inject
 {

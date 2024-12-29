@@ -4,11 +4,12 @@ using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
 using PetHome.SharedKernel.Middlewares;
 using PetHome.Volunteers.Infrastructure;
-using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DbContext;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using PetHome.Volunteers.Application;
 using PetHome.Species.Infrastructure;
+using PetHome.Species.Application;
 
 namespace PetHome.API;
 public class Program
@@ -79,7 +80,7 @@ public static class ApplicationExtention
     public static async Task ApplyAutoMigrations(this WebApplication application)
     {
         await using var scope = application.Services.CreateAsyncScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
         await dbContext.Database.MigrateAsync();
     }
 

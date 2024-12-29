@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
-using PetHome.Species.API.Controllers.Requests;
 using PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
 using PetHome.Species.Application.Features.Write.CreateSpecies;
 

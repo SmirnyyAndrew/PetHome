@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Species.Application.Database;
 
-namespace PetHome.Species.Infrastructure.Database.Read.DBContext;
+namespace PetHome.Species.Infrastructure.Database.Read.DbContext;
 
 public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
 {

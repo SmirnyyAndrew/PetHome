@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
-namespace PetHome.Species.Infrastructure.Database.Write.DBContext;
+namespace PetHome.Species.Infrastructure.Database.Write.DbContext;
 
 public class SpeciesWriteDBContext : DbContext
 {
@@ -30,6 +30,6 @@ public class SpeciesWriteDBContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesWriteDBContext).Assembly,
-            type => type.FullName?.Contains("DataBase.Write") ?? false);
+            type => type.FullName?.ToLower().Contains("database.write") ?? false);
     }
 }
