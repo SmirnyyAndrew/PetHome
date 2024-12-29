@@ -11,7 +11,7 @@ public static class ApplicationExtention
     public static async Task ApplyAutoMigrations(this WebApplication application)
     {
         await using var scope = application.Services.CreateAsyncScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
         await dbContext.Database.MigrateAsync();
     }
 

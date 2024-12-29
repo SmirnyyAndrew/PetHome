@@ -1,23 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
-using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+namespace PetHome.Species.Infrastructure.Database.Write.DBContext;
 
-public class VolunteerWriteDbContext : DbContext
+public class SpeciesWriteDBContext : DbContext
 {
     private readonly string _connectionString;
-    public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-    public DbSet<_Species> Species=> Set<_Species>();
+    public DbSet<_Species> Species => Set<_Species>();
 
-    public VolunteerWriteDbContext(string connectionString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+    public SpeciesWriteDBContext(string connectionString)
     {
         _connectionString = connectionString;
-    } 
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-    { 
+    {
         optionBuilder.UseNpgsql(_connectionString);
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
@@ -31,7 +29,7 @@ public class VolunteerWriteDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerWriteDbContext).Assembly,
-            type => type.FullName?.Contains("database.write") ?? false);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesWriteDBContext).Assembly,
+            type => type.FullName?.ToLower().Contains("database.write") ?? false);
     }
 }

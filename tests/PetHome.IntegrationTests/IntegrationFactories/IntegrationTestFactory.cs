@@ -32,7 +32,7 @@ public class IntegrationTestFactory
     private Respawner _respawner;
     private DbConnection _dbConnection;
     private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
-    private VolunteerWriteDBContext _volunteerWriteDbContext;
+    private VolunteerWriteDbContext _volunteerWriteDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -42,11 +42,11 @@ public class IntegrationTestFactory
     private void ConfigureDefault(IServiceCollection services)
     {
         services.RemoveAll(typeof(IVolunteerReadDbContext));
-        services.RemoveAll(typeof(VolunteerWriteDBContext));
+        services.RemoveAll(typeof(VolunteerWriteDbContext));
         services.RemoveAll(typeof(IFilesProvider));
 
         services.AddScoped(_ =>
-               new VolunteerWriteDBContext(_dbContainer.GetConnectionString()));
+               new VolunteerWriteDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
               new VolunteerReadDbContext(_dbContainer.GetConnectionString()));
         services.AddTransient(_ => _fileServiceMock);
@@ -57,7 +57,7 @@ public class IntegrationTestFactory
         await _dbContainer.StartAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
-        _volunteerWriteDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        _volunteerWriteDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 
         await _volunteerWriteDbContext.Database.EnsureDeletedAsync();
         await _volunteerWriteDbContext.Database.EnsureCreatedAsync();

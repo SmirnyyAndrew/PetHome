@@ -8,9 +8,9 @@ using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 public class VolunteerRepository : IVolunteerRepository
 {
-    private readonly VolunteerWriteDBContext _dBContext;
+    private readonly VolunteerWriteDbContext _dBContext;
 
-    public VolunteerRepository(VolunteerWriteDBContext dBContext)
+    public VolunteerRepository(VolunteerWriteDbContext dBContext)
     {
         _dBContext = dBContext;
     }

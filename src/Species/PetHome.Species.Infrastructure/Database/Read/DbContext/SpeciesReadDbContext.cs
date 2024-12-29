@@ -32,6 +32,6 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
-            type => type.FullName?.Contains("Database.Read") ?? false);
+            type => type.FullName?.ToLower().Contains("database.read") ?? false);
     }
 }

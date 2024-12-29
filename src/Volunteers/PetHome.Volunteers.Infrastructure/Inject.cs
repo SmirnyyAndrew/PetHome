@@ -22,8 +22,8 @@ public static class Inject
     public static IServiceCollection AddVolunteerInfrastructure(
        this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddScoped<VolunteerWriteDBContext>(_ =>
-              new VolunteerWriteDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<VolunteerWriteDbContext>(_ =>
+              new VolunteerWriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
               new VolunteerReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 

@@ -20,7 +20,7 @@ public class BaseFactory
     protected readonly Fixture _fixture;
     protected readonly IServiceScope _scope;
     protected readonly IVolunteerReadDbContext _volunteerReadDbContext;
-    protected readonly VolunteerWriteDBContext _volunteerWriteDbContext;
+    protected readonly VolunteerWriteDbContext _volunteerWriteDbContext;
 
     public BaseFactory(IntegrationTestFactory factory)
     {
@@ -28,7 +28,7 @@ public class BaseFactory
         _fixture = new Fixture();
         _scope = factory.Services.CreateScope();
         _volunteerReadDbContext = _scope.ServiceProvider.GetRequiredService<IVolunteerReadDbContext>();
-        _volunteerWriteDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        _volunteerWriteDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
     }
 
 

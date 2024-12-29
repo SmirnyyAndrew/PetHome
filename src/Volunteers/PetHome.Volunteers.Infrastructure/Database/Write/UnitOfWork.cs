@@ -6,8 +6,8 @@ using System.Data;
 namespace PetHome.Volunteers.Infrastructure.Database.Write;
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly VolunteerWriteDBContext _dbContex;
-    public UnitOfWork(VolunteerWriteDBContext dBContext)
+    private readonly VolunteerWriteDbContext _dbContex;
+    public UnitOfWork(VolunteerWriteDbContext dBContext)
     {
         _dbContex = dBContext;
     }
