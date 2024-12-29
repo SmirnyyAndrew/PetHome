@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeletedEntitiesToHardDelete;

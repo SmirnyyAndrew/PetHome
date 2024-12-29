@@ -1,8 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Interfaces;
+using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
-using PetHome.Domain.Shared;
-using PetHome.Domain.Shared.Error;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;

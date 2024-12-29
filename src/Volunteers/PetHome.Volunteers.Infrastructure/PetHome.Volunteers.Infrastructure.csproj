@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
     <ProjectReference Include="..\PetHome.Volunteers.Contracts\PetHome.Volunteers.Contracts.csproj" />
     <ProjectReference Include="..\PetHome.Volunteers.Domain\PetHome.Volunteers.Domain.csproj" />

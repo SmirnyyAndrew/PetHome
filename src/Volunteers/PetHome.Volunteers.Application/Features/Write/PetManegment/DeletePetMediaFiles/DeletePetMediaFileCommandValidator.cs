@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 public class DeletePetMediaFileCommandValidator : AbstractValidator<DeletePetMediaFilesCommand>

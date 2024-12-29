@@ -1,8 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Domain.Shared.Error;
-using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Framework.Database;
+using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
@@ -11,13 +14,13 @@ public class ChangePetStatusUseCase
     : ICommandHandler<string, ChangePetStatusCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
-    private readonly IReadDBContext _readDBContext;
+    private readonly IVolunteerReadDbContext _readDBContext;
     private readonly ILogger<ChangePetStatusUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
 
     public ChangePetStatusUseCase(
         IVolunteerRepository volunteerRepository,
-        IReadDBContext readDBContext,
+        IVolunteerReadDbContext readDBContext,
         ILogger<ChangePetStatusUseCase> logger,
         IUnitOfWork unitOfWork)
     {

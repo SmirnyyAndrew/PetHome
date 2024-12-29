@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
-using PetHome.Application.Interfaces.FeatureManagment;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 public class HardDeleteVolunteerUseCaseTest : BaseFactory
 {

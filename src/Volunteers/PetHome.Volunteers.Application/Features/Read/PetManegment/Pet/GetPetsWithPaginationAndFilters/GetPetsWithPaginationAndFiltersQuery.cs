@@ -1,4 +1,5 @@
 ﻿using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.Dto;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;

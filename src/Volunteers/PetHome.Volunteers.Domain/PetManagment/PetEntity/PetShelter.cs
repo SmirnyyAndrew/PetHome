@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public class PetShelter

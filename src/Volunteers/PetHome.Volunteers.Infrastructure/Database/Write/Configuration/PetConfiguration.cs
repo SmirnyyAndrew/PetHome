@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHome.Core.Constants;
 using PetHome.Core.ValueObjects;
-using PetHome.Domain.Shared;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 

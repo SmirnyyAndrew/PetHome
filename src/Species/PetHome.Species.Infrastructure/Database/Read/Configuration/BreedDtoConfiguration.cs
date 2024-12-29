@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Application.Database.Dtos;
-using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.Species.Application.Database.Dto;
 
 namespace PetHome.Species.Infrastructure.Database.Read.Configuration;
 internal class BreedDtoConfiguration : IEntityTypeConfiguration<BreedDto>

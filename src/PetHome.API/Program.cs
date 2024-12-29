@@ -1,10 +1,11 @@
-using PetHome.API.Extentions;
-using PetHome.API.Loggers;
-using PetHome.API.Validation;
-using PetHome.Application;
-using PetHome.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using PetHome.API.Inject;
+using PetHome.Core.Response.Loggers;
+using PetHome.Core.Response.Validation;
+using PetHome.SharedKernel.Middlewares;
+using PetHome.Volunteers.Infrastructure;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using Serilog;
-using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 namespace PetHome.API;
 public class Program
@@ -63,5 +64,21 @@ public class Program
         app.MapControllers();
 
         app.Run();
+    }
+
+}
+
+public static class ApplicationExtention
+{
+    public static async Task ApplyAutoMigrations(this WebApplication application)
+    {
+        await using var scope = application.Services.CreateAsyncScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        await dbContext.Database.MigrateAsync();
+    }
+
+    public static void UseExceptionHandler(this WebApplication application)
+    {
+        application.UseMiddleware<ExceptionMiddleware>();
     }
 }

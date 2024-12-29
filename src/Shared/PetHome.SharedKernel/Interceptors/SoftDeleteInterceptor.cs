@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using PetHome.Domain.Shared.Interfaces;
+using PetHome.Core.Interfaces;
 
-namespace PetHome.Infrastructure.Interceptors;
+namespace PetHome.SharedKernel.Interceptors;
 public class SoftDeleteInterceptor : SaveChangesInterceptor
 {
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(

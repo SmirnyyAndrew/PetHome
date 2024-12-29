@@ -1,10 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects;
-using PetHome.Domain.Shared;
-using PetHome.Domain.Shared.Error;
-using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Framework.Database;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
@@ -13,13 +17,13 @@ public class ChangePetInfoUseCase
     : ICommandHandler<string, ChangePetInfoCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
-    private readonly IReadDBContext _readDBContext;
+    private readonly IVolunteerReadDbContext _readDBContext;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ChangePetInfoUseCase> _logger;
 
     public ChangePetInfoUseCase(
          IVolunteerRepository volunteerRepository,
-         IReadDBContext readDBContext,
+         IVolunteerReadDbContext readDBContext,
          IUnitOfWork unitOfWork,
          ILogger<ChangePetInfoUseCase> logger)
     {

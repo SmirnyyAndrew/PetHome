@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
-using PetHome.Application.Interfaces.FeatureManagment;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteRestore;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.SoftDeleteRestore;
 public class SoftDeleteRestorePetUseCaseTest : BaseFactory
 {

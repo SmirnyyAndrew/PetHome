@@ -1,9 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Domain.Shared.Error;
-using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Framework.Database;
+using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+
 
 namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 public class SoftDeleteVolunteerUseCase

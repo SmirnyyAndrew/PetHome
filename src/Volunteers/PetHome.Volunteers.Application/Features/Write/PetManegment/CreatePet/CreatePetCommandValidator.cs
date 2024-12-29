@@ -1,5 +1,8 @@
 ﻿using FluentValidation;
+using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 

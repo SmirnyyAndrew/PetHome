@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Logging;
 using Minio.DataModel;
 using Minio.DataModel.Args;
-using PetHome.Application.Interfaces;
-using PetHome.Core.Response.Error;
+using PetHome.Core.Interfaces;
+using PetHome.Core.Response.ErrorManagment;
 
-namespace PetHome.Infrastructure.Providers.Minio;
+namespace PetHome.SharedKernel.Providers.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     //Скачать файл

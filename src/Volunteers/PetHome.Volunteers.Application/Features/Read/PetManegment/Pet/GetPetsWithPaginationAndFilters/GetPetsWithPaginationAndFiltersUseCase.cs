@@ -1,18 +1,18 @@
 ﻿using CSharpFunctionalExtensions;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Models;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Volunteers.Application.Database;
 
 namespace PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 public class GetPetsWithPaginationAndFiltersUseCase
     : IQueryHandler<PagedList<PetDto>, GetPetsWithPaginationAndFiltersQuery>
 {
-    private readonly IReadDBContext _readDBContext; 
+    private readonly IVolunteerReadDbContext _readDBContext; 
 
     public GetPetsWithPaginationAndFiltersUseCase(
-        IReadDBContext readDBContext)
+        IVolunteerReadDbContext readDBContext)
     {
         _readDBContext = readDBContext; 
     }

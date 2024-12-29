@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PetHome.Species.Contracts\PetHome.Species.Contracts.csproj" />
     <ProjectReference Include="..\PetHome.Species.Domain\PetHome.Species.Domain.csproj" />
-    <ProjectReference Include="..\PetHome.Species.Infrastructure\PetHome.Species.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

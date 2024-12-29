@@ -1,8 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
-using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Minio;
 using PetHome.Core.Controllers;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.SharedKernel.Providers.Minio;
+using PetHome.Species.API.Controllers.Requests;
 using PetHome.Volunteers.API.Controllers.PetManegment.Requests;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
@@ -12,6 +16,7 @@ using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetStatus
 using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.DeleteSpeciesById;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.HardDelete;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteRestore;
@@ -213,6 +218,22 @@ public class PetManegmentController : ParentController
         CancellationToken ct = default)
     {
         var result = await useCase.Execute(request,ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteSpeciesWithBreeds(
+        [FromRoute] Guid id,
+        [FromServices] DeleteSpeciesByIdUseCase useCase,
+        CancellationToken ct)
+    {
+        DeleteSpeciesByIdRequest request = new DeleteSpeciesByIdRequest(id);
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 

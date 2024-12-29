@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Infrastructure.Database.Write.Configuration;
-public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
+public class SpeciesConfiguration : IEntityTypeConfiguration<_Species>
 {
-    public void Configure(EntityTypeBuilder<Species> builder)
+    public void Configure(EntityTypeBuilder<_Species> builder)
     {
         builder.ToTable("specieses");
 

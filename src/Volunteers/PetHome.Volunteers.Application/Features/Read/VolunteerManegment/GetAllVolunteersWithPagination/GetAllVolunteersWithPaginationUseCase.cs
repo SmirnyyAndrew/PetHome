@@ -1,18 +1,22 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.Collection;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Models;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Volunteers.Application.Database;
 
 namespace PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 public class GetAllVolunteersWithPaginationUseCase
     : IQueryHandler<PagedList<VolunteerDto>, GetAllVolunteersWithPaginationQuery>
 {
-    private readonly IReadDBContext _readDBContext;
+    private readonly IVolunteerReadDbContext _readDBContext;
     private readonly ILogger<GetAllVolunteersWithPaginationUseCase> _logger;
 
     public GetAllVolunteersWithPaginationUseCase(
-        IReadDBContext readDBContext,
+        IVolunteerReadDbContext readDBContext,
         ILogger<GetAllVolunteersWithPaginationUseCase> logger)
     {
         _readDBContext = readDBContext;

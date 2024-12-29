@@ -1,20 +1,22 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Extentions;
-using PetHome.Application.Validator;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Species.Application.Database;
 using PetHome.Species.Application.Database.Dto;
 
 namespace PetHome.Species.Application.Features.Read.Breeds.GetAllBreedDtoBySpeciesId;
 public class GetAllBreedDtoBySpeciesIdUseCase
     : IQueryHandler<IReadOnlyList<BreedDto>, GetAllBreedDtoBySpeciesIdQuery>
 {
-    private readonly IReadDBContext _readDBContext;
+    private readonly  ISpeciesReadDbContext _readDBContext;
     private readonly ILogger<GetAllBreedDtoBySpeciesIdUseCase> _logger;
 
     public GetAllBreedDtoBySpeciesIdUseCase(
-        IReadDBContext readDBContext,
+        ISpeciesReadDbContext readDBContext,
         ILogger<GetAllBreedDtoBySpeciesIdUseCase> logger)
     {
         _readDBContext = readDBContext;

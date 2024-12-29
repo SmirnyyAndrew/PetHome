@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Interfaces;
-using PetHome.Core.Response.Error;
+using PetHome.Core.Interfaces;
+using PetHome.Core.Response.ErrorManagment;
 
-namespace PetHome.Infrastructure.Providers.Minio;
+namespace PetHome.SharedKernel.Providers.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     // Проверить, существует ли bucket

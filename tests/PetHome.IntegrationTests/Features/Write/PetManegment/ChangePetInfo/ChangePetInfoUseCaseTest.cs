@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.ChangePetInfo;

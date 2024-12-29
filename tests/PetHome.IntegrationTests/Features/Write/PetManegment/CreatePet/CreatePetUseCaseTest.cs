@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Features.Write.PetManegment.CreatePet;
-using PetHome.Application.Interfaces.FeatureManagment;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.PetEntity;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.CreatePet;

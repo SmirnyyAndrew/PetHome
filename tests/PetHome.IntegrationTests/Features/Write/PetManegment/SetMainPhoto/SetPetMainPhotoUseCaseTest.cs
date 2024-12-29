@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
-using PetHome.Application.Interfaces.FeatureManagment;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.SetMainPhoto;
 public class SetPetMainPhotoUseCaseTest : BaseFactory
 {

@@ -6,12 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using NSubstitute;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Interfaces;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.DataBase.Read.DBContext;
-using PetHome.Infrastructure.DataBase.Write.DBContext;
+using PetHome.Core.Interfaces;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects;
+using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -32,7 +32,7 @@ public class IntegrationTestFactory
     private Respawner _respawner;
     private DbConnection _dbConnection;
     private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
-    private WriteDBContext _writeDbContext;
+    private VolunteerWriteDBContext _writeDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -41,14 +41,14 @@ public class IntegrationTestFactory
 
     private void ConfigureDefault(IServiceCollection services)
     {
-        services.RemoveAll(typeof(IReadDBContext));
-        services.RemoveAll(typeof(WriteDBContext));
+        services.RemoveAll(typeof(IVolunteerReadDbContext));
+        services.RemoveAll(typeof(VolunteerWriteDBContext));
         services.RemoveAll(typeof(IFilesProvider));
 
         services.AddScoped(_ =>
-               new WriteDBContext(_dbContainer.GetConnectionString()));
-        services.AddScoped<IReadDBContext, ReadDBContext>(_ =>
-              new ReadDBContext(_dbContainer.GetConnectionString()));
+               new VolunteerWriteDBContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<IVolunteerReadDbContext, VolunteerReadDBContext>(_ =>
+              new VolunteerReadDBContext(_dbContainer.GetConnectionString()));
         services.AddTransient(_ => _fileServiceMock);
     }
 
@@ -57,7 +57,7 @@ public class IntegrationTestFactory
         await _dbContainer.StartAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
-        _writeDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<WriteDBContext>();
+        _writeDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
 
         await _writeDbContext.Database.EnsureDeletedAsync();
         await _writeDbContext.Database.EnsureCreatedAsync();

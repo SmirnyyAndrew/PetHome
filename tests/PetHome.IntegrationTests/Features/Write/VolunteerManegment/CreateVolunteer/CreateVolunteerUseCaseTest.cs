@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.VolunteerManegment.CreateVolunteer;
-using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.VolunteerManegment.CreateVolunteer;
 
-public class CreateVolunteerUseCaseTest :BaseFactory
+public class CreateVolunteerUseCaseTest : BaseFactory
 {
     private readonly ICommandHandler<Guid, CreateVolunteerCommand> _sut;
     public CreateVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)

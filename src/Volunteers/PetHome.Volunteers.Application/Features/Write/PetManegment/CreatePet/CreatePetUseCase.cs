@@ -1,19 +1,26 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects;
-using PetHome.Domain.Shared.Error;
-using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Framework.Database;
+using PetHome.Species.Application.Database;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+using IVolunteerReadDbContext = PetHome.Volunteers.Application.Database.IVolunteerReadDbContext;
 
 namespace PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
 public class CreatePetUseCase
     : ICommandHandler<Pet, CreatePetCommand>
 {
-    private readonly IReadDBContext _readDBContext;
+    private readonly IVolunteerReadDbContext _readDBContext;
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreatePetUseCase> _logger;
@@ -21,7 +28,7 @@ public class CreatePetUseCase
     private readonly IValidator<CreatePetCommand> _validator;
 
     public CreatePetUseCase(
-        IReadDBContext readDBContext,
+        IVolunteerReadDbContext readDBContext,
         IVolunteerRepository volunteerRepository,
         ISpeciesRepository speciesRepository,
         ILogger<CreatePetUseCase> logger,

@@ -1,11 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Extentions;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.Shared.Error;
-using PetHome.Species.Application.Database.RepositoryInterfaces;
+using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Framework.Database;
+using PetHome.Species.Application.Database;
+using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Application.Features.Write.CreateBreed;
 public class CreateBreedUseCase
@@ -44,7 +46,7 @@ public class CreateBreedUseCase
             if (getSpeciesByIdResult.IsFailure)
                 return Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден").ToErrorList();
 
-            Species species = getSpeciesByIdResult.Value;
+            _Species species = getSpeciesByIdResult.Value;
             var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);
             if (updateBreedResult.IsFailure)
                 return updateBreedResult.Error.ToErrorList();

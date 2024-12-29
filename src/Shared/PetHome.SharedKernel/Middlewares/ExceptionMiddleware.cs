@@ -1,7 +1,9 @@
-﻿using PetHome.Core.Response.Envelopes;
-using PetHome.Core.Response.Error;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.ErrorManagment.Envelopes;
 
-namespace PetHome.API.Middlewares;
+namespace PetHome.SharedKernel.Middlewares;
 
 public class ExceptionMiddleware
 {

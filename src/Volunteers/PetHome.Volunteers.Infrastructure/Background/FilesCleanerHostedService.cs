@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Interfaces;
+using PetHome.Core.Response.Messaging;
 
 namespace PetHome.Volunteers.Infrastructure.Background;
 public class FilesCleanerHostedService : BackgroundService

@@ -1,4 +1,6 @@
-﻿namespace PetHome.Core.Response.Validation.Validator;
+﻿using PetHome.Core.Response.ErrorManagment;
+
+namespace PetHome.Core.Response.Validation.Validator;
 
 
 public record ErrorList(List<Error> Errors)

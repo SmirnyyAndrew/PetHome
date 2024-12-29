@@ -1,18 +1,21 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Domain.Shared.Error;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Volunteers.Application.Database;
 
 namespace PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 public class GetVolunteerByIdUseCase
     : IQueryHandler<VolunteerDto, GetVolunteerByIdQuery>
 {
-    private readonly IReadDBContext _readDBContext;
+    private readonly IVolunteerReadDbContext _readDBContext;
     private readonly ILogger<GetVolunteerByIdUseCase> _logger;
 
     public GetVolunteerByIdUseCase(
-        IReadDBContext readDBContext,
+        IVolunteerReadDbContext readDBContext,
         ILogger<GetVolunteerByIdUseCase> logger)
     {
         _readDBContext = readDBContext;

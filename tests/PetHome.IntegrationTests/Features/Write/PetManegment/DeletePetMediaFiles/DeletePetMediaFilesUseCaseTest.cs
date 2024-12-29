@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Dtos.Pet;
-using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
-using PetHome.Application.Interfaces.FeatureManagment;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.DeletePetMediaFiles;
 public class DeletePetMediaFilesUseCaseTest : FileProviderFactory
 {

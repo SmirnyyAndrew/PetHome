@@ -1,16 +1,16 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Domain.Shared.Error;
-using PetHome.Volunteers.Application.Database.RepositoryInterfaces;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 public class VolunteerRepository : IVolunteerRepository
 {
-    private readonly WriteDBContext _dBContext;
+    private readonly VolunteerWriteDBContext _dBContext;
 
-    public VolunteerRepository(WriteDBContext dBContext)
+    public VolunteerRepository(VolunteerWriteDBContext dBContext)
     {
         _dBContext = dBContext;
     }

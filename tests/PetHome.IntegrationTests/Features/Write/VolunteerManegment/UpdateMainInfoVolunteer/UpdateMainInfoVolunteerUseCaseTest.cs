@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
-using PetHome.Application.Interfaces.FeatureManagment;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
 public class UpdateMainInfoVolunteerUseCaseTest : BaseFactory
 {

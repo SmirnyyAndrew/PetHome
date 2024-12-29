@@ -1,6 +1,6 @@
-﻿using PetHome.Application.Interfaces;
+﻿using PetHome.Core.Interfaces;
 
-namespace PetHome.Infrastructure.Providers.Minio;
+namespace PetHome.SharedKernel.Providers.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     public MinioFileName InitName(string filePath)

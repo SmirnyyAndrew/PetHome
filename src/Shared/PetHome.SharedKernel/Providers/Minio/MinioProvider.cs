@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Minio;
-using PetHome.Application.Interfaces;
+using Minio; 
+using PetHome.Core.Interfaces;
 
-namespace PetHome.Infrastructure.Providers.Minio;
+namespace PetHome.SharedKernel.Providers.Minio;
 
 //Этот класс является partial - реализация методов лежит в отдельных классах
 public partial class MinioProvider : IFilesProvider

@@ -1,11 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Extentions;
-using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.Shared.Error;
-using PetHome.Species.Application.Database.RepositoryInterfaces;
+using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Framework.Database;
+using PetHome.Species.Application.Database;
+using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Application.Features.Write.CreateSpecies;
 public class CreateSpeciesUseCase
@@ -36,7 +38,7 @@ public class CreateSpeciesUseCase
         if (validationResult.IsValid is false)
             return validationResult.Errors.ToErrorList();
 
-        var speciesResult = Species.Create(createSpeciesCommand.SpeciesName);
+        var speciesResult = _Species.Create(createSpeciesCommand.SpeciesName);
         if (speciesResult.IsFailure)
             return speciesResult.Error.ToErrorList();
 

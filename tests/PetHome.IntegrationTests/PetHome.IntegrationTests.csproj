@@ -31,7 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\PetHome.API\PetHome.API.csproj" />
+	  <ProjectReference Include="..\..\src\PetHome.API\PetHome.API.csproj" />
 	</ItemGroup>
 
 </Project>

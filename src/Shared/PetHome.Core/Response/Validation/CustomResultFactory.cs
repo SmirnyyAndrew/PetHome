@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PetHome.Core.Response.Envelopes;
-using PetHome.Core.Response.Error;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.ErrorManagment.Envelopes;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
 
 namespace PetHome.Core.Response.Validation;

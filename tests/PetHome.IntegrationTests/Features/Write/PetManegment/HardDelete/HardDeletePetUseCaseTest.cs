@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
-using PetHome.Application.Features.Write.PetManegment.HardDelete;
-using PetHome.Application.Interfaces.FeatureManagment;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.IntegrationTests.IntegrationFactories;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.HardDelete;
 using Xunit;
-
 namespace PetHome.IntegrationTests.Features.Write.PetManegment.HardDelete;
 public class HardDeletePetUseCaseTest : BaseFactory
 {

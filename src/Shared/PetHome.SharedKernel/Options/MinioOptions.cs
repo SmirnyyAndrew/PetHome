@@ -1,4 +1,4 @@
-﻿namespace PetHome.Infrastructure.Options;
+﻿namespace PetHome.SharedKernel.Options;
 public class MinioOptions
 {
     public const string MINIO_NAME = "Minio";

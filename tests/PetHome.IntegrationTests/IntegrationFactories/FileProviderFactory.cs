@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using PetHome.Application.Interfaces;
+using PetHome.Core.Interfaces;
 using Xunit;
 
 namespace PetHome.IntegrationTests.IntegrationFactories;

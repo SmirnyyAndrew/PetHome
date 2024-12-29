@@ -1,12 +1,14 @@
 ﻿using AutoFixture;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Application.Database.Read;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
-using PetHome.Domain.Shared;
-using PetHome.Infrastructure.DataBase.Write.DBContext;
+using PetHome.Core.ValueObjects;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 using Xunit;
 
 namespace PetHome.IntegrationTests.IntegrationFactories;
@@ -16,16 +18,16 @@ public class BaseFactory
     protected readonly IntegrationTestFactory _factory;
     protected readonly Fixture _fixture;
     protected readonly IServiceScope _scope;
-    protected readonly IReadDBContext _readDbContext;
-    protected readonly WriteDBContext _writeDbContext;
+    protected readonly IVolunteerReadDbContext _readDbContext;
+    protected readonly VolunteerWriteDBContext _writeDbContext;
 
     public BaseFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _fixture = new Fixture();
         _scope = factory.Services.CreateScope();
-        _readDbContext = _scope.ServiceProvider.GetRequiredService<IReadDBContext>();
-        _writeDbContext = _scope.ServiceProvider.GetRequiredService<WriteDBContext>();
+        _readDbContext = _scope.ServiceProvider.GetRequiredService<IVolunteerReadDbContext>();
+        _writeDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
     }
 
 
@@ -102,7 +104,7 @@ public class BaseFactory
 
 
     public async Task<IReadOnlyList<Pet>> SeedPets(
-        Species species,
+        _Species species,
         IEnumerable<PetShelterId> petShelterIds,
         List<Volunteer> volunteers,
         int petCountToSeed)
@@ -179,12 +181,12 @@ public class BaseFactory
     }
 
 
-    public async Task<IReadOnlyList<Species>> SeedSpecies(int speciesCountToSeed)
+    public async Task<IReadOnlyList<_Species>> SeedSpecies(int speciesCountToSeed)
     {
-        List<Species> specieses = new List<Species>(speciesCountToSeed);
+        List<_Species> specieses = new List<_Species>(speciesCountToSeed);
         for (int i = 0; i < speciesCountToSeed; i++)
         {
-            Species species = Species.Create($"Вид животного {i}").Value;
+            _Species species = _Species.Create($"Вид животного {i}").Value;
             specieses.Add(species);
         }
 
@@ -201,12 +203,12 @@ public class BaseFactory
         if (speciesDto.Count == 0)
             Assert.False(true, $"Добавьте виды питомцев ({nameof(SeedSpecies)})");
 
-        List<Species> specieses = new List<Species>(speciesDto.Count);
+        List<_Species> specieses = new List<_Species>(speciesDto.Count);
         List<Breed> breeds = new List<Breed>(breedCountForOneSpeciesToSeed * speciesDto.Count);
 
         for (int speciesIndex = 0; speciesIndex < speciesDto.Count; speciesIndex++)
         {
-            Species species = _writeDbContext.Species
+            _Species species = _writeDbContext.Species
                 .First(s => s.Id == speciesDto[speciesIndex].Id);
 
             for (int breedNum = 0; breedNum < breedCountForOneSpeciesToSeed; breedNum++)

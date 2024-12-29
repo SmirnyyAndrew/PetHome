@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHome.Application.Interfaces;
-using PetHome.Core.Response.Error;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using System.Linq;
+using PetHome.Core.Interfaces;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects;
 
-namespace PetHome.Infrastructure.Providers.Minio;
+namespace PetHome.SharedKernel.Providers.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     //Загрузить несколько файлов
