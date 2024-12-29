@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PetHome.Infrastructure.migrations.read
+namespace PetHome.Infrastructure.Migrations.Read
 {
     /// <inheritdoc />
     public partial class addbreedstospeciesdtoreadmigration : Migration

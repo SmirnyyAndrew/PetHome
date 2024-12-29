@@ -3,13 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
-using PetHome.Domain.PetManagment.PetEntity;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Features.Write.PetManegment.DeleteBreedById;
+namespace PetHome.Application.Features.Write.PetManegment.DeleteSpeciesById;
 public class DeleteSpeciesByIdUseCase
+    : ICommandHandler<string, DeleteSpeciesByIdCommand>
 {
     private readonly IReadDBContext _readDBContext;
     private readonly ISpeciesRepository _speciesRepository;
@@ -29,27 +31,27 @@ public class DeleteSpeciesByIdUseCase
     }
 
     public async Task<Result<string, ErrorList>> Execute(
-        Guid speciesId,
+        DeleteSpeciesByIdCommand command,
         CancellationToken ct)
     {
         var isBreedInUse = await _readDBContext.Pets
-            .Select(b => b.SpeciesId == speciesId)
+            .Select(b => b.SpeciesId == command.SpeciesId)
             .FirstOrDefaultAsync();
         if (isBreedInUse)
         {
-            string message = $"Не удалось удалить вид - {speciesId}, так как питомец(-цы) с данным видом уже существует";
+            string message = $"Не удалось удалить вид - {command.SpeciesId}, так как питомец(-цы) с данным видом уже существует";
             _logger.LogError(message);
-            return (ErrorList)Errors.Conflict(message);
+            return Errors.Conflict(message).ToErrorList();
         }
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            await _speciesRepository.RemoveById(speciesId, ct);
+            await _speciesRepository.RemoveById(command.SpeciesId, ct);
             await _unitOfWork.SaveChages(ct);
             transaction.Commit();
 
-            string message = $"Вид питомца с id - {speciesId} и его породы удалены";
+            string message = $"Вид питомца с id - {command.SpeciesId} и его породы удалены";
             _logger.LogInformation(message);
             return message;
 
@@ -58,7 +60,7 @@ public class DeleteSpeciesByIdUseCase
         {
             transaction.Rollback();
             _logger.LogInformation("Не удалось удалить вид питомца");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

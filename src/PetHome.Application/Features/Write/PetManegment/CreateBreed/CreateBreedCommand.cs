@@ -1,3 +1,5 @@
-﻿namespace PetHome.Application.Features.Write.PetManegment.CreateBreed;
+﻿using PetHome.Application.Interfaces.FeatureManagment;
 
-public record CreateBreedCommand(Guid SpeciesId, IEnumerable<string> Breeds);
+namespace PetHome.Application.Features.Write.PetManegment.CreateBreed;
+
+public record CreateBreedCommand(Guid SpeciesId, IEnumerable<string> Breeds) : ICommand;

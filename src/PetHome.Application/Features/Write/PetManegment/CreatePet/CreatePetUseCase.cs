@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Application.Database;
 using PetHome.Application.Database.Read;
+using PetHome.Application.Extentions;
 using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Interfaces.FeatureManagment;
 using PetHome.Application.Interfaces.RepositoryInterfaces;
 using PetHome.Application.Validator;
 using PetHome.Domain.PetManagment.GeneralValueObjects;
@@ -14,6 +15,7 @@ using PetHome.Domain.Shared.Error;
 
 namespace PetHome.Application.Features.Write.PetManegment.CreatePet;
 public class CreatePetUseCase
+    : ICommandHandler<Pet, CreatePetCommand>
 {
     private readonly IReadDBContext _readDBContext;
     private readonly IVolunteerRepository _volunteerRepository;
@@ -44,7 +46,7 @@ public class CreatePetUseCase
     {
         var validationResult = await _validator.ValidateAsync(createPetCommand, ct);
         if (validationResult.IsValid is false)
-            return (ErrorList)validationResult.Errors;
+            return validationResult.Errors.ToErrorList();
 
         PetMainInfoDto mainInfoDto = createPetCommand.PetMainInfoDto;
 
@@ -56,7 +58,7 @@ public class CreatePetUseCase
             if (isExistVolunteer == false)
             {
                 _logger.LogError("Волонтёр с id = {0} не найден", mainInfoDto.SpeciesId);
-                return (ErrorList)Errors.NotFound($"Волонтёр с id = {mainInfoDto.SpeciesId}");
+                return Errors.NotFound($"Волонтёр с id = {mainInfoDto.SpeciesId}").ToErrorList();
             }
 
             var speciesResult = _readDBContext.Species
@@ -64,16 +66,16 @@ public class CreatePetUseCase
             if (speciesResult.Count() == 0)
             {
                 _logger.LogError("Вид питомца с id = {0} не найден", mainInfoDto.SpeciesId);
-                return (ErrorList)Errors.NotFound($"Вид питомца с id = {mainInfoDto.SpeciesId}");
+                return Errors.NotFound($"Вид питомца с id = {mainInfoDto.SpeciesId}").ToErrorList();
             }
- 
+
             var isExistBreed = speciesResult
                 .SelectMany(b => b.Breeds)
-                .Any(x=>x.Id == mainInfoDto.BreedId);
+                .Any(x => x.Id == mainInfoDto.BreedId);
             if (isExistBreed == false)
             {
                 _logger.LogError("Порода с id = {0} не найдена", mainInfoDto.SpeciesId);
-                return (ErrorList)Errors.NotFound($"Порода с id = {mainInfoDto.SpeciesId}");
+                return Errors.NotFound($"Порода с id = {mainInfoDto.SpeciesId}").ToErrorList();
             }
 
             Volunteer volunteer = _volunteerRepository.GetById(createPetCommand.VolunteerId, ct).Result.Value;
@@ -107,7 +109,7 @@ public class CreatePetUseCase
             if (result.IsFailure)
             {
                 _logger.LogError("Создание питомца через контроллер volunteer завершился с ошибкой {0}", result.Error);
-                return (ErrorList)result.Error;
+                return result.Error.ToErrorList();
             }
 
             Pet pet = result.Value;
@@ -123,7 +125,7 @@ public class CreatePetUseCase
         {
             transaction.Rollback();
             _logger.LogError("Не удалось создать питомца");
-            return (ErrorList)Errors.Failure("Database.is.failed");
+            return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }
 }

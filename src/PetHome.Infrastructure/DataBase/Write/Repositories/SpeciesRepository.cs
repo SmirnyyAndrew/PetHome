@@ -22,6 +22,12 @@ public class SpeciesRepository : ISpeciesRepository
         return species.Id.Value;
     }
 
+    //Добавить коллекцию вид животного
+    public async Task<UnitResult<Error>> AddRange(IEnumerable<Species> species, CancellationToken ct)
+    {
+        await _dbContext.Species.AddRangeAsync(species, ct);
+        return Result.Success<Error>();
+    }
 
     //Получить вид животного по id
     public async Task<Result<Species, Error>> GetById(Guid id, CancellationToken ct)
@@ -74,6 +80,13 @@ public class SpeciesRepository : ISpeciesRepository
     {
         _dbContext.Species.Update(species);
         return species.Id;
+    }
+
+    //Обновление коллекции вида
+    public async Task<UnitResult<Error>> UpdateRange(IEnumerable<Species> species, CancellationToken ct)
+    {
+        _dbContext.Species.UpdateRange(species);
+        return Result.Success<Error>();
     }
 
 }

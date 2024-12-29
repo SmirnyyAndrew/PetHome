@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Domain", "src\PetHo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.UnitTests", "tests\PetHome.UnitTests\PetHome.UnitTests.csproj", "{D91F24EE-6D15-4450-A92E-2E8183CCE2F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.IntegrationTests", "tests\PetHome.IntegrationTests\PetHome.IntegrationTests.csproj", "{E9542F9D-D9A4-485A-A6B5-A80F2F16CCBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{D91F24EE-6D15-4450-A92E-2E8183CCE2F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D91F24EE-6D15-4450-A92E-2E8183CCE2F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D91F24EE-6D15-4450-A92E-2E8183CCE2F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9542F9D-D9A4-485A-A6B5-A80F2F16CCBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9542F9D-D9A4-485A-A6B5-A80F2F16CCBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9542F9D-D9A4-485A-A6B5-A80F2F16CCBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9542F9D-D9A4-485A-A6B5-A80F2F16CCBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

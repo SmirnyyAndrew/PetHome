@@ -27,7 +27,7 @@ public class Pet : SoftDeletableEntity
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites)
     {
-        Id = PetId.Create();
+        Id = PetId.Create().Value;
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -40,7 +40,7 @@ public class Pet : SoftDeletableEntity
         Status = status;
         Requisites = requisites;
         VolunteerId = volunteerId;
-        ProfileCreateDate = Date.Create(DateTime.UtcNow).Value; 
+        ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
         Medias = new List<Media>();
     }
 
@@ -185,5 +185,54 @@ public class Pet : SoftDeletableEntity
         Medias = newMediaFiles;
 
         return Result.Success<Error>();
+    }
+
+
+    //Изменение информации
+    public void ChangeInfo(
+        PetName name,
+        SpeciesId speciesId,
+        Description description,
+        BreedId breedId,
+        Color color,
+        PetShelterId shelterId,
+        double weight,
+        bool isCastrated,
+        Date birthDate,
+        bool isVaccinated,
+        PetStatusEnum status,
+        VolunteerId volunteerId,
+        ValueObjectList<Requisites> requisites)
+    {
+        Name = name;
+        SpeciesId = speciesId;
+        Description = description;
+        BreedId = breedId;
+        Color = color;
+        ShelterId = shelterId;
+        Weight = weight;
+        IsCastrated = isCastrated;
+        BirthDate = birthDate;
+        IsVaccinated = isVaccinated;
+        Status = status;
+        VolunteerId = volunteerId;
+        Requisites = requisites;
+    }
+
+    //Изменение статуса питомца
+    public void ChangeStatus(PetStatusEnum newStatus)
+    {
+        Status = newStatus;
+    }
+
+    //Установить главную фотографию
+    public void SetMainPhoto(Media media)
+    {
+        List<Media> medias = new List<Media>() { media };
+        medias.AddRange(Medias
+            .Select(m => Media.Create(m.BucketName, m.FileName).Value)
+            .Except([media])
+            .ToList());
+        Medias = new ValueObjectList<Media>(medias);
     }
 }

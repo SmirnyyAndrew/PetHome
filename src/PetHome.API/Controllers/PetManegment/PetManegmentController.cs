@@ -2,10 +2,18 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
+using PetHome.API.Controllers.PetManegment.Requests;
 using PetHome.Application.Features.Dtos.Pet;
+using PetHome.Application.Features.Read.PetManegment.Pet.GetPetById;
+using PetHome.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
+using PetHome.Application.Features.Write.PetManegment.ChangePetInfo;
+using PetHome.Application.Features.Write.PetManegment.ChangePetStatus;
 using PetHome.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Application.Features.Write.PetManegment.DeletePetMediaFiles;
+using PetHome.Application.Features.Write.PetManegment.HardDelete;
+using PetHome.Application.Features.Write.PetManegment.SetMainPhoto;
+using PetHome.Application.Features.Write.PetManegment.SoftDeleteRestore;
 using PetHome.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 using PetHome.Application.Validator;
 using PetHome.Infrastructure.Providers.Minio;
@@ -47,27 +55,26 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> UploadMedia(
         [FromRoute] Guid volunteerId,
         IEnumerable<IFormFile> formFiles,
-        [FromQuery] UploadPetMediaFilesVolunteerDto uploadPetMediaDto,
-        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase, 
+        [FromQuery] UploadPetMediaFilesDto uploadPetMediaDto,
+        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
         streams = formFiles.Select(x => x.OpenReadStream()).ToList();
         Result<string, ErrorList> result;
 
-        UploadPetMediaFilesRequest uploadPetMediaRequest =
+
+        UploadPetMediaFilesRequest request =
             new UploadPetMediaFilesRequest(
                 streams,
                 formFiles.ToList().Select(x => x.FileName),
-                uploadPetMediaDto);
-          
+                uploadPetMediaDto,
+                volunteerId,
+                _minioProvider);
+
         try
         {
-            result = await uploadPetMediaUseCase.Execute(
-              _minioProvider,
-              uploadPetMediaRequest,
-              volunteerId,
-              ct); 
+            result = await uploadPetMediaUseCase.Execute(request, ct);
             if (result.IsFailure)
                 return BadRequest(result.Error);
         }
@@ -84,14 +91,13 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
         [FromBody] DeletePetMediaFilesDto deleteMediaDto,
-        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase, 
+        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
-            new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto);
-          
+            new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto, _minioProvider);
+
         var deleteResult = await deletePetMediaFUseCase.Execute(
-            _minioProvider,
             deleteMediaRequest,
             ct);
         if (deleteResult.IsFailure)
@@ -118,5 +124,99 @@ public class PetManegmentController : ParentController
             return BadRequest(executeResult.Error);
 
         return Ok(executeResult.Value);
+    }
+
+    [HttpPost("info")]
+    public async Task<IActionResult> ChangeInfo(
+        [FromBody] ChangePetInfoRequest request,
+        [FromServices] ChangePetInfoUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpPost("status")]
+    public async Task<IActionResult> ChangeStatus(
+        [FromBody] ChangePetStatusRequest request,
+        [FromServices] ChangePetStatusUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpDelete("hard")]
+    public async Task<IActionResult> HardDelete(
+        [FromBody] HardDeletePetRequest request,
+        [FromServices] HardDeletePetUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok();
+    }
+
+
+    [HttpPost("soft")]
+    public async Task<IActionResult> HardDelete(
+        [FromBody] SoftDeleteRestorePetRequest request,
+        [FromServices] SoftDeleteRestorePetUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok();
+    }
+
+
+    [HttpPost("main-photo")]
+    public async Task<IActionResult> SetMainPhoto(
+        [FromBody] SetPetMainPhotoRequest request,
+        [FromServices] SetPetMainPhotoUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok();
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetPetById(
+        [FromRoute] Guid id,
+        [FromServices] GetPetByIdUseCase useCase,
+        CancellationToken ct = default)
+    {
+        GetPetByIdRequest request = new GetPetByIdRequest(id);
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+    [HttpPatch("sorted-filtred-paged")]
+    public async Task<IActionResult> GetSortedFiltredPagedPets(
+        [FromBody] GetPetsWithPaginationAndFiltersRequest request,
+        [FromServices] GetPetsWithPaginationAndFiltersUseCase useCase,
+        CancellationToken ct = default)
+    {
+        var result = await useCase.Execute(request,ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
     }
 }
