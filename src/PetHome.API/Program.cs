@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PetHome.API.Inject;
+using PetHome.Core.Controllers;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
 using PetHome.SharedKernel.Middlewares;
@@ -7,6 +7,9 @@ using PetHome.Volunteers.Infrastructure;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using PetHome.Volunteers.Application;
+using PetHome.Species.Infrastructure;
+
 namespace PetHome.API;
 public class Program
 {
@@ -23,6 +26,7 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -37,8 +41,10 @@ public class Program
 
         //Подключение сервисов
         builder.Services
-            .AddInfrastructure(builder.Configuration)
-            .AddApplication();
+            .AddSpeciesInfrastructure(builder.Configuration)
+            .AddVolunteerInfrastructure(builder.Configuration)
+            .AddSpeciesServices()
+            .AddVolunteerServices();
 
 
         var app = builder.Build();
@@ -55,7 +61,7 @@ public class Program
             app.UseSwaggerUI();
             //Automigration
             //app.ApplyAutoMigrations();
-        }
+        } 
 
         app.UseHttpsRedirection();
 

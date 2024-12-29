@@ -1,25 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
-using PetHome.Volunteers.Application.Database;
+using PetHome.Species.Application.Database;
 
-namespace PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
- 
-public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
+namespace PetHome.Species.Infrastructure.Database.Read.DBContext;
+
+public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
 {
     private readonly string _connectionString = Constants.DATABASE;
-    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
-    public IQueryable<PetDto> Pets => Set<PetDto>();
     public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
-    public VolunteerReadDbContext(string connectionString)
+    public SpeciesReadDbContext(string connectionString)
     {
         _connectionString = connectionString;
-    } 
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-    { 
+    {
         optionBuilder.UseNpgsql(_connectionString);
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
@@ -31,10 +28,10 @@ public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
 
     private ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => { builder.AddConsole(); });
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerReadDbContext).Assembly,
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
             type => type.FullName?.Contains("Database.Read") ?? false);
     }
 }

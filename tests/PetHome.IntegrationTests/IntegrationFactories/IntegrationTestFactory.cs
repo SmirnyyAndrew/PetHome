@@ -47,8 +47,8 @@ public class IntegrationTestFactory
 
         services.AddScoped(_ =>
                new VolunteerWriteDBContext(_dbContainer.GetConnectionString()));
-        services.AddScoped<IVolunteerReadDbContext, VolunteerReadDBContext>(_ =>
-              new VolunteerReadDBContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
+              new VolunteerReadDbContext(_dbContainer.GetConnectionString()));
         services.AddTransient(_ => _fileServiceMock);
     }
 

@@ -8,32 +8,30 @@ using PetHome.Core.Response.Messaging;
 using PetHome.Framework.Database;
 using PetHome.SharedKernel.Options;
 using PetHome.SharedKernel.Providers.Minio;
-using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Infrastructure;
-using PetHome.Volunteers.Infrastructure.Background;
-using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
-using PetHome.Volunteers.Infrastructure.Database.Write;
-using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
-using PetHome.Volunteers.Infrastructure.Database.Write.Repositories; 
+using PetHome.Species.Application.Database;
+using PetHome.Species.Infrastructure;
+using PetHome.Species.Infrastructure.Database.Read.DBContext;
+using PetHome.Species.Infrastructure.Database.Write;
+using PetHome.Species.Infrastructure.Database.Write.DBContext;
+using PetHome.Species.Infrastructure.Database.Write.Repositories;
 
-namespace PetHome.Volunteers.Infrastructure;
+namespace PetHome.Species.Infrastructure;
 public static class Inject
 {
-    public static IServiceCollection AddVolunteerInfrastructure(
+    public static IServiceCollection AddSpeciesInfrastructure(
        this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddScoped<VolunteerWriteDBContext>(_ =>
-              new VolunteerWriteDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
-        services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
-              new VolunteerReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<SpeciesWriteDBContext>(_ =>
+              new SpeciesWriteDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<ISpeciesReadDbContext, SpeciesReadDbContext>(_ =>
+              new SpeciesReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
-        services.AddScoped<IVolunteerRepository, VolunteerRepository>(); 
-        
+        services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+
         services.AddMinio(configuration);
         services.AddSingleton<IFilesProvider, MinioProvider>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
-        services.AddHostedService<FilesCleanerHostedService>();
         return services;
     }
 

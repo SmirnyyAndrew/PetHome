@@ -1,11 +1,12 @@
-﻿using FluentValidation; 
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.API.Inject;
+namespace PetHome.Volunteers.Application;
 
 public static class Inject
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddSpeciesServices(this IServiceCollection services)
     {
         services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
         .AddClasses(classes => classes

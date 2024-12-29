@@ -16,17 +16,16 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" /> 
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Scrutor" Version="5.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.1.0" />
+    <PackageReference Include="Scrutor" Version="5.1.0" /> 
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\PetHome.Core\PetHome.Core.csproj" />
     <ProjectReference Include="..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
     <ProjectReference Include="..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
+    <ProjectReference Include="..\Species\PetHome.Species.API\PetHome.Species.API.csproj" />
     <ProjectReference Include="..\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
+    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
     <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
     <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
   </ItemGroup>
