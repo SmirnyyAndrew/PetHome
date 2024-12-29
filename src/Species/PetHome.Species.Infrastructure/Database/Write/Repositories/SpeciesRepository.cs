@@ -9,8 +9,8 @@ using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 namespace PetHome.Species.Infrastructure.Database.Write.Repositories;
 public class SpeciesRepository : ISpeciesRepository
 {
-    private readonly SpeciesWriteDBContext _dbContext;
-    public SpeciesRepository(SpeciesWriteDBContext dBContext)
+    private readonly SpeciesWriteDbContext _dbContext;
+    public SpeciesRepository(SpeciesWriteDbContext dBContext)
     {
         _dbContext = dBContext;
     }

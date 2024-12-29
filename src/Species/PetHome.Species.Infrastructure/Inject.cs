@@ -21,8 +21,8 @@ public static class Inject
     public static IServiceCollection AddSpeciesInfrastructure(
        this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddScoped<SpeciesWriteDBContext>(_ =>
-              new SpeciesWriteDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<SpeciesWriteDbContext>(_ =>
+              new SpeciesWriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         services.AddScoped<ISpeciesReadDbContext, SpeciesReadDbContext>(_ =>
               new SpeciesReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 

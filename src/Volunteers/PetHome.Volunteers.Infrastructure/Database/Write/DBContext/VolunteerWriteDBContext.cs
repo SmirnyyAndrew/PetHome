@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+using PetHome.Species.Infrastructure.Database.Write.DBContext;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 
@@ -32,6 +33,8 @@ public class VolunteerWriteDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerWriteDbContext).Assembly,
-            type => type.FullName?.Contains("database.write") ?? false);
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesWriteDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 }
