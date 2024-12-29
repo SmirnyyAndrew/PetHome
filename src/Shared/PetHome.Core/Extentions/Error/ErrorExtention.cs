@@ -1,7 +1,7 @@
 ﻿using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.Application.Extentions;
+namespace PetHome.Core.Extentions.Error;
 public static class ErrorExtention
 {
     public static ErrorList ToErrorList(this Error error)
@@ -17,5 +17,5 @@ public static class ErrorExtention
                 .ToList();
         return new ErrorList(errors);
     }
-    
+
 }

@@ -37,8 +37,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PetHome.Infrastructure\PetHome.Infrastructure.csproj" />
-  </ItemGroup>
-
 </Project>

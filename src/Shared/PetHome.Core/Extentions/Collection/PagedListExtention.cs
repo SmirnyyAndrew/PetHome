@@ -2,7 +2,7 @@
 using PetHome.Application.Models;
 using System.Linq.Expressions;
 
-namespace PetHome.Application.Extentions;
+namespace PetHome.Core.Extentions.Collection;
 public static class PagedListExtention
 {
     public static async Task<PagedList<T>> ToPagedList<T>(

@@ -11,4 +11,8 @@
     <ProjectReference Include="..\PetHome.Species.Domain\PetHome.Species.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Read\DBContext\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace PetHome.Domain.Shared;
+namespace PetHome.Core.ValueObjects;
 //Надстройка над list для предотвращения написания в агрегатах details
 public class ValueObjectList<T> : IReadOnlyList<T>
 {

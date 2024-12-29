@@ -4,7 +4,7 @@ using PetHome.API.Envelopes;
 using PetHome.Application.Validator;
 using PetHome.Domain.Shared.Error;
 
-namespace PetHome.API.Extentions;
+namespace PetHome.Core.Extentions.Error;
 // Позволяет автоматически опредлетить status code ошибки в контроллерах
 public static class ResponseExtentions
 {
