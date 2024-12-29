@@ -28,10 +28,9 @@ public static class Inject
               new VolunteerReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<IVolunteerRepository, VolunteerRepository>(); 
-        
         services.AddMinio(configuration);
         services.AddSingleton<IFilesProvider, MinioProvider>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.VOLUNTEER_UNIT_OF_WORK_KEY);
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
         services.AddHostedService<FilesCleanerHostedService>();
         return services;
