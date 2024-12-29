@@ -32,7 +32,7 @@ public class IntegrationTestFactory
     private Respawner _respawner;
     private DbConnection _dbConnection;
     private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
-    private VolunteerWriteDBContext _writeDbContext;
+    private VolunteerWriteDBContext _volunteerWriteDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -57,10 +57,10 @@ public class IntegrationTestFactory
         await _dbContainer.StartAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
-        _writeDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        _volunteerWriteDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
 
-        await _writeDbContext.Database.EnsureDeletedAsync();
-        await _writeDbContext.Database.EnsureCreatedAsync();
+        await _volunteerWriteDbContext.Database.EnsureDeletedAsync();
+        await _volunteerWriteDbContext.Database.EnsureCreatedAsync();
 
         await InilizeRespawner();
     }
@@ -74,19 +74,22 @@ public class IntegrationTestFactory
 
     public async Task ResetDatabaseAsync()
     {
-        await _respawner.ResetAsync(_dbConnection);
+        if (_respawner is not null)
+            await _respawner.ResetAsync(_dbConnection);
     }
 
     private async Task InilizeRespawner()
     {
         await _dbConnection.OpenAsync();
+
+        RespawnerOptions respawnerOptions = new RespawnerOptions()
+        {
+            DbAdapter = DbAdapter.Postgres,
+            SchemasToInclude = ["public"]
+        };
         _respawner = await Respawner.CreateAsync(
             _dbConnection,
-            new RespawnerOptions()
-            {
-                DbAdapter = DbAdapter.Postgres,
-                SchemasToInclude = ["public"]
-            });
+            respawnerOptions);
     }
 
     public void SetupSuccessFileServiceMock()

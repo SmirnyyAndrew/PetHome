@@ -22,8 +22,8 @@ public class CreatePetUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteersWithAggregates(); 
-        var volunteer = _writeDbContext.Volunteers.First();
-        var breed = _writeDbContext.Species.SelectMany(b => b.Breeds).First(); 
+        var volunteer = _volunteerWriteDbContext.Volunteers.First();
+        var breed = _volunteerWriteDbContext.Species.SelectMany(b => b.Breeds).First(); 
 
         PetMainInfoDto dto = new PetMainInfoDto(
             "Новая кличка",
@@ -46,6 +46,7 @@ public class CreatePetUseCaseTest : BaseFactory
         var result = await _sut.Execute(command, CancellationToken.None);
 
         //assert
+        Assert.True(result.IsSuccess);
         Assert.True(result.IsSuccess);
     }
 

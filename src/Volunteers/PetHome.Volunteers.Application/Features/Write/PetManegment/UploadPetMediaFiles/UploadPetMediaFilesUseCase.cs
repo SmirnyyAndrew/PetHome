@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
@@ -25,7 +27,7 @@ public class UploadPetMediaFilesUseCase
     public UploadPetMediaFilesUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<UploadPetMediaFilesUseCase> logger,
-        IUnitOfWork unitOfWork,
+       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IMessageQueue messageQueue,
         IValidator<UploadPetMediaFilesCommand> validator)
     {

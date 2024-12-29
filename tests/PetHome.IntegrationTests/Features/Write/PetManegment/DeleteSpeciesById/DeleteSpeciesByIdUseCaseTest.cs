@@ -19,7 +19,7 @@ public class DeleteSpeciesByIdUseCaseTest : BaseFactory
     {
         //array
         await SeedSpecies(1);
-        var species = _writeDbContext.Species.First();
+        var species = _volunteerWriteDbContext.Species.First();
         DeleteSpeciesByIdCommand command = new DeleteSpeciesByIdCommand(species.Id);
 
         //act

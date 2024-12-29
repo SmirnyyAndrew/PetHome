@@ -18,7 +18,7 @@ public class HardDeleteVolunteerUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteers(1);
-        var volunteer = _writeDbContext.Volunteers.First();
+        var volunteer = _volunteerWriteDbContext.Volunteers.First();
         HardDeleteVolunteerCommand command = new HardDeleteVolunteerCommand(volunteer.Id);
 
         //act

@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging; 
+using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
@@ -25,7 +27,7 @@ public class SetPetMainPhotoUseCase
         IVolunteerReadDbContext readDBContext,
         IVolunteerRepository volunteerRepository,
         ILogger<SetPetMainPhotoUseCase> logger,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IValidator<SetPetMainPhotoCommand> validator)
     {
         _readDBContext = readDBContext;

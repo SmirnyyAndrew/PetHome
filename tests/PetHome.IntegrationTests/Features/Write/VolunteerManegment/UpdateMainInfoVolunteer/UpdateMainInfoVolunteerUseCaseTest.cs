@@ -18,7 +18,7 @@ public class UpdateMainInfoVolunteerUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteers(1);
-        var volunteer = _writeDbContext.Volunteers.First();
+        var volunteer = _volunteerWriteDbContext.Volunteers.First();
 
         FullNameDto fullNameDto = new FullNameDto("Смирнов", "Иван");
         List<string> phoneNumber = new List<string>() { "89333333333", "83773989333" };

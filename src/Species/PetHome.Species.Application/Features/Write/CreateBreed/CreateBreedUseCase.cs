@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
@@ -21,7 +23,7 @@ public class CreateBreedUseCase
     public CreateBreedUseCase(
         ISpeciesRepository speciesRepository,
         ILogger<CreateBreedUseCase> logger,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.SPECIES_UNIT_OF_WORK_KEY)]IUnitOfWork unitOfWork,
         IValidator<CreateBreedCommand> validator)
     {
         _speciesRepository = speciesRepository;

@@ -18,7 +18,7 @@ public class CreateBreedUseCaseTest : BaseFactory
     {
         //array
         await SeedSpecies(1);
-        var species = _writeDbContext.Species.First();
+        var species = _volunteerWriteDbContext.Species.First();
         var breedNames = new List<string>() { "Алабай", "Овчарка", "Питбуль" };
 
         CreateBreedCommand command = new CreateBreedCommand(species.Id, breedNames);

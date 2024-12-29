@@ -21,7 +21,7 @@ public class DeletePetMediaFilesUseCaseTest : FileProviderFactory
     {
         //array
         await SeedVolunteersWithAggregates();
-        var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
+        var pet = _volunteerWriteDbContext.Volunteers.SelectMany(p => p.Pets).First();
         
         string bucketName = "photos";
         List<string> fileNames = new List<string>() { "99482373434.png", "3245345434.png", "845234123434.png", };

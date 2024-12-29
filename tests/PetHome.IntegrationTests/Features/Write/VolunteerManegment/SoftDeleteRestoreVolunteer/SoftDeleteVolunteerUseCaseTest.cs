@@ -19,7 +19,7 @@ public class SoftDeleteVolunteerUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteers(1);
-        var volunteer = _writeDbContext.Volunteers.First();
+        var volunteer = _volunteerWriteDbContext.Volunteers.First();
         SoftDeleteRestoreVolunteerCommand command = new SoftDeleteRestoreVolunteerCommand(volunteer.Id);
 
         //act

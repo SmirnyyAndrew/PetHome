@@ -1,5 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging; 
+using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
@@ -18,7 +20,7 @@ public class HardDeleteVolunteerUseCase
     public HardDeleteVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<HardDeleteVolunteerUseCase> logger,
-        IUnitOfWork unitOfWork)
+       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
@@ -26,7 +28,7 @@ public class HardDeleteVolunteerUseCase
     }
 
     public async Task<Result<bool, ErrorList>> Execute(
-        HardDeleteVolunteerCommand command, 
+        HardDeleteVolunteerCommand command,
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);

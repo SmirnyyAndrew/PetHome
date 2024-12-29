@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
@@ -32,7 +34,7 @@ public class CreatePetUseCase
         IVolunteerRepository volunteerRepository,
         ISpeciesRepository speciesRepository,
         ILogger<CreatePetUseCase> logger,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IValidator<CreatePetCommand> validator)
     {
         _readDBContext = readDBContext;
@@ -53,7 +55,7 @@ public class CreatePetUseCase
 
         PetMainInfoDto mainInfoDto = createPetCommand.PetMainInfoDto;
 
-        var transaction = await _unitOfWork.BeginTransaction(ct);
+         var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
             var isExistVolunteer = _readDBContext.Volunteers
@@ -119,14 +121,15 @@ public class CreatePetUseCase
             await _volunteerRepository.Update(volunteer, ct);
 
             await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+
+             transaction.Commit();
 
             _logger.LogInformation("Pet с id = {0} и volunteer_id = {1} создан", pet.Id.Value, pet.VolunteerId.Value);
             return pet;
         }
         catch (Exception)
         {
-            transaction.Rollback();
+            //transaction.Rollback();
             _logger.LogError("Не удалось создать питомца");
             return Errors.Failure("Database.is.failed").ToErrorList();
         }

@@ -21,7 +21,7 @@ public class ChangePetStatusUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteersWithAggregates();
-        var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
+        var pet = _volunteerWriteDbContext.Volunteers.SelectMany(p => p.Pets).First();
 
         ChangePetStatusCommand command = new ChangePetStatusCommand(
             pet.VolunteerId, 

@@ -10,6 +10,7 @@ using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 using Xunit;
+using PetHome.Species.Application.Database;
 
 namespace PetHome.IntegrationTests.IntegrationFactories;
 public class BaseFactory
@@ -18,16 +19,16 @@ public class BaseFactory
     protected readonly IntegrationTestFactory _factory;
     protected readonly Fixture _fixture;
     protected readonly IServiceScope _scope;
-    protected readonly IVolunteerReadDbContext _readDbContext;
-    protected readonly VolunteerWriteDBContext _writeDbContext;
+    protected readonly IVolunteerReadDbContext _volunteerReadDbContext;
+    protected readonly VolunteerWriteDBContext _volunteerWriteDbContext;
 
     public BaseFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _fixture = new Fixture();
         _scope = factory.Services.CreateScope();
-        _readDbContext = _scope.ServiceProvider.GetRequiredService<IVolunteerReadDbContext>();
-        _writeDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
+        _volunteerReadDbContext = _scope.ServiceProvider.GetRequiredService<IVolunteerReadDbContext>();
+        _volunteerWriteDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerWriteDBContext>();
     }
 
 
@@ -97,8 +98,8 @@ public class BaseFactory
             volunteers.Add(volunteer);
         }
 
-        await _writeDbContext.AddRangeAsync(volunteers, CancellationToken.None);
-        await _writeDbContext.SaveChangesAsync(CancellationToken.None);
+        await _volunteerWriteDbContext.AddRangeAsync(volunteers, CancellationToken.None);
+        await _volunteerWriteDbContext.SaveChangesAsync(CancellationToken.None);
         return volunteers;
     }
 
@@ -109,7 +110,7 @@ public class BaseFactory
         List<Volunteer> volunteers,
         int petCountToSeed)
     {
-        int breedRandomIndex = new Random().Next(0, _writeDbContext.Species
+        int breedRandomIndex = new Random().Next(0, _volunteerWriteDbContext.Species
             .Where(s => s.Id == species.Id)
             .Select(b => b.Breeds)
             .Count());
@@ -124,7 +125,7 @@ public class BaseFactory
 
             SpeciesId speciesId = species.Id;
 
-            BreedId breedId = _writeDbContext.Species
+            BreedId breedId = _volunteerWriteDbContext.Species
                 .Where(s => s.Id == species.Id)
                 .Select(b => b.Breeds)
                 .ToList()[breedRandomIndex]
@@ -163,8 +164,8 @@ public class BaseFactory
                 requisites);
         }
 
-        _writeDbContext.UpdateRange(volunteers);
-        await _writeDbContext.SaveChangesAsync(CancellationToken.None);
+        _volunteerWriteDbContext.UpdateRange(volunteers);
+        await _volunteerWriteDbContext.SaveChangesAsync(CancellationToken.None);
         return pets;
     }
 
@@ -190,15 +191,15 @@ public class BaseFactory
             specieses.Add(species);
         }
 
-        await _writeDbContext.AddRangeAsync(specieses, CancellationToken.None);
-        await _writeDbContext.SaveChangesAsync();
+        await _volunteerWriteDbContext.AddRangeAsync(specieses, CancellationToken.None);
+        await _volunteerWriteDbContext.SaveChangesAsync();
         return specieses;
     }
 
 
     public async Task<IReadOnlyList<Breed>> SeedBreeds(int breedCountForOneSpeciesToSeed)
     {
-        var speciesDto = await _writeDbContext.Species.ToListAsync(CancellationToken.None);
+        var speciesDto = await _volunteerWriteDbContext.Species.ToListAsync(CancellationToken.None);
 
         if (speciesDto.Count == 0)
             Assert.False(true, $"Добавьте виды питомцев ({nameof(SeedSpecies)})");
@@ -208,22 +209,22 @@ public class BaseFactory
 
         for (int speciesIndex = 0; speciesIndex < speciesDto.Count; speciesIndex++)
         {
-            _Species species = _writeDbContext.Species
+            _Species species = _volunteerWriteDbContext.Species
                 .First(s => s.Id == speciesDto[speciesIndex].Id);
 
             for (int breedNum = 0; breedNum < breedCountForOneSpeciesToSeed; breedNum++)
             {
                 Breed breed = Breed.Create($"Вид животного {breedNum}", species.Id).Value;
                 breeds.Add(breed);
-                _writeDbContext.Update(species);
+                _volunteerWriteDbContext.Update(species);
             }
             species.UpdateBreeds(breeds.Select(b => b.Name.Value));
             specieses.Add(species);
             breeds.Clear();
         }
 
-        _writeDbContext.UpdateRange(specieses);
-        await _writeDbContext.SaveChangesAsync();
+        _volunteerWriteDbContext.UpdateRange(specieses);
+        await _volunteerWriteDbContext.SaveChangesAsync();
         return breeds;
     }
 }

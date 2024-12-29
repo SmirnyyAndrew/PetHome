@@ -22,7 +22,7 @@ public class ChangePetSerialNumberUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteersWithAggregates();
-        var pet = _writeDbContext.Volunteers
+        var pet = _volunteerWriteDbContext.Volunteers
             .SelectMany(p => p.Pets)
             .First();
 

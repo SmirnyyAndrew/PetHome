@@ -22,10 +22,10 @@ public class ChangePetInfoUseCaseTest : BaseFactory
         //array
         await SeedVolunteersWithAggregates();  
 
-        var breed = _readDbContext.Species
+        var breed = _volunteerReadDbContext.Species
             .SelectMany(b => b.Breeds)
             .First(); 
-        var pet = _writeDbContext.Volunteers
+        var pet = _volunteerWriteDbContext.Volunteers
             .Include(p => p.Pets)
             .SelectMany(p => p.Pets)
             .First();

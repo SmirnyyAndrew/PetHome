@@ -19,7 +19,7 @@ public class HardDeletePetUseCaseTest : BaseFactory
     {
         //array
         await SeedVolunteersWithAggregates();
-        var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
+        var pet = _volunteerWriteDbContext.Volunteers.SelectMany(p => p.Pets).First();
         HardDeletePetCommand command = new HardDeletePetCommand(pet.VolunteerId, pet.Id);
 
         //act
