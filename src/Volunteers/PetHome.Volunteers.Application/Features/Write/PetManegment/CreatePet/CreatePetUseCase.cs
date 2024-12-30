@@ -129,7 +129,7 @@ public class CreatePetUseCase
         }
         catch (Exception)
         {
-            //transaction.Rollback();
+            transaction.Rollback();
             _logger.LogError("Не удалось создать питомца");
             return Errors.Failure("Database.is.failed").ToErrorList();
         }

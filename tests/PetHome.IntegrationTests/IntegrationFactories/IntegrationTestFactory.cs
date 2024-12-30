@@ -9,6 +9,9 @@ using NSubstitute;
 using PetHome.Core.Interfaces;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
+using PetHome.Species.Application.Database;
+using PetHome.Species.Infrastructure.Database.Read.DBContext;
+using PetHome.Species.Infrastructure.Database.Write.DBContext;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
@@ -33,6 +36,7 @@ public class IntegrationTestFactory
     private DbConnection _dbConnection;
     private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
     private VolunteerWriteDbContext _volunteerWriteDbContext;
+    private SpeciesWriteDbContext _speciesWriteDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -41,6 +45,8 @@ public class IntegrationTestFactory
 
     private void ConfigureDefault(IServiceCollection services)
     {
+        services.RemoveAll(typeof(ISpeciesReadDbContext));
+        services.RemoveAll(typeof(SpeciesWriteDbContext));
         services.RemoveAll(typeof(IVolunteerReadDbContext));
         services.RemoveAll(typeof(VolunteerWriteDbContext));
         services.RemoveAll(typeof(IFilesProvider));
@@ -49,6 +55,10 @@ public class IntegrationTestFactory
                new VolunteerWriteDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
               new VolunteerReadDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<ISpeciesReadDbContext, SpeciesReadDbContext>(_ =>
+              new SpeciesReadDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped(_ =>
+              new SpeciesWriteDbContext(_dbContainer.GetConnectionString()));
         services.AddTransient(_ => _fileServiceMock);
     }
 
@@ -58,6 +68,10 @@ public class IntegrationTestFactory
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
         _volunteerWriteDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
+        _speciesWriteDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
+
+        await _speciesWriteDbContext.Database.EnsureDeletedAsync();
+        await _speciesWriteDbContext.Database.EnsureCreatedAsync();
 
         await _volunteerWriteDbContext.Database.EnsureDeletedAsync();
         await _volunteerWriteDbContext.Database.EnsureCreatedAsync();
@@ -74,8 +88,8 @@ public class IntegrationTestFactory
 
     public async Task ResetDatabaseAsync()
     {
-        if (_respawner is not null)
-            await _respawner.ResetAsync(_dbConnection);
+        //if (_respawner is not null)
+        await _respawner.ResetAsync(_dbConnection);
     }
 
     private async Task InilizeRespawner()
