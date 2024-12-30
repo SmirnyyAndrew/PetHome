@@ -4,6 +4,7 @@ using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Models;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Application.Database.Dto;
 
 namespace PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 public class GetPetsWithPaginationAndFiltersUseCase

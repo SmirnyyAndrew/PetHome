@@ -11,6 +11,7 @@ using PetHome.Framework.Database;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Application.Database.Dto;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 

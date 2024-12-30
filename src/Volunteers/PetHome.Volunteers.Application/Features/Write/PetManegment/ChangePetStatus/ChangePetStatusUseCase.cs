@@ -8,6 +8,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Application.Database.Dto;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 

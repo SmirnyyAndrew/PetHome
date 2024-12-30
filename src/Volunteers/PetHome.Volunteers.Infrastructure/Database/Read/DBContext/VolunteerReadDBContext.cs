@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using PetHome.Core.Constants;
+using PetHome.Species.Application.Database;
+using PetHome.Species.Application.Database.Dto;
+using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Application.Database.Dto;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
- 
+
 public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
 {
     private readonly string _connectionString;
@@ -37,6 +38,8 @@ public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerReadDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("database.rRead") ?? false);
+            type => type.FullName?.ToLower().Contains("database.read") ?? false);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("database.read") ?? false);
     } 
 }

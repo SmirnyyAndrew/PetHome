@@ -11,7 +11,7 @@ public class ChangePetInfoUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<string, ChangePetInfoCommand> _sut;
     public ChangePetInfoUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetInfoCommand>>();
     }
 
@@ -21,9 +21,9 @@ public class ChangePetInfoUseCaseTest : VolunteerFactory
         //array
         SeedVolunteersWithAggregates();
 
-        //var breed = _speciesReadDbContext.Species
-        //    .SelectMany(b => b.Breeds)
-        //    .First();
+        var breed = _readDbContext.Species
+            .SelectMany(b => b.Breeds)
+            .First();
         var pet = _writeDbContext.Volunteers
             .Include(p => p.Pets)
             .SelectMany(p => p.Pets)
@@ -34,9 +34,9 @@ public class ChangePetInfoUseCaseTest : VolunteerFactory
         ChangePetInfoCommand command = new ChangePetInfoCommand(
              pet.Id,
             "Новая кличка",
-            Guid.Empty, //breed.SpeciesId, 
+             breed.SpeciesId,
             "Описание",
-            Guid.Empty, //breed.Id,
+             breed.Id,
             "чёрный",
             pet.ShelterId,
             20d,

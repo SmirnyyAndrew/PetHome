@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Species.Application.Database;
+using PetHome.Species.Application.Database.Dto;
 
 namespace PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
 public class GetAllSpeciesUseCase

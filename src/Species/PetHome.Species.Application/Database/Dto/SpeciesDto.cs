@@ -1,4 +1,4 @@
-﻿using PetHome.Species.Application.Database.Dto;
+﻿namespace PetHome.Species.Application.Database.Dto;
 
 public class SpeciesDto
 {

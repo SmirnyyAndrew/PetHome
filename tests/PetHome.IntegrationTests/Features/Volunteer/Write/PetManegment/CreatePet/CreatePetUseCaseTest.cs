@@ -12,7 +12,7 @@ public class CreatePetUseCaseTest : VolunteerFactory
     private readonly ICommandHandler<Pet, CreatePetCommand> _sut;
 
     public CreatePetUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Pet, CreatePetCommand>>();
     }
 
@@ -20,17 +20,16 @@ public class CreatePetUseCaseTest : VolunteerFactory
     public async void Success_create_pet()
     {
         //array
-         SeedVolunteersWithAggregates();
+        SeedVolunteersWithAggregates();
         var volunteer = _writeDbContext.Volunteers.First();
-        //var breed = _speciesReadDbContext.Species.SelectMany(b => b.Breeds).First();
+        var breed = _readDbContext.Species.SelectMany(b => b.Breeds).First();
 
         PetMainInfoDto dto = new PetMainInfoDto(
             "Новая кличка",
-           Guid.Empty, //breed.SpeciesId,
+            breed.SpeciesId,
             "Описание",
-            Guid.Empty,// breed.Id,
+              breed.Id,
             "чёрный",
-            //shelterId,
             Guid.Empty,
             20d,
             false,

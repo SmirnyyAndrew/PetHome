@@ -1,4 +1,7 @@
-﻿public class VolunteerDto
+﻿using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+
+namespace PetHome.Volunteers.Application.Database.Dto;
+public class VolunteerDto
 {
     public Guid Id { get; private set; }
     public string FirstName { get; private set; }

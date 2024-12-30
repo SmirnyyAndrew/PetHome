@@ -15,31 +15,27 @@ using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
-using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
-using IVolunteerReadDbContext = PetHome.Volunteers.Application.Database.IVolunteerReadDbContext;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity; 
 
 namespace PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
 public class CreatePetUseCase
     : ICommandHandler<Pet, CreatePetCommand>
 {
-    private readonly IVolunteerReadDbContext _readDBContext;
-    private readonly IVolunteerRepository _volunteerRepository;
-    private readonly ISpeciesRepository _speciesRepository;
+    private readonly IVolunteerReadDbContext _volunteerReadDBContext;
+    private readonly IVolunteerRepository _volunteerRepository; 
     private readonly ILogger<CreatePetUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreatePetCommand> _validator;
 
     public CreatePetUseCase(
-        IVolunteerReadDbContext readDBContext,
-        IVolunteerRepository volunteerRepository,
-        ISpeciesRepository speciesRepository,
+        IVolunteerReadDbContext volunteerReadDBContext,
+        IVolunteerRepository volunteerRepository, 
         ILogger<CreatePetUseCase> logger,
         [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IValidator<CreatePetCommand> validator)
     {
-        _readDBContext = readDBContext;
-        _volunteerRepository = volunteerRepository;
-        _speciesRepository = speciesRepository;
+        _volunteerReadDBContext = volunteerReadDBContext;
+        _volunteerRepository = volunteerRepository; 
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
@@ -58,7 +54,7 @@ public class CreatePetUseCase
          var transaction = await _unitOfWork.BeginTransaction(ct);
         try
         {
-            var isExistVolunteer = _readDBContext.Volunteers
+            var isExistVolunteer = _volunteerReadDBContext.Volunteers
                .Any(s => s.Id == createPetCommand.VolunteerId);
             if (isExistVolunteer == false)
             {
@@ -66,7 +62,7 @@ public class CreatePetUseCase
                 return Errors.NotFound($"Волонтёр с id = {mainInfoDto.SpeciesId}").ToErrorList();
             }
 
-            var speciesResult = _readDBContext.Species
+            var speciesResult = _volunteerReadDBContext.Species
                .Where(s => s.Id == mainInfoDto.SpeciesId);
             if (speciesResult.Count() == 0)
             {
@@ -127,10 +123,10 @@ public class CreatePetUseCase
             _logger.LogInformation("Pet с id = {0} и volunteer_id = {1} создан", pet.Id.Value, pet.VolunteerId.Value);
             return pet;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             transaction.Rollback();
-            _logger.LogError("Не удалось создать питомца");
+            _logger.LogError("Не удалось создать питомца\n\r" + ex);
             return Errors.Failure("Database.is.failed").ToErrorList();
         }
     }

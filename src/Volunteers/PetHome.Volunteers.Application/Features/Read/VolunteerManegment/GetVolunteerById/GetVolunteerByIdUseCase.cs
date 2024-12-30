@@ -6,6 +6,7 @@ using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Application.Database.Dto;
 
 namespace PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
 public class GetVolunteerByIdUseCase

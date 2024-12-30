@@ -1,5 +1,6 @@
 ﻿using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
+namespace PetHome.Volunteers.Application.Database.Dto;
 public class PetDto
 {
     public Guid Id { get; init; }

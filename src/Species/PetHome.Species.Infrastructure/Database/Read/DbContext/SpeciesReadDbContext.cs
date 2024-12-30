@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Species.Application.Database;
+using PetHome.Species.Application.Database.Dto;
 
 namespace PetHome.Species.Infrastructure.Database.Read.DBContext;
 
