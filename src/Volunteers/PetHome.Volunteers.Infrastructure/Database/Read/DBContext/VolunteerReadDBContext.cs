@@ -38,8 +38,8 @@ public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerReadDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("database.read") ?? false);
+            type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("database.read") ?? false);
+            type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
     } 
 }

@@ -5,13 +5,13 @@ using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using Xunit;
-namespace PetHome.IntegrationTests.Features.Volunteer.Write.PetManegment.DeletePetMediaFiles; 
+namespace PetHome.IntegrationTests.Features.Volunteer.Write.PetManegment.DeletePetMediaFiles;
 public class DeletePetMediaFilesUseCaseTest : FileProviderFactory
 {
     private readonly ICommandHandler<string, DeletePetMediaFilesCommand> _sut;
 
     public DeletePetMediaFilesUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, DeletePetMediaFilesCommand>>();
     }
 
@@ -19,7 +19,7 @@ public class DeletePetMediaFilesUseCaseTest : FileProviderFactory
     public async void Success_delete_pet_media_files()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
 
         string bucketName = "photos";

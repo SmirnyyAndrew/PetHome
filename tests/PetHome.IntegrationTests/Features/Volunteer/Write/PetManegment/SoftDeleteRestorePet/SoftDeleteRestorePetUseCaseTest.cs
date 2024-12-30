@@ -9,7 +9,7 @@ public class SoftDeleteRestorePetUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<SoftDeleteRestorePetCommand> _sut;
     public SoftDeleteRestorePetUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<SoftDeleteRestorePetCommand>>();
     }
 
@@ -17,7 +17,7 @@ public class SoftDeleteRestorePetUseCaseTest : VolunteerFactory
     public async void Success_soft_delete_restore_pet()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
         SoftDeleteRestorePetCommand command = new SoftDeleteRestorePetCommand(
             pet.VolunteerId,

@@ -12,7 +12,7 @@ using PetHome.Species.Infrastructure;
 using PetHome.Species.Application;
 
 namespace PetHome.API;
-public class Program
+public partial class Program
 {
     public static void Main(string[] args)
     {
@@ -62,7 +62,7 @@ public class Program
             app.UseSwaggerUI();
             //Automigration
             //app.ApplyAutoMigrations();
-        } 
+        }
 
         app.UseHttpsRedirection();
 
@@ -89,3 +89,4 @@ public static class ApplicationExtention
         application.UseMiddleware<ExceptionMiddleware>();
     }
 }
+public partial class Program;

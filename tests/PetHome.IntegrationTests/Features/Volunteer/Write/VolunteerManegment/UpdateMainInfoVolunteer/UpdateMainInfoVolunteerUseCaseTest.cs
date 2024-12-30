@@ -9,7 +9,7 @@ public class UpdateMainInfoVolunteerUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<Guid, UpdateMainInfoVolunteerCommand> _sut;
     public UpdateMainInfoVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, UpdateMainInfoVolunteerCommand>>();
     }
 
@@ -17,7 +17,7 @@ public class UpdateMainInfoVolunteerUseCaseTest : VolunteerFactory
     public async void Success_update_volunteer_main_info()
     {
         //array
-        SeedVolunteers(1);
+        await SeedVolunteers(1);
         var volunteer = _writeDbContext.Volunteers.First();
 
         FullNameDto fullNameDto = new FullNameDto("Смирнов", "Иван");

@@ -1,20 +1,23 @@
 ﻿using PetHome.Core.ValueObjects;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.IntegrationTests.Seeds;
 public partial class SeedManager
 {
     public async Task<IReadOnlyList<Pet>> SeedPets(
-        //_Species species,
+        _Species species,
         IEnumerable<PetShelterId> petShelterIds,
         List<Volunteer> volunteers,
         int petCountToSeed)
     {
-        //int breedRandomIndex = new Random().Next(0, _writeDbContext.Species
-        //    .Where(s => s.Id == species.Id)
-        //    .Select(b => b.Breeds)
-        //    .Count());
+       int breedRandomIndex = new Random().Next(0, _writeDbContext.Species
+           .Where(s => s.Id == species.Id)
+           .Select(b => b.Breeds)
+           .Count());
         int petShelterRandomIndex = new Random().Next(0, petShelterIds.Count());
         int volunteerRandomIndex = new Random().Next(0, volunteers.Count());
 
@@ -24,14 +27,14 @@ public partial class SeedManager
 
             PetName name = PetName.Create("Кличка " + i).Value;
 
-            //SpeciesId speciesId = species.Id;
+            SpeciesId speciesId = species.Id;
 
-            //BreedId breedId = _writeDbContext.Species
-            //    .Where(s => s.Id == species.Id)
-            //    .Select(b => b.Breeds)
-            //    .ToList()[breedRandomIndex]
-            //    .Select(b => b.Id)
-            //    .First();
+            BreedId breedId = _writeDbContext.Species
+                .Where(s => s.Id == species.Id)
+                .Select(b => b.Breeds)
+                .ToList()[breedRandomIndex]
+                .Select(b => b.Id)
+                .First();
 
             PetShelterId shelterId =
                 PetShelterId.Create(petShelterIds.ToList()[petShelterRandomIndex]).Value;
@@ -52,9 +55,9 @@ public partial class SeedManager
 
             volunteers[volunteerRandomIndex].CreatePet(
                 name,
-                null,
+                speciesId,
                 description,
-                null,
+                breedId,
                 color,
                 shelterId,
                 weight,

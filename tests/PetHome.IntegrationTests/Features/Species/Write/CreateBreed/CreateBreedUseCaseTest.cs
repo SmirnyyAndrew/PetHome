@@ -16,7 +16,7 @@ public class CreateBreedUseCaseTest : SpeciesFactory
     public async void Success_create_breed()
     {
         //array
-        SeedSpecies(1);
+        await SeedSpecies(1);
         var species = _writeDbContext.Species.First();
         var breedNames = new List<string>() { "Алабай", "Овчарка", "Питбуль" };
 

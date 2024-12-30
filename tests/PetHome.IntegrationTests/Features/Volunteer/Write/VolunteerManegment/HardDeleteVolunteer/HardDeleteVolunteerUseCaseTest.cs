@@ -8,7 +8,7 @@ public class HardDeleteVolunteerUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<bool, HardDeleteVolunteerCommand> _sut;
     public HardDeleteVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<bool, HardDeleteVolunteerCommand>>();
     }
 
@@ -16,7 +16,7 @@ public class HardDeleteVolunteerUseCaseTest : VolunteerFactory
     public async void Success_hard_delete_volunteer()
     {
         //array
-        SeedVolunteers(1);
+        await SeedVolunteers(1);
         var volunteer = _writeDbContext.Volunteers.First();
         HardDeleteVolunteerCommand command = new HardDeleteVolunteerCommand(volunteer.Id);
 

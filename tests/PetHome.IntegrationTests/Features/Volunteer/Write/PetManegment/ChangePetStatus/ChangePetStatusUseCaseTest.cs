@@ -11,7 +11,7 @@ public class ChangePetStatusUseCaseTest : VolunteerFactory
     private readonly ICommandHandler<string, ChangePetStatusCommand> _sut;
 
     public ChangePetStatusUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetStatusCommand>>();
     }
 
@@ -19,7 +19,7 @@ public class ChangePetStatusUseCaseTest : VolunteerFactory
     public async void Success_change_pet_status()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
 
         ChangePetStatusCommand command = new ChangePetStatusCommand(

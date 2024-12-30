@@ -12,7 +12,7 @@ public class ChangePetSerialNumberUseCaseTest : VolunteerFactory
     private readonly ICommandHandler<string, ChangePetSerialNumberCommand> _sut;
 
     public ChangePetSerialNumberUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetSerialNumberCommand>>();
     }
 
@@ -20,7 +20,7 @@ public class ChangePetSerialNumberUseCaseTest : VolunteerFactory
     public async void Success_changed_pet_serial_number()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var pet = _writeDbContext.Volunteers
             .SelectMany(p => p.Pets)
             .First();

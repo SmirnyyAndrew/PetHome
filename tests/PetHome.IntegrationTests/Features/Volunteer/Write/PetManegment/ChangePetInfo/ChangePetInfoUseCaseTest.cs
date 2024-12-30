@@ -19,7 +19,7 @@ public class ChangePetInfoUseCaseTest : VolunteerFactory
     public async void Success_change_pet_info()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
 
         var breed = _readDbContext.Species
             .SelectMany(b => b.Breeds)

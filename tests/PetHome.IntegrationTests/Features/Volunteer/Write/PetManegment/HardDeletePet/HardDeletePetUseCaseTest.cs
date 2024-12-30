@@ -17,7 +17,7 @@ public class HardDeletePetUseCaseTest : VolunteerFactory
     public async void Success_hard_delete_pet_by_id()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
         HardDeletePetCommand command = new HardDeletePetCommand(pet.VolunteerId, pet.Id);
 

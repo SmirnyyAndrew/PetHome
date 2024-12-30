@@ -9,7 +9,7 @@ public class SetPetMainPhotoUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<SetPetMainPhotoCommand> _sut;
     public SetPetMainPhotoUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    { 
+    {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<SetPetMainPhotoCommand>>();
     }
 
@@ -17,7 +17,7 @@ public class SetPetMainPhotoUseCaseTest : VolunteerFactory
     public async void Success_set_pet_main_info()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var pet = _writeDbContext.Volunteers.SelectMany(p => p.Pets).First();
         SetPetMainPhotoCommand command = new SetPetMainPhotoCommand(
             pet.VolunteerId,

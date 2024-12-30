@@ -17,7 +17,7 @@ public class DeleteSpeciesByIdUseCaseTest : SpeciesFactory
     public async void Success_delete_species_by_id()
     {
         //array
-        SeedSpecies(1);
+       await SeedSpecies(1);
         var species = _readDbContext.Species.First();
         DeleteSpeciesByIdCommand command = new DeleteSpeciesByIdCommand(species.Id);
 

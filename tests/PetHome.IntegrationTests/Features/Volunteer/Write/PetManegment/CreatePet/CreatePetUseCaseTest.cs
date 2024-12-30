@@ -20,7 +20,7 @@ public class CreatePetUseCaseTest : VolunteerFactory
     public async void Success_create_pet()
     {
         //array
-        SeedVolunteersWithAggregates();
+        await SeedVolunteersWithAggregates();
         var volunteer = _writeDbContext.Volunteers.First();
         var breed = _readDbContext.Species.SelectMany(b => b.Breeds).First();
 

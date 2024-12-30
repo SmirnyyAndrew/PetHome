@@ -17,7 +17,7 @@ public class SoftDeleteVolunteerUseCaseTest : VolunteerFactory
     public async void Success_soft_delete_restore_volunteer()
     {
         //array
-        SeedVolunteers(1);
+        await SeedVolunteers(1);
         var volunteer = _writeDbContext.Volunteers.First();
         SoftDeleteRestoreVolunteerCommand command = new SoftDeleteRestoreVolunteerCommand(volunteer.Id);
 
