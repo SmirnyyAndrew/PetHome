@@ -5,13 +5,12 @@ using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVol
 using Xunit;
 namespace PetHome.IntegrationTests.Features.Volunteer.Write.VolunteerManegment.CreateVolunteer;
 
-public class CreateVolunteerUseCaseTest : BaseFactory
+public class CreateVolunteerUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<Guid, CreateVolunteerCommand> _sut;
     public CreateVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
     }
 
     [Fact]

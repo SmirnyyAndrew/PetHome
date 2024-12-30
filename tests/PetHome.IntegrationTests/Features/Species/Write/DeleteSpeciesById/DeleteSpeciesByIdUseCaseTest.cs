@@ -5,21 +5,20 @@ using PetHome.Volunteers.Application.Features.Write.PetManegment.DeleteSpeciesBy
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Species.Write.DeleteSpeciesById;
-public class DeleteSpeciesByIdUseCaseTest : BaseFactory
+public class DeleteSpeciesByIdUseCaseTest : SpeciesFactory
 {
     private readonly ICommandHandler<string, DeleteSpeciesByIdCommand> _sut;
     public DeleteSpeciesByIdUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<string, DeleteSpeciesByIdCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, DeleteSpeciesByIdCommand>>();
     }
 
     [Fact]
     public async void Success_delete_species_by_id()
     {
         //array
-        await SeedSpecies(1);
-        var species = _speciesReadDbContext.Species.First();
+        SeedSpecies(1);
+        var species = _readDbContext.Species.First();
         DeleteSpeciesByIdCommand command = new DeleteSpeciesByIdCommand(species.Id);
 
         //act

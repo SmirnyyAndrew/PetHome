@@ -4,21 +4,20 @@ using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Species.Application.Features.Write.CreateBreed;
 using Xunit;
 namespace PetHome.IntegrationTests.Features.Species.Write.CreateBreed;
-public class CreateBreedUseCaseTest : BaseFactory
+public class CreateBreedUseCaseTest : SpeciesFactory
 {
     private readonly ICommandHandler<Guid, CreateBreedCommand> _sut;
     public CreateBreedUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateBreedCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateBreedCommand>>();
     }
 
     [Fact]
     public async void Success_create_breed()
     {
         //array
-        await SeedSpecies(1);
-        var species = _speciesWriteDbContext.Species.First();
+        SeedSpecies(1);
+        var species = _writeDbContext.Species.First();
         var breedNames = new List<string>() { "Алабай", "Овчарка", "Питбуль" };
 
         CreateBreedCommand command = new CreateBreedCommand(species.Id, breedNames);

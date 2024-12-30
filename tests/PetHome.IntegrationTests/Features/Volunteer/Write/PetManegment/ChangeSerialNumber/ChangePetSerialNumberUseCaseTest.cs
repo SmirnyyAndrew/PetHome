@@ -7,22 +7,21 @@ using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangeSerialNum
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Volunteer.Write.PetManegment.ChangeSerialNumber;
-public class ChangePetSerialNumberUseCaseTest : BaseFactory
+public class ChangePetSerialNumberUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<string, ChangePetSerialNumberCommand> _sut;
 
     public ChangePetSerialNumberUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetSerialNumberCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetSerialNumberCommand>>();
     }
 
     [Fact]
     public async void Success_changed_pet_serial_number()
     {
         //array
-        await SeedVolunteersWithAggregates();
-        var pet = _volunteerWriteDbContext.Volunteers
+        SeedVolunteersWithAggregates();
+        var pet = _writeDbContext.Volunteers
             .SelectMany(p => p.Pets)
             .First();
 

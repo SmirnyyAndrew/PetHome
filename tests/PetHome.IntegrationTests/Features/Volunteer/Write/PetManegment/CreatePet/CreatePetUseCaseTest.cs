@@ -7,29 +7,28 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Volunteer.Write.PetManegment.CreatePet;
-public class CreatePetUseCaseTest : BaseFactory
+public class CreatePetUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<Pet, CreatePetCommand> _sut;
 
     public CreatePetUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Pet, CreatePetCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Pet, CreatePetCommand>>();
     }
 
     [Fact]
     public async void Success_create_pet()
     {
         //array
-        await SeedVolunteersWithAggregates();
-        var volunteer = _volunteerWriteDbContext.Volunteers.First();
-        var breed = _speciesReadDbContext.Species.SelectMany(b => b.Breeds).First();
+         SeedVolunteersWithAggregates();
+        var volunteer = _writeDbContext.Volunteers.First();
+        //var breed = _speciesReadDbContext.Species.SelectMany(b => b.Breeds).First();
 
         PetMainInfoDto dto = new PetMainInfoDto(
             "Новая кличка",
-            breed.SpeciesId,
+           Guid.Empty, //breed.SpeciesId,
             "Описание",
-            breed.Id,
+            Guid.Empty,// breed.Id,
             "чёрный",
             //shelterId,
             Guid.Empty,

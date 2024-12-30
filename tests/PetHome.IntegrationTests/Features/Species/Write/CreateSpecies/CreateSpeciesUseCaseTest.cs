@@ -4,13 +4,12 @@ using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Species.Application.Features.Write.CreateSpecies;
 using Xunit;
 namespace PetHome.IntegrationTests.Features.Species.Write.CreateSpecies;
-public class CreateSpeciesUseCaseTest : BaseFactory
+public class CreateSpeciesUseCaseTest : SpeciesFactory
 {
     private readonly ICommandHandler<Guid, CreateSpeciesCommand> _sut;
     public CreateSpeciesUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateSpeciesCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateSpeciesCommand>>();
     }
 
     [Fact]

@@ -7,25 +7,24 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Volunteer.Write.PetManegment.ChangePetInfo;
-public class ChangePetInfoUseCaseTest : BaseFactory
+public class ChangePetInfoUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<string, ChangePetInfoCommand> _sut;
     public ChangePetInfoUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetInfoCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<string, ChangePetInfoCommand>>();
     }
 
     [Fact]
     public async void Success_change_pet_info()
     {
         //array
-        await SeedVolunteersWithAggregates();
+        SeedVolunteersWithAggregates();
 
-        var breed = _speciesReadDbContext.Species
-            .SelectMany(b => b.Breeds)
-            .First();
-        var pet = _volunteerWriteDbContext.Volunteers
+        //var breed = _speciesReadDbContext.Species
+        //    .SelectMany(b => b.Breeds)
+        //    .First();
+        var pet = _writeDbContext.Volunteers
             .Include(p => p.Pets)
             .SelectMany(p => p.Pets)
             .First();
@@ -35,9 +34,9 @@ public class ChangePetInfoUseCaseTest : BaseFactory
         ChangePetInfoCommand command = new ChangePetInfoCommand(
              pet.Id,
             "Новая кличка",
-            breed.SpeciesId,
+            Guid.Empty, //breed.SpeciesId, 
             "Описание",
-            breed.Id,
+            Guid.Empty, //breed.Id,
             "чёрный",
             pet.ShelterId,
             20d,

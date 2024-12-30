@@ -4,21 +4,20 @@ using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 using Xunit;
 namespace PetHome.IntegrationTests.Features.Volunteer.Write.VolunteerManegment.HardDeleteVolunteer;
-public class HardDeleteVolunteerUseCaseTest : BaseFactory
+public class HardDeleteVolunteerUseCaseTest : VolunteerFactory
 {
     private readonly ICommandHandler<bool, HardDeleteVolunteerCommand> _sut;
     public HardDeleteVolunteerUseCaseTest(IntegrationTestFactory factory) : base(factory)
-    {
-        var scope = factory.Services.CreateScope();
-        _sut = scope.ServiceProvider.GetRequiredService<ICommandHandler<bool, HardDeleteVolunteerCommand>>();
+    { 
+        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<bool, HardDeleteVolunteerCommand>>();
     }
 
     [Fact]
     public async void Success_hard_delete_volunteer()
     {
         //array
-        await SeedVolunteers(1);
-        var volunteer = _volunteerWriteDbContext.Volunteers.First();
+        SeedVolunteers(1);
+        var volunteer = _writeDbContext.Volunteers.First();
         HardDeleteVolunteerCommand command = new HardDeleteVolunteerCommand(volunteer.Id);
 
         //act
