@@ -14,6 +14,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoFixture" Version="4.18.1" />
+		<PackageReference Include="AutoFixture.Xunit" Version="4.18.1" />
+		<PackageReference Include="AutoFixture.Xunit2" Version="4.18.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
 		<PackageReference Include="Microsoft.TestPlatform" Version="17.12.0" />
@@ -31,10 +33,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\PetHome.API\PetHome.API.csproj" />
-		<ProjectReference Include="..\..\src\PetHome.Application\PetHome.Application.csproj" />
-		<ProjectReference Include="..\..\src\PetHome.Domain\PetHome.Domain.csproj" />
-		<ProjectReference Include="..\..\src\PetHome.Infrastructure\PetHome.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\src\PetHome.API\PetHome.API.csproj" />
+	  <ProjectReference Include="..\..\src\Shared\PetHome.Core\PetHome.Core.csproj" />
+	  <ProjectReference Include="..\..\src\Shared\PetHome.Framework\PetHome.Framework.csproj" />
+	  <ProjectReference Include="..\..\src\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
+	  <ProjectReference Include="..\..\src\Species\PetHome.Species.API\PetHome.Species.API.csproj" />
+	  <ProjectReference Include="..\..\src\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
+	  <ProjectReference Include="..\..\src\Species\PetHome.Species.Contracts\PetHome.Species.Contracts.csproj" />
+	  <ProjectReference Include="..\..\src\Species\PetHome.Species.Domain\PetHome.Species.Domain.csproj" />
+	  <ProjectReference Include="..\..\src\Species\PetHome.Species.Infrastructure\PetHome.Species.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\src\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
+	  <ProjectReference Include="..\..\src\Volunteers\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
+	  <ProjectReference Include="..\..\src\Volunteers\PetHome.Volunteers.Contracts\PetHome.Volunteers.Contracts.csproj" />
+	  <ProjectReference Include="..\..\src\Volunteers\PetHome.Volunteers.Domain\PetHome.Volunteers.Domain.csproj" />
+	  <ProjectReference Include="..\..\src\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
+	  <ProjectReference Include="..\PetHome.UnitTests\PetHome.UnitTests.csproj" />
 	</ItemGroup>
 
 </Project>

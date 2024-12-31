@@ -10,37 +10,24 @@
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="3.2.0" />
-    <PackageReference Include="EntityFrameworkCore.NamingConventions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+  <ItemGroup> 
+    <PackageReference Include="FluentValidation" Version="11.11.0" /> 
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" /> 
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" /> 
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
-    <PackageReference Include="Serilog" Version="4.1.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
-    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
-    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageReference Include="Serilog.Sinks.Http" Version="9.0.0" />
-    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
-    <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.1.0" />
+    <PackageReference Include="Scrutor" Version="5.1.0" /> 
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PetHome.Application\PetHome.Application.csproj" />
-    <ProjectReference Include="..\PetHome.Domain\PetHome.Domain.csproj" />
-    <ProjectReference Include="..\PetHome.Infrastructure\PetHome.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shared\PetHome.Core\PetHome.Core.csproj" />
+    <ProjectReference Include="..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
+    <ProjectReference Include="..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
+    <ProjectReference Include="..\Species\PetHome.Species.API\PetHome.Species.API.csproj" />
+    <ProjectReference Include="..\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
+    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
+    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
+    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

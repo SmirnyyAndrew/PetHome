@@ -1,11 +1,11 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using PetHome.Application.Interfaces;
+using PetHome.Core.Interfaces;
 using Xunit;
 
 namespace PetHome.IntegrationTests.IntegrationFactories;
-public class FileProviderFactory : BaseFactory, IClassFixture<IntegrationTestFactory>
+public class FileProviderFactory : VolunteerFactory
 {
     protected readonly IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
     private static IntegrationTestFactory _factory;

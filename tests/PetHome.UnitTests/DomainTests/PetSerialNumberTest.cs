@@ -1,12 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.PetManagment.PetEntity;
-using PetHome.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.ValueObjects;
+using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
+using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using Xunit;
-using Color = PetHome.Domain.PetManagment.PetEntity.Color;
-
+using Color = PetHome.Volunteers.Domain.PetManagment.PetEntity.Color;
 namespace PetHome.UnitTests.DomainTests;
 
 public class PetSerialNumberTest
@@ -29,7 +28,7 @@ public class PetSerialNumberTest
                 PetShelterId.Create().Value,
                 23,
                 false,
-                Domain.PetManagment.GeneralValueObjects.Date.Create(DateTime.Parse("10.10.2024")).Value,
+                Date.Create(DateTime.Parse("10.10.2024")).Value,
                 false,
                 PetStatusEnum.isHomed,
                 VolunteerId.CreateEmpty().Value,

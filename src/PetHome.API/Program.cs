@@ -1,13 +1,18 @@
-using PetHome.API.Extentions;
-using PetHome.API.Loggers;
-using PetHome.API.Validation;
-using PetHome.Application;
-using PetHome.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using PetHome.Core.Controllers;
+using PetHome.Core.Response.Loggers;
+using PetHome.Core.Response.Validation;
+using PetHome.SharedKernel.Middlewares;
+using PetHome.Volunteers.Infrastructure;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using Serilog;
-using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using PetHome.Volunteers.Application;
+using PetHome.Species.Infrastructure;
+using PetHome.Species.Application;
+
 namespace PetHome.API;
-public class Program
+public partial class Program
 {
     public static void Main(string[] args)
     {
@@ -22,6 +27,7 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -36,8 +42,10 @@ public class Program
 
         //Подключение сервисов
         builder.Services
-            .AddInfrastructure(builder.Configuration)
-            .AddApplication();
+            .AddSpeciesInfrastructure(builder.Configuration)
+            .AddVolunteerInfrastructure(builder.Configuration)
+            .AddSpeciesServices()
+            .AddVolunteerServices();
 
 
         var app = builder.Build();
@@ -64,4 +72,21 @@ public class Program
 
         app.Run();
     }
+
 }
+
+public static class ApplicationExtention
+{
+    public static async Task ApplyAutoMigrations(this WebApplication application)
+    {
+        await using var scope = application.Services.CreateAsyncScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
+        await dbContext.Database.MigrateAsync();
+    }
+
+    public static void UseExceptionHandler(this WebApplication application)
+    {
+        application.UseMiddleware<ExceptionMiddleware>();
+    }
+}
+public partial class Program;
