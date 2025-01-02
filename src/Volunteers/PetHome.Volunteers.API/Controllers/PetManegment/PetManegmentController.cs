@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -35,6 +36,7 @@ public class PetManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> CreatePet(
         [FromRoute] Guid volunteerId,
@@ -54,6 +56,7 @@ public class PetManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPost("{volunteerId:guid}/pets/media")]
     public async Task<IActionResult> UploadMedia(
         [FromRoute] Guid volunteerId,
@@ -89,7 +92,7 @@ public class PetManegmentController : ParentController
         return Ok(result.Value);
     }
 
-
+    [Authorize]
     [HttpDelete("{volunteerId:guid}/pets/media")]
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
@@ -110,6 +113,7 @@ public class PetManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPatch("{volunteerId:guid}/pets/serial-number")]
     public async Task<IActionResult> ChangeSerialNumber(
         [FromRoute] Guid volunteerId,
@@ -129,6 +133,7 @@ public class PetManegmentController : ParentController
         return Ok(executeResult.Value);
     }
 
+    [Authorize]
     [HttpPost("info")]
     public async Task<IActionResult> ChangeInfo(
         [FromBody] ChangePetInfoRequest request,
@@ -142,6 +147,7 @@ public class PetManegmentController : ParentController
         return Ok(result.Value);
     }
 
+    [Authorize]
     [HttpPost("status")]
     public async Task<IActionResult> ChangeStatus(
         [FromBody] ChangePetStatusRequest request,
@@ -155,6 +161,8 @@ public class PetManegmentController : ParentController
         return Ok(result.Value);
     }
 
+
+    [Authorize]
     [HttpDelete("hard")]
     public async Task<IActionResult> HardDelete(
         [FromBody] HardDeletePetRequest request,
@@ -169,6 +177,7 @@ public class PetManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPost("soft")]
     public async Task<IActionResult> HardDelete(
         [FromBody] SoftDeleteRestorePetRequest request,
@@ -210,9 +219,9 @@ public class PetManegmentController : ParentController
         return Ok(result.Value);
     }
 
-    [HttpPatch("sorted-filtred-paged")]
+    [HttpGet("sorted-filtred-paged")]
     public async Task<IActionResult> GetSortedFiltredPagedPets(
-        [FromBody] GetPetsWithPaginationAndFiltersRequest request,
+        [FromQuery] GetPetsWithPaginationAndFiltersRequest request,
         [FromServices] GetPetsWithPaginationAndFiltersUseCase useCase,
         CancellationToken ct = default)
     {
@@ -224,7 +233,7 @@ public class PetManegmentController : ParentController
     }
 
 
-
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteSpeciesWithBreeds(
         [FromRoute] Guid id,
