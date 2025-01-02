@@ -9,7 +9,7 @@ public class SpeciesWriteDbContext : DbContext
     private readonly string _connectionString;
     public DbSet<_Species> Species => Set<_Species>();
 
-    public SpeciesWriteDbContext(string connectionString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+    public SpeciesWriteDbContext(string connectionString)
     {
         _connectionString = connectionString;
     }

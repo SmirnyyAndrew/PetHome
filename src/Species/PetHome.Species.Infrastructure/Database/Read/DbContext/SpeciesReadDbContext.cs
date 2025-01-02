@@ -11,7 +11,7 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
     private readonly string _connectionString = Constants.DATABASE;
     public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
-    public SpeciesReadDbContext(string connectionString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+    public SpeciesReadDbContext(string connectionString)
     {
         _connectionString = connectionString;
     }

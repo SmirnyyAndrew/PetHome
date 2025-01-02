@@ -14,7 +14,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
 
     private readonly string _conntecitonString;
 
-    public AuthorizationDbContext(string conntecitonString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+    public AuthorizationDbContext(string conntecitonString)
     {
         _conntecitonString = conntecitonString;
     }

@@ -10,15 +10,15 @@ public class VolunteerWriteDbContext : DbContext
 {
     private readonly string _connectionString;
     public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-    public DbSet<_Species> Species=> Set<_Species>();
+    public DbSet<_Species> Species => Set<_Species>();
 
-    public VolunteerWriteDbContext(string connectionString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+    public VolunteerWriteDbContext(string connectionString)
     {
         _connectionString = connectionString;
-    } 
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-    { 
+    {
         optionBuilder.UseNpgsql(_connectionString);
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
