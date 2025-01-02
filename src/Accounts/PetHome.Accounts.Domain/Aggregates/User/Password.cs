@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Accounts.Domain.Aggregates.User;
-public class Password
+public record Password
 {
-    private string Value { get; set; }
+    private string Value { get;}
     public Password(string value)
     {
         Value = value;

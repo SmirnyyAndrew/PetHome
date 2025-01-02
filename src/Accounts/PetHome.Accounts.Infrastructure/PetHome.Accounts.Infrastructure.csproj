@@ -28,8 +28,4 @@
     <ProjectReference Include="..\PetHome.Accounts.Domain\PetHome.Accounts.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Permission\" />
-  </ItemGroup>
-
 </Project>

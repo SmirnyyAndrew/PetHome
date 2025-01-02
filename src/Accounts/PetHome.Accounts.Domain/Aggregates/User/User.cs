@@ -5,15 +5,16 @@ using PetHome.Core.ValueObjects;
 namespace PetHome.Accounts.Domain.Aggregates.User;
 public class User : IdentityUser<Guid>
 {
-    public Email Email { get; set; }
-    public FullName FullName { get;  set; }
-    public UserName UserName { get;  set; }
-    public Login Login { get; set; }
-    public Password Password { get; set; }
-    public ValueObjectList<SocialNetwork>? SocialNetworks { get; set; }
-    public ValueObjectList<Media>? Medias { get; set; }
-    public ValueObjectList<PhoneNumber> PhoneNumbers { get; set; }
-    public RoleId RoleId { get; set; }
+    private UserId Id { get; }
+    private Email Email { get; }
+    private FullName FullName { get; }
+    private UserName UserName { get; }
+    private Login Login { get; }
+    private Password Password { get; }
+    private ValueObjectList<SocialNetwork>? SocialNetworks { get; }
+    private ValueObjectList<Media>? Medias { get; }
+    private ValueObjectList<PhoneNumber> PhoneNumbers { get; }
+    private RoleId RoleId { get; }
 
     public User() { }
     private User(
@@ -27,6 +28,7 @@ public class User : IdentityUser<Guid>
         ValueObjectList<PhoneNumber> phoneNumbers,
         RoleId roleId)
     {
+        Id = UserId.Create().Value;
         Email = email;
         FullName = fullName;
         UserName = userName;

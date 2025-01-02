@@ -2,9 +2,9 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
-public class PermissionId
+public record PermissionId
 {
-    private Guid Value { get; set; }
+    private Guid Value { get; }
     public PermissionId(Guid value)
     {
         Value = value;
@@ -13,5 +13,10 @@ public class PermissionId
     public static Result<PermissionId, Error> Create(Guid value)
     {
         return new PermissionId(value);
+    }
+
+    public static Result<PermissionId, Error> Create()
+    {
+        return new PermissionId(Guid.NewGuid());
     }
 }

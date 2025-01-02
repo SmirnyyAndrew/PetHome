@@ -2,9 +2,9 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Accounts.Domain.Aggregates.User;
-public class Login
+public record Login
 {
-    private string Value { get; set; }
+    private string Value { get; }
     public Login(string value)
     {
         Value = value;

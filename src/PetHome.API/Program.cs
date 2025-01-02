@@ -73,6 +73,9 @@ public partial class Program
             //app.ApplyAutoMigrations();
         }
 
+        //Логирование запросов
+        app.UseSerilogRequestLogging();
+
         app.UseHttpsRedirection();
 
         app.UseAuthentication();
