@@ -35,7 +35,8 @@ public static class InjectAuthentication
 
         services.AddIdentity<User, Role>(options =>
         {
-            options.User.RequireUniqueEmail = true;
+            //TODO: условия для регистрации
+            //options.User.RequireUniqueEmail = true;
         })
             .AddEntityFrameworkStores<AuthorizationDbContext>()
             .AddDefaultTokenProviders();

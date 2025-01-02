@@ -6,6 +6,7 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
+using System.Net;
 
 namespace PetHome.Accounts.Application.Features.RegisterAccount;
 public class RegisterAccountUseCase
@@ -32,9 +33,13 @@ public class RegisterAccountUseCase
         User user = new User()
         {
             UserName = command.Login
+            
         };
 
         var result = await _userManager.CreateAsync(user, command.Password);   
+        if(result.Succeeded is false)
+            return result.Errors.ToErrorList();
+
         return Result.Success<ErrorList>();
     }
 }
