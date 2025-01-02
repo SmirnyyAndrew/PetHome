@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,8 @@ public class VolunteerTestFileManegmentController : ParentController
         _minioProvider = new MinioProvider(minioClient, logger);
     }
 
+
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> UdloadFile(
         IFormFile file,
@@ -43,6 +46,7 @@ public class VolunteerTestFileManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPut]
     public async Task<IActionResult> DownloadFile(
         [FromBody] DownloadFilesRequest request,
@@ -65,6 +69,8 @@ public class VolunteerTestFileManegmentController : ParentController
         return Ok(result.Value);
     }
 
+
+    [Authorize]
     [HttpPut("presigned-path")]
     public async Task<IActionResult> GetFilePresignedPath(
         [FromBody] FilesInfoDto filesInfoDto,
@@ -81,6 +87,7 @@ public class VolunteerTestFileManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpDelete]
     public async Task<IActionResult> DeleteFile(
         [FromBody] MinioFilesInfoDto fileInfoDto,

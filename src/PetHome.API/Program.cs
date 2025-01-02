@@ -1,15 +1,14 @@
-using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Controllers;
+using PetHome.Accounts.Application;
+using PetHome.Accounts.Infrastructure.Inject;
+using PetHome.Accounts.Infrastructure.Inject.Auth;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
-using PetHome.SharedKernel.Middlewares;
+using PetHome.Species.Application;
+using PetHome.Species.Infrastructure;
+using PetHome.Volunteers.Application;
 using PetHome.Volunteers.Infrastructure;
-using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using PetHome.Volunteers.Application;
-using PetHome.Species.Infrastructure;
-using PetHome.Species.Application;
 
 namespace PetHome.API;
 public partial class Program
@@ -39,14 +38,24 @@ public partial class Program
             configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
         });
 
+        //Подключение swagger с возможностью аутентификации
+        builder.Services.AdddSwaggerGetWithAuthentication();
 
-        //Подключение сервисов
+
+        //Подключение аутентификации
+        builder.Services.ApplyAuthenticationConfiguration();
+
+        //Подключение infrastructures
         builder.Services
+            .AddAccountsInfrastructure(builder.Configuration)
             .AddSpeciesInfrastructure(builder.Configuration)
-            .AddVolunteerInfrastructure(builder.Configuration)
-            .AddSpeciesServices()
-            .AddVolunteerServices();
+            .AddVolunteerInfrastructure(builder.Configuration);
 
+        //Подключение handlers
+        builder.Services
+            .AddSpeciesServices()
+            .AddVolunteerServices()
+            .AddAccountsServices();
 
         var app = builder.Build();
 
@@ -66,6 +75,7 @@ public partial class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
@@ -73,20 +83,5 @@ public partial class Program
         app.Run();
     }
 
-}
-
-public static class ApplicationExtention
-{
-    public static async Task ApplyAutoMigrations(this WebApplication application)
-    {
-        await using var scope = application.Services.CreateAsyncScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
-        await dbContext.Database.MigrateAsync();
-    }
-
-    public static void UseExceptionHandler(this WebApplication application)
-    {
-        application.UseMiddleware<ExceptionMiddleware>();
-    }
 }
 public partial class Program;

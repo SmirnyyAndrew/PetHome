@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
 using PetHome.Species.Application.Features.Write.CreateSpecies;
@@ -7,6 +8,7 @@ namespace PetHome.Species.API.Controllers;
 
 public class PetSpeciesController : ParentController
 {
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateSpecies(
         [FromBody] CreateSpeciesRequest request,

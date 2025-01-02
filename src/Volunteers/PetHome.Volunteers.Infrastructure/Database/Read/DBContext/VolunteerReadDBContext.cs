@@ -15,7 +15,7 @@ public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
     public IQueryable<PetDto> Pets => Set<PetDto>();
     public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
-    public VolunteerReadDbContext(string connectionString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+    public VolunteerReadDbContext(string connectionString)
     {
         _connectionString = connectionString;
     } 

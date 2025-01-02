@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Species.API.Controllers.Requests;
 using PetHome.Species.Application.Features.Read.Breeds.GetAllBreedDtoBySpeciesId;
@@ -8,6 +9,7 @@ namespace PetHome.Species.API.Controllers;
 
 public class PetBreedController : ParentController
 {
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateBreed(
         [FromBody] CreateBreedRequest request,

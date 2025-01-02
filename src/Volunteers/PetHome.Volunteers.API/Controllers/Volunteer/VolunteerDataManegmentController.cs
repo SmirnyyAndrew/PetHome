@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Core.Extentions.ErrorExtentions;
@@ -16,6 +17,7 @@ using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 namespace PetHome.Volunteers.API.Controllers.Volunteer;
 public class VolunteerDataManegmentController : ParentController
 {
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromServices] CreateVolunteerUseCase createVolunteerUseCase,
@@ -33,6 +35,7 @@ public class VolunteerDataManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPatch("{id:guid}/main-info")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid id,
@@ -50,6 +53,7 @@ public class VolunteerDataManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpDelete("hard/{id:guid}")]
     public async Task<IActionResult> HardDelete(
          [FromRoute] Guid id,
@@ -67,6 +71,7 @@ public class VolunteerDataManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPatch("soft/{id:guid}")]
     public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid id,
@@ -84,6 +89,7 @@ public class VolunteerDataManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpPatch("soft-re/{id:guid}")]
     public async Task<IActionResult> SoftRestore(
         [FromRoute] Guid id,
@@ -101,6 +107,7 @@ public class VolunteerDataManegmentController : ParentController
     }
 
 
+    [Authorize]
     [HttpDelete("backround")]
     public async Task<IActionResult> HardDeleteSoftDeleted(
         [FromServices] SoftDeletedEntitiesToHardDeleteUseCase useCase,
