@@ -10,6 +10,14 @@ using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using PetHome.Volunteers.Application;
 using PetHome.Species.Infrastructure;
 using PetHome.Species.Application;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
+using PetHome.Accounts.Domain;
+using PetHome.Accounts.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace PetHome.API;
 public partial class Program
@@ -39,8 +47,69 @@ public partial class Program
             configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
         });
 
+        //Аутентификая/авторизация
+        builder.Services.AddScoped<AuthorizationDbContext>();
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("key"))
+                };
+            });
+        builder.Services.AddAuthorization();
 
-        //Подключение сервисов
+
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "My API",
+                Version = "v1"
+            });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please insert JWT with Bearer into field",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+            {
+              new OpenApiSecurityScheme
+              {
+                 Reference = new OpenApiReference
+                 {
+                   Type = ReferenceType.SecurityScheme,
+                   Id = "Bearer"
+                 }
+               },
+               new string[] { }
+             }
+            });
+        });
+
+
+        builder.Services.AddIdentity<User, Role>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+        })
+            .AddEntityFrameworkStores<AuthorizationDbContext>()
+            .AddDefaultTokenProviders();
+
+
+
+
+        //Подключение фич
         builder.Services
             .AddSpeciesInfrastructure(builder.Configuration)
             .AddVolunteerInfrastructure(builder.Configuration)
@@ -66,6 +135,7 @@ public partial class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

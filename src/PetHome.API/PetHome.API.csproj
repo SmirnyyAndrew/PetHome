@@ -14,12 +14,15 @@
     <PackageReference Include="FluentValidation" Version="11.11.0" /> 
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" /> 
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" /> 
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" /> 
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Scrutor" Version="5.1.0" /> 
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Accounts\PetHome.Accounts.API\PetHome.Accounts.API.csproj" />
+    <ProjectReference Include="..\Accounts\PetHome.Accounts.Infrastructure\PetHome.Accounts.Infrastructure.csproj" />
     <ProjectReference Include="..\Shared\PetHome.Core\PetHome.Core.csproj" />
     <ProjectReference Include="..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
     <ProjectReference Include="..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
