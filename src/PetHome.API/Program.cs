@@ -1,5 +1,6 @@
 using PetHome.Accounts.Application;
 using PetHome.Accounts.Infrastructure.Inject;
+using PetHome.Accounts.Infrastructure.Inject.Auth;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
 using PetHome.Species.Application;

@@ -6,7 +6,7 @@ using PetHome.Accounts.Application;
 using PetHome.Accounts.Domain;
 using System.Text;
 
-namespace PetHome.Accounts.Infrastructure.Inject;
+namespace PetHome.Accounts.Infrastructure.Inject.Auth;
 public static class InjectAuthentication
 {
     public static IServiceCollection ApplyAuthenticationConfiguration(this IServiceCollection services)
@@ -35,8 +35,7 @@ public static class InjectAuthentication
 
         services.AddIdentity<User, Role>(options =>
         {
-            //TODO: условия для регистрации
-            //options.User.RequireUniqueEmail = true;
+            options.GetAuthenticationOptions();
         })
             .AddEntityFrameworkStores<AuthorizationDbContext>()
             .AddDefaultTokenProviders();

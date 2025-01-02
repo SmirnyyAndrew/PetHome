@@ -26,13 +26,14 @@ public class RegisterAccountUseCase
         CancellationToken ct)
     {
 
-        var userIsExist = await _userManager.FindByNameAsync(command.Login);
+        var userIsExist = await _userManager.FindByEmailAsync(command.Email);
         if (userIsExist is not null)
-            return Errors.Conflict($"Пользователь с логином = {command.Login}").ToErrorList();
+            return Errors.Conflict($"Пользователь с email = {command.Email}").ToErrorList();
 
         User user = new User()
         {
-            UserName = command.Login
+            Email = command.Email, 
+            UserName = command.Name
             
         };
 

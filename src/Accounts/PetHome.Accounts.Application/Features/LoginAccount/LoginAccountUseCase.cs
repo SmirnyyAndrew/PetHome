@@ -27,12 +27,12 @@ public class LoginAccountUseCase
     {
         ErrorList error = Errors.NotFound("User").ToErrorList();
 
-        var user = await _userManager.FindByNameAsync(query.Login);
+        var user = await _userManager.FindByEmailAsync(query.Email);
         if (user == null)
             return error;
 
         var passwordIsConfirmed = await _userManager.CheckPasswordAsync(user!, query.Password);
-        if(passwordIsConfirmed == false)
+        if(passwordIsConfirmed is false)
             return error;
 
         var token = await _tokenProvider.GenerateToken(user, ct);
