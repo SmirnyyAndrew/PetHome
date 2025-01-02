@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetHome.Accounts.Domain;
 using PetHome.Core.Constants;
 
 namespace PetHome.Accounts.Infrastructure;
