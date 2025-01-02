@@ -30,6 +30,6 @@ public class SpeciesWriteDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesWriteDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("database.write") ?? false);
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 }
