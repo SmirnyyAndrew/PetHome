@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PetHome.Accounts.Application;
 using PetHome.Accounts.Domain;
@@ -10,10 +11,10 @@ namespace PetHome.Accounts.Infrastructure;
 public class JwtTokenProvider : ITokenProvider
 {
     private readonly JwtOptions _options;
-
-    public JwtTokenProvider(IOptions<JwtOptions> options)
+     
+    public JwtTokenProvider(IConfiguration configuration)
     {
-        _options = options.Value;
+        _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()!;
     }
 
     public async Task<string> GenerateToken(User user, CancellationToken ct)

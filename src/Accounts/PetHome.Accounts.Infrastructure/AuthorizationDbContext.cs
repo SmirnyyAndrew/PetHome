@@ -12,17 +12,17 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
 
-    private readonly IConfiguration _configuration;
+    private readonly string _conntecitonString;
 
-    public AuthorizationDbContext(IConfiguration configuration)
+    public AuthorizationDbContext(string conntecitonString = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
-        _configuration = configuration;
+        _conntecitonString = conntecitonString;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.DATABASE));
+        optionsBuilder.UseNpgsql(_conntecitonString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionsBuilder.EnableSensitiveDataLogging();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests;
+using PetHome.Accounts.Application.Features.LoginAccount;
 using PetHome.Accounts.Application.Features.RegisterAccount;
 using PetHome.Core.Controllers;
 
@@ -16,6 +17,19 @@ public class AccountAuthenticationController : ParentController
         if (result.IsFailure)
             return BadRequest(result.Error);
 
-        return Ok(result);
+        return Ok();
+    }
+
+    [HttpPatch("login")]
+    public async Task<IActionResult> Login(
+       [FromServices] LoginAccountUseCase useCase,
+       [FromBody] LoginAccountRequest request,
+       CancellationToken ct)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
     }
 }
