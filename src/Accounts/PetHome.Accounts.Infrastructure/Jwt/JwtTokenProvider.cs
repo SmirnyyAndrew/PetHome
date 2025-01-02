@@ -7,11 +7,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace PetHome.Accounts.Infrastructure;
+namespace PetHome.Accounts.Infrastructure.Jwt;
 public class JwtTokenProvider : ITokenProvider
 {
     private readonly JwtOptions _options;
-     
+
     public JwtTokenProvider(IConfiguration configuration)
     {
         _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()!;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Core.Constants;
 
 namespace PetHome.Accounts.Infrastructure.Inject;

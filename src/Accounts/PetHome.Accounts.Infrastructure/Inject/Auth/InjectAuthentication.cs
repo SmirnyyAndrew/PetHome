@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using PetHome.Accounts.Application;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Infrastructure.Database;
+using PetHome.Accounts.Infrastructure.Jwt;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;

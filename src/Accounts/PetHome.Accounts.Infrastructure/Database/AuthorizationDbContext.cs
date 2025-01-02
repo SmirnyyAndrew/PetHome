@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 
-namespace PetHome.Accounts.Infrastructure;
+namespace PetHome.Accounts.Infrastructure.Database;
 public class AuthorizationDbContext : IdentityDbContext<User, RoleId, Guid>
 {
     public DbSet<User> Users => Set<User>();

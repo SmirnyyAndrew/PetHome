@@ -1,4 +1,4 @@
-﻿namespace PetHome.Accounts.Infrastructure;
+﻿namespace PetHome.Accounts.Infrastructure.Jwt;
 public class JwtOptions
 {
     public string Issuer { get; init; }
