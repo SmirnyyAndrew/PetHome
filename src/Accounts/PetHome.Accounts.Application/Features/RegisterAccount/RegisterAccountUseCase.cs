@@ -1,11 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using PetHome.Accounts.Domain;
+using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects;
 using System.Net;
 
 namespace PetHome.Accounts.Application.Features.RegisterAccount;
@@ -30,11 +31,14 @@ public class RegisterAccountUseCase
         if (userIsExist is not null)
             return Errors.Conflict($"Пользователь с email = {command.Email}").ToErrorList();
 
+        Email email = Email.Create(command.Email).Value;
+        UserName userName = UserName.Create(command.Name).Value;
+
         User user = new User()
         {
-            Email = command.Email, 
-            UserName = command.Name
-            
+            Email = email, 
+            UserName = userName
+
         };
 
         var result = await _userManager.CreateAsync(user, command.Password);   

@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PetHome.Accounts.Application;
-using PetHome.Accounts.Domain;
+using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Accounts.Domain.Aggregates.User;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
@@ -33,7 +34,7 @@ public static class InjectAuthentication
 
         services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
-        services.AddIdentity<User, Role>(options =>
+        services.AddIdentity<User, RoleId>(options =>
         {
             options.GetAuthenticationOptions();
         })
