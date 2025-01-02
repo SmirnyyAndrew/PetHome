@@ -16,7 +16,7 @@ public class JwtTokenProvider : ITokenProvider
         _options = options.Value;
     }
 
-    public async Task<string> GetToken(User user, CancellationToken ct)
+    public async Task<string> GenerateToken(User user, CancellationToken ct)
     {
         var claims = new[]
         {

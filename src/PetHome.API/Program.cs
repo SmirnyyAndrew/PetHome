@@ -1,21 +1,13 @@
-using PetHome.Core.Controllers;
+using PetHome.Accounts.Application;
+using PetHome.Accounts.Infrastructure.Inject;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
+using PetHome.Species.Application;
+using PetHome.Species.Infrastructure;
+using PetHome.Volunteers.Application;
 using PetHome.Volunteers.Infrastructure;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using PetHome.Volunteers.Application;
-using PetHome.Species.Infrastructure;
-using PetHome.Species.Application;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.OpenApi.Models;
-using PetHome.Accounts.Domain;
-using Microsoft.AspNetCore.Identity;
-using PetHome.Accounts.Application;
-using PetHome.Accounts.Infrastructure.Inject;
 
 namespace PetHome.API;
 public partial class Program
@@ -47,18 +39,22 @@ public partial class Program
 
         //Подключение swagger с возможностью аутентификации
         builder.Services.AdddSwaggerGetWithAuthentication();
-         
+
+
+        //Подключение аутентификации
+        builder.Services.ApplyAuthenticationConfiguration();
+
         //Подключение infrastructures
         builder.Services
-            .AddAccountsInfrastructure()
+            .AddAccountsInfrastructure(builder.Configuration)
             .AddSpeciesInfrastructure(builder.Configuration)
             .AddVolunteerInfrastructure(builder.Configuration);
 
         //Подключение handlers
-        builder.Services 
+        builder.Services
             .AddSpeciesServices()
-            .AddVolunteerServices();
-
+            .AddVolunteerServices()
+            .AddAccountsServices();
 
         var app = builder.Build();
 

@@ -3,5 +3,5 @@
 namespace PetHome.Accounts.Application;
 public interface ITokenProvider
 {
-    public Task<string> GetToken(User user, CancellationToken ct);
+    public Task<string> GenerateToken(User user, CancellationToken ct);
 }
