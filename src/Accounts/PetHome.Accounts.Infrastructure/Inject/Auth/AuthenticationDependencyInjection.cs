@@ -12,7 +12,7 @@ using PetHome.Accounts.Infrastructure.Database;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
-public static class InjectAuthentication
+public static class AuthenticationDependencyInjection
 {
     public static IServiceCollection ApplyAuthenticationAuthorizeConfiguration(
         this IServiceCollection services,

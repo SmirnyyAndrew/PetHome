@@ -8,7 +8,7 @@ using PetHome.Core.Auth;
 using PetHome.Core.Constants;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
-public static class Inject
+public static class InfrastructureDependencyInjection
 {
     public static IServiceCollection AddAccountsInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {

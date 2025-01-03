@@ -2,13 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Volunteers.Application;
+namespace PetHome.Species.Application;
 
-public static class Inject
+public static class ApplicationDependencyInjection
 {
-    public static IServiceCollection AddVolunteerServices(this IServiceCollection services)
+    public static IServiceCollection AddSpeciesServices(this IServiceCollection services)
     {
-        services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+        services.Scan(scan => scan.FromAssemblies(typeof(ApplicationDependencyInjection).Assembly)
         .AddClasses(classes => classes
             .AssignableToAny(
                 typeof(ICommandHandler<>), typeof(ICommandHandler<,>),
@@ -16,7 +16,7 @@ public static class Inject
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
 
-        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 
         return services;
     }
