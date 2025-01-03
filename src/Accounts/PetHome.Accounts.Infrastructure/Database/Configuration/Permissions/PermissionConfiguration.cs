@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.SharedKernel.ValueObjects.AuthAggregates.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database.Configuration.Permissions;
 public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
@@ -17,9 +17,9 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
 
         builder.Property(i => i.Code)
             .HasConversion(
-                name => name.Code,
+                name => name.Value,
                 value => PermissionCode.Create(value).Value)
             .IsRequired()
-            .HasColumnName("code");
+            .HasColumnName("code"); 
     }
 }

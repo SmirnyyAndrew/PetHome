@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.Database;
-using PetHome.Accounts.Infrastructure.Permissions;
-using PetHome.Core.Constants;
+using PetHome.Accounts.Infrastructure.Database.Seed;
+using PetHome.SharedKernel.Constants;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
 public static class Inject
@@ -12,10 +13,13 @@ public static class Inject
     {
         services.AddScoped<AuthorizationDbContext>(_ =>
             new AuthorizationDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
-        services.AddScoped<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-        services.AddScoped<IAuthorizationRequirement, PermissionRequirement>();
-        services.AddScoped<AuthorizeAttribute, PermissionAttribute>();
-        services.AddScoped<AuthorizationHandler<PermissionRequirement>, PermissionRequirementHandler>();
+
+        //services.AddSingleton<IAuthorizationRequirement, PermissionRequirement>(); 
+        services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
+        //Сидирование permissions и roles из json
+        SeedManager.SeedRolesWithPermission();
 
         return services;
     }

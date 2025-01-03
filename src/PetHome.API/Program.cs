@@ -43,7 +43,7 @@ public partial class Program
 
 
         //Подключение аутентификации
-        builder.Services.ApplyAuthenticationConfiguration();
+        builder.Services.ApplyAuthenticationConfiguration(builder.Configuration);
 
         //Подключение infrastructures
         builder.Services

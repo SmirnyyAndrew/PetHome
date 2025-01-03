@@ -2,14 +2,21 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.SharedKernel.ValueObjects.AuthAggregates.RolePermission;
+using PetHome.SharedKernel.ValueObjects.AuthAggregates.User;
 
 namespace PetHome.Accounts.Infrastructure.Database;
 public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<AdminAccount> Admins => Set<AdminAccount>();
+    public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
+    public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<RolePermission> RolesPermissions => Set<RolePermission>();
+
 
     private readonly string _conntecitonString;
 
@@ -25,8 +32,9 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
         optionsBuilder.UseNpgsql(_conntecitonString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-        optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.EnableSensitiveDataLogging(); 
     }
+
 
     private ILoggerFactory CreateLoggerFactory() =>
        LoggerFactory.Create(builder => { builder.AddConsole(); });
@@ -35,6 +43,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.HasDefaultSchema("Account");
 
         builder.ApplyConfigurationsFromAssembly(typeof(AuthorizationDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("database.configuration") ?? false);
@@ -43,6 +52,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
         builder.Entity<IdentityUserToken<Guid>>().ToTable("user_token");
         builder.Entity<IdentityUserLogin<Guid>>().ToTable("user_login");
         builder.Entity<IdentityUserRole<Guid>>().ToTable("user_role");
-        builder.Entity<IdentityRoleClaim<Guid>>().ToTable("role_claim");  
+        builder.Entity<IdentityRoleClaim<Guid>>().ToTable("role_claim");
+
     }
 }
