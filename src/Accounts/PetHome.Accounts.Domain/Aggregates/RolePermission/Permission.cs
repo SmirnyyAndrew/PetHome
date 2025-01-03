@@ -4,8 +4,9 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
 public class Permission
 {
-    private PermissionId Id { get; set; }
-    private PermissionCode Code { get; set; }
+    public PermissionId Id { get; private set; }
+    public PermissionCode Code { get; private set; }
+    private Permission() { }
     public Permission(string value)
     {
         Id = PermissionId.Create().Value;

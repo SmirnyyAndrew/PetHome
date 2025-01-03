@@ -4,7 +4,7 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
 public record PermissionId
 {
-    private Guid Value { get; }
+    public Guid Value { get; }
     public PermissionId(Guid value)
     {
         Value = value;

@@ -1,11 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Identity;
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
-public class RoleId : IdentityRole<Guid>
+public record RoleId
 {
-    private Guid Value { get; set; }
+    public Guid Value { get; }
+
+    private RoleId() { }
     public RoleId(Guid value)
     {
         Value = value;

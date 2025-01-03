@@ -4,7 +4,7 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.User;
 public record UserId
 {
-    private Guid Value { get;}
+    public Guid Value { get; }
     public UserId(Guid value)
     {
         Value = value;

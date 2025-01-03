@@ -1,8 +1,9 @@
 ﻿namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
 public class RolePermission
 {
-    public RoleId? RoleId { get; private set; }
-    public PermissionId? PermissionId { get; set; }
+    public RoleId? RoleId { get; private set; }    
+    public PermissionId? PermissionId { get; private set; } 
+
 
     private RolePermission() { }
     private RolePermission(RoleId roleId, PermissionId permissionId)

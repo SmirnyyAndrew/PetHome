@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace PetHome.Accounts.Infrastructure.Permission;
+namespace PetHome.Accounts.Infrastructure.Permissions;
 public class PermissionRequirementHandler : AuthorizationHandler<PermissionRequirement>
 {
     protected override Task HandleRequirementAsync(

@@ -1,21 +1,15 @@
-﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces;
-using PetHome.Core.Response.ErrorManagment;
+﻿using PetHome.Core.Interfaces;
 using PetHome.Core.ValueObjects;
-using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
-using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class VolunteerAccount : SoftDeletableEntity
 {
     public UserId? UserId { get; private set; }
-    public Date StartVolunteeringDate { get; private set; }
-    public ValueObjectList<Requisites> Requisites { get; private set; }
-    public ValueObjectList<Certificate> Certificates { get; private set; }
-    public List<Pet> Pets { get; private set; } = new List<Pet>(); 
-    
+    public Date? StartVolunteeringDate { get; private set; }
+    public IReadOnlyList<Requisites>? Requisites { get; private set; }
+    public IReadOnlyList<Certificate>? Certificates { get; private set; }
+    public IReadOnlyList<Pet>? Pets { get; private set; } 
     private VolunteerAccount() { }
     private VolunteerAccount(
         UserId userId,

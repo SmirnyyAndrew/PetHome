@@ -4,7 +4,7 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.User;
 public record Login
 {
-    private string Value { get; }
+    public string Value { get; }
     public Login(string value)
     {
         Value = value;

@@ -13,11 +13,46 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "admin_accounts",
+                columns: table => new
+                {
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_admin_accounts", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "participant_accounts",
+                columns: table => new
+                {
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    favorite_pets = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_participant_accounts", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permissions",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permissions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "roles",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     normalized_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     concurrency_stamp = table.Column<string>(type: "text", nullable: true)
                 },
@@ -27,10 +62,26 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 });
 
             migrationBuilder.CreateTable(
+                name: "roles_permissions",
+                columns: table => new
+                {
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_roles_permissions", x => new { x.role_id, x.permission_id });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    social_networks = table.Column<string>(type: "text", nullable: true),
+                    medias = table.Column<string>(type: "text", nullable: true),
+                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -39,7 +90,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     password_hash = table.Column<string>(type: "text", nullable: true),
                     security_stamp = table.Column<string>(type: "text", nullable: true),
                     concurrency_stamp = table.Column<string>(type: "text", nullable: true),
-                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    phone_number1 = table.Column<string>(type: "text", nullable: true),
                     phone_number_confirmed = table.Column<bool>(type: "boolean", nullable: false),
                     two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
                     lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -49,6 +100,21 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "volunteer_accounts",
+                columns: table => new
+                {
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    requisites = table.Column<string>(type: "text", nullable: true),
+                    certificates = table.Column<string>(type: "text", nullable: true),
+                    pets = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_volunteer_accounts", x => x.user_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,7 +265,19 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "admin_accounts");
+
+            migrationBuilder.DropTable(
+                name: "participant_accounts");
+
+            migrationBuilder.DropTable(
+                name: "permissions");
+
+            migrationBuilder.DropTable(
                 name: "role_claim");
+
+            migrationBuilder.DropTable(
+                name: "roles_permissions");
 
             migrationBuilder.DropTable(
                 name: "user_claim");
@@ -212,6 +290,9 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
 
             migrationBuilder.DropTable(
                 name: "user_token");
+
+            migrationBuilder.DropTable(
+                name: "volunteer_accounts");
 
             migrationBuilder.DropTable(
                 name: "roles");

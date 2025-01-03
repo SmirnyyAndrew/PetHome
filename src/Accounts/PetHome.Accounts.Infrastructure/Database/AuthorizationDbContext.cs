@@ -6,14 +6,15 @@ using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 
 namespace PetHome.Accounts.Infrastructure.Database;
-public class AuthorizationDbContext : IdentityDbContext<User, RoleId, Guid>
+public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
 {
     public DbSet<User> Users => Set<User>();
-    public DbSet<RoleId> Roles => Set<RoleId>();
+    public DbSet<Role> Roles => Set<Role>();
 
     private readonly string _conntecitonString;
 
-    public AuthorizationDbContext(string conntecitonString)
+    public AuthorizationDbContext(string conntecitonString
+        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
         _conntecitonString = conntecitonString;
     }
@@ -34,12 +35,14 @@ public class AuthorizationDbContext : IdentityDbContext<User, RoleId, Guid>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<User>().ToTable("users");
-        builder.Entity<RoleId>().ToTable("roles");
+
+        builder.ApplyConfigurationsFromAssembly(typeof(AuthorizationDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("database.configuration") ?? false);
+         
         builder.Entity<IdentityUserClaim<Guid>>().ToTable("user_claim");
         builder.Entity<IdentityUserToken<Guid>>().ToTable("user_token");
         builder.Entity<IdentityUserLogin<Guid>>().ToTable("user_login");
         builder.Entity<IdentityUserRole<Guid>>().ToTable("user_role");
-        builder.Entity<IdentityRoleClaim<Guid>>().ToTable("role_claim");
+        builder.Entity<IdentityRoleClaim<Guid>>().ToTable("role_claim");  
     }
 }

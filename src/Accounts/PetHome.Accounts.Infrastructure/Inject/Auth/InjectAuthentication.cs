@@ -37,7 +37,7 @@ public static class InjectAuthentication
 
         services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
-        services.AddIdentity<User, RoleId>(options =>
+        services.AddIdentity<User, Role>(options =>
         {
             options.GetAuthenticationOptions();
         })
