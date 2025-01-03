@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +13,13 @@ using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
 public static class InjectAuthentication
-{ 
-    public static IServiceCollection ApplyAuthenticationConfiguration(
+{
+    public static IServiceCollection ApplyAuthenticationAuthorizeConfiguration(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        JwtOptions _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()!;
+        JwtOptions _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()
+            ?? throw new ApplicationException("Missing JWT configuration"); ;
 
         services
             .AddAuthentication(options =>
@@ -25,6 +27,7 @@ public static class InjectAuthentication
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; 
             })
              .AddJwtBearer(options =>
              {
@@ -32,14 +35,30 @@ public static class InjectAuthentication
                  {
                      ValidIssuer = _options.Issuer,
                      ValidAudience = _options.Audience,
-                     ValidateIssuer = false,
-                     ValidateAudience = false,
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
                      ValidateIssuerSigningKey = true,
-                     ValidateLifetime = false,
+                     ValidateLifetime = true,
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key)),
-                     ClockSkew = TimeSpan.Zero
+                     ClockSkew = TimeSpan.FromMinutes(100)
+                 }; 
+                 
+                 options.Events = new JwtBearerEvents
+                 {
+                     OnAuthenticationFailed = context =>
+                     {
+                         Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                         return Task.CompletedTask;
+                     },
+                     OnTokenValidated = context =>
+                     {
+                         Console.WriteLine("Token validated successfully.");
+                         return Task.CompletedTask;
+                     }
                  };
+
              });
+
         services.AddAuthorization();
 
         services.AddTransient<ITokenProvider, JwtTokenProvider>();
@@ -50,6 +69,7 @@ public static class InjectAuthentication
         })
             .AddEntityFrameworkStores<AuthorizationDbContext>()
             .AddDefaultTokenProviders();
+
 
         return services;
     }

@@ -5,9 +5,9 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
 public class Role : IdentityRole<Guid>
 {
-    public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public IReadOnlyList<Permission> Permissions { get; set; }
+    public override Guid Id { get; set; }
+    public override string Name { get; set; }
+    public IReadOnlyList<Permission> Permissions { get; set; } = [];
 
     private Role() { }
     public Role(string name)

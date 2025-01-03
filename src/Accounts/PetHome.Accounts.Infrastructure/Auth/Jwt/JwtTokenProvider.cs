@@ -13,15 +13,16 @@ public class JwtTokenProvider : ITokenProvider
 
     public JwtTokenProvider(IConfiguration configuration)
     {
-        _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()!;
+        _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()
+            ?? throw new ApplicationException("Missing JWT configuration"); ;
     }
 
     public async Task<string> GenerateToken(User user, CancellationToken ct)
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, "Id"),
-            new Claim(JwtRegisteredClaimNames.Email, "Email")
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
@@ -30,9 +31,10 @@ public class JwtTokenProvider : ITokenProvider
             issuer: _options.Issuer,
             audience: _options.Audience,
             claims: claims,
-            signingCredentials: creds);
+            signingCredentials: creds,
+            expires: DateTime.UtcNow.AddMinutes(_options.ExpiredMinute));
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-        return tokenString;
+        return "Bearer " + tokenString;
     }
 }

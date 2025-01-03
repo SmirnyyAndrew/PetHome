@@ -16,7 +16,7 @@ public class Permission
 
     public static Result<Permission, Error> Create(string code)
     {
-        if (!string.IsNullOrWhiteSpace(code))
+        if (string.IsNullOrWhiteSpace(code))
             return Errors.Validation("Permission");
 
         return new Permission(code);

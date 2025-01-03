@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using PetHome.Core.Auth;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
 public class PermissionPolicyProvider : IAuthorizationPolicyProvider
-{ 
+{
     public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
     {
-        return Task.FromResult(new AuthorizationPolicyBuilder()
+        return Task.FromResult(new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
             .RequireAuthenticatedUser()
             .Build());
     }
@@ -18,13 +20,13 @@ public class PermissionPolicyProvider : IAuthorizationPolicyProvider
     public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
         if (string.IsNullOrEmpty(policyName))
-            return null!;
+            return Task.FromResult<AuthorizationPolicy?>(null);
 
-        var police = new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .AddRequirements(new PermissionAttribute(policyName))
-            .Build();
+        var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme) 
+          .RequireAuthenticatedUser()
+          .AddRequirements(new PermissionAttribute(policyName))
+          .Build();
 
-        return Task.FromResult(police)!;
+        return Task.FromResult<AuthorizationPolicy>(policy);
     }
 }

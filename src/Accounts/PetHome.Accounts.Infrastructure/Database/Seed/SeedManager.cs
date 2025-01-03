@@ -4,8 +4,8 @@ using System.Text.Json.Nodes;
 
 namespace PetHome.Accounts.Infrastructure.Database.Seed;
 public static class SeedManager
-{
-    public static string JSON_FOLDER_PATH = "..\\Accounts\\PetHome.Accounts.Infrastructure\\Permissions\\JsonConfigurations\\";
+{ 
+    public static string JSON_FOLDER_PATH = "..\\Accounts\\PetHome.Accounts.Infrastructure\\Auth\\Permissions\\JsonConfigurations\\";
     public static string ROLES_JSON_FILE_NAME = "Roles.json";
     public static string PERMISSIONS_JSON_FILE_NAME = "Permissions.json";
 

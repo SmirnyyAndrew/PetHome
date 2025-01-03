@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
+namespace PetHome.Core.Auth;
 public class PermissionAttribute : AuthorizeAttribute, IAuthorizationRequirement
 {
     public string Code { get; private set; }

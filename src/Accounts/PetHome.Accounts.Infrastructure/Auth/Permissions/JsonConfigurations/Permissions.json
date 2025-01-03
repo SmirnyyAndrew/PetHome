@@ -10,6 +10,9 @@
       "update.volunteer"
     ],
     "Admin": [
+      "create.admin",
+      "delete.admin",
+      "update.admin",
       "get.pet",
       "create.pet",
       "update.pet",
