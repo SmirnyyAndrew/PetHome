@@ -5,10 +5,10 @@ using PetHome.Core.ValueObjects;
 namespace PetHome.Accounts.Domain.Aggregates.User;
 public class User : IdentityUser<Guid>
 {
-    public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; }
-    public IReadOnlyList<Media>? Medias { get; private set; }
-    public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; }
-    public RoleId? RoleId { get; private set; }
+    public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
+    public IReadOnlyList<Media>? Medias { get; private set; } = [];
+    public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
+    public RoleId? RoleId { get;  set; }
 
     public User() { }
     private User(

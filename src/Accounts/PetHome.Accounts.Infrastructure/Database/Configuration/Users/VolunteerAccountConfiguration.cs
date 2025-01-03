@@ -17,7 +17,8 @@ public class VolunteerAccountConfiguration : IEntityTypeConfiguration<VolunteerA
         builder.Property(r => r.UserId)
             .HasConversion(
                 i => i.Value,
-                value => UserId.Create(value).Value);
+                value => UserId.Create(value).Value)
+            .HasColumnName("user_id");
 
 
         builder.Property(d => d.StartVolunteeringDate)

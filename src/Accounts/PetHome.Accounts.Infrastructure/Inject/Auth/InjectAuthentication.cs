@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using PetHome.Accounts.Application;
+using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Infrastructure.Auth.Jwt;
 using PetHome.Accounts.Infrastructure.Database;
-using PetHome.Core.Interfaces;
-using PetHome.SharedKernel.ValueObjects.AuthAggregates.RolePermission;
-using PetHome.SharedKernel.ValueObjects.AuthAggregates.User;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;

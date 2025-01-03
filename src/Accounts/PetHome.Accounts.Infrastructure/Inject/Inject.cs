@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Seed;
-using PetHome.SharedKernel.Constants;
+using PetHome.Core.Constants;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
 public static class Inject

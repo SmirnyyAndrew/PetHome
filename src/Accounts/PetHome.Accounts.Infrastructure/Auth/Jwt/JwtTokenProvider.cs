@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PetHome.Core.Interfaces;
-using PetHome.SharedKernel.ValueObjects.AuthAggregates.User;
+using PetHome.Accounts.Application;
+using PetHome.Accounts.Domain.Aggregates.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

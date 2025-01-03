@@ -6,6 +6,7 @@ public class Permission
 {
     public PermissionId Id { get; private set; }
     public PermissionCode Code { get; private set; }
+    
     private Permission() { }
     public Permission(string value)
     {

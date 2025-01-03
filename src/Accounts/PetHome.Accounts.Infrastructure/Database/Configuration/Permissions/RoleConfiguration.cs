@@ -13,6 +13,9 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
          
         builder.Property(i => i.Name)
             .IsRequired()
-            .HasColumnName("name"); 
+            .HasColumnName("name");
+
+        builder.HasMany(p => p.Permissions)
+            .WithMany();
     }
 }

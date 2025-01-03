@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.SharedKernel.ValueObjects.AuthAggregates.RolePermission;
-using System.Collections.Immutable;
+using PetHome.Accounts.Domain.Aggregates.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database.Configuration.Permissions;
 public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
@@ -11,6 +10,7 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
         builder.ToTable("role_permission");
 
         builder.HasKey(i => new { i.RoleId, i.PermissionId });  
+        
         builder.Property(r => r.RoleId)
             .HasConversion(
                 i => i.Value,

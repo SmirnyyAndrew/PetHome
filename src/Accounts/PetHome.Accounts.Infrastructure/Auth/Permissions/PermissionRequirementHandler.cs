@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using PetHome.Framework.Auth.Database;
-using PetHome.SharedKernel.ValueObjects.AuthAggregates.RolePermission;
-using PetHome.SharedKernel.ValueObjects.AuthAggregates.User;
+using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Infrastructure.Database;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
@@ -24,7 +24,7 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionRequi
             return Task.FromResult<AuthorizationPolicy>(null!);
 
         RoleId? userRoleId = user.RoleId;
-        Role? userRole = _dbContext.Roles.FirstOrDefault(u => u.Id == userRoleId);
+        Role? userRole = _dbContext.Roles.FirstOrDefault(u => u.Id == userRoleId.Value);
 
         bool? hasPermission = userRole?.Permissions.Any(p => p.Code.Value == requirement.Code);
 

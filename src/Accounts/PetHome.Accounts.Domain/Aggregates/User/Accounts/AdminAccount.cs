@@ -3,7 +3,7 @@
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class AdminAccount
 {
-    public UserId? UserId { get; set; }
+    public UserId UserId { get; set; }
 
     private AdminAccount() { }
     private AdminAccount(UserId userId)
@@ -11,7 +11,7 @@ public class AdminAccount
         UserId = userId;
     }
 
-    public static AdminAccount Create(UserId userId)
+    public static Result<AdminAccount> Create(UserId userId)
     {
         return new AdminAccount(userId);
     }

@@ -4,10 +4,10 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
 public record PermissionCode
 {
-    public string Code { get; }
+    public string Value { get; }
     private PermissionCode(string value)
     {
-        Code = value;
+        Value = value;
     }
 
     public static Result<PermissionCode, Error> Create(string value)
