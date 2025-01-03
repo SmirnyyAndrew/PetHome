@@ -29,7 +29,8 @@ public static class InjectAuthentication
                      ValidateAudience = false,
                      ValidateIssuerSigningKey = true,
                      ValidateLifetime = false,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("key"))
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("key")),
+                     ClockSkew = TimeSpan.Zero
                  };
              });
         services.AddAuthorization();
