@@ -13,7 +13,11 @@ public static class AdminSeeding
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        AuthorizationDbContext dbContext = new AuthorizationDbContext();
+        AuthorizationDbContext dbContext = new AuthorizationDbContext(); 
+
+        var adminIsExist = dbContext.Admins.Count() > 0;
+        if (adminIsExist)
+            return services;
 
         var adminOptions = configuration.GetSection(AdminOption.SECTION_NAME).Get<AdminOption>();
 
