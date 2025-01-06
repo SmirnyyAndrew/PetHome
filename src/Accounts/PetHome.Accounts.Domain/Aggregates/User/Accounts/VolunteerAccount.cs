@@ -7,7 +7,7 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class VolunteerAccount : SoftDeletableEntity
-{ 
+{
     public static RoleName ROLE = RoleName.Create("volunteer").Value;
 
     public UserId UserId { get; set; }
@@ -36,7 +36,7 @@ public class VolunteerAccount : SoftDeletableEntity
             IReadOnlyList<Certificate> certificates)
     {
         Role role = user.Role;
-        if (role.Name.ToLower() == ROLE)
+        if (role is not null && role.Name.ToLower() == ROLE)
         {
             UserId userId = UserId.Create(user.Id).Value;
             return new VolunteerAccount(
@@ -46,5 +46,5 @@ public class VolunteerAccount : SoftDeletableEntity
                 certificates);
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
-    } 
+    }
 }

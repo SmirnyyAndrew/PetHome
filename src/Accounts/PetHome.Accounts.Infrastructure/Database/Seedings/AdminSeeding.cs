@@ -21,11 +21,11 @@ public static class AdminSeeding
 
         var adminOptions = configuration.GetSection(AdminOption.SECTION_NAME).Get<AdminOption>();
 
-        Role? role = dbContext.Roles.FirstOrDefault(r => r.Name.ToLower() == AdminAccount.ROLE); 
+        Role? role = dbContext.Roles.FirstOrDefault(r => r.Name.ToLower() == AdminAccount.ROLE);  
         UserName userName = UserName.Create(adminOptions.UserName).Value;
         Email email = Email.Create(adminOptions.Email).Value;
 
-        User user = User.Create(email, userName, role);
+        User user = User.Create(email, userName, role).Value;
         AdminAccount admin = AdminAccount.Create(user).Value;
         
         dbContext.Users.Add(user);

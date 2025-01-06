@@ -17,7 +17,7 @@ public class AdminAccount
     public static Result<AdminAccount, Error> Create(User user)
     {
         Role role = user.Role;
-        if (role.Name.ToLower() == ROLE)
+        if (role is not null && role.Name.ToLower() == ROLE)
         {
             UserId userId = UserId.Create(user.Id).Value;
             return new AdminAccount(userId);

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 
 namespace PetHome.Accounts.Domain.Aggregates.User;
@@ -27,12 +29,15 @@ public class User : IdentityUser<Guid>
         RoleId = RoleId.Create(role.Id).Value;
     }
 
-    public static User Create(
+    public static Result<User, Error> Create(
             Email email,
             UserName userName,
             Role role)
     {
-        return new User(email, userName, role);
+        if (role != null && email != null && role != null)
+            return new User(email, userName, role);
+
+        return Errors.Validation("User");
     }
 
     //private User(

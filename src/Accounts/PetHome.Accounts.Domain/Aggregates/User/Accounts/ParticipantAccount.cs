@@ -19,8 +19,8 @@ public class ParticipantAccount
 
     public static Result<ParticipantAccount, Error> Create(User user)
     {
-        Role role = user.Role;
-        if (role.Name.ToLower() == ROLE)
+        Role? role = user.Role;
+        if (role is not null && role.Name.ToLower() == ROLE)
         {
             UserId userId = UserId.Create(user.Id).Value;
             return new ParticipantAccount(userId);

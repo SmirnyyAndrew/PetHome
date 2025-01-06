@@ -33,7 +33,7 @@ public class RegisterUserUseCase
 
         Role role = _repository.GetRole(User.ROLE).Result.Value; 
         UserName userName = UserName.Create(command.Name).Value;
-        User user = User.Create(email, userName, role);
+        User user = User.Create(email, userName, role).Value;
 
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
