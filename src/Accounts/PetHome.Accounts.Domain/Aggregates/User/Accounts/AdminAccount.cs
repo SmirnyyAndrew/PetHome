@@ -5,8 +5,9 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class AdminAccount
 {
-    public UserId UserId { get; set; }
-    public static string ROLE = "admin";
+    public static RoleName ROLE = RoleName.Create("admin").Value;
+
+    public UserId UserId { get; set; } 
     private AdminAccount() { }
     private AdminAccount(UserId userId)
     {

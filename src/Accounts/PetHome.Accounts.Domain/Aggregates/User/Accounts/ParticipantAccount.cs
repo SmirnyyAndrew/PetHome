@@ -6,7 +6,8 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class ParticipantAccount
 {
-    public static string ROLE = "participant";
+    public static RoleName ROLE = RoleName.Create("participant").Value;
+
     public UserId UserId { get; set; }
     public IReadOnlyList<Pet>? FavoritePets { get; private set; }
 

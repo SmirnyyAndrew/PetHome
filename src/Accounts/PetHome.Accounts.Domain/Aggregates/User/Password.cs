@@ -12,7 +12,7 @@ public record Password
 
     public static Result<Password, Error> Create(string value)
     {
-        if (!string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(value))
             return Errors.Validation("Password");
 
         return new Password(value);

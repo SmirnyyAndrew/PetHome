@@ -7,8 +7,9 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class VolunteerAccount : SoftDeletableEntity
-{
-    public static string ROLE = "volunteer";
+{ 
+    public static RoleName ROLE = RoleName.Create("volunteer").Value;
+
     public UserId UserId { get; set; }
     public Date? StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Requisites>? Requisites { get; private set; }

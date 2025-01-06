@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Logs;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -60,17 +61,19 @@ public static class RolesWithPermissionsSeeding
         {
             foreach (var role in _roles)
             {
-                List<Permission> _rolePermissions = new List<Permission>();
+                List<Permission>? _rolePermissions = new List<Permission>();
 
                 var permissionStrings = jsonPermissionObject?["Permissions"]?[role.Name]?
                     .AsArray()?.Deserialize<string[]>().ToList();
 
-                _rolePermissions = permissionStrings?
+                _rolePermissions = permissionStrings? 
                         .Select(r => Permission.Create(r).Value).ToList();
 
-                role.SetPermissions(_rolePermissions);
-
-                _permissions.AddRange(_rolePermissions);
+                if (_rolePermissions is not null && _rolePermissions.Count>0)
+                {
+                    role.SetPermissions(_rolePermissions);
+                    _permissions.AddRange(_rolePermissions);
+                }
             }
         }
     }

@@ -82,36 +82,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
-                schema: "Account",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    social_networks = table.Column<string>(type: "text", nullable: true),
-                    medias = table.Column<string>(type: "text", nullable: true),
-                    phone_number = table.Column<string>(type: "text", nullable: true),
-                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    normalized_email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    email_confirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    password_hash = table.Column<string>(type: "text", nullable: true),
-                    security_stamp = table.Column<string>(type: "text", nullable: true),
-                    concurrency_stamp = table.Column<string>(type: "text", nullable: true),
-                    phone_number1 = table.Column<string>(type: "text", nullable: true),
-                    phone_number_confirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
-                    lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    lockout_enabled = table.Column<bool>(type: "boolean", nullable: false),
-                    access_failed_count = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_users", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "volunteer_accounts",
                 schema: "Account",
                 columns: table => new
@@ -175,6 +145,43 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         principalTable: "roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                schema: "Account",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    social_networks = table.Column<string>(type: "text", nullable: true),
+                    medias = table.Column<string>(type: "text", nullable: true),
+                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    role_id1 = table.Column<Guid>(type: "uuid", nullable: true),
+                    user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    email_confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: true),
+                    security_stamp = table.Column<string>(type: "text", nullable: true),
+                    concurrency_stamp = table.Column<string>(type: "text", nullable: true),
+                    phone_number1 = table.Column<string>(type: "text", nullable: true),
+                    phone_number_confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    lockout_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    access_failed_count = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_users", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_users_roles_role_id1",
+                        column: x => x.role_id1,
+                        principalSchema: "Account",
+                        principalTable: "roles",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -315,6 +322,12 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 column: "normalized_email");
 
             migrationBuilder.CreateIndex(
+                name: "ix_users_role_id1",
+                schema: "Account",
+                table: "users",
+                column: "role_id1");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 schema: "Account",
                 table: "users",
@@ -370,11 +383,11 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "roles",
+                name: "users",
                 schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "users",
+                name: "roles",
                 schema: "Account");
         }
     }

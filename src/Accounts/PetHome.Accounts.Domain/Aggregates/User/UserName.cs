@@ -12,7 +12,7 @@ public record UserName
 
     public static Result<UserName, Error> Create(string value)
     {
-        if (!string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(value))
             return Errors.Validation("UserName");
 
         return new UserName(value);

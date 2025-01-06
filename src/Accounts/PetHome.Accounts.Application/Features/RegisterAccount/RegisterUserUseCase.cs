@@ -31,10 +31,9 @@ public class RegisterUserUseCase
         if (userIsExist.IsFailure)
             return userIsExist.Error.ToErrorList();
 
-        Role role = _repository.GetRole(User.ROLE).Result.Value;
-        RoleId roleId = RoleId.Create(role.Id).Value;
+        Role role = _repository.GetRole(User.ROLE).Result.Value; 
         UserName userName = UserName.Create(command.Name).Value;
-        User user = User.Create(email, userName, roleId);
+        User user = User.Create(email, userName, role);
 
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)

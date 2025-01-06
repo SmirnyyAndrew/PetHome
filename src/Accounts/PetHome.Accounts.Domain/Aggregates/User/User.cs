@@ -18,19 +18,21 @@ public class User : IdentityUser<Guid>
     private User(
             Email email,
             UserName userName,
-            RoleId roleId)
+            Role role)
     {
+        Id = Guid.NewGuid();
         Email = email;
         UserName = userName;
-        RoleId = roleId;
+        Role = role;
+        RoleId = RoleId.Create(role.Id).Value;
     }
 
     public static User Create(
             Email email,
             UserName userName,
-            RoleId roleId)
+            Role role)
     {
-        return new User(email, userName, roleId);
+        return new User(email, userName, role);
     }
 
     //private User(

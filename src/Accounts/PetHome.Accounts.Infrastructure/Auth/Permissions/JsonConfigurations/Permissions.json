@@ -1,6 +1,6 @@
 {
   "Permissions": {
-    "Volunteer": [
+    "volunteer": [
       "get.pet",
       "create.pet",
       "update.pet",
@@ -9,7 +9,7 @@
       "create.volunteer",
       "update.volunteer"
     ],
-    "Admin": [
+    "admin": [
       "create.admin",
       "delete.admin",
       "update.admin",
@@ -22,7 +22,7 @@
       "update.volunteer",
       "delete.volunteer"
     ],
-    "Visitor": [
+    "visitor": [
       "get.pet",
       "get.volunteer"
     ]

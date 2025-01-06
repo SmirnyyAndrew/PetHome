@@ -17,7 +17,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 i => i.Value,
                 value => RoleId.Create(value).Value)
             .IsRequired()
-            .HasColumnName("role_id");
+            .HasColumnName("role_id"); 
 
         builder.Property(s => s.SocialNetworks)
             .HasConversion(
@@ -36,5 +36,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IReadOnlyList<PhoneNumber>>(json, JsonSerializerOptions.Default))
             .HasColumnName("phone_number");
+
+        builder.HasOne(d => d.Role)
+            .WithMany();
     }
 }
