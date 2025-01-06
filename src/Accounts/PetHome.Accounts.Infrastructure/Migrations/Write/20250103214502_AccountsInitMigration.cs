@@ -12,12 +12,67 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Account");
+
             migrationBuilder.CreateTable(
-                name: "roles",
+                name: "admin_accounts",
+                schema: "Account",
+                columns: table => new
+                {
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_admin_accounts", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "participant_accounts",
+                schema: "Account",
+                columns: table => new
+                {
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    favorite_pets = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_participant_accounts", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permissions",
+                schema: "Account",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    code = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permissions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "role_permission",
+                schema: "Account",
+                columns: table => new
+                {
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_role_permission", x => new { x.role_id, x.permission_id });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "roles",
+                schema: "Account",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     normalized_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     concurrency_stamp = table.Column<string>(type: "text", nullable: true)
                 },
@@ -28,9 +83,14 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
 
             migrationBuilder.CreateTable(
                 name: "users",
+                schema: "Account",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    social_networks = table.Column<string>(type: "text", nullable: true),
+                    medias = table.Column<string>(type: "text", nullable: true),
+                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -39,7 +99,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     password_hash = table.Column<string>(type: "text", nullable: true),
                     security_stamp = table.Column<string>(type: "text", nullable: true),
                     concurrency_stamp = table.Column<string>(type: "text", nullable: true),
-                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    phone_number1 = table.Column<string>(type: "text", nullable: true),
                     phone_number_confirmed = table.Column<bool>(type: "boolean", nullable: false),
                     two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
                     lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -52,7 +112,51 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 });
 
             migrationBuilder.CreateTable(
+                name: "volunteer_accounts",
+                schema: "Account",
+                columns: table => new
+                {
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    requisites = table.Column<string>(type: "text", nullable: true),
+                    certificates = table.Column<string>(type: "text", nullable: true),
+                    pets = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_volunteer_accounts", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permission_role",
+                schema: "Account",
+                columns: table => new
+                {
+                    permissions_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permission_role", x => new { x.permissions_id, x.role_id });
+                    table.ForeignKey(
+                        name: "fk_permission_role_permissions_permissions_id",
+                        column: x => x.permissions_id,
+                        principalSchema: "Account",
+                        principalTable: "permissions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_permission_role_roles_role_id",
+                        column: x => x.role_id,
+                        principalSchema: "Account",
+                        principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "role_claim",
+                schema: "Account",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -67,6 +171,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     table.ForeignKey(
                         name: "fk_role_claim_roles_role_id",
                         column: x => x.role_id,
+                        principalSchema: "Account",
                         principalTable: "roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -74,6 +179,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
 
             migrationBuilder.CreateTable(
                 name: "user_claim",
+                schema: "Account",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -88,6 +194,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     table.ForeignKey(
                         name: "fk_user_claim_users_user_id",
                         column: x => x.user_id,
+                        principalSchema: "Account",
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -95,6 +202,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
 
             migrationBuilder.CreateTable(
                 name: "user_login",
+                schema: "Account",
                 columns: table => new
                 {
                     login_provider = table.Column<string>(type: "text", nullable: false),
@@ -108,6 +216,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     table.ForeignKey(
                         name: "fk_user_login_users_user_id",
                         column: x => x.user_id,
+                        principalSchema: "Account",
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -115,6 +224,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
 
             migrationBuilder.CreateTable(
                 name: "user_role",
+                schema: "Account",
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -126,12 +236,14 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     table.ForeignKey(
                         name: "fk_user_role_roles_role_id",
                         column: x => x.role_id,
+                        principalSchema: "Account",
                         principalTable: "roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_user_role_users_user_id",
                         column: x => x.user_id,
+                        principalSchema: "Account",
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -139,6 +251,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
 
             migrationBuilder.CreateTable(
                 name: "user_token",
+                schema: "Account",
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -152,44 +265,58 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     table.ForeignKey(
                         name: "fk_user_token_users_user_id",
                         column: x => x.user_id,
+                        principalSchema: "Account",
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_permission_role_role_id",
+                schema: "Account",
+                table: "permission_role",
+                column: "role_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_role_claim_role_id",
+                schema: "Account",
                 table: "role_claim",
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "Account",
                 table: "roles",
                 column: "normalized_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_user_claim_user_id",
+                schema: "Account",
                 table: "user_claim",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_user_login_user_id",
+                schema: "Account",
                 table: "user_login",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_user_role_role_id",
+                schema: "Account",
                 table: "user_role",
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "Account",
                 table: "users",
                 column: "normalized_email");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "Account",
                 table: "users",
                 column: "normalized_user_name",
                 unique: true);
@@ -199,25 +326,56 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "role_claim");
+                name: "admin_accounts",
+                schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "user_claim");
+                name: "participant_accounts",
+                schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "user_login");
+                name: "permission_role",
+                schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "user_role");
+                name: "role_claim",
+                schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "user_token");
+                name: "role_permission",
+                schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "roles");
+                name: "user_claim",
+                schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "user_login",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "user_role",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "user_token",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "volunteer_accounts",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "permissions",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "roles",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "users",
+                schema: "Account");
         }
     }
 }

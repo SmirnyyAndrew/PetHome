@@ -42,8 +42,11 @@ public partial class Program
         builder.Services.AdddSwaggerGetWithAuthentication();
 
 
+
         //Подключение аутентификации
-        builder.Services.ApplyAuthenticationConfiguration();
+        builder.Services.ApplyAuthenticationAuthorizeConfiguration(builder.Configuration);
+
+
 
         //Подключение infrastructures
         builder.Services
@@ -56,6 +59,9 @@ public partial class Program
             .AddSpeciesServices()
             .AddVolunteerServices()
             .AddAccountsServices();
+
+
+
 
         var app = builder.Build();
 
@@ -72,6 +78,9 @@ public partial class Program
             //Automigration
             //app.ApplyAutoMigrations();
         }
+
+        //Логирование запросов
+        app.UseSerilogRequestLogging();
 
         app.UseHttpsRedirection();
 

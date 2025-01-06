@@ -1,4 +1,4 @@
-﻿using PetHome.Accounts.Domain;
+﻿using PetHome.Accounts.Domain.Aggregates.User;
 
 namespace PetHome.Accounts.Application;
 public interface ITokenProvider

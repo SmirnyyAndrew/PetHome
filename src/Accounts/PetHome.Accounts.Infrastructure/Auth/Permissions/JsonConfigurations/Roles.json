@@ -1,0 +1,10 @@
+{
+  "Roles": {
+    "Items": [
+      "Volunteer",
+      "Admin",
+      "Visitor",
+      "UnAuthorized"
+    ]
+  }
+}

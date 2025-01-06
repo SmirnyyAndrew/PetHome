@@ -2,7 +2,7 @@
 
 namespace PetHome.API;
 
-public static class Inject
+public static class ApiDependencyInjection
 {
     public static IServiceCollection AdddSwaggerGetWithAuthentication(this IServiceCollection services)
     {
