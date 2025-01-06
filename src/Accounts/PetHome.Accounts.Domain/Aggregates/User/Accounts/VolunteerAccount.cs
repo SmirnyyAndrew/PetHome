@@ -16,7 +16,14 @@ public class VolunteerAccount : SoftDeletableEntity
     public IReadOnlyList<Certificate>? Certificates { get; private set; }
     public IReadOnlyList<Pet>? Pets { get; private set; }
 
+
     private VolunteerAccount() { }
+
+    private VolunteerAccount(UserId id)
+    {
+        UserId = id;
+    }
+
     private VolunteerAccount(
             UserId userId,
             Date startVolunteeringDate,
@@ -29,6 +36,8 @@ public class VolunteerAccount : SoftDeletableEntity
         Certificates = certificates;
     }
 
+
+    public static Result<VolunteerAccount, Error> Create(UserId id) => new VolunteerAccount(id);
     public static Result<VolunteerAccount, Error> Create(
             User user,
             Date startVolunteeringDate,
@@ -46,5 +55,17 @@ public class VolunteerAccount : SoftDeletableEntity
                 certificates);
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
+    }
+
+    public UnitResult<Error> SetRequisites(IEnumerable<Requisites> requisites)
+    {
+        Requisites = requisites.ToList();
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> SetCertificates(IEnumerable<Certificate> certificates)
+    {
+        Certificates = certificates.ToList();
+        return UnitResult.Success<Error>();
     }
 }
