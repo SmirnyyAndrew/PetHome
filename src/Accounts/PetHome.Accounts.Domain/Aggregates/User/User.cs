@@ -14,6 +14,8 @@ public class User : IdentityUser<Guid>
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
     public RoleId? RoleId { get; set; }
     public Role? Role { get; set; }
+    public Date? BirthDate { get; set; }
+
 
     public User() { }
 
@@ -40,28 +42,54 @@ public class User : IdentityUser<Guid>
         return Errors.Validation("User");
     }
 
-    //private User(
-    //    IReadOnlyList<SocialNetwork> socialNetworks,
-    //    IReadOnlyList<Media> medias,
-    //    IReadOnlyList<PhoneNumber> phoneNumbers,
-    //    RoleId roleId)
-    //{
-    //    SocialNetworks = socialNetworks;
-    //    Medias = medias;
-    //    PhoneNumbers = phoneNumbers;
-    //    RoleId = roleId;
-    //}
+    private User(
+        IReadOnlyList<SocialNetwork> socialNetworks,
+        IReadOnlyList<Media> medias,
+        IReadOnlyList<PhoneNumber> phoneNumbers,
+        RoleId roleId)
+    {
+        SocialNetworks = socialNetworks;
+        Medias = medias;
+        PhoneNumbers = phoneNumbers;
+        RoleId = roleId;
+    }
 
-    //public static User Create(
-    //    IEnumerable<SocialNetwork> socialNetworks,
-    //    IEnumerable<Media> medias,
-    //    IEnumerable<PhoneNumber> phoneNumbers,
-    //    RoleId roleId)
-    //{
-    //    return new User(
-    //        socialNetworks.ToList(),
-    //        medias.ToList(),
-    //        phoneNumbers.ToList(),
-    //    roleId);
-    //}
+    public static User Create(
+        IEnumerable<SocialNetwork> socialNetworks,
+        IEnumerable<Media> medias,
+        IEnumerable<PhoneNumber> phoneNumbers,
+        RoleId roleId)
+    {
+        return new User(
+            socialNetworks.ToList(),
+            medias.ToList(),
+            phoneNumbers.ToList(),
+            roleId);
+    }
+
+    public UnitResult<Error> SetMainInfo(UserName userName, Email email, Date birthDate)
+    {
+        UserName = userName;
+        Email = email;
+        BirthDate = birthDate;
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> SetSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
+    {
+        SocialNetworks = socialNetworks.ToList();
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> SetMedia(IEnumerable<Media> medias)
+    {
+        Medias = medias.ToList();
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> SetPhoneNumbers(IEnumerable<PhoneNumber> phoneNumbers)
+    {
+        PhoneNumbers = phoneNumbers.ToList();
+        return UnitResult.Success<Error>();
+    }
 }

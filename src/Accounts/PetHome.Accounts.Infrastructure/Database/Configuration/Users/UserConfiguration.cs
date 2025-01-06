@@ -17,7 +17,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 i => i.Value,
                 value => RoleId.Create(value).Value)
             .IsRequired()
-            .HasColumnName("role_id"); 
+            .HasColumnName("role_id");
+
+        builder.Property(r => r.BirthDate)
+            .HasConversion(
+                d => d.Value,
+                value => Date.Create(value).Value)
+            .IsRequired(false)
+            .HasColumnName("birth_date");
 
         builder.Property(s => s.SocialNetworks)
             .HasConversion(

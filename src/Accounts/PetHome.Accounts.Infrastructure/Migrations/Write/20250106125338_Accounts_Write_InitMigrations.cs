@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace PetHome.Accounts.Infrastructure.Migrations.Write
 {
     /// <inheritdoc />
-    public partial class AccountsInitMigration : Migration
+    public partial class Accounts_Write_InitMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -158,6 +158,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     phone_number = table.Column<string>(type: "text", nullable: true),
                     role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     role_id1 = table.Column<Guid>(type: "uuid", nullable: true),
+                    birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),

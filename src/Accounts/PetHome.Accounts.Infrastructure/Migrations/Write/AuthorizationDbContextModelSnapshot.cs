@@ -305,6 +305,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .HasColumnType("integer")
                         .HasColumnName("access_failed_count");
 
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("birth_date");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text")

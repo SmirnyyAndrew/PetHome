@@ -12,8 +12,8 @@ using PetHome.Accounts.Infrastructure.Database;
 namespace PetHome.Accounts.Infrastructure.Migrations.Write
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20250106112217_AccountsInitMigration")]
-    partial class AccountsInitMigration
+    [Migration("20250106125338_Accounts_Write_InitMigrations")]
+    partial class Accounts_Write_InitMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -307,6 +307,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer")
                         .HasColumnName("access_failed_count");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("birth_date");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
