@@ -1,10 +1,12 @@
-﻿using PetHome.Accounts.Domain.Aggregates.RolePermission;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace PetHome.Accounts.Infrastructure.Database.Seed;
-public static class SeedManager
-{ 
+public static class RolesWithPermissionsSeeding
+{
     public static string JSON_FOLDER_PATH = "..\\Accounts\\PetHome.Accounts.Infrastructure\\Auth\\Permissions\\JsonConfigurations\\";
     public static string ROLES_JSON_FILE_NAME = "Roles.json";
     public static string PERMISSIONS_JSON_FILE_NAME = "Permissions.json";
@@ -12,7 +14,9 @@ public static class SeedManager
     private static List<Role> _roles = new List<Role>();
     private static List<Permission> _permissions = new List<Permission>();
 
-    public static void SeedRolesWithPermission()
+    public static IServiceCollection SeedRolesWithPermissions(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         AuthorizationDbContext dbContext = new AuthorizationDbContext();
 
@@ -29,19 +33,20 @@ public static class SeedManager
             dbContext.RolesPermissions.AddRange(rolesPermissions);
             dbContext.SaveChanges();
         }
+
+        return services;
     }
 
     private static void SeedRoles(AuthorizationDbContext dbContext)
     {
-        bool rolesExist = dbContext.Roles.Any();
-        if (rolesExist is false)
-        {
-            string roleJsonPath = JSON_FOLDER_PATH + ROLES_JSON_FILE_NAME;
-            string jsonRolesString = File.ReadAllText(roleJsonPath);
-            var jsonRolesObject = JsonNode.Parse(jsonRolesString);
+        string roleJsonPath = JSON_FOLDER_PATH + ROLES_JSON_FILE_NAME;
+        string jsonRolesString = File.ReadAllText(roleJsonPath);
+        var jsonRolesObject = JsonNode.Parse(jsonRolesString);
 
+        if (jsonRolesObject is not null)
+        {
             var rolesStrings = jsonRolesObject?["Roles"]?["Items"]?.AsArray()?.Deserialize<string[]>();
-            _roles = rolesStrings.Select(r => Role.Create(r).Value).ToList();
+            _roles = rolesStrings?.Select(r => Role.Create(r).Value).ToList();
         }
     }
 
@@ -51,19 +56,22 @@ public static class SeedManager
         string jsonPermissionString = File.ReadAllText(permissionJsonPath);
         var jsonPermissionObject = JsonNode.Parse(jsonPermissionString);
 
-        foreach (var role in _roles)
+        if (jsonPermissionObject is not null)
         {
-            List<Permission> _rolePermissions = new();
-
-            var permissionStrings = jsonPermissionObject?["Permissions"]?[role.Name]?.AsArray()?.Deserialize<string[]>().ToList();
-            if (permissionStrings is not null)
+            foreach (var role in _roles)
             {
-                _rolePermissions = permissionStrings
+                List<Permission> _rolePermissions = new List<Permission>();
+
+                var permissionStrings = jsonPermissionObject?["Permissions"]?[role.Name]?
+                    .AsArray()?.Deserialize<string[]>().ToList();
+
+                _rolePermissions = permissionStrings?
                         .Select(r => Permission.Create(r).Value).ToList();
 
                 role.SetPermissions(_rolePermissions);
+
+                _permissions.AddRange(_rolePermissions);
             }
-            _permissions.AddRange(_rolePermissions);
         }
     }
 }

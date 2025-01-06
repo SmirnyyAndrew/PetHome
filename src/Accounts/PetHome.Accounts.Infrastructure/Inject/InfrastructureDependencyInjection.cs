@@ -16,10 +16,7 @@ public static class InfrastructureDependencyInjection
             new AuthorizationDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>(); 
-
-        //Сидирование permissions и roles из json
-        SeedManager.SeedRolesWithPermission();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();  
 
         return services;
     }

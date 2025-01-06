@@ -9,6 +9,7 @@ using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Infrastructure.Auth.Jwt;
 using PetHome.Accounts.Infrastructure.Database;
+using PetHome.Accounts.Infrastructure.Database.Seed;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
@@ -21,13 +22,14 @@ public static class AuthenticationDependencyInjection
         JwtOptions _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()
             ?? throw new ApplicationException("Missing JWT configuration"); ;
 
+        //Аутентификация
         services
             .AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; 
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
              .AddJwtBearer(options =>
              {
@@ -41,8 +43,8 @@ public static class AuthenticationDependencyInjection
                      ValidateLifetime = true,
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key)),
                      ClockSkew = TimeSpan.FromMinutes(100)
-                 }; 
-                 
+                 };
+
                  options.Events = new JwtBearerEvents
                  {
                      OnAuthenticationFailed = context =>
@@ -58,11 +60,13 @@ public static class AuthenticationDependencyInjection
                  };
 
              });
-
+        //Авторизация
         services.AddAuthorization();
 
+        //Jwt token
         services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
+        //Identity
         services.AddIdentity<User, Role>(options =>
         {
             options.GetAuthenticationOptions();
@@ -70,6 +74,8 @@ public static class AuthenticationDependencyInjection
             .AddEntityFrameworkStores<AuthorizationDbContext>()
             .AddDefaultTokenProviders();
 
+        //Сидирование
+        services.AddSeedings(configuration);
 
         return services;
     }
