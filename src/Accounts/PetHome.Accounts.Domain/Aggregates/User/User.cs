@@ -8,29 +8,51 @@ public class User : IdentityUser<Guid>
     public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
     public IReadOnlyList<Media>? Medias { get; private set; } = [];
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
-    public RoleId? RoleId { get;  set; }
+    public RoleId? RoleId { get; set; }
+    public Role? Role { get; set; }
 
     public User() { }
+
     private User(
-        IReadOnlyList<SocialNetworkDto> socialNetworks,
-        IReadOnlyList<MinioFileInfoDto> medias,
-        IReadOnlyList<PhoneNumber> phoneNumbers,
-        RoleId roleId)
+            Email email,
+            UserName userName,
+            RoleId roleId)
     {
-        PhoneNumbers = phoneNumbers;
+        Email = email;
+        UserName = userName;
         RoleId = roleId;
     }
 
     public static User Create(
-        IEnumerable<SocialNetworkDto> socialNetworks,
-        IEnumerable<MinioFileInfoDto> medias,
-        IEnumerable<PhoneNumber> phoneNumbers,
-        RoleId roleId)
+            Email email,
+            UserName userName,
+            RoleId roleId)
     {
-        return new User(
-            socialNetworks.ToList(),
-            medias.ToList(),
-            phoneNumbers.ToList(),
-            roleId);
+        return new User(email, userName, roleId);
     }
+
+    //private User(
+    //    IReadOnlyList<SocialNetwork> socialNetworks,
+    //    IReadOnlyList<Media> medias,
+    //    IReadOnlyList<PhoneNumber> phoneNumbers,
+    //    RoleId roleId)
+    //{
+    //    SocialNetworks = socialNetworks;
+    //    Medias = medias;
+    //    PhoneNumbers = phoneNumbers;
+    //    RoleId = roleId;
+    //}
+
+    //public static User Create(
+    //    IEnumerable<SocialNetwork> socialNetworks,
+    //    IEnumerable<Media> medias,
+    //    IEnumerable<PhoneNumber> phoneNumbers,
+    //    RoleId roleId)
+    //{
+    //    return new User(
+    //        socialNetworks.ToList(),
+    //        medias.ToList(),
+    //        phoneNumbers.ToList(),
+    //    roleId);
+    //}
 }

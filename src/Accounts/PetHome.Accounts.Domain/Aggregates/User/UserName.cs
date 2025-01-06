@@ -17,4 +17,6 @@ public record UserName
 
         return new UserName(value);
     }
+
+    public static implicit operator string(UserName name) => name.Value;
 }

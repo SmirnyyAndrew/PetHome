@@ -7,6 +7,7 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects;
 namespace PetHome.Accounts.Application.Features.RegisterAccount;
 public class RegisterAccountUseCase
     : ICommandHandler<RegisterAccountCommand>
@@ -26,22 +27,17 @@ public class RegisterAccountUseCase
     public async Task<UnitResult<ErrorList>> Execute(
         RegisterAccountCommand command,
         CancellationToken ct)
-    {
-
+    { 
         var userIsExist = await _userManager.FindByEmailAsync(command.Email);
         if (userIsExist is not null)
             return Errors.Conflict($"Пользователь с email = {command.Email}").ToErrorList();
 
         string roleName = "Volunteer";
         RoleId? roleId = RoleId.Create(_roleManager.Roles.FirstOrDefault(r => r.Name == roleName).Id).Value;
+        Email email = Email.Create(command.Email).Value;
+        UserName userName = UserName.Create(command.Name).Value;
 
-        User user = new User()
-        {
-            Email = command.Email,
-            UserName = command.Name,
-            RoleId = roleId
-
-        };
+        User user = User.Create(email, userName, roleId);
 
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
