@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests;
-using PetHome.Accounts.Application.Features.LoginAccount;
+using PetHome.Accounts.Application.Features.LoginUser;
 using PetHome.Accounts.Application.Features.RegisterAccount;
 using PetHome.Core.Auth;
 using PetHome.Core.Controllers;
@@ -12,8 +12,8 @@ public class AccountAuthenticationController : ParentController
 {
     [HttpPost("registration")]
     public async Task<IActionResult> Register(
-        [FromServices] RegisterUserUseCase useCase,
-        [FromBody] RegisterUserRequest request,
+        [FromServices] RegisterParticipantUserUseCase useCase,
+        [FromBody] RegisterParticipantUserRequest request,
         CancellationToken ct)
     {
         var result = await useCase.Execute(request, ct);

@@ -9,7 +9,6 @@ using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Infrastructure.Auth.Jwt;
 using PetHome.Accounts.Infrastructure.Database;
-using PetHome.Accounts.Infrastructure.Database.Seed;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;

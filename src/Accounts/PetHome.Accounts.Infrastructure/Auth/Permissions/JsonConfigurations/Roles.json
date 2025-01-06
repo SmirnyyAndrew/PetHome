@@ -4,7 +4,7 @@
       "volunteer",
       "admin",
       "visitor",
-      "unauthorized"
+      "participant"
     ]
   }
 }

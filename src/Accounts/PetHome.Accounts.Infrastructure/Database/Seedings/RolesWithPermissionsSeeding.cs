@@ -5,7 +5,7 @@ using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace PetHome.Accounts.Infrastructure.Database.Seed;
+namespace PetHome.Accounts.Infrastructure.Database.Seedings;
 public static class RolesWithPermissionsSeeding
 {
     public static string JSON_FOLDER_PATH = "..\\Accounts\\PetHome.Accounts.Infrastructure\\Auth\\Permissions\\JsonConfigurations\\";

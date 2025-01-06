@@ -6,7 +6,7 @@ using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Accounts.Application.Features.LoginAccount;
+namespace PetHome.Accounts.Application.Features.LoginUser;
 public class LoginUserUseCase
     : IQueryHandler<string, LoginUserQuery>
 {

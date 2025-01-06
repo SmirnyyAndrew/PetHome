@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Infrastructure.Database.Seed;
 using PetHome.Accounts.Infrastructure.Database.Seedings;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;

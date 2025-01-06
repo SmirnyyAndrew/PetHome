@@ -5,9 +5,9 @@ using PetHome.Accounts.Application;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Repositories;
-using PetHome.Accounts.Infrastructure.Database.Seed;
 using PetHome.Core.Auth;
 using PetHome.Core.Constants;
+using PetHome.Framework.Database;
 using PetHome.SharedKernel.Options.Accounts;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
@@ -20,6 +20,7 @@ public static class InfrastructureDependencyInjection
 
         services.Configure<AdminOption>(configuration.GetSection(AdminOption.SECTION_NAME));
 
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
