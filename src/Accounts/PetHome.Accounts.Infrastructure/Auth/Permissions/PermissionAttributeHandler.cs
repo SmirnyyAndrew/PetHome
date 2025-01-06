@@ -5,7 +5,7 @@ using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Core.Auth;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
-public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttribute>
+public class PermissionAttributeHandler : AuthorizationHandler<PermissionAttribute>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
@@ -13,7 +13,8 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
     {
         AuthorizationDbContext _dbContext = new AuthorizationDbContext();
 
-        string? userId = context.User.Claims.First().Value;
+        string? userId = context.User.Claims.FirstOrDefault()?.Value; 
+         
         User? user = _dbContext.Users.FirstOrDefault(u => u.Id.ToString() == userId);
         if (user is null)
         {

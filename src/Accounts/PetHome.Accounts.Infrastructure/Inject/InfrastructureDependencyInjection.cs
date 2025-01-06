@@ -22,7 +22,7 @@ public static class InfrastructureDependencyInjection
 
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
-        services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+        services.AddSingleton<IAuthorizationHandler, PermissionAttributeHandler>();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
         return services;
