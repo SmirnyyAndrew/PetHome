@@ -18,4 +18,6 @@ public record UserId
     {
         return new UserId(Guid.NewGuid());
     }
+
+    public static implicit operator Guid(UserId id) => id.Value;
 }

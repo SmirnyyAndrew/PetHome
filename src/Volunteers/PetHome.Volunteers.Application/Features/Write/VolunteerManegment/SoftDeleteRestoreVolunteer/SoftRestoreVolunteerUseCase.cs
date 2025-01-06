@@ -34,23 +34,15 @@ public class SoftRestoreVolunteerUseCase
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            Volunteer volunteer = _volunteerRepository.GetById(command.VolunteerId, ct).Result.Value;
-            volunteer.SoftRestore();
-            await _volunteerRepository.Update(volunteer, ct);
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        Volunteer volunteer = _volunteerRepository.GetById(command.VolunteerId, ct).Result.Value;
+        volunteer.SoftRestore();
+        await _volunteerRepository.Update(volunteer, ct);
 
-            _logger.LogInformation("Волонтёр с id = {0} и его сущности soft restored", command.VolunteerId);
-            return command.VolunteerId;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось восстановить волонтёра с id = {0}", command.VolunteerId);
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        _logger.LogInformation("Волонтёр с id = {0} и его сущности soft restored", command.VolunteerId);
+        return command.VolunteerId;
     }
 }

@@ -34,38 +34,30 @@ public class ChangePetSerialNumberUseCase
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
-            if (volunteerResult.IsFailure)
-                return volunteerResult.Error.ToErrorList();
 
-            Volunteer volunteer = volunteerResult.Value;
+        var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
+        if (volunteerResult.IsFailure)
+            return volunteerResult.Error.ToErrorList();
 
-            Pet? pet = volunteer.Pets.Where(x => x.Id == command.ChangeNumberDto.PetId).FirstOrDefault();
-            if (pet == null)
-                return Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}")
-                    .ToErrorList();
+        Volunteer volunteer = volunteerResult.Value;
 
-            Pet.Pets = volunteer.Pets;
+        Pet? pet = volunteer.Pets.Where(x => x.Id == command.ChangeNumberDto.PetId).FirstOrDefault();
+        if (pet == null)
+            return Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}")
+                .ToErrorList();
 
-            var changeNumberResult = pet.ChangeSerialNumber(command.ChangeNumberDto.NewSerialNumber);
-            if (changeNumberResult.IsFailure)
-                return changeNumberResult.Error.ToErrorList();
+        Pet.Pets = volunteer.Pets;
 
-            await _volunteerRepository.Update(volunteer, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        var changeNumberResult = pet.ChangeSerialNumber(command.ChangeNumberDto.NewSerialNumber);
+        if (changeNumberResult.IsFailure)
+            return changeNumberResult.Error.ToErrorList();
 
-            string message = $"У питомца с id {command.ChangeNumberDto.PetId} серийный номер изменён на {command.ChangeNumberDto.NewSerialNumber}";
-            _logger.LogInformation(message);
-            return message;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось изменить серийный номер питомца {0}", command.ChangeNumberDto.PetId);
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _volunteerRepository.Update(volunteer, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string message = $"У питомца с id {command.ChangeNumberDto.PetId} серийный номер изменён на {command.ChangeNumberDto.NewSerialNumber}";
+        _logger.LogInformation(message);
+        return message;
     }
 }

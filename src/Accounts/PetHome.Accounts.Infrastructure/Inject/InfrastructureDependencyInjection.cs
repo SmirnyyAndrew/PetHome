@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Application;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.Database;
-using PetHome.Accounts.Infrastructure.Database.Seed;
+using PetHome.Accounts.Infrastructure.Database.Repositories;
 using PetHome.Core.Auth;
 using PetHome.Core.Constants;
+using PetHome.Framework.Database;
+using PetHome.SharedKernel.Options.Accounts;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
 public static class InfrastructureDependencyInjection
@@ -15,11 +18,12 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<AuthorizationDbContext>(_ =>
             new AuthorizationDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
-        services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>(); 
+        services.Configure<AdminOption>(configuration.GetSection(AdminOption.SECTION_NAME));
 
-        //Сидирование permissions и roles из json
-        SeedManager.SeedRolesWithPermission();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
+        services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddSingleton<IAuthorizationHandler, PermissionAttributeHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
         return services;
     }

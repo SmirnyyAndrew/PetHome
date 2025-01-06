@@ -16,4 +16,6 @@ public record RoleId
     {
         return new RoleId(value);
     }
+
+    public static implicit operator Guid(RoleId roleId) =>roleId.Value;
 }

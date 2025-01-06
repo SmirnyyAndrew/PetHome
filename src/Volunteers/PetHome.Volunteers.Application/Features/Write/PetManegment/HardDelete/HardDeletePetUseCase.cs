@@ -60,32 +60,23 @@ public class HardDeletePetUseCase
         }
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            volunteer.Pets.Remove(pet);
-            await _volunteerRepository.Update(volunteer, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
 
-            if (pet.Medias.Count > 0)
-            {
-                List<MinioFileName> minioFileNames = pet.Medias
-                    .Select(f => MinioFileName.Create(f.FileName).Value)
-                    .ToList();
-                string bucketName = pet.Medias.Select(f => f.BucketName).First();
-                MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(bucketName, minioFileNames);
-                await _filesProvider.DeleteFile(minioFileInfoDto, ct);
-            }
-            string message = $"Питомец = {command.PetId} успешно hard deleted!";
-            _logger.LogInformation(message);
-            return Result.Success<ErrorList>();
-        }
-        catch (Exception)
+        volunteer.Pets.Remove(pet);
+        await _volunteerRepository.Update(volunteer, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        if (pet.Medias.Count > 0)
         {
-            transaction.Rollback();
-            string message = $"Не удалось hard delete питомца = {command.PetId}";
-            _logger.LogError(message);
-            return Errors.Failure(message).ToErrorList();
+            List<MinioFileName> minioFileNames = pet.Medias
+                .Select(f => MinioFileName.Create(f.FileName).Value)
+                .ToList();
+            string bucketName = pet.Medias.Select(f => f.BucketName).First();
+            MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(bucketName, minioFileNames);
+            await _filesProvider.DeleteFile(minioFileInfoDto, ct);
         }
+        string message = $"Питомец = {command.PetId} успешно hard deleted!";
+        _logger.LogInformation(message);
+        return Result.Success<ErrorList>();
     }
 }

@@ -12,7 +12,7 @@ public record Login
 
     public static Result<Login, Error> Create(string value)
     {
-        if (!string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(value))
             return Errors.Validation("Login");
 
         return new Login(value);

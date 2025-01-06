@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging; 
+using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -32,26 +32,16 @@ public class HardDeleteVolunteerUseCase
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            var result = _volunteerRepository.RemoveById(command.VolunteerId, ct).Result;
 
-            if (result.IsFailure)
-                return result.Error.ToErrorList();
+        var result = _volunteerRepository.RemoveById(command.VolunteerId, ct).Result;
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        if (result.IsFailure)
+            return result.Error.ToErrorList();
 
-            _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", command.VolunteerId.Value);
-            return result.Value;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось удалить навсегда волонтёра");
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", command.VolunteerId.Value);
+        return result.Value;
     }
-
-
 }

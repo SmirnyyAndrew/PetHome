@@ -12,8 +12,8 @@ using PetHome.Accounts.Infrastructure.Database;
 namespace PetHome.Accounts.Infrastructure.Migrations.Write
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20250103214502_AccountsInitMigration")]
-    partial class AccountsInitMigration
+    [Migration("20250106125338_Accounts_Write_InitMigrations")]
+    partial class Accounts_Write_InitMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -308,6 +308,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .HasColumnType("integer")
                         .HasColumnName("access_failed_count");
 
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("birth_date");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text")
@@ -364,6 +368,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .HasColumnType("uuid")
                         .HasColumnName("role_id");
 
+                    b.Property<Guid?>("RoleId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id1");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text")
                         .HasColumnName("security_stamp");
@@ -390,6 +398,9 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("RoleId1")
+                        .HasDatabaseName("ix_users_role_id1");
 
                     b.ToTable("users", "Account", t =>
                         {
@@ -470,6 +481,16 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_permission_role_roles_role_id");
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.User", b =>
+                {
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId1")
+                        .HasConstraintName("fk_users_roles_role_id1");
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

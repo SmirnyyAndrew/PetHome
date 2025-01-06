@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace PetHome.Accounts.Domain.Aggregates.RolePermission;
 public record RoleName
-{ 
+{
     public string Value { get; }
     private RoleName(string value)
     {
@@ -17,4 +18,6 @@ public record RoleName
 
         return new RoleName(value);
     }
+
+    public static implicit operator string(RoleName name) => name.Value;
 }
