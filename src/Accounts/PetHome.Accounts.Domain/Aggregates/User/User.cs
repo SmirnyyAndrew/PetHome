@@ -5,6 +5,8 @@ using PetHome.Core.ValueObjects;
 namespace PetHome.Accounts.Domain.Aggregates.User;
 public class User : IdentityUser<Guid>
 {
+    public static RoleName ROLE = RoleName.Create("user").Value;
+
     public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
     public IReadOnlyList<Media>? Medias { get; private set; } = [];
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];

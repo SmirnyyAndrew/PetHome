@@ -12,8 +12,8 @@ public class AccountAuthenticationController : ParentController
 {
     [HttpPost("registration")]
     public async Task<IActionResult> Register(
-        [FromServices] RegisterAccountUseCase useCase,
-        [FromBody] RegisterAccountRequest request,
+        [FromServices] RegisterUserUseCase useCase,
+        [FromBody] RegisterUserRequest request,
         CancellationToken ct)
     {
         var result = await useCase.Execute(request, ct);
@@ -25,8 +25,8 @@ public class AccountAuthenticationController : ParentController
 
     [HttpPatch("login")]
     public async Task<IActionResult> Login(
-       [FromServices] LoginAccountUseCase useCase,
-       [FromBody] LoginAccountRequest request,
+       [FromServices] LoginUserUseCase useCase,
+       [FromBody] LoginUserRequest request,
        CancellationToken ct)
     {
         var result = await useCase.Execute(request, ct);

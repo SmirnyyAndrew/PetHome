@@ -7,13 +7,13 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Accounts.Application.Features.LoginAccount;
-public class LoginAccountUseCase
-    : IQueryHandler<string, LoginAccountQuery>
+public class LoginUserUseCase
+    : IQueryHandler<string, LoginUserQuery>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenProvider _tokenProvider;
 
-    public LoginAccountUseCase(
+    public LoginUserUseCase(
         UserManager<User> userManager,
         ITokenProvider tokenProvider)
     {
@@ -22,7 +22,7 @@ public class LoginAccountUseCase
     }
 
     public async Task<Result<string, ErrorList>> Execute(
-        LoginAccountQuery query,
+        LoginUserQuery query,
         CancellationToken ct)
     {
         ErrorList error = Errors.NotFound("User").ToErrorList();
