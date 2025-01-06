@@ -19,12 +19,15 @@ public class PermissionPolicyProvider : IAuthorizationPolicyProvider
 
     public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
-        if (string.IsNullOrEmpty(policyName))
+        string formattedPolicyName = policyName.Trim().ToLower();
+
+        if (string.IsNullOrEmpty(formattedPolicyName))
             return Task.FromResult<AuthorizationPolicy?>(null);
 
-        var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme) 
+
+        var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
           .RequireAuthenticatedUser()
-          .AddRequirements(new PermissionAttribute(policyName))
+          .AddRequirements(new PermissionAttribute(formattedPolicyName))
           .Build();
 
         return Task.FromResult<AuthorizationPolicy>(policy);
