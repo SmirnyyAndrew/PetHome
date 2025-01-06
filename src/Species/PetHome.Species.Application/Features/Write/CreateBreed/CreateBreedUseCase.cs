@@ -23,7 +23,7 @@ public class CreateBreedUseCase
     public CreateBreedUseCase(
         ISpeciesRepository speciesRepository,
         ILogger<CreateBreedUseCase> logger,
-        [FromKeyedServices(Constants.SPECIES_UNIT_OF_WORK_KEY)]IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.SPECIES_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IValidator<CreateBreedCommand> validator)
     {
         _speciesRepository = speciesRepository;
@@ -42,31 +42,23 @@ public class CreateBreedUseCase
 
         //Использование транзакции через UnitOfWork
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            var getSpeciesByIdResult = await _speciesRepository.GetById(createBreedCommand.SpeciesId, ct);
-            if (getSpeciesByIdResult.IsFailure)
-                return Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден").ToErrorList();
 
-            _Species species = getSpeciesByIdResult.Value;
-            var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);
-            if (updateBreedResult.IsFailure)
-                return updateBreedResult.Error.ToErrorList();
+        var getSpeciesByIdResult = await _speciesRepository.GetById(createBreedCommand.SpeciesId, ct);
+        if (getSpeciesByIdResult.IsFailure)
+            return Errors.NotFound($"Вид животного с id {createBreedCommand.SpeciesId} не найден").ToErrorList();
 
-            var updateRepositoryResult = await _speciesRepository.Update(species, ct);
+        _Species species = getSpeciesByIdResult.Value;
+        var updateBreedResult = species.UpdateBreeds(createBreedCommand.Breeds);
+        if (updateBreedResult.IsFailure)
+            return updateBreedResult.Error.ToErrorList();
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        var updateRepositoryResult = await _speciesRepository.Update(species, ct);
 
-            string breedsInLine = string.Join(", ", createBreedCommand.Breeds);
-            _logger.LogInformation("Породы {0} добавлена(-ы)", breedsInLine);
-            return updateRepositoryResult;
-        }
-        catch (Exception ex)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось создать породу животного\n\r{0}", ex);
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string breedsInLine = string.Join(", ", createBreedCommand.Breeds);
+        _logger.LogInformation("Породы {0} добавлена(-ы)", breedsInLine);
+        return updateRepositoryResult;
     }
 }

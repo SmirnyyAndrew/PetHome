@@ -47,35 +47,27 @@ public class RegisterParticipantUserUseCase
             return validateResult.Errors.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            Email email = Email.Create(command.Email).Value;
-            var userIsExist = await _repository.GetUserByEmail(email, ct);
-            if (userIsExist.IsSuccess)
-                return Errors.Conflict($"Email = {command.Email}").ToErrorList();
 
-            Role role = _repository.GetRole(ParticipantAccount.ROLE).Result.Value;
-            UserName userName = UserName.Create(command.Name).Value;
-            User user = User.Create(email, userName, role).Value;
+        Email email = Email.Create(command.Email).Value;
+        var userIsExist = await _repository.GetUserByEmail(email, ct);
+        if (userIsExist.IsSuccess)
+            return Errors.Conflict($"Email = {command.Email}").ToErrorList();
 
-            ParticipantAccount participant = ParticipantAccount.Create(user).Value;
-            await _repository.AddParticipant(participant, ct);
+        Role role = _repository.GetRole(ParticipantAccount.ROLE).Result.Value;
+        UserName userName = UserName.Create(command.Name).Value;
+        User user = User.Create(email, userName, role).Value;
 
-            var result = await _userManager.CreateAsync(user, command.Password);
-            if (result.Succeeded is false)
-                return result.Errors.ToErrorList();
+        ParticipantAccount participant = ParticipantAccount.Create(user).Value;
+        await _repository.AddParticipant(participant, ct);
 
-            transaction.Commit();
-            await _unitOfWork.SaveChages(ct);
-            _logger.LogInformation("Patrisipant-user с id = {0} добавлен", user.Id);
+        var result = await _userManager.CreateAsync(user, command.Password);
+        if (result.Succeeded is false)
+            return result.Errors.ToErrorList();
 
-            return Result.Success<ErrorList>();
-        }
-        catch (Exception ex)
-        {
-            transaction.Rollback();
-            _logger.LogError(ex.Message);
-            return Errors.Failure(ex.Source).ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        _logger.LogInformation("Patrisipant-user с id = {0} добавлен", user.Id);
+        return Result.Success<ErrorList>();
     }
 }

@@ -44,41 +44,33 @@ public class UpdateMainInfoVolunteerUseCase
         UpdateMainInfoVolunteerDto updateInfoDto = command.UpdateMainInfoDto;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            Volunteer volunteer = _volunteerRepository.GetById(command.Id, ct).Result.Value;
 
-            FullName fullName = FullName.Create(
-                updateInfoDto.FullNameDto.FirstName,
-                updateInfoDto.FullNameDto.LastName).Value;
+        Volunteer volunteer = _volunteerRepository.GetById(command.Id, ct).Result.Value;
 
-            Description description = Description.Create(updateInfoDto.Description).Value;
+        FullName fullName = FullName.Create(
+            updateInfoDto.FullNameDto.FirstName,
+            updateInfoDto.FullNameDto.LastName).Value;
 
-            List<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
-                .Select(p => PhoneNumber.Create(p).Value)
-                .ToList();
+        Description description = Description.Create(updateInfoDto.Description).Value;
 
-            Email email = Email.Create(updateInfoDto.Email).Value;
+        List<PhoneNumber> phoneNumbers = updateInfoDto.PhoneNumbers
+            .Select(p => PhoneNumber.Create(p).Value)
+            .ToList();
 
-            volunteer.UpdateMainInfo(
-                fullName,
-                description,
-                phoneNumbers,
-                email);
+        Email email = Email.Create(updateInfoDto.Email).Value;
 
-            await _volunteerRepository.Update(volunteer, ct);
+        volunteer.UpdateMainInfo(
+            fullName,
+            description,
+            phoneNumbers,
+            email);
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        await _volunteerRepository.Update(volunteer, ct);
 
-            _logger.LogInformation("Обновлена информация волонтёра с id = {0}", command.Id);
-            return command.Id;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось обнавить информацию волонтёра с id = {0}", command.Id);
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        _logger.LogInformation("Обновлена информация волонтёра с id = {0}", command.Id);
+        return command.Id;
     }
 }

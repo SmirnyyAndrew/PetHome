@@ -36,33 +36,26 @@ public class DeleteSpeciesByIdUseCase
         DeleteSpeciesByIdCommand command,
         CancellationToken ct)
     {
+        string loggMessage = string.Empty;
+
         var isBreedInUse = await _readDBContext.Pets
             .Select(b => b.SpeciesId == command.SpeciesId)
             .FirstOrDefaultAsync();
         if (isBreedInUse)
         {
-            string message = $"Не удалось удалить вид - {command.SpeciesId}, так как питомец(-цы) с данным видом уже существует";
-            _logger.LogError(message);
-            return Errors.Conflict(message).ToErrorList();
+            loggMessage = $"Не удалось удалить вид - {command.SpeciesId}, так как питомец(-цы) с данным видом уже существует";
+            _logger.LogError(loggMessage);
+            return Errors.Conflict(loggMessage).ToErrorList();
         }
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            await _speciesRepository.RemoveById(command.SpeciesId, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
 
-            string message = $"Вид питомца с id - {command.SpeciesId} и его породы удалены";
-            _logger.LogInformation(message);
-            return message;
+        await _speciesRepository.RemoveById(command.SpeciesId, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
 
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось удалить вид питомца");
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        loggMessage = $"Вид питомца с id - {command.SpeciesId} и его породы удалены";
+        _logger.LogInformation(loggMessage);
+        return loggMessage;
     }
 }

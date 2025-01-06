@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging; 
+using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -71,22 +71,13 @@ public class SetPetMainPhotoUseCase
         Media media = Media.Create(command.BucketName, command.FileName).Value;
         pet.SetMainPhoto(media);
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            await _volunteerRepository.Update(volunteer, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
 
-            string message = $"Главная фотография питомца = {command.PetId} успешно изменена";
-            _logger.LogInformation(message);
-            return Result.Success<ErrorList>();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            string message = $"Не удалось изменить главную фотографию питомца = {command.PetId}";
-            _logger.LogError(message);
-            return Errors.Failure(message).ToErrorList();
-        }
+        await _volunteerRepository.Update(volunteer, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string message = $"Главная фотография питомца = {command.PetId} успешно изменена";
+        _logger.LogInformation(message);
+        return Result.Success<ErrorList>();
     }
 }

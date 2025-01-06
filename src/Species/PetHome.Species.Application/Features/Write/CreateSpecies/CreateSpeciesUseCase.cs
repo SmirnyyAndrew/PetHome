@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging; 
+using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -45,27 +45,19 @@ public class CreateSpeciesUseCase
             return speciesResult.Error.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            var getByNameResult = await _speciesRepository.GetByName(createSpeciesCommand.SpeciesName, ct);
-            if (getByNameResult.IsSuccess)
-                return Errors.Conflict(createSpeciesCommand.SpeciesName).ToErrorList();
 
-            var addResult = await _speciesRepository.Add(speciesResult.Value, ct);
-            if (addResult.IsFailure)
-                return addResult.Error.ToErrorList();
+        var getByNameResult = await _speciesRepository.GetByName(createSpeciesCommand.SpeciesName, ct);
+        if (getByNameResult.IsSuccess)
+            return Errors.Conflict(createSpeciesCommand.SpeciesName).ToErrorList();
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        var addResult = await _speciesRepository.Add(speciesResult.Value, ct);
+        if (addResult.IsFailure)
+            return addResult.Error.ToErrorList();
 
-            _logger.LogInformation("Вид животного с именем {0} добавлен", createSpeciesCommand.SpeciesName);
-            return addResult.Value;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось создать вид питомца");
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        _logger.LogInformation("Вид животного с именем {0} добавлен", createSpeciesCommand.SpeciesName);
+        return addResult.Value;
     }
 }

@@ -56,23 +56,15 @@ public class ChangePetStatusUseCase
         }
 
         pet.ChangeStatus(command.NewPetStatus);
-        var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            await _volunteerRepository.Update(volunteer, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
 
-            string message = $"Статус питомца = {command.PetId} изменён";
-            _logger.LogInformation(message);
-            return message;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            string message = $"Не удалось изменить статус питомца = {command.PetId}";
-            _logger.LogError(message);
-            return Errors.Failure(message).ToErrorList();
-        }
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+
+        await _volunteerRepository.Update(volunteer, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string message = $"Статус питомца = {command.PetId} изменён";
+        _logger.LogInformation(message);
+        return message;
     }
 }

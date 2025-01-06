@@ -63,22 +63,13 @@ public class SoftDeleteRestorePetUseCase
             pet.SoftRestore();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            await _volunteerRepository.Update(volunteer, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
 
-            string message = $"Питомец = {command.PetId} успешно soft deleted!";
-            _logger.LogInformation(message);
-            return Result.Success<ErrorList>();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            string message = $"Не удалось soft delete питомца = {command.PetId}";
-            _logger.LogError(message);
-            return Errors.Failure(message).ToErrorList();
-        }
+        await _volunteerRepository.Update(volunteer, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string message = $"Питомец = {command.PetId} успешно soft deleted!";
+        _logger.LogInformation(message);
+        return Result.Success<ErrorList>(); 
     }
 }

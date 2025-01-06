@@ -43,50 +43,42 @@ public class DeletePetMediaFilesUseCase
             return validationResult.Errors.ToErrorList();
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            var getVolunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
-            if (getVolunteerResult.IsFailure)
-                return Errors.NotFound($"Волонтёр с id {command.VolunteerId}").ToErrorList();
 
-            Volunteer volunteer = getVolunteerResult.Value;
-            Pet? pet = volunteer.Pets.Where(x => x.Id == command.DeletePetMediaFilesDto.PetId)
-                .FirstOrDefault();
-            if (pet == null)
-                return Errors.NotFound($"Питомец с id {command.DeletePetMediaFilesDto.PetId}").ToErrorList();
+        var getVolunteerResult = await _volunteerRepository.GetById(command.VolunteerId, ct);
+        if (getVolunteerResult.IsFailure)
+            return Errors.NotFound($"Волонтёр с id {command.VolunteerId}").ToErrorList();
 
-            List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
-            List<Media> mediasToDelete = command.DeletePetMediaFilesDto.FilesName
-                .Intersect(oldFileNames)
-                .Select(m => Media.Create(command.DeletePetMediaFilesDto.BucketName, m).Value)
-                .ToList();
-            pet.RemoveMedia(mediasToDelete);
+        Volunteer volunteer = getVolunteerResult.Value;
+        Pet? pet = volunteer.Pets.Where(x => x.Id == command.DeletePetMediaFilesDto.PetId)
+            .FirstOrDefault();
+        if (pet == null)
+            return Errors.NotFound($"Питомец с id {command.DeletePetMediaFilesDto.PetId}").ToErrorList();
 
-            await _volunteerRepository.Update(volunteer, ct);
+        List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
+        List<Media> mediasToDelete = command.DeletePetMediaFilesDto.FilesName
+            .Intersect(oldFileNames)
+            .Select(m => Media.Create(command.DeletePetMediaFilesDto.BucketName, m).Value)
+            .ToList();
+        pet.RemoveMedia(mediasToDelete);
 
-            List<MinioFileName> minioFileNames = mediasToDelete
-                .Select(m => MinioFileName.Create(m.FileName).Value)
-                .ToList();
-            MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
-                command.DeletePetMediaFilesDto.BucketName,
-                minioFileNames);
+        await _volunteerRepository.Update(volunteer, ct);
 
-            var deleteResult = await command.FileProvider.DeleteFile(minioFileInfoDto, ct);
-            if (deleteResult.IsFailure)
-                return deleteResult.Error.ToErrorList();
+        List<MinioFileName> minioFileNames = mediasToDelete
+            .Select(m => MinioFileName.Create(m.FileName).Value)
+            .ToList();
+        MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
+            command.DeletePetMediaFilesDto.BucketName,
+            minioFileNames);
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        var deleteResult = await command.FileProvider.DeleteFile(minioFileInfoDto, ct);
+        if (deleteResult.IsFailure)
+            return deleteResult.Error.ToErrorList();
 
-            string message = $"Из minio и pet удалены следующие файлы \n\t{string.Join("\n\r", mediasToDelete.Select(x => x.FileName))}";
-            _logger.LogInformation(message);
-            return message;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось удалить медиаданные питомца {0}", command.DeletePetMediaFilesDto.PetId);
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string message = $"Из minio и pet удалены следующие файлы \n\t{string.Join("\n\r", mediasToDelete.Select(x => x.FileName))}";
+        _logger.LogInformation(message);
+        return message;
     }
 }

@@ -103,22 +103,13 @@ public class ChangePetInfoUseCase
             requisites);
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            await _volunteerRepository.Update(volunteer, ct);
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
 
-            string message = $"Информация питомца = {command.PetId} изменена!";
-            _logger.LogInformation(message);
-            return message;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            string message = $"Не удалось изменить информацию питомца = {command.PetId}";
-            _logger.LogError(message);
-            return Errors.Failure(message).ToErrorList();
-        }
+        await _volunteerRepository.Update(volunteer, ct);
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        string message = $"Информация питомца = {command.PetId} изменена!";
+        _logger.LogInformation(message);
+        return message;
     }
 }

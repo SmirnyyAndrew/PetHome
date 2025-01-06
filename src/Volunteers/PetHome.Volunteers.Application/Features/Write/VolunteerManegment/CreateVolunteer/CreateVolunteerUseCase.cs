@@ -78,21 +78,13 @@ public class CreateVolunteerUseCase
             .Value;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            var result = await _volunteerRepository.Add(volunteer, ct);
 
-            await _unitOfWork.SaveChages(ct);
-            transaction.Commit();
+        var result = await _volunteerRepository.Add(volunteer, ct);
 
-            _logger.LogInformation("Волонетёр с id = {0} был создан", volunteer.Id.Value);
-            return volunteer.Id.Value;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _logger.LogInformation("Не удалось создать волонтёра с id = {0}", volunteer.Id.Value);
-            return Errors.Failure("Database.is.failed").ToErrorList();
-        }
+        await _unitOfWork.SaveChages(ct);
+        transaction.Commit();
+
+        _logger.LogInformation("Волонетёр с id = {0} был создан", volunteer.Id.Value);
+        return volunteer.Id.Value;
     }
 }
