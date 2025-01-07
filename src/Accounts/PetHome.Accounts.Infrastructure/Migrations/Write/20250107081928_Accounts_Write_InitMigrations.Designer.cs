@@ -12,7 +12,7 @@ using PetHome.Accounts.Infrastructure.Database;
 namespace PetHome.Accounts.Infrastructure.Migrations.Write
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20250106125338_Accounts_Write_InitMigrations")]
+    [Migration("20250107081928_Accounts_Write_InitMigrations")]
     partial class Accounts_Write_InitMigrations
     {
         /// <inheritdoc />
@@ -409,6 +409,46 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         });
                 });
 
+            modelBuilder.Entity("PetHome.Accounts.Domain.Tokens.RefreshToken.RefreshSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiredIn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expired_in");
+
+                    b.Property<Guid>("JTI")
+                        .HasColumnType("uuid")
+                        .HasColumnName("jti");
+
+                    b.Property<Guid>("RefreshToken")
+                        .HasColumnType("uuid")
+                        .HasColumnName("refresh_token");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<Guid>("UserId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id1");
+
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_sessions");
+
+                    b.HasIndex("UserId1")
+                        .HasDatabaseName("ix_refresh_sessions_user_id1");
+
+                    b.ToTable("refresh_sessions", "Account");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", null)
@@ -491,6 +531,18 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .HasConstraintName("fk_users_roles_role_id1");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Tokens.RefreshToken.RefreshSession", b =>
+                {
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_refresh_sessions_user_user_id1");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
