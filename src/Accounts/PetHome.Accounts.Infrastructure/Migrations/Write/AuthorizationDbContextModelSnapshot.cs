@@ -433,15 +433,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid>("UserId1")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id1");
-
                     b.HasKey("Id")
                         .HasName("pk_refresh_sessions");
-
-                    b.HasIndex("UserId1")
-                        .HasDatabaseName("ix_refresh_sessions_user_id1");
 
                     b.ToTable("refresh_sessions", "Account");
                 });
@@ -528,18 +521,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                         .HasConstraintName("fk_users_roles_role_id1");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("PetHome.Accounts.Domain.Tokens.RefreshToken.RefreshSession", b =>
-                {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_refresh_sessions_user_user_id1");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

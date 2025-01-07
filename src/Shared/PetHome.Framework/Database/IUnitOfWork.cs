@@ -5,5 +5,5 @@ public interface IUnitOfWork
 {
     Task<IDbTransaction> BeginTransaction(CancellationToken ct = default);
 
-    Task SaveChages(CancellationToken ct = default);
+    Task SaveChanges(CancellationToken ct = default);
 }

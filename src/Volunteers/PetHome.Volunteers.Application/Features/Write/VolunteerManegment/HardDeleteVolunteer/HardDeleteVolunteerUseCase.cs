@@ -38,7 +38,7 @@ public class HardDeleteVolunteerUseCase
         if (result.IsFailure)
             return result.Error.ToErrorList();
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Волонтёр с id = {0} навсегда удалён", command.VolunteerId.Value);

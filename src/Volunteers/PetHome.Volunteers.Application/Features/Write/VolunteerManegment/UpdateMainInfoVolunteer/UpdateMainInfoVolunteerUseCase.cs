@@ -67,7 +67,7 @@ public class UpdateMainInfoVolunteerUseCase
 
         await _volunteerRepository.Update(volunteer, ct);
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Обновлена информация волонтёра с id = {0}", command.Id);

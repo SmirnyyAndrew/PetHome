@@ -54,6 +54,23 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 });
 
             migrationBuilder.CreateTable(
+                name: "refresh_sessions",
+                schema: "Account",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    refresh_token = table.Column<Guid>(type: "uuid", nullable: false),
+                    jti = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    expired_in = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_refresh_sessions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "role_permission",
                 schema: "Account",
                 columns: table => new
@@ -186,31 +203,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 });
 
             migrationBuilder.CreateTable(
-                name: "refresh_sessions",
-                schema: "Account",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    refresh_token = table.Column<Guid>(type: "uuid", nullable: false),
-                    jti = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id1 = table.Column<Guid>(type: "uuid", nullable: false),
-                    expired_in = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_refresh_sessions", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_refresh_sessions_user_user_id1",
-                        column: x => x.user_id1,
-                        principalSchema: "Account",
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "user_claim",
                 schema: "Account",
                 columns: table => new
@@ -309,12 +301,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 schema: "Account",
                 table: "permission_role",
                 column: "role_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_refresh_sessions_user_id1",
-                schema: "Account",
-                table: "refresh_sessions",
-                column: "user_id1");
 
             migrationBuilder.CreateIndex(
                 name: "ix_role_claim_role_id",

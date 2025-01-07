@@ -25,10 +25,7 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
                 id => id.Value,
                 value => UserId.Create(value).Value)
             .IsRequired()
-            .HasColumnName("user_id");
-
-        builder.HasOne(u => u.User)
-            .WithMany();
+            .HasColumnName("user_id"); 
 
         builder.Property(e => e.ExpiredIn)
             .IsRequired()

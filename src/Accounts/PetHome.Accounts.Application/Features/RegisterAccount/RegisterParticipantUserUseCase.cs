@@ -65,7 +65,7 @@ public class RegisterParticipantUserUseCase
         if (result.Succeeded is false)
             return result.Errors.ToErrorList();
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Patrisipant-user с id = {0} добавлен", user.Id);

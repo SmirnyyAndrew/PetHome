@@ -60,7 +60,7 @@ public class ChangePetStatusUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
 
         await _volunteerRepository.Update(volunteer, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string message = $"Статус питомца = {command.PetId} изменён";

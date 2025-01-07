@@ -85,7 +85,7 @@ public class UploadPetMediaFilesUseCase
         pet.UploadMedia(uploadPetMedias);
 
         await _volunteerRepository.Update(volunteer, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string message = $"В bucket {command.UploadPetMediaDto.BucketName} для pet {pet.Id} " +

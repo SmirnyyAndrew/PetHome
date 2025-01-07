@@ -25,16 +25,16 @@ public class TokenProvider : ITokenProvider
     public Result<RefreshSession, Error> GenerateRefreshToken(
         User user,
         string accessToken)
-    { 
+    {
         var validations = TokenValidationManager.GetTokenValidationParameters(_configuration);
         var handler = new JwtSecurityTokenHandler();
         var claims = handler.ValidateToken(accessToken, validations, out var tokenSecure);
 
+        var userIdClaim = claims.Claims.FirstOrDefault();
         var jtiClaim = claims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti);
-        var userIdClaim = claims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
 
         bool isJtiParsed = Guid.TryParse(jtiClaim?.Value, out Guid jti);
-        bool isUserIdParsed = Guid.TryParse(jtiClaim?.Value, out Guid userId);
+        bool isUserIdParsed = Guid.TryParse(userIdClaim?.Value, out Guid userId);
 
         if (isJtiParsed && isUserIdParsed)
         {
@@ -43,9 +43,10 @@ public class TokenProvider : ITokenProvider
             {
                 RefreshSession refreshSession = new RefreshSession()
                 {
+                    Id = Guid.NewGuid(),
                     CreatedAt = DateTime.UtcNow,
                     ExpiredIn = DateTime.UtcNow.AddDays(10),
-                    User = user,
+                    UserId = UserId.Create(user.Id).Value,
                     RefreshToken = Guid.NewGuid(),
                     JTI = jti
                 };
