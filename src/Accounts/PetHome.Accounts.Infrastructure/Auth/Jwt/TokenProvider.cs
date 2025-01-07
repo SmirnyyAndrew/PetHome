@@ -25,27 +25,33 @@ public class TokenProvider : ITokenProvider
     public Result<RefreshSession, Error> GenerateRefreshToken(
         User user,
         string accessToken)
-    {
-        string secret = _options.Key;
-        var key = Encoding.ASCII.GetBytes(secret);
+    { 
         var validations = TokenValidationManager.GetTokenValidationParameters(_configuration);
         var handler = new JwtSecurityTokenHandler();
         var claims = handler.ValidateToken(accessToken, validations, out var tokenSecure);
-        var jtiClaim = claims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti);
-        
-        if (Guid.TryParse(jtiClaim?.Value, out Guid jti))
-        {
-            RefreshSession refreshSession = new RefreshSession()
-            {
-                CreatedAt = DateTime.UtcNow,
-                ExpiredIn = DateTime.UtcNow.AddDays(10),
-                User = user,
-                RefreshToken = Guid.NewGuid(),
-                JTI = jti
-            };
-            return refreshSession;
-        }
 
+        var jtiClaim = claims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti);
+        var userIdClaim = claims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
+
+        bool isJtiParsed = Guid.TryParse(jtiClaim?.Value, out Guid jti);
+        bool isUserIdParsed = Guid.TryParse(jtiClaim?.Value, out Guid userId);
+
+        if (isJtiParsed && isUserIdParsed)
+        {
+            bool isValidUser = userId == user.Id;
+            if (isValidUser)
+            {
+                RefreshSession refreshSession = new RefreshSession()
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    ExpiredIn = DateTime.UtcNow.AddDays(10),
+                    User = user,
+                    RefreshToken = Guid.NewGuid(),
+                    JTI = jti
+                };
+                return refreshSession;
+            }
+        }
         return Errors.Validation("Refresh token");
     }
 
