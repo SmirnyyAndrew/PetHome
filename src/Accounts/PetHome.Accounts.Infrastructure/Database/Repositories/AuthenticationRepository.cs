@@ -16,7 +16,7 @@ public class AuthenticationRepository : IAuthenticationRepository
         _dbContext = dbContext;
     }
 
-    public async Task<Result<Role, Error>> GetRole(RoleId roleId)
+    public async Task<Result<Role, Error>> GetRole(Guid roleId)
     {
         var result = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
         if (result is null)
@@ -69,7 +69,7 @@ public class AuthenticationRepository : IAuthenticationRepository
         _dbContext.Users.RemoveRange(users);
     }
 
-    public async Task<Result<User, Error>> GetUserById(UserId id, CancellationToken ct)
+    public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)
     {
         var result = await _dbContext.Users
             .FirstOrDefaultAsync(v => v.Id == id);
@@ -101,7 +101,7 @@ public class AuthenticationRepository : IAuthenticationRepository
         _dbContext.Users.UpdateRange(users);
     }
 
-    public async Task<UnitResult<Error>> RemoveById(UserId id, CancellationToken ct)
+    public async Task<UnitResult<Error>> RemoveById(Guid id, CancellationToken ct)
     {
         var result = await GetUserById(id, ct);
         if (result.IsFailure)

@@ -8,7 +8,7 @@ public interface IRefreshSessionRepository
 {
     public Task Add(RefreshSession refreshSession, CancellationToken ct);
 
-    public Task<Result<RefreshSession, Error>> GetById(Guid id, CancellationToken ct);
+    public Task<Result<RefreshSession, Error>> GetByRefreshToken(Guid id, CancellationToken ct);
 
     public Task<UnitResult<Error>> Remove(Guid id, CancellationToken ct);
 

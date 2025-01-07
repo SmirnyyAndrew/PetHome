@@ -20,14 +20,14 @@ public class RefreshSessionRepository
         await _dbContext.RefreshSessions.AddAsync(refreshSession, ct);
     }
 
-    public async Task<Result<RefreshSession, Error>> GetById(
-        Guid id, CancellationToken ct)
+    public async Task<Result<RefreshSession, Error>> GetByRefreshToken(
+        Guid refreshToken, CancellationToken ct)
     {
         var result = await _dbContext.RefreshSessions
-             .FirstOrDefaultAsync(r => r.Id == id, ct);
+             .FirstOrDefaultAsync(r => r.RefreshToken == refreshToken, ct);
 
         if (result is null)
-            return Errors.NotFound($"Refresh session с id = {id}");
+            return Errors.NotFound($"Refresh session с refresh token = {refreshToken}");
 
         return result;
     }
