@@ -35,7 +35,7 @@ public class LoginUserUseCase
         if(passwordIsConfirmed is false)
             return error;
 
-        var token = await _tokenProvider.GenerateToken(user, ct);
+        var token = _tokenProvider.GenerateAccessToken(user);
         return token;
     }
 }

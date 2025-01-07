@@ -6,7 +6,7 @@ using PetHome.Accounts.Domain.Aggregates.User.Accounts;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 
-namespace PetHome.Accounts.Application;
+namespace PetHome.Accounts.Application.Database.Repositories;
 public interface IAuthenticationRepository
 {
     public Task<Result<Role, Error>> GetRole(RoleId roleId);
