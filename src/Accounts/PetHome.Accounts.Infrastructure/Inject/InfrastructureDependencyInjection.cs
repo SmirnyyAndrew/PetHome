@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.BackgroundServices;
+using PetHome.Accounts.Infrastructure.Contracts;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Repositories;
 using PetHome.Core.Constants;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Framework.Database;
 using PetHome.SharedKernel.Options.Accounts;
 using PetHome.SharedKernel.Options.Backgroundd;
@@ -28,6 +30,8 @@ public static class InfrastructureDependencyInjection
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
         services.AddHostedService<SoftDeletableEntitiesMonitor>();
+
+        services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>();
 
         return services;
     }

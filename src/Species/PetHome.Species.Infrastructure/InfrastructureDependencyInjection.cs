@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.MessageQueues;
 using PetHome.Core.Response.Messaging;
 using PetHome.Framework.Database;
@@ -10,6 +11,7 @@ using PetHome.SharedKernel.Options;
 using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Infrastructure;
+using PetHome.Species.Infrastructure.Contracts.HardDeleteExpiredSoftDeletedEntities;
 using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Species.Infrastructure.Database.Write;
 using PetHome.Species.Infrastructure.Database.Write.DBContext;
@@ -27,6 +29,8 @@ public static class InfrastructureDependencyInjection
               new SpeciesReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+
+        services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedSpeciesEntitiesContract>();
 
         services.AddMinio(configuration);
         services.AddSingleton<IFilesProvider, MinioProvider>();
