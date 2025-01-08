@@ -86,13 +86,13 @@ public class Volunteer : SoftDeletableEntity
     public override void SoftDelete()
     {
         base.SoftDelete();
-        Pets.ForEach(pet => pet.SoftDelete());
+        Pets?.ForEach(pet => pet.SoftDelete());
     }
 
     public override void SoftRestore()
     {
         base.SoftRestore();
-        Pets.ForEach(pet => pet.SoftRestore());
+        Pets?.ForEach(pet => pet.SoftRestore());
     }
 
     public Result<Pet, Error> CreatePet(

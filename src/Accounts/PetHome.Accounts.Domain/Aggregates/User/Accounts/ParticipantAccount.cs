@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Core.Interfaces;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
-public class ParticipantAccount
+public class ParticipantAccount : SoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("participant").Value;
 
@@ -27,4 +28,9 @@ public class ParticipantAccount
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
     }
+
+    public override void SoftDelete() => base.SoftDelete();
+
+    public override void SoftRestore() => base.SoftRestore();
+
 }

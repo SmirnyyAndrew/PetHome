@@ -88,7 +88,7 @@ public class VolunteerRepository : IVolunteerRepository
     public IReadOnlyList<Volunteer> GetDeleted(CancellationToken ct)
     {
         return _dBContext.Volunteers
-            .Where(x => x._isDeleted == true)
+            .Where(x => x.IsDeleted == true)
             .ToList();
     }
 }

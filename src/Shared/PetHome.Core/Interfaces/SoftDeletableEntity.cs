@@ -1,17 +1,19 @@
 ﻿
+using CSharpFunctionalExtensions;
+
 namespace PetHome.Core.Interfaces;
-public abstract class SoftDeletableEntity
-{
+public abstract class SoftDeletableEntity : Entity, ISoftDeletableEntity
+{ 
     public DateTime DeletionDate = default;
-    public bool _isDeleted = false;
+    public bool IsDeleted = false;
     public virtual void SoftDelete()
     {
         DeletionDate = DateTime.UtcNow;
-        _isDeleted = true;
+        IsDeleted = true;
     }
     public virtual void SoftRestore()
     {
         DeletionDate = default;
-        _isDeleted = false;
+        IsDeleted = false;
     }
 }

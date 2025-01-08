@@ -1,13 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Core.Interfaces;
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
-public class AdminAccount
+public class AdminAccount : SoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("admin").Value;
 
-    public UserId UserId { get; set; } 
+    public UserId UserId { get; set; }
     private AdminAccount() { }
     private AdminAccount(UserId userId)
     {
@@ -24,4 +25,8 @@ public class AdminAccount
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
     }
+
+    public override void SoftDelete() => base.SoftDelete();
+
+    public override void SoftRestore() => base.SoftRestore();
 }

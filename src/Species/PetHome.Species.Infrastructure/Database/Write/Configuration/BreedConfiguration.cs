@@ -26,13 +26,13 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
            .IsRequired()
            .HasColumnName("name");
 
-        //Лишнее
-        ////species id
-        //builder.Property(i => i.SpeciesId)
-        //   .HasConversion(
-        //       id => id.Value,
-        //       value => SpeciesId.Create(value).Value)
-        //   .IsRequired()
-        //   .HasColumnName("species_id");
+        //softdeletable
+        builder.Property(d => d.DeletionDate)
+            .IsRequired(false)
+            .HasColumnName("soft_deleted_date");
+
+        builder.Property(d => d.IsDeleted)
+            .IsRequired(false)
+            .HasColumnName("is_deleted");
     }
 }

@@ -26,6 +26,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false)
             .HasColumnName("birth_date");
 
+        builder.Property(d => d.IsDeleted)
+            .IsRequired(false)
+            .HasColumnName("is_deleted");
+
+        builder.Property(d => d.DeletionDate)
+            .IsRequired(false)
+            .HasColumnName("deletion_date");
+
         builder.Property(s => s.SocialNetworks)
             .HasConversion(
                  u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),

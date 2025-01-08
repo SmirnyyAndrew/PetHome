@@ -68,4 +68,16 @@ public class VolunteerAccount : SoftDeletableEntity
         Certificates = certificates.ToList();
         return UnitResult.Success<Error>();
     }
+
+    public override void SoftDelete()
+    {
+        base.SoftDelete();
+        Pets?.ToList().ForEach(pet => pet.SoftDelete());
+    }
+
+    public override void SoftRestore()
+    {
+        base.SoftRestore();
+        Pets?.ToList().ForEach(pet => pet.SoftRestore());
+    }
 }
