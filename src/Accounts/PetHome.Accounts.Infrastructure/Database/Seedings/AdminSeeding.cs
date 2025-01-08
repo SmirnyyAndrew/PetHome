@@ -20,6 +20,8 @@ public static class AdminSeeding
             return services;
 
         var adminOptions = configuration.GetSection(AdminOption.SECTION_NAME).Get<AdminOption>();
+        if(adminOptions is null)
+            return services;
 
         Role? role = dbContext.Roles.FirstOrDefault(r => r.Name.ToLower() == AdminAccount.ROLE);  
         UserName userName = UserName.Create(adminOptions.UserName).Value;
