@@ -1,12 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Aggregates.User.Accounts;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 
-namespace PetHome.Accounts.Application;
+namespace PetHome.Accounts.Application.Database;
 public interface IAuthenticationRepository
 {
     public Task<Result<Role, Error>> GetRole(RoleId roleId);

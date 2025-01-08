@@ -26,11 +26,9 @@ public class ParticipantAccountConfiguration : IEntityTypeConfiguration<Particip
             .HasColumnName("favorite_pets");
 
         builder.Property(d => d.IsDeleted)
-            .IsRequired(false)
             .HasColumnName("is_deleted");
 
         builder.Property(d => d.DeletionDate)
-            .IsRequired(false)
             .HasColumnName("soft_deleted_date");
     }
 }

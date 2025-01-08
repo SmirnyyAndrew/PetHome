@@ -26,12 +26,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false)
             .HasColumnName("birth_date");
 
-        builder.Property(d => d.IsDeleted)
-            .IsRequired(false)
+        builder.Property(d => d.IsDeleted) 
             .HasColumnName("is_deleted");
 
-        builder.Property(d => d.DeletionDate)
-            .IsRequired(false)
+        builder.Property(d => d.DeletionDate) 
             .HasColumnName("deletion_date");
 
         builder.Property(s => s.SocialNetworks)

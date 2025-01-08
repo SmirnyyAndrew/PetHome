@@ -29,7 +29,7 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 
         services.AddMinio(configuration);
-        services.AddSingleton<IFilesProvider, MinioProvider>();  
+        services.AddSingleton<IFilesProvider, MinioProvider>();
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.SPECIES_UNIT_OF_WORK_KEY);
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
         return services;

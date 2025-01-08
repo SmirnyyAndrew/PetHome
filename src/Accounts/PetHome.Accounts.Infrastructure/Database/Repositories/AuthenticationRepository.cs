@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Accounts.Application;
+using PetHome.Accounts.Application.Database;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Aggregates.User.Accounts;

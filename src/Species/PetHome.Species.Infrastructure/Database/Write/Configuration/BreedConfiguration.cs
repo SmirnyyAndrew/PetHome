@@ -28,11 +28,9 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
 
         //softdeletable
         builder.Property(d => d.DeletionDate)
-            .IsRequired(false)
             .HasColumnName("soft_deleted_date");
 
         builder.Property(d => d.IsDeleted)
-            .IsRequired(false)
             .HasColumnName("is_deleted");
     }
 }

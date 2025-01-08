@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 

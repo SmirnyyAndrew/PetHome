@@ -102,13 +102,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         //Is soft deleted
-        builder.Property(d => d.IsDeleted)
-            .IsRequired(false)
+        builder.Property(d => d.IsDeleted) 
             .HasColumnName("is_deleted");
 
         //has been deleted date
-        builder.Property(d => d.DeletionDate)
-            .IsRequired(false)
+        builder.Property(d => d.DeletionDate) 
             .HasColumnName("soft_deleted_date");
     }
 }

@@ -137,13 +137,11 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("volunteer_id");
 
         //is soft deleted
-        builder.Property(d=>d.IsDeleted) 
-            .IsRequired(false)
+        builder.Property(d=>d.IsDeleted)  
             .HasColumnName("is_deleted");
 
         //has been soft deleted date
-        builder.Property(d=>d.DeletionDate) 
-            .IsRequired(false)
+        builder.Property(d=>d.DeletionDate)  
             .HasColumnName("soft_deleted_date");
 
         //serial number

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Species.Application.Database;
 using PetHome.Species.Application.Database.Dto;
 using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Application.Database;
@@ -15,7 +14,8 @@ public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
     public IQueryable<PetDto> Pets => Set<PetDto>();
     public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
-    public VolunteerReadDbContext(string connectionString)
+    public VolunteerReadDbContext(string connectionString
+        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
         _connectionString = connectionString;
     } 
@@ -34,6 +34,8 @@ public class VolunteerReadDbContext : DbContext, IVolunteerReadDbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder); 
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerReadDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,

@@ -18,11 +18,9 @@ public class AdminAccountConfiguration : IEntityTypeConfiguration<AdminAccount>
             .HasColumnName("user_id");
 
         builder.Property(d => d.IsDeleted)
-            .IsRequired(false)
             .HasColumnName("is_deleted");
 
         builder.Property(d => d.DeletionDate)
-            .IsRequired(false)
             .HasColumnName("soft_deleted_date");
     }
 }

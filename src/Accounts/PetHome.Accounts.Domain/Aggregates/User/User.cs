@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 
@@ -17,8 +17,8 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public Role? Role { get; set; }
     public Date? BirthDate { get; set; }
 
-    public DateTime DeletionDate { get; private set; }
-    public bool IsDeleted { get; private set; } = false;
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public User() { }
 

@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetHome.Accounts.Application.Database;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Aggregates.User.Accounts;
