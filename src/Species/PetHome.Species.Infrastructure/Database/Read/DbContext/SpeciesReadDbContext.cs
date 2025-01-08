@@ -23,8 +23,6 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
         optionBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        //Interceptor пока не нужен
-        //optionBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
