@@ -51,7 +51,7 @@ public class DeleteSpeciesByIdUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
 
         await _speciesRepository.RemoveById(command.SpeciesId, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         loggMessage = $"Вид питомца с id - {command.SpeciesId} и его породы удалены";

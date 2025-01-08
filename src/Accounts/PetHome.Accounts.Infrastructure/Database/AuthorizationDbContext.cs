@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Aggregates.User.Accounts;
+using PetHome.Accounts.Domain.Tokens.RefreshToken;
 
 namespace PetHome.Accounts.Infrastructure.Database;
 public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
@@ -16,6 +17,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<RolePermission> RolesPermissions => Set<RolePermission>();
+    public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
 
 
     private readonly string _conntecitonString;
@@ -32,7 +34,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
         optionsBuilder.UseNpgsql(_conntecitonString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-        optionsBuilder.EnableSensitiveDataLogging(); 
+        optionsBuilder.EnableSensitiveDataLogging();
     }
 
 
@@ -47,7 +49,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
 
         builder.ApplyConfigurationsFromAssembly(typeof(AuthorizationDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("database.configuration") ?? false);
-         
+
         builder.Entity<IdentityUserClaim<Guid>>().ToTable("user_claim");
         builder.Entity<IdentityUserToken<Guid>>().ToTable("user_token");
         builder.Entity<IdentityUserLogin<Guid>>().ToTable("user_login");

@@ -53,7 +53,7 @@ public class ChangePetSerialNumberUseCase
             return changeNumberResult.Error.ToErrorList();
 
         await _volunteerRepository.Update(volunteer, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string message = $"У питомца с id {command.ChangeNumberDto.PetId} серийный номер изменён на {command.ChangeNumberDto.NewSerialNumber}";

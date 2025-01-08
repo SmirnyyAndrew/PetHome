@@ -17,7 +17,7 @@ public class UnitOfWork : IUnitOfWork
         return transaction.GetDbTransaction();
     }
 
-    public async Task SaveChages(CancellationToken ct = default)
+    public async Task SaveChanges(CancellationToken ct = default)
     {
         await _dbContex.SaveChangesAsync(ct);
     }

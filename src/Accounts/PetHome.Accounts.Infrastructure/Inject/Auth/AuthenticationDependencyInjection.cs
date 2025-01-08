@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using PetHome.Accounts.Application;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Infrastructure.Auth.Jwt;
 using PetHome.Accounts.Infrastructure.Database;
-using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
 public static class AuthenticationDependencyInjection
@@ -18,8 +15,6 @@ public static class AuthenticationDependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        JwtOptions _options = configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()
-            ?? throw new ApplicationException("Missing JWT configuration"); ;
 
         //Аутентификация
         services
@@ -32,17 +27,7 @@ public static class AuthenticationDependencyInjection
             })
              .AddJwtBearer(options =>
              {
-                 options.TokenValidationParameters = new TokenValidationParameters()
-                 {
-                     ValidIssuer = _options.Issuer,
-                     ValidAudience = _options.Audience,
-                     ValidateIssuer = true,
-                     ValidateAudience = true,
-                     ValidateIssuerSigningKey = true,
-                     ValidateLifetime = true,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key)),
-                     ClockSkew = TimeSpan.FromMinutes(100)
-                 };
+                 options.TokenValidationParameters = TokenValidationManager.GetTokenValidationParameters(configuration);
 
                  options.Events = new JwtBearerEvents
                  {
@@ -63,7 +48,7 @@ public static class AuthenticationDependencyInjection
         services.AddAuthorization();
 
         //Jwt token
-        services.AddTransient<ITokenProvider, JwtTokenProvider>();
+        services.AddTransient<ITokenProvider, TokenProvider>();
 
         //Identity
         services.AddIdentity<User, Role>(options =>

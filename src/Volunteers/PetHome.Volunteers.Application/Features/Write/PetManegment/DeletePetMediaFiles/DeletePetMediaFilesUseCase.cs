@@ -74,7 +74,7 @@ public class DeletePetMediaFilesUseCase
         if (deleteResult.IsFailure)
             return deleteResult.Error.ToErrorList();
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string message = $"Из minio и pet удалены следующие файлы \n\t{string.Join("\n\r", mediasToDelete.Select(x => x.FileName))}";

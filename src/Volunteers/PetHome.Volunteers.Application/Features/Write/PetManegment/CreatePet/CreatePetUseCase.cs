@@ -115,7 +115,7 @@ public class CreatePetUseCase
         Pet pet = result.Value;
         await _volunteerRepository.Update(volunteer, ct);
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Pet с id = {0} и volunteer_id = {1} создан", pet.Id.Value, pet.VolunteerId.Value);

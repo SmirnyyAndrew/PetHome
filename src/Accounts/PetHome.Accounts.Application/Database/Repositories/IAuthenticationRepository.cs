@@ -6,10 +6,10 @@ using PetHome.Accounts.Domain.Aggregates.User.Accounts;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 
-namespace PetHome.Accounts.Application;
+namespace PetHome.Accounts.Application.Database.Repositories;
 public interface IAuthenticationRepository
 {
-    public Task<Result<Role, Error>> GetRole(RoleId roleId);
+    public Task<Result<Role, Error>> GetRole(Guid roleId);
 
     public Task<Result<Role, Error>> GetRole(RoleName roleName);
 
@@ -27,7 +27,7 @@ public interface IAuthenticationRepository
 
     public void RemoveUser(IEnumerable<User> users);
 
-    public Task<Result<User, Error>> GetUserById(UserId id, CancellationToken ct);
+    public Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct);
 
     public Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct);
 
@@ -35,5 +35,5 @@ public interface IAuthenticationRepository
 
     public void UpdateUser(IEnumerable<User> users, CancellationToken ct);
 
-    public Task<UnitResult<Error>> RemoveById(UserId id, CancellationToken ct);
+    public Task<UnitResult<Error>> RemoveById(Guid id, CancellationToken ct);
 }

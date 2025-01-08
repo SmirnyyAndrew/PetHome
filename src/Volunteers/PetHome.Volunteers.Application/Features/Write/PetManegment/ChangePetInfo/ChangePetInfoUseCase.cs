@@ -105,7 +105,7 @@ public class ChangePetInfoUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
 
         await _volunteerRepository.Update(volunteer, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string message = $"Информация питомца = {command.PetId} изменена!";
