@@ -20,8 +20,6 @@ public class SpeciesWriteDbContext : DbContext
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
-        //Interceptor пока не нужен
-        //optionBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
