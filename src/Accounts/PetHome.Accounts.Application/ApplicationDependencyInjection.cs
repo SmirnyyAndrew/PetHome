@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Application.Database;
+using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 
 namespace PetHome.Accounts.Application;
@@ -15,8 +17,8 @@ public static class ApplicationDependencyInjection
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
 
-        services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);    
-
+        services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
+      
         return services;
     }
 }

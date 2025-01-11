@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Core.Constants;
+using PetHome.Core.Interfaces;
 using PetHome.Core.ValueObjects;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
@@ -136,14 +137,11 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("volunteer_id");
 
         //is soft deleted
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
+        builder.Property(d=>d.IsDeleted)  
             .HasColumnName("is_deleted");
 
         //has been soft deleted date
-        builder.Property<DateTime>("DeletionDate")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .IsRequired()
+        builder.Property(d=>d.DeletionDate)  
             .HasColumnName("soft_deleted_date");
 
         //serial number

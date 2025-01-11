@@ -1,21 +1,24 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 
 namespace PetHome.Accounts.Domain.Aggregates.User;
-public class User : IdentityUser<Guid>
-{
+public class User : IdentityUser<Guid>, ISoftDeletableEntity
+{ 
     public static RoleName ROLE = RoleName.Create("user").Value;
 
     public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
     public IReadOnlyList<Media>? Medias { get; private set; } = [];
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
-    public RoleId? RoleId { get; set; }
+    public RoleId? RoleId { get; private set; }
     public Role? Role { get; set; }
     public Date? BirthDate { get; set; }
 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public User() { }
 
@@ -91,5 +94,19 @@ public class User : IdentityUser<Guid>
     {
         PhoneNumbers = phoneNumbers.ToList();
         return UnitResult.Success<Error>();
+    }
+
+    //Класс не может наследоваться от двух абстрактных классов одновременно,
+    //поэтому реализация интерфейса ISoftDeletableEntity
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
+    }
+
+    public void SoftRestore()
+    {
+        DeletionDate = default;
+        IsDeleted = false;
     }
 }

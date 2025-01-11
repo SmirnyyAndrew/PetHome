@@ -41,6 +41,7 @@ public class IntegrationTestFactory
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.UseEnvironment("Testing");
         builder.ConfigureTestServices(ConfigureDefault);
     }
 

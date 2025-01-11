@@ -24,5 +24,11 @@ public class ParticipantAccountConfiguration : IEntityTypeConfiguration<Particip
                  u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
                  json => JsonSerializer.Deserialize<IReadOnlyList<Pet>>(json, JsonSerializerOptions.Default))
             .HasColumnName("favorite_pets");
+
+        builder.Property(d => d.IsDeleted)
+            .HasColumnName("is_deleted");
+
+        builder.Property(d => d.DeletionDate)
+            .HasColumnName("soft_deleted_date");
     }
 }

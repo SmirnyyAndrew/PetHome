@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
@@ -67,5 +67,17 @@ public class VolunteerAccount : SoftDeletableEntity
     {
         Certificates = certificates.ToList();
         return UnitResult.Success<Error>();
+    }
+
+    public override void SoftDelete()
+    {
+        base.SoftDelete();
+        Pets?.ToList().ForEach(pet => pet.SoftDelete());
+    }
+
+    public override void SoftRestore()
+    {
+        base.SoftRestore();
+        Pets?.ToList().ForEach(pet => pet.SoftRestore());
     }
 }

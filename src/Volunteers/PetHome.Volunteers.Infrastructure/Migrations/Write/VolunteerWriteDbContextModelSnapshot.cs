@@ -29,6 +29,14 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_deleted_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -52,6 +60,14 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_deleted_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -96,6 +112,10 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .HasColumnType("boolean")
                         .HasColumnName("is_castrated");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("boolean")
                         .HasColumnName("is_vaccinated");
@@ -134,10 +154,6 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .HasMaxLength(500)
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
-
-                    b.Property<bool>("_isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -197,13 +213,13 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .HasColumnType("text")
                         .HasColumnName("email");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.Property<DateTime>("StartVolunteeringDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("start_volunteering_date");
-
-                    b.Property<bool>("_isDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("FullName", "PetHome.Volunteers.Domain.PetManagment.VolunteerEntity.Volunteer.FullName#FullName", b1 =>
                         {

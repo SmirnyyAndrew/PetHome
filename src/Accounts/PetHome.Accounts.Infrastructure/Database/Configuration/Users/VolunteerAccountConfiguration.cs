@@ -48,5 +48,12 @@ public class VolunteerAccountConfiguration : IEntityTypeConfiguration<VolunteerA
                 u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IReadOnlyList<Pet>>(json, JsonSerializerOptions.Default))
             .HasColumnName("pets");
+
+
+        builder.Property(d => d.IsDeleted)
+            .HasColumnName("is_deleted");
+
+        builder.Property(d => d.DeletionDate)
+            .HasColumnName("soft_deleted_date");
     }
 }

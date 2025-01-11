@@ -11,7 +11,8 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
     private readonly string _connectionString = Constants.DATABASE;
     public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
 
-    public SpeciesReadDbContext(string connectionString)
+    public SpeciesReadDbContext(string connectionString
+        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
         _connectionString = connectionString;
     }
@@ -23,8 +24,6 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
         optionBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        //Interceptor пока не нужен
-        //optionBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
@@ -32,6 +31,8 @@ public class SpeciesReadDbContext : DbContext, ISpeciesReadDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder); 
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
     }

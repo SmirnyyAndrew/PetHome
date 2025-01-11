@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PetHome.Volunteers.Infrastructure.Migrations.Write
 {
     /// <inheritdoc />
-    public partial class InitialVolunteerWriteMigration : Migration
+    public partial class Volunteer_Write_InitMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,7 +28,9 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,10 +45,10 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                     email = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "text", nullable: false),
                     start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     phone_numbers = table.Column<string>(type: "jsonb", nullable: false),
                     requisites = table.Column<string>(type: "jsonb", nullable: false),
                     social_networks = table.Column<string>(type: "jsonb", nullable: false)
@@ -62,7 +64,9 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
-                    species_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    species_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,11 +96,11 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                     profile_create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     serial_number = table.Column<int>(type: "integer", nullable: false),
-                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id1 = table.Column<Guid>(type: "uuid", nullable: true),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     photos = table.Column<string>(type: "jsonb", nullable: false),
                     requisites = table.Column<string>(type: "jsonb", nullable: false)
                 },

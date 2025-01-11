@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PetHome.Species.Infrastructure.Database.Write.DBContext;
+using PetHome.Species.Infrastructure.Database.Read.DBContext;
 
 #nullable disable
 
-namespace PetHome.Species.Infrastructure.Migrations.Write
+namespace PetHome.Species.Infrastructure.Migrations.Read
 {
-    [DbContext(typeof(SpeciesWriteDbContext))]
-    [Migration("20241229201707_Initial2SpeciesWriteMigration")]
-    partial class Initial2SpeciesWriteMigration
+    [DbContext(typeof(SpeciesReadDbContext))]
+    [Migration("20250111061321_ChangedUsingAssembliesSpeciesWriteMigration")]
+    partial class ChangedUsingAssembliesSpeciesWriteMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,9 +25,10 @@ namespace PetHome.Species.Infrastructure.Migrations.Write
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PetHome.Species.Domain.SpeciesManagment.BreedEntity.Breed", b =>
+            modelBuilder.Entity("PetHome.Species.Application.Database.Dto.BreedDto", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -49,9 +50,10 @@ namespace PetHome.Species.Infrastructure.Migrations.Write
                     b.ToTable("breeds", (string)null);
                 });
 
-            modelBuilder.Entity("PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species", b =>
+            modelBuilder.Entity("PetHome.Species.Application.Database.Dto.SpeciesDto", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
 
@@ -66,16 +68,17 @@ namespace PetHome.Species.Infrastructure.Migrations.Write
                     b.ToTable("specieses", (string)null);
                 });
 
-            modelBuilder.Entity("PetHome.Species.Domain.SpeciesManagment.BreedEntity.Breed", b =>
+            modelBuilder.Entity("PetHome.Species.Application.Database.Dto.BreedDto", b =>
                 {
-                    b.HasOne("PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species", null)
+                    b.HasOne("PetHome.Species.Application.Database.Dto.SpeciesDto", null)
                         .WithMany("Breeds")
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_breeds_specieses_species_id");
                 });
 
-            modelBuilder.Entity("PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species", b =>
+            modelBuilder.Entity("PetHome.Species.Application.Database.Dto.SpeciesDto", b =>
                 {
                     b.Navigation("Breeds");
                 });

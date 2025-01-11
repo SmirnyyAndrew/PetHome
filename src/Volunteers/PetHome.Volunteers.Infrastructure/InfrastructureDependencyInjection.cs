@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.MessageQueues;
 using PetHome.Core.Response.Messaging;
 using PetHome.Framework.Database;
@@ -11,6 +12,7 @@ using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Infrastructure;
 using PetHome.Volunteers.Infrastructure.Background;
+using PetHome.Volunteers.Infrastructure.Contracts;
 using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
@@ -26,6 +28,9 @@ public static class InfrastructureDependencyInjection
               new VolunteerWriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
               new VolunteerReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+
+        services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedPetManagmentEntitiesContract>();
+
 
         services.AddScoped<IVolunteerRepository, VolunteerRepository>(); 
         services.AddMinio(configuration);

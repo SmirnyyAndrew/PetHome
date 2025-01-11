@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHome.Species.Application.Database;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Infrastructure.Database.Write.DBContext;
@@ -9,7 +10,8 @@ public class SpeciesWriteDbContext : DbContext
     private readonly string _connectionString;
     public DbSet<_Species> Species => Set<_Species>();
 
-    public SpeciesWriteDbContext(string connectionString)
+    public SpeciesWriteDbContext(string connectionString
+        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
         _connectionString = connectionString;
     }
@@ -20,8 +22,6 @@ public class SpeciesWriteDbContext : DbContext
         optionBuilder.UseSnakeCaseNamingConvention();
         optionBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionBuilder.EnableSensitiveDataLogging();
-        //Interceptor пока не нужен
-        //optionBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
@@ -29,6 +29,8 @@ public class SpeciesWriteDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder); 
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesWriteDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }

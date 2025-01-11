@@ -33,5 +33,12 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<_Species>
             .IsRequired(false)
             .HasForeignKey(x => x.SpeciesId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        //soft delete 
+        builder.Property(d => d.IsDeleted)
+            .HasColumnName("is_deleted");
+
+        builder.Property(d => d.DeletionDate)
+            .HasColumnName("soft_deleted_date");
     }
 }

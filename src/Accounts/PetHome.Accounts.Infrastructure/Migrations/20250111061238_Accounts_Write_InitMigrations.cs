@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace PetHome.Accounts.Infrastructure.Migrations.Write
+namespace PetHome.Accounts.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Accounts_Write_InitMigrations : Migration
@@ -20,7 +20,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 schema: "Account",
                 columns: table => new
                 {
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<long>(type: "bigint", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +36,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    favorite_pets = table.Column<string>(type: "text", nullable: true)
+                    favorite_pets = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<long>(type: "bigint", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,7 +113,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     requisites = table.Column<string>(type: "text", nullable: true),
                     certificates = table.Column<string>(type: "text", nullable: true),
-                    pets = table.Column<string>(type: "text", nullable: true)
+                    pets = table.Column<string>(type: "text", nullable: true),
+                    id = table.Column<long>(type: "bigint", nullable: false),
+                    soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,6 +185,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations.Write
                     role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     role_id1 = table.Column<Guid>(type: "uuid", nullable: true),
                     birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),

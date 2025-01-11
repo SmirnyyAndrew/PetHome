@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 
 namespace PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
-public class Species
+public class Species : SoftDeletableEntity
 {
     public Species() { }
     private Species(
@@ -44,5 +45,17 @@ public class Species
         }
         _breeds.AddRange(Breeds);
         return Result.Success<Error>();
+    }
+
+    public override void SoftDelete()
+    {
+        base.SoftDelete();
+        _breeds?.ToList().ForEach(breed => breed.SoftDelete());
+    }
+
+    public override void SoftRestore()
+    {
+        base.SoftRestore();
+        _breeds?.ToList().ForEach(breed => breed.SoftRestore());
     }
 }

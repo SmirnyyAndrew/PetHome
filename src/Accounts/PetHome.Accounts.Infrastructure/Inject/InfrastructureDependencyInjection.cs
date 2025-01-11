@@ -3,12 +3,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
+using PetHome.Accounts.Infrastructure.BackgroundServices;
+using PetHome.Accounts.Infrastructure.Contracts;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Repositories;
-using PetHome.Core.Auth;
 using PetHome.Core.Constants;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Framework.Database;
 using PetHome.SharedKernel.Options.Accounts;
+using PetHome.SharedKernel.Options.Backgroundd;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
 public static class InfrastructureDependencyInjection
@@ -19,12 +22,17 @@ public static class InfrastructureDependencyInjection
             new AuthorizationDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.Configure<AdminOption>(configuration.GetSection(AdminOption.SECTION_NAME));
+        services.Configure<SoftDeletableEntitiesOption>(configuration.GetSection(SoftDeletableEntitiesOption.SECTION_NAME));
 
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<IRefreshSessionRepository, RefreshSessionRepository>();
         services.AddSingleton<IAuthorizationHandler, PermissionAttributeHandler>();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
+        services.AddHostedService<SoftDeletableEntitiesMonitor>();
+
+        services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>();
 
         return services;
     }
