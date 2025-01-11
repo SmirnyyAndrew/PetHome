@@ -1,0 +1,41 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.ErrorManagment.Envelopes;
+
+namespace PetHome.SharedKernel.Middlewares;
+
+public class ExceptionMiddleware
+{
+    private readonly RequestDelegate _nextMiddleware;
+
+    private readonly ILogger<ExceptionMiddleware> _logger;
+
+    public ExceptionMiddleware(RequestDelegate nextMiddleware, ILogger<ExceptionMiddleware> logger)
+    {
+        _nextMiddleware = nextMiddleware;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
+        {
+            await _nextMiddleware(context);
+        }
+        catch (Exception ex)
+        {
+            Error error = Error.Failure(
+                StatusCodes.Status500InternalServerError.ToString(), "server.is.internal", ex.Message);
+
+            var envelope = ResponseEnvelope.Error(error);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsJsonAsync(envelope);
+
+            _logger.LogError("ОШИБКА \n\r" + ex, ex.Message);
+        }
+    }
+}
+

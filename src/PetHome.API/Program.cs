@@ -1,16 +1,22 @@
-using PetHome.API.Extentions;
-using PetHome.API.Loggers;
-using PetHome.API.Validation;
-using PetHome.Application;
-using PetHome.Infrastructure;
+using PetHome.Accounts.Application;
+using PetHome.Accounts.Infrastructure.Inject;
+using PetHome.Accounts.Infrastructure.Inject.Auth;
+using PetHome.Core.Response.Loggers;
+using PetHome.Core.Response.Validation;
+using PetHome.Species.Application;
+using PetHome.Species.Infrastructure;
+using PetHome.Volunteers.Application;
+using PetHome.Volunteers.Infrastructure;
 using Serilog;
-using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+
 namespace PetHome.API;
-public class Program
+public partial class Program
 {
     public static void Main(string[] args)
     {
+        DotNetEnv.Env.Load();
+
         var builder = WebApplication.CreateBuilder(args);
 
 
@@ -22,6 +28,7 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -33,11 +40,29 @@ public class Program
             configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
         });
 
+        //Подключение swagger с возможностью аутентификации
+        builder.Services.AdddSwaggerGetWithAuthentication();
 
-        //Подключение сервисов
+
+
+        //Подключение аутентификации
+        builder.Services.ApplyAuthenticationAuthorizeConfiguration(builder.Configuration);
+
+
+
+        //Подключение infrastructures
         builder.Services
-            .AddInfrastructure(builder.Configuration)
-            .AddApplication();
+            .AddAccountsInfrastructure(builder.Configuration)
+            .AddSpeciesInfrastructure(builder.Configuration)
+            .AddVolunteerInfrastructure(builder.Configuration);
+
+        //Подключение handlers
+        builder.Services
+            .AddSpeciesServices()
+            .AddVolunteerServices()
+            .AddAccountsServices();
+
+
 
 
         var app = builder.Build();
@@ -56,12 +81,18 @@ public class Program
             //app.ApplyAutoMigrations();
         }
 
+        //Логирование запросов
+        app.UseSerilogRequestLogging();
+
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
 
         app.Run();
     }
+
 }
+public partial class Program;

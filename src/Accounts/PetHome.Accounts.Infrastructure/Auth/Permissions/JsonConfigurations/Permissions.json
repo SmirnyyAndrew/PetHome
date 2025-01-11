@@ -1,0 +1,30 @@
+{
+  "Permissions": {
+    "volunteer": [
+      "get.pet",
+      "create.pet",
+      "update.pet",
+      "delete.pet",
+      "get.volunteer",
+      "create.volunteer",
+      "update.volunteer"
+    ],
+    "admin": [
+      "create.admin",
+      "delete.admin",
+      "update.admin",
+      "get.pet",
+      "create.pet",
+      "update.pet",
+      "delete.pet",
+      "get.volunteer",
+      "create.volunteer",
+      "update.volunteer",
+      "delete.volunteer"
+    ],
+    "visitor": [
+      "get.pet",
+      "get.volunteer"
+    ]
+  }
+}

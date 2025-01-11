@@ -2,16 +2,21 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using NSubstitute;
-using PetHome.Application.Database.Read;
-using PetHome.Application.Interfaces;
-using PetHome.Domain.PetManagment.GeneralValueObjects;
-using PetHome.Domain.Shared.Error;
-using PetHome.Infrastructure.DataBase.Read.DBContext;
-using PetHome.Infrastructure.DataBase.Write.DBContext;
+using PetHome.Core.Interfaces;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects;
+using PetHome.Species.Application.Database;
+using PetHome.Species.Infrastructure.Database.Read.DBContext;
+using PetHome.Species.Infrastructure.Database.Write.DBContext;
+using PetHome.Volunteers.Application.Database;
+using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
+using PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -22,7 +27,7 @@ namespace PetHome.IntegrationTests.IntegrationFactories;
 public class IntegrationTestFactory
     : WebApplicationFactory<API.Program>, IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
+    protected readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres")
         .WithDatabase("pet_home_test")
         .WithUsername("postgres")
@@ -32,7 +37,7 @@ public class IntegrationTestFactory
     private Respawner _respawner;
     private DbConnection _dbConnection;
     private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
-    private WriteDBContext _writeDbContext;
+    private VolunteerWriteDbContext _volunteerWriteDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -41,14 +46,22 @@ public class IntegrationTestFactory
 
     private void ConfigureDefault(IServiceCollection services)
     {
-        services.RemoveAll(typeof(IReadDBContext));
-        services.RemoveAll(typeof(WriteDBContext));
+        services.RemoveAll(typeof(ISpeciesReadDbContext)); 
+        services.RemoveAll(typeof(IVolunteerReadDbContext));  
+        services.RemoveAll(typeof(SpeciesWriteDbContext));
+        services.RemoveAll(typeof(VolunteerWriteDbContext)); 
         services.RemoveAll(typeof(IFilesProvider));
 
+          
         services.AddScoped(_ =>
-               new WriteDBContext(_dbContainer.GetConnectionString()));
-        services.AddScoped<IReadDBContext, ReadDBContext>(_ =>
-              new ReadDBContext(_dbContainer.GetConnectionString()));
+               new SpeciesWriteDbContext(_dbContainer.GetConnectionString())); 
+        services.AddScoped(_ =>
+              new VolunteerWriteDbContext(_dbContainer.GetConnectionString())); 
+        services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
+              new VolunteerReadDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<ISpeciesReadDbContext, SpeciesReadDbContext>(_ =>
+              new SpeciesReadDbContext(_dbContainer.GetConnectionString()));
+
         services.AddTransient(_ => _fileServiceMock);
     }
 
@@ -57,10 +70,9 @@ public class IntegrationTestFactory
         await _dbContainer.StartAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
-        _writeDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<WriteDBContext>();
+        _volunteerWriteDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerWriteDbContext>();
 
-        await _writeDbContext.Database.EnsureDeletedAsync();
-        await _writeDbContext.Database.EnsureCreatedAsync();
+        await _volunteerWriteDbContext.Database.EnsureCreatedAsync();
 
         await InilizeRespawner();
     }
@@ -74,19 +86,22 @@ public class IntegrationTestFactory
 
     public async Task ResetDatabaseAsync()
     {
-        await _respawner.ResetAsync(_dbConnection);
+        if (_respawner is not null)
+            await _respawner.ResetAsync(_dbConnection);
     }
 
     private async Task InilizeRespawner()
     {
         await _dbConnection.OpenAsync();
+
+        RespawnerOptions respawnerOptions = new RespawnerOptions()
+        {
+            DbAdapter = DbAdapter.Postgres,
+            SchemasToInclude = ["public"]
+        };
         _respawner = await Respawner.CreateAsync(
             _dbConnection,
-            new RespawnerOptions()
-            {
-                DbAdapter = DbAdapter.Postgres,
-                SchemasToInclude = ["public"]
-            });
+            respawnerOptions);
     }
 
     public void SetupSuccessFileServiceMock()
