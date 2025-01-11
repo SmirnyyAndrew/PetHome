@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Application.Database;
+using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.BackgroundServices;
 using PetHome.Accounts.Infrastructure.Contracts;
@@ -26,6 +26,7 @@ public static class InfrastructureDependencyInjection
 
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<IRefreshSessionRepository, RefreshSessionRepository>();
         services.AddSingleton<IAuthorizationHandler, PermissionAttributeHandler>();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 

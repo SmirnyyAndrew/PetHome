@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests;
 using PetHome.Accounts.Application.Features.LoginUser;
 using PetHome.Accounts.Application.Features.RegisterAccount;
+using PetHome.Accounts.Application.Features.UpdateAccessTokenUsingRefreshToken;
 using PetHome.Core.Auth;
 using PetHome.Core.Controllers;
 
@@ -37,10 +39,17 @@ public class AccountAuthenticationController : ParentController
     }
 
 
-    [Permission("get.pet")] 
-    [HttpGet("permission-test")]
-    public async Task<IActionResult> TestPermission()
-    { 
-        return Ok("Everything is fine!");
+    [Authorize]
+    [HttpPost("tokens")]
+    public async Task<IActionResult> GetNewTokens(
+        [FromServices] UpdateAccessTokenUsingRefreshTokenUseCase useCase,
+        [FromBody] UpdateAccessTokenUsingRefreshTokenRequest request,
+        CancellationToken ct)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+          
+        return Ok(result.Value);
     }
 }

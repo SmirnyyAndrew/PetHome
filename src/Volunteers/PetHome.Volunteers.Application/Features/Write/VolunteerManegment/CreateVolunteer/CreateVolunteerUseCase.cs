@@ -81,7 +81,7 @@ public class CreateVolunteerUseCase
 
         var result = await _volunteerRepository.Add(volunteer, ct);
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Волонетёр с id = {0} был создан", volunteer.Id.Value);

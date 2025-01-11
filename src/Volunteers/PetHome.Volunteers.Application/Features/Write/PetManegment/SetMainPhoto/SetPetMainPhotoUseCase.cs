@@ -73,7 +73,7 @@ public class SetPetMainPhotoUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
 
         await _volunteerRepository.Update(volunteer, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string message = $"Главная фотография питомца = {command.PetId} успешно изменена";

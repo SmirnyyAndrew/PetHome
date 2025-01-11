@@ -63,7 +63,7 @@ public class HardDeletePetUseCase
 
         volunteer.Pets.Remove(pet);
         await _volunteerRepository.Update(volunteer, ct);
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         if (pet.Medias.Count > 0)

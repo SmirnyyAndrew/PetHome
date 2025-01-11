@@ -54,7 +54,7 @@ public class CreateSpeciesUseCase
         if (addResult.IsFailure)
             return addResult.Error.ToErrorList();
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Вид животного с именем {0} добавлен", createSpeciesCommand.SpeciesName);

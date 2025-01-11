@@ -12,7 +12,7 @@ using PetHome.Species.Infrastructure.Database.Read.DBContext;
 namespace PetHome.Species.Infrastructure.Migrations.Read
 {
     [DbContext(typeof(SpeciesReadDbContext))]
-    [Migration("20250108125757_ChangedUsingAssembliesSpeciesWriteMigration")]
+    [Migration("20250111061321_ChangedUsingAssembliesSpeciesWriteMigration")]
     partial class ChangedUsingAssembliesSpeciesWriteMigration
     {
         /// <inheritdoc />

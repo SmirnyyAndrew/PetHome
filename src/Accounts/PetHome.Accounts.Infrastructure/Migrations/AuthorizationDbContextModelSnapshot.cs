@@ -450,6 +450,39 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PetHome.Accounts.Domain.Tokens.RefreshToken.RefreshSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiredIn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expired_in");
+
+                    b.Property<Guid>("JTI")
+                        .HasColumnType("uuid")
+                        .HasColumnName("jti");
+
+                    b.Property<Guid>("RefreshToken")
+                        .HasColumnType("uuid")
+                        .HasColumnName("refresh_token");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_sessions");
+
+                    b.ToTable("refresh_sessions", "Account");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", null)

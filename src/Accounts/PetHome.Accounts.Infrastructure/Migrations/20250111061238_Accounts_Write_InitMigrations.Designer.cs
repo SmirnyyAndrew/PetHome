@@ -12,7 +12,7 @@ using PetHome.Accounts.Infrastructure.Database;
 namespace PetHome.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20250108125748_Accounts_Write_InitMigrations")]
+    [Migration("20250111061238_Accounts_Write_InitMigrations")]
     partial class Accounts_Write_InitMigrations
     {
         /// <inheritdoc />
@@ -451,6 +451,39 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                             t.Property("PhoneNumber")
                                 .HasColumnName("phone_number1");
                         });
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Tokens.RefreshToken.RefreshSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiredIn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expired_in");
+
+                    b.Property<Guid>("JTI")
+                        .HasColumnType("uuid")
+                        .HasColumnName("jti");
+
+                    b.Property<Guid>("RefreshToken")
+                        .HasColumnType("uuid")
+                        .HasColumnName("refresh_token");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_sessions");
+
+                    b.ToTable("refresh_sessions", "Account");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

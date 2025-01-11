@@ -3,7 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Accounts.Application.Database;
+using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Aggregates.User.Accounts;
@@ -65,7 +65,7 @@ public class RegisterParticipantUserUseCase
         if (result.Succeeded is false)
             return result.Errors.ToErrorList();
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Patrisipant-user с id = {0} добавлен", user.Id);

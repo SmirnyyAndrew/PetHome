@@ -39,7 +39,7 @@ public class SoftRestoreVolunteerUseCase
         volunteer.SoftRestore();
         await _volunteerRepository.Update(volunteer, ct);
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         _logger.LogInformation("Волонтёр с id = {0} и его сущности soft restored", command.VolunteerId);

@@ -54,7 +54,7 @@ public class CreateBreedUseCase
 
         var updateRepositoryResult = await _speciesRepository.Update(species, ct);
 
-        await _unitOfWork.SaveChages(ct);
+        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
         string breedsInLine = string.Join(", ", createBreedCommand.Breeds);
