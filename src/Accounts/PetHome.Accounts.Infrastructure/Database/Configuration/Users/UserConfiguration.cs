@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Aggregates.User.Accounts;
@@ -12,6 +13,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("users");
+
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
 
         builder.Property(r => r.RoleId)
             .HasConversion(
@@ -52,19 +58,22 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("phone_number");
 
         builder.HasOne(d => d.Role)
-            .WithMany(); 
+            .WithMany();
 
 
         builder.HasOne(u => u.Admin)
-                .WithOne(a => a.User)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<AdminAccount>(d => d.UserId)
                 .IsRequired(false);
 
         builder.HasOne(u => u.Participant)
-               .WithOne(p => p.User)
-               .IsRequired(false);
+                .WithOne(u => u.User)
+                .HasPrincipalKey<ParticipantAccount>(d => d.UserId)
+                .IsRequired(false);
 
         builder.HasOne(u => u.Volunteer)
-               .WithOne(v => v.User)
-               .IsRequired(false); 
+                .WithOne(u => u.User)
+                .HasPrincipalKey<VolunteerAccount>(d => d.UserId)
+                .IsRequired(false);
     }
 }

@@ -24,7 +24,7 @@ internal class SoftDeletableEntitiesMonitor : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using (PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(_option.HoursToCheck)))
+        using (PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromMinutes(_option.HoursToCheck)))
         {
             while (!stoppingToken.IsCancellationRequested)
             {

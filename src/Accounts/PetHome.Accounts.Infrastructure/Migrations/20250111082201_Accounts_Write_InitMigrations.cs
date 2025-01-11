@@ -120,7 +120,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_volunteer_accounts", x => x.user_id);
+                    table.PrimaryKey("ak_volunteer_accounts_user_id", x => x.user_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,6 +187,9 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    admin_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    participant_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    volunteer_user_id = table.Column<Guid>(type: "uuid", nullable: true),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -206,11 +209,29 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_users", x => x.id);
                     table.ForeignKey(
+                        name: "fk_users_admin_accounts_admin_user_id",
+                        column: x => x.admin_user_id,
+                        principalSchema: "Account",
+                        principalTable: "admin_accounts",
+                        principalColumn: "user_id");
+                    table.ForeignKey(
+                        name: "fk_users_participant_accounts_participant_user_id",
+                        column: x => x.participant_user_id,
+                        principalSchema: "Account",
+                        principalTable: "participant_accounts",
+                        principalColumn: "user_id");
+                    table.ForeignKey(
                         name: "fk_users_roles_role_id1",
                         column: x => x.role_id1,
                         principalSchema: "Account",
                         principalTable: "roles",
                         principalColumn: "id");
+                    table.ForeignKey(
+                        name: "fk_users_volunteer_accounts_volunteer_user_id",
+                        column: x => x.volunteer_user_id,
+                        principalSchema: "Account",
+                        principalTable: "volunteer_accounts",
+                        principalColumn: "user_id");
                 });
 
             migrationBuilder.CreateTable(
@@ -351,10 +372,31 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 column: "normalized_email");
 
             migrationBuilder.CreateIndex(
+                name: "ix_users_admin_user_id",
+                schema: "Account",
+                table: "users",
+                column: "admin_user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_users_participant_user_id",
+                schema: "Account",
+                table: "users",
+                column: "participant_user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "ix_users_role_id1",
                 schema: "Account",
                 table: "users",
                 column: "role_id1");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_users_volunteer_user_id",
+                schema: "Account",
+                table: "users",
+                column: "volunteer_user_id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -367,14 +409,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "admin_accounts",
-                schema: "Account");
-
-            migrationBuilder.DropTable(
-                name: "participant_accounts",
-                schema: "Account");
-
             migrationBuilder.DropTable(
                 name: "permission_role",
                 schema: "Account");
@@ -408,10 +442,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 schema: "Account");
 
             migrationBuilder.DropTable(
-                name: "volunteer_accounts",
-                schema: "Account");
-
-            migrationBuilder.DropTable(
                 name: "permissions",
                 schema: "Account");
 
@@ -420,7 +450,19 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 schema: "Account");
 
             migrationBuilder.DropTable(
+                name: "admin_accounts",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "participant_accounts",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
                 name: "roles",
+                schema: "Account");
+
+            migrationBuilder.DropTable(
+                name: "volunteer_accounts",
                 schema: "Account");
         }
     }

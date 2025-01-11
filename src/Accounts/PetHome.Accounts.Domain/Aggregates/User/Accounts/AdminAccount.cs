@@ -7,13 +7,13 @@ namespace PetHome.Accounts.Domain.Aggregates.User.Accounts;
 public class AdminAccount : SoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("admin").Value;
-
+     
     public UserId UserId { get; set; }
     public User User { get; set; }
     private AdminAccount() { }
     private AdminAccount(UserId userId)
     {
-        UserId = userId;
+        UserId = userId; 
     }
 
     public static Result<AdminAccount, Error> Create(User user)

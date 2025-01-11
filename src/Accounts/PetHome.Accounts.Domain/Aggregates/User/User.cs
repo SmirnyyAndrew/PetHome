@@ -10,7 +10,6 @@ namespace PetHome.Accounts.Domain.Aggregates.User;
 public class User : IdentityUser<Guid>, ISoftDeletableEntity
 { 
     public static RoleName ROLE = RoleName.Create("user").Value;
-
     public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
     public IReadOnlyList<Media>? Medias { get; private set; } = [];
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
@@ -19,7 +18,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public Date? BirthDate { get; set; } 
     public DateTime DeletionDate { get; set; }
     public bool IsDeleted { get; set; } = false;
-    public AdminAccount? Admin { get; private set; }
+    public AdminAccount? Admin { get; private set; } 
     public ParticipantAccount? Participant { get; private set; }
     public VolunteerAccount? Volunteer { get; private set; } 
 

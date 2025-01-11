@@ -1,4 +1,4 @@
-﻿using PetHome.Accounts.Application.Features.UpdateAccessTokenUsingRefreshToken;
+﻿using PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 
 namespace PetHome.Accounts.API.Controllers.Requests;
 public record UpdateAccessTokenUsingRefreshTokenRequest(Guid RefreshToken, string AccessToken)

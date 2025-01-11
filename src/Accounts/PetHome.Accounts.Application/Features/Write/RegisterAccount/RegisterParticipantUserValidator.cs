@@ -3,7 +3,7 @@ using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects;
 
-namespace PetHome.Accounts.Application.Features.RegisterAccount;
+namespace PetHome.Accounts.Application.Features.Write.RegisterAccount;
 public class RegisterParticipantUserValidator : AbstractValidator<RegisterParticipantUserCommand>
 {
     public RegisterParticipantUserValidator()

@@ -13,7 +13,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 
-namespace PetHome.Accounts.Application.Features.UpdateAccessTokenUsingRefreshToken;
+namespace PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 public class UpdateAccessTokenUsingRefreshTokenUseCase
     : ICommandHandler<TokenResponse, UpdateAccessTokenUsingRefreshTokenCommand>
 {
