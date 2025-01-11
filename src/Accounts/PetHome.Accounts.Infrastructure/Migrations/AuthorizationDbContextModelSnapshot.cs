@@ -325,7 +325,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnName("start_volunteering_date");
 
                     b.HasKey("UserId")
-                        .HasName("pk_volunteer_accounts");
+                        .HasName("ak_volunteer_accounts_user_id");
 
                     b.ToTable("volunteer_accounts", "Account");
                 });
@@ -340,6 +340,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer")
                         .HasColumnName("access_failed_count");
+
+                    b.Property<Guid?>("AdminUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("admin_user_id");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone")
@@ -389,6 +393,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("normalized_user_name");
 
+                    b.Property<Guid?>("ParticipantUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("participant_user_id");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text")
                         .HasColumnName("password_hash");
@@ -430,8 +438,16 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("user_name");
 
+                    b.Property<Guid?>("VolunteerUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("volunteer_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
+
+                    b.HasIndex("AdminUserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_admin_user_id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -440,8 +456,16 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("ParticipantUserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_participant_user_id");
+
                     b.HasIndex("RoleId1")
                         .HasDatabaseName("ix_users_role_id1");
+
+                    b.HasIndex("VolunteerUserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_volunteer_user_id");
 
                     b.ToTable("users", "Account", t =>
                         {
@@ -559,12 +583,51 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.User", b =>
                 {
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.Accounts.AdminAccount", "Admin")
+                        .WithOne("User")
+                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User.User", "AdminUserId")
+                        .HasConstraintName("fk_users_admin_accounts_admin_user_id");
+
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.Accounts.ParticipantAccount", "Participant")
+                        .WithOne("User")
+                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User.User", "ParticipantUserId")
+                        .HasConstraintName("fk_users_participant_accounts_participant_user_id");
+
                     b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId1")
                         .HasConstraintName("fk_users_roles_role_id1");
 
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.Accounts.VolunteerAccount", "Volunteer")
+                        .WithOne("User")
+                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User.User", "VolunteerUserId")
+                        .HasConstraintName("fk_users_volunteer_accounts_volunteer_user_id");
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Participant");
+
                     b.Navigation("Role");
+
+                    b.Navigation("Volunteer");
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.AdminAccount", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.ParticipantAccount", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.VolunteerAccount", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

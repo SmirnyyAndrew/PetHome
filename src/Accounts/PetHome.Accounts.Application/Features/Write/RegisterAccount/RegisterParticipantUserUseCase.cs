@@ -14,7 +14,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects;
 using PetHome.Framework.Database;
-namespace PetHome.Accounts.Application.Features.RegisterAccount;
+namespace PetHome.Accounts.Application.Features.Write.RegisterAccount;
 public class RegisterParticipantUserUseCase
     : ICommandHandler<RegisterParticipantUserCommand>
 {

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Aggregates.User.Accounts;
 using PetHome.Core.ValueObjects;
 using System.Text.Json;
 
@@ -11,6 +13,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("users");
+
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
 
         builder.Property(r => r.RoleId)
             .HasConversion(
@@ -26,10 +33,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false)
             .HasColumnName("birth_date");
 
-        builder.Property(d => d.IsDeleted) 
+        builder.Property(d => d.IsDeleted)
             .HasColumnName("is_deleted");
 
-        builder.Property(d => d.DeletionDate) 
+        builder.Property(d => d.DeletionDate)
             .HasColumnName("deletion_date");
 
         builder.Property(s => s.SocialNetworks)
@@ -52,5 +59,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasOne(d => d.Role)
             .WithMany();
+
+
+        builder.HasOne(u => u.Admin)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<AdminAccount>(d => d.UserId)
+                .IsRequired(false);
+
+        builder.HasOne(u => u.Participant)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<ParticipantAccount>(d => d.UserId)
+                .IsRequired(false);
+
+        builder.HasOne(u => u.Volunteer)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<VolunteerAccount>(d => d.UserId)
+                .IsRequired(false);
     }
 }

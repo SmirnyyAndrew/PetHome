@@ -2,7 +2,7 @@
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Accounts.Application.Features.UpdateAccessTokenUsingRefreshToken;
+namespace PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 public class UpdateAccessTokenUsingRefreshTokenValidator
     : AbstractValidator<UpdateAccessTokenUsingRefreshTokenCommand>
 {

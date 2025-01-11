@@ -11,7 +11,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 
-namespace PetHome.Accounts.Application.Features.LoginUser;
+namespace PetHome.Accounts.Application.Features.Write.LoginUser;
 public class LoginUserUseCase
     : IQueryHandler<TokenResponse, LoginUserQuery>
 {
@@ -55,7 +55,7 @@ public class LoginUserUseCase
         await _repository.Add(refreshSession, ct);
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
-         
+
         var refreshToken = refreshSession.RefreshToken;
         TokenResponse tokenResponse = new TokenResponse(jwtToken, refreshToken.ToString());
         return tokenResponse;

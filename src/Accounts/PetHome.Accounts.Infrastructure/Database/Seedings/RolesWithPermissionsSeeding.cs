@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Logs;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Accounts.Domain.Aggregates.User.Accounts;
+using System.Data;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -11,6 +13,9 @@ public static class RolesWithPermissionsSeeding
     public static string JSON_FOLDER_PATH = "..\\Accounts\\PetHome.Accounts.Infrastructure\\Auth\\Permissions\\JsonConfigurations\\";
     public static string ROLES_JSON_FILE_NAME = "Roles.json";
     public static string PERMISSIONS_JSON_FILE_NAME = "Permissions.json";
+    public static string PERMISSION_GROUP_NAME = "Permissions";
+    public static string ROLES_GROUP_NAME = "Roles";
+    public static string ROLES_ITEMS_NAME = "Items";
 
     private static List<Role> _roles = new List<Role>();
     private static List<Permission> _permissions = new List<Permission>();
@@ -46,7 +51,7 @@ public static class RolesWithPermissionsSeeding
 
         if (jsonRolesObject is not null)
         {
-            var rolesStrings = jsonRolesObject?["Roles"]?["Items"]?.AsArray()?.Deserialize<string[]>();
+            var rolesStrings = jsonRolesObject?[ROLES_GROUP_NAME]?[ROLES_ITEMS_NAME]?.AsArray()?.Deserialize<string[]>();
             _roles = rolesStrings?.Select(r => Role.Create(r).Value).ToList();
         }
     }
@@ -56,25 +61,29 @@ public static class RolesWithPermissionsSeeding
         string permissionJsonPath = JSON_FOLDER_PATH + PERMISSIONS_JSON_FILE_NAME;
         string jsonPermissionString = File.ReadAllText(permissionJsonPath);
         var jsonPermissionObject = JsonNode.Parse(jsonPermissionString);
-
-        if (jsonPermissionObject is not null)
-        {
-            foreach (var role in _roles)
-            {
-                List<Permission>? _rolePermissions = new List<Permission>();
-
-                var permissionStrings = jsonPermissionObject?["Permissions"]?[role.Name]?
+         
+        var permissionStrings = jsonPermissionObject?[PERMISSION_GROUP_NAME]?[AdminAccount.ROLE]?
                     .AsArray()?.Deserialize<string[]>().ToList();
+        _permissions = permissionStrings?
+                .Distinct()
+                .Select(r => Permission.Create(r).Value).ToList();
 
-                _rolePermissions = permissionStrings? 
-                        .Select(r => Permission.Create(r).Value).ToList();
+        if (_permissions?.Count == 0)
+            return;
 
-                if (_rolePermissions is not null && _rolePermissions.Count>0)
-                {
-                    role.SetPermissions(_rolePermissions);
-                    _permissions.AddRange(_rolePermissions);
-                }
+        foreach (var role in _roles)
+        {
+            var rolePermissionStrings = jsonPermissionObject?[PERMISSION_GROUP_NAME]?[role.Name]?
+                .AsArray()?.Deserialize<string[]>().ToList();
+
+            List<Permission>? rolePermissions = _permissions!.Where(x => rolePermissionStrings.Contains(x.Code.Value)).ToList();
+
+            if (rolePermissions is not null && rolePermissions.Count > 0)
+            {
+                role.SetPermissions(rolePermissions); 
             }
         }
+
     }
 }
+

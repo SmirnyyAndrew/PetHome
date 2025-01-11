@@ -18,7 +18,9 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<Role, Error>> GetRole(Guid roleId)
     {
-        var result = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+        var result = await _dbContext.Roles
+            .Include(r=>r.Permissions)
+            .FirstOrDefaultAsync(r => r.Id == roleId);
         if (result is null)
             return Errors.NotFound($"role с id == {roleId}");
         return result;
@@ -26,7 +28,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<Role, Error>> GetRole(RoleName roleName)
     {
-        var result = await _dbContext.Roles
+        var result = await _dbContext.Roles 
             .FirstOrDefaultAsync(r => r.Name.ToLower() == roleName.Value.ToLower());
         if (result is null)
             return Errors.NotFound($"role с name == {roleName}");
@@ -72,6 +74,10 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)
     {
         var result = await _dbContext.Users
+            .Include(u=>u.Role)
+            .Include(u=>u.Admin)
+            .Include(u=>u.Volunteer)
+            .Include(u=>u.Participant)
             .FirstOrDefaultAsync(v => v.Id == id);
 
         if (result is null)
@@ -83,6 +89,10 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct)
     {
         var result = await _dbContext.Users
+            .Include(u => u.Role)
+            .Include(u => u.Admin)
+            .Include(u => u.Volunteer)
+            .Include(u => u.Participant)
             .FirstOrDefaultAsync(v => v.Email == email);
 
         if (result is null)
