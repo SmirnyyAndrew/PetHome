@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Accounts.Domain.Aggregates.User.Accounts;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects;
@@ -15,10 +16,12 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
     public RoleId? RoleId { get; private set; }
     public Role? Role { get; set; }
-    public Date? BirthDate { get; set; }
-
+    public Date? BirthDate { get; set; } 
     public DateTime DeletionDate { get; set; }
     public bool IsDeleted { get; set; } = false;
+    public AdminAccount? Admin { get; private set; }
+    public ParticipantAccount? Participant { get; private set; }
+    public VolunteerAccount? Volunteer { get; private set; } 
 
     public User() { }
 

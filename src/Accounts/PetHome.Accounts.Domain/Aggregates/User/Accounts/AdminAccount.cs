@@ -9,6 +9,7 @@ public class AdminAccount : SoftDeletableEntity
     public static RoleName ROLE = RoleName.Create("admin").Value;
 
     public UserId UserId { get; set; }
+    public User User { get; set; }
     private AdminAccount() { }
     private AdminAccount(UserId userId)
     {

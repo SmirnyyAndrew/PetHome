@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Aggregates.User.Accounts;
 using PetHome.Core.ValueObjects;
 using System.Text.Json;
 
@@ -26,10 +27,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false)
             .HasColumnName("birth_date");
 
-        builder.Property(d => d.IsDeleted) 
+        builder.Property(d => d.IsDeleted)
             .HasColumnName("is_deleted");
 
-        builder.Property(d => d.DeletionDate) 
+        builder.Property(d => d.DeletionDate)
             .HasColumnName("deletion_date");
 
         builder.Property(s => s.SocialNetworks)
@@ -51,6 +52,19 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("phone_number");
 
         builder.HasOne(d => d.Role)
-            .WithMany();
+            .WithMany(); 
+
+
+        builder.HasOne(u => u.Admin)
+                .WithOne(a => a.User)
+                .IsRequired(false);
+
+        builder.HasOne(u => u.Participant)
+               .WithOne(p => p.User)
+               .IsRequired(false);
+
+        builder.HasOne(u => u.Volunteer)
+               .WithOne(v => v.User)
+               .IsRequired(false); 
     }
 }

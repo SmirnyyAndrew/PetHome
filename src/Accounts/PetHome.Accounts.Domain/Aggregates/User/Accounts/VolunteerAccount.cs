@@ -11,6 +11,7 @@ public class VolunteerAccount : SoftDeletableEntity
     public static RoleName ROLE = RoleName.Create("volunteer").Value;
 
     public UserId UserId { get; set; }
+    public User User{ get; set; }
     public Date? StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Requisites>? Requisites { get; private set; }
     public IReadOnlyList<Certificate>? Certificates { get; private set; }
