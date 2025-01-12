@@ -55,9 +55,7 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .IsRequired()
             .HasColumnName("discussion_id");
 
-        //TODO:
-        //builder.HasOne(m => m.User)
-        //    .WithMany()
-        //    .HasForeignKey(m => m.UserId);
+        builder.HasOne(m => m.User)
+            .WithMany();
     }
 }

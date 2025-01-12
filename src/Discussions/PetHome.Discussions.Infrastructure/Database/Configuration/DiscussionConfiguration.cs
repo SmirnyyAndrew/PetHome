@@ -40,8 +40,7 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
             .HasForeignKey(m => m.DiscussionId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        //TODO:
-        //builder.HasMany(d => d.Users)
-        //    .WithMany();
+        builder.HasMany(d => d.Users)
+            .WithMany();
     }
 }

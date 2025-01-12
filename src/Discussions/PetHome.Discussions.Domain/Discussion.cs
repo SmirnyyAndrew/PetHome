@@ -10,8 +10,7 @@ public class Discussion
     public DiscussionId Id { get; private set; }
     public RelationId RelationId { get; private set; }
     public Relation Relation { get; private set; }
-    //TODO
-    //public List<User> Users { get; private set; } = [];
+    public List<User> Users { get; private set; } = [];
     public List<Message> Messages { get; private set; } = [];
     public DiscussionStatus Status { get; private set; }
 

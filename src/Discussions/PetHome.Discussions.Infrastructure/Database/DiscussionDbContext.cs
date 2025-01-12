@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Discussions.Domain;
-using System.Dynamic;
-using System.Threading.Channels;
 
 namespace PetHome.Discussions.Infrastructure.Database;
 public class DiscussionDbContext : DbContext
@@ -38,6 +37,9 @@ public class DiscussionDbContext : DbContext
         builder.HasDefaultSchema("Discussions");
 
         builder.ApplyConfigurationsFromAssembly(typeof(DiscussionDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("database.configuration") ?? false);
+
+        builder.ApplyConfigurationsFromAssembly(typeof(AuthorizationDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("database.configuration") ?? false);
     }
 }
