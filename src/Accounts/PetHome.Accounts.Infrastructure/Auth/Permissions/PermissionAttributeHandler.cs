@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Core.Auth;
+using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
 public class PermissionAttributeHandler : AuthorizationHandler<PermissionAttribute>

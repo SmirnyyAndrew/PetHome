@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Accounts.Domain.Aggregates.User;
-using PetHome.Accounts.Domain.Aggregates.User.Accounts;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Domain.Tokens.RefreshToken;
+using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database;
 public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Domain.Tokens.RefreshToken;
 using PetHome.Core.Response.ErrorManagment;
 

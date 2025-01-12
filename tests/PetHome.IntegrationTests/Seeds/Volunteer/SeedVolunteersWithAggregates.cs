@@ -1,6 +1,5 @@
-﻿using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
-
-namespace PetHome.IntegrationTests.Seeds;
+﻿
+namespace PetHome.IntegrationTests.Seeds.Species;
 public partial class SeedManager
 {
     public async Task SeedVolunteersWithAggregates(

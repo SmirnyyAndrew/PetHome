@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.API.Controllers.Volunteer.Request;
 using PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 using PetHome.Volunteers.Application.Features.Read.VolunteerManegment.GetVolunteerById;
@@ -12,7 +13,6 @@ using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDelet
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeletedEntitiesToHardDelete;
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
-using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.API.Controllers.Volunteer;
 public class VolunteerDataManegmentController : ParentController

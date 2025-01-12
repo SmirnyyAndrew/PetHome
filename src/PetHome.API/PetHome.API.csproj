@@ -29,6 +29,8 @@
     <ProjectReference Include="..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
     <ProjectReference Include="..\Species\PetHome.Species.API\PetHome.Species.API.csproj" />
     <ProjectReference Include="..\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
+    <ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.API\PetHome.VolunteerRequests.API.csproj" />
+    <ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.Application\PetHome.VolunteerRequests.Application.csproj" />
     <ProjectReference Include="..\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
     <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
     <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />

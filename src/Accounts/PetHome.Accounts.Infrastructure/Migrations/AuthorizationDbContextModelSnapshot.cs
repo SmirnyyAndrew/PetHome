@@ -172,73 +172,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.ToTable("permission_role", "Account");
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.RolePermission.Permission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_permissions");
-
-                    b.ToTable("permissions", "Account");
-                });
-
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text")
-                        .HasColumnName("concurrency_stamp");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("normalized_name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_roles");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("roles", "Account");
-                });
-
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.RolePermission.RolePermission", b =>
-                {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("role_id");
-
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("permission_id");
-
-                    b.HasKey("RoleId", "PermissionId")
-                        .HasName("pk_role_permission");
-
-                    b.ToTable("role_permission", "Account");
-                });
-
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.AdminAccount", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Accounts.AdminAccount", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -262,7 +196,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.ToTable("admin_accounts", "Account");
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.ParticipantAccount", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Accounts.ParticipantAccount", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -290,7 +224,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.ToTable("participant_accounts", "Account");
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.VolunteerAccount", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Accounts.VolunteerAccount", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -330,7 +264,56 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.ToTable("volunteer_accounts", "Account");
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.User", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_roles");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("roles", "Account");
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("permission_id");
+
+                    b.HasKey("RoleId", "PermissionId")
+                        .HasName("pk_role_permission");
+
+                    b.ToTable("role_permission", "Account");
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -507,9 +490,26 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.ToTable("refresh_sessions", "Account");
                 });
 
+            modelBuilder.Entity("PetHome.Core.ValueObjects.RolePermission.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permissions");
+
+                    b.ToTable("permissions", "Account");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -519,7 +519,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.User", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -529,7 +529,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.User", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,14 +539,14 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_role_roles_role_id");
 
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.User", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -556,7 +556,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.User", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -566,14 +566,14 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 
             modelBuilder.Entity("PermissionRole", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Permission", null)
+                    b.HasOne("PetHome.Core.ValueObjects.RolePermission.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_permission_role_permissions_permissions_id");
 
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", null)
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -581,26 +581,26 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasConstraintName("fk_permission_role_roles_role_id");
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.User", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User", b =>
                 {
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.Accounts.AdminAccount", "Admin")
+                    b.HasOne("PetHome.Accounts.Domain.Accounts.AdminAccount", "Admin")
                         .WithOne("User")
-                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User.User", "AdminUserId")
+                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User", "AdminUserId")
                         .HasConstraintName("fk_users_admin_accounts_admin_user_id");
 
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.Accounts.ParticipantAccount", "Participant")
+                    b.HasOne("PetHome.Accounts.Domain.Accounts.ParticipantAccount", "Participant")
                         .WithOne("User")
-                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User.User", "ParticipantUserId")
+                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User", "ParticipantUserId")
                         .HasConstraintName("fk_users_participant_accounts_participant_user_id");
 
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.RolePermission.Role", "Role")
+                    b.HasOne("PetHome.Accounts.Domain.Aggregates.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId1")
                         .HasConstraintName("fk_users_roles_role_id1");
 
-                    b.HasOne("PetHome.Accounts.Domain.Aggregates.User.Accounts.VolunteerAccount", "Volunteer")
+                    b.HasOne("PetHome.Accounts.Domain.Accounts.VolunteerAccount", "Volunteer")
                         .WithOne("User")
-                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User.User", "VolunteerUserId")
+                        .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User", "VolunteerUserId")
                         .HasConstraintName("fk_users_volunteer_accounts_volunteer_user_id");
 
                     b.Navigation("Admin");
@@ -612,19 +612,19 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.Navigation("Volunteer");
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.AdminAccount", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Accounts.AdminAccount", b =>
                 {
                     b.Navigation("User")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.ParticipantAccount", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Accounts.ParticipantAccount", b =>
                 {
                     b.Navigation("User")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Aggregates.User.Accounts.VolunteerAccount", b =>
+            modelBuilder.Entity("PetHome.Accounts.Domain.Accounts.VolunteerAccount", b =>
                 {
                     b.Navigation("User")
                         .IsRequired();

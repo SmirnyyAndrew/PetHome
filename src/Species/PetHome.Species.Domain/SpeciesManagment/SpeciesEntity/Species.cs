@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 
 namespace PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;

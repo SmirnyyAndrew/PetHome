@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.IntegrationTests.Seeds;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetHome.IntegrationTests.Seeds.Species;
 using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;

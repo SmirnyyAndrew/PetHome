@@ -3,7 +3,6 @@ using PetHome.Accounts.API.Controllers.Requests;
 using PetHome.Accounts.Application.Features.Read.GetUserInformation;
 using PetHome.Accounts.Application.Features.Write.LoginUser;
 using PetHome.Accounts.Application.Features.Write.RegisterAccount;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
 using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
 using PetHome.Core.Controllers;

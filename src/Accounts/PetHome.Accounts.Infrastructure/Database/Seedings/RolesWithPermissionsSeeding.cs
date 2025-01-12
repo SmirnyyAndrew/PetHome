@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenTelemetry.Logs;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Accounts.Domain.Aggregates.User.Accounts;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Core.ValueObjects.RolePermission;
 using System.Data;
 using System.Text.Json;
 using System.Text.Json.Nodes;

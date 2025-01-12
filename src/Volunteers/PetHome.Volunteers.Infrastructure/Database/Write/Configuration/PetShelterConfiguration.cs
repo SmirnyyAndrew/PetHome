@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Configuration;
 public class PetShelterConfiguration : IEntityTypeConfiguration<PetShelter>

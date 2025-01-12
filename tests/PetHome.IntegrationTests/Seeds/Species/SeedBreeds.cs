@@ -3,7 +3,7 @@ using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 using Xunit;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
-namespace PetHome.IntegrationTests.Seeds;
+namespace PetHome.IntegrationTests.Seeds.Species;
 public partial class SeedManager
 {
     public async Task<IReadOnlyList<Breed>> SeedBreeds(int breedCountForOneSpeciesToSeed)

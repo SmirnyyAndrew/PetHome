@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;

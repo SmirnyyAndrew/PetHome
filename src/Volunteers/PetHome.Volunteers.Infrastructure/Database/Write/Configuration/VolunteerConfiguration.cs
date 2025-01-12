@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage;
-using PetHome.Core.ValueObjects;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Configuration;

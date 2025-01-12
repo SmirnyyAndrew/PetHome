@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHome.Core.ValueObjects.PetManagment.Breed;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 
 namespace PetHome.Species.Infrastructure.Database.Write.Configuration;
