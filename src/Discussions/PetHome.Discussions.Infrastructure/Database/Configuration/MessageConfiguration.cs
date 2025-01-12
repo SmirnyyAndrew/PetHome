@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Message;
 using PetHome.Core.ValueObjects.MainInfo;
@@ -46,8 +47,17 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .IsRequired()
             .HasColumnName("created_at");
 
-        builder.HasOne(m => m.User)
-             .WithMany()
-             .HasForeignKey("user_id");
+
+        builder.Property(m => m.DiscussionId)
+            .HasConversion(
+                d => d.Value,
+                value => DiscussionId.Create(value).Value)
+            .IsRequired()
+            .HasColumnName("discussion_id");
+
+        //TODO:
+        //builder.HasOne(m => m.User)
+        //    .WithMany()
+        //    .HasForeignKey(m => m.UserId);
     }
 }

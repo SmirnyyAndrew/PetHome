@@ -10,7 +10,8 @@ public class Message
     public MessageId Id { get; private set; }
     public MessageText? Text { get; private set; }
     public UserId UserId { get; private set; }
-    public User User { get; private set; }
+    //TODO
+    //public User User { get; private set; }
     public DiscussionId DiscussionId { get; private set; }
     public Discussion Discussion { get; private set; }
     public Date CreatedAt { get; private set; }
@@ -22,8 +23,8 @@ public class Message
     {
         Id = MessageId.Create().Value;
         CreatedAt = Date.Create().Value;
-        Text = text;
-        UserId = userId;
+        Text = text; 
+        //UserId = userId;
     }
 
     public static Message Create(MessageText text, UserId userId) => new Message(text, userId);
