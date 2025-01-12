@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Accounts.Domain.Aggregates.User;
 using PetHome.Accounts.Domain.Tokens.RefreshToken;
+using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Accounts.Infrastructure.Database.Configuration.Tokens;
 public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSession>

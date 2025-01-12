@@ -1,5 +1,5 @@
-﻿using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
-using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
 
 namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
 public record ChangePetInfoRequest(

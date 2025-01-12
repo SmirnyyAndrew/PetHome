@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PetHome.Core.Response.Validation.Validator;
-using PetHome.Volunteers.Domain.PetManagment.PetEntity;
-using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 
 namespace PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 public class SetMainPhotoCommandValidator:AbstractValidator<SetPetMainPhotoCommand>    

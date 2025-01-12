@@ -9,7 +9,7 @@ using Npgsql;
 using NSubstitute;
 using PetHome.Core.Interfaces;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Species.Infrastructure.Database.Write.DBContext;

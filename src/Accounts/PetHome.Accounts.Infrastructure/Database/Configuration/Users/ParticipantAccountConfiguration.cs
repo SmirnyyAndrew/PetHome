@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Accounts.Domain.Aggregates.User;
-using PetHome.Accounts.Domain.Aggregates.User.Accounts;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using System.Text.Json;
 

@@ -1,6 +1,10 @@
-﻿using PetHome.Core.ValueObjects;
-using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+﻿using PetHome.Core.Models;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Breed;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetHome.Core.ValueObjects.PetManagment.Species;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;

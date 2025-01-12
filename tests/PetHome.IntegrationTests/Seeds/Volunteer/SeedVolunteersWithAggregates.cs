@@ -1,5 +1,4 @@
-﻿using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
-
+﻿
 namespace PetHome.IntegrationTests.Seeds;
 public partial class SeedManager
 {

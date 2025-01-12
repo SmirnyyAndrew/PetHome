@@ -1,4 +1,7 @@
-﻿using PetHome.Core.ValueObjects;
+﻿using PetHome.Core.Models;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.IntegrationTests.Seeds;

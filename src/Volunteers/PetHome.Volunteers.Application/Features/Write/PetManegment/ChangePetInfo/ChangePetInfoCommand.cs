@@ -1,5 +1,5 @@
 ﻿using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
 
 namespace PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
 public record ChangePetInfoCommand(

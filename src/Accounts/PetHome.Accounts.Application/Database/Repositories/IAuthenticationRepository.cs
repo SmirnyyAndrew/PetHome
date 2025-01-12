@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Accounts.Domain.Aggregates.User;
-using PetHome.Accounts.Domain.Aggregates.User.Accounts;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Application.Database.Repositories;
 public interface IAuthenticationRepository

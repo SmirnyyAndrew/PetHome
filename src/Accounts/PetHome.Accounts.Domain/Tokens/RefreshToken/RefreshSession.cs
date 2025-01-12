@@ -1,4 +1,4 @@
-﻿using PetHome.Accounts.Domain.Aggregates.User;
+﻿using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Accounts.Domain.Tokens.RefreshToken;
 public class RefreshSession

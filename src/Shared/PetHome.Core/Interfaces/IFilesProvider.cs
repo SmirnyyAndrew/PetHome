@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 
 namespace PetHome.Core.Interfaces;
 public interface IFilesProvider

@@ -1,4 +1,4 @@
-﻿using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
 
 namespace PetHome.IntegrationTests.Seeds;
 public partial class SeedManager
