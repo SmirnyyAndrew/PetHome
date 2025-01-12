@@ -15,9 +15,9 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
         builder.Property(v => v.Id)
             .HasConversion(
                  id => id.Value,
-                 value => DiscussionId.Create(value).Value)
+                 value => new DiscussionId(value))
             .IsRequired()
-            .HasColumnName("id1");
+            .HasColumnName("id");
 
         builder.Property(v => v.RelationId)
             .HasConversion(
