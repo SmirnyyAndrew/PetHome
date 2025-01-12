@@ -24,6 +24,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Accounts\PetHome.Accounts.API\PetHome.Accounts.API.csproj" />
     <ProjectReference Include="..\Accounts\PetHome.Accounts.Infrastructure\PetHome.Accounts.Infrastructure.csproj" />
+    <ProjectReference Include="..\Discussions\PetHome.Discussions.API\PetHome.Discussions.API.csproj" />
+    <ProjectReference Include="..\Discussions\PetHome.Discussions.Contracts\PetHome.Discussions.Contracts.csproj" />
     <ProjectReference Include="..\Shared\PetHome.Core\PetHome.Core.csproj" />
     <ProjectReference Include="..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
     <ProjectReference Include="..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
