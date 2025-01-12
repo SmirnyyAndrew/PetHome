@@ -27,7 +27,7 @@ public class VolunteerRequest
         DiscussionId = discussionId;
     }
 
-    public VolunteerRequest Create(
+    public static VolunteerRequest Create(
         UserId userId,
         VolunteerInfo? volunteerInfo,
         DiscussionId? discussionId)
