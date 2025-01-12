@@ -72,6 +72,10 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)
     {
         var result = await _dbContext.Users
+            .Include(u => u.Role)
+            .Include(u => u.Admin)
+            .Include(u => u.Volunteer)
+            .Include(u => u.Participant)
             .FirstOrDefaultAsync(v => v.Id == id);
 
         if (result is null)
@@ -83,6 +87,10 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct)
     {
         var result = await _dbContext.Users
+            .Include(u => u.Role)
+            .Include(u => u.Admin)
+            .Include(u => u.Volunteer)
+            .Include(u => u.Participant)
             .FirstOrDefaultAsync(v => v.Email == email);
 
         if (result is null)

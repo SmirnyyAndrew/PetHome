@@ -9,7 +9,7 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
-namespace PetHome.IntegrationTests.Seeds;
+namespace PetHome.IntegrationTests.Seeds.Species;
 public partial class SeedManager
 {
     public async Task<IReadOnlyList<Pet>> SeedPets(

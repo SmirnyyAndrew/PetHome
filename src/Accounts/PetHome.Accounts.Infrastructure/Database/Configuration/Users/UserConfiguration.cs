@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
@@ -53,5 +54,20 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasOne(d => d.Role)
             .WithMany();
+
+        builder.HasOne(u => u.Admin)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<AdminAccount>(d => d.UserId)
+                .IsRequired(false);
+
+        builder.HasOne(u => u.Participant)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<ParticipantAccount>(d => d.UserId)
+                .IsRequired(false);
+
+        builder.HasOne(u => u.Volunteer)
+                .WithOne(u => u.User)
+                .HasPrincipalKey<VolunteerAccount>(d => d.UserId)
+                .IsRequired(false);
     }
 }

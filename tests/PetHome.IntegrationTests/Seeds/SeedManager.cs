@@ -2,7 +2,7 @@
 using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 
-namespace PetHome.IntegrationTests.Seeds;
+namespace PetHome.IntegrationTests.Seeds.Species;
 public partial class SeedManager
 {
     protected readonly VolunteerWriteDbContext _writeDbContext; 
