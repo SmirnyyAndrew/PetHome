@@ -22,4 +22,9 @@ public record Date
 
         return new Date(value.ToUniversalTime());
     }
+
+    public static Result<Date, Error> Create()
+    {
+        return new Date(DateTime.UtcNow);
+    }
 }
