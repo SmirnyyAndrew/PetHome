@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Discussions.Domain;
+using PetHome.Core.ValueObjects.PetManagment.Breed;
 
 namespace PetHome.Discussions.Infrastructure.Database.Configuration;
 public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
@@ -15,7 +16,7 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
         builder.Property(v => v.Id)
             .HasConversion(
                  id => id.Value,
-                 value => new DiscussionId(value))
+                 value => DiscussionId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
 
@@ -32,14 +33,16 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
             .HasColumnName("status");
 
 
-        builder.HasOne(d => d.Relation)
-            .WithMany(r => r.Discussions);
-
-        builder.HasMany(d => d.Messages)
-            .WithOne(m => m.Discussion)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(d => d.Users)
-            .WithMany();
+       builder.HasOne(d => d.Relation)
+           .WithMany(r => r.Discussions)
+           .HasForeignKey("relation_id");
+       
+       builder.HasMany(d => d.Messages)
+           .WithOne(m => m.Discussion)
+           .HasForeignKey("discussion_id")
+           .OnDelete(DeleteBehavior.Cascade);
+       
+       builder.HasMany(d => d.Users)
+           .WithMany();
     }
 }

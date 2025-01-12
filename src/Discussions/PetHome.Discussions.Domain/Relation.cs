@@ -7,7 +7,7 @@ public class Relation
     public RelationName Name { get; private set; }
     public IReadOnlyList<Discussion> Discussions { get; private set; } = [];
 
-
+    private Relation() { }
     private Relation(RelationName name)
     {
         Id = RelationId.Create().Value;

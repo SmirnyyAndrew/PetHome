@@ -7,13 +7,13 @@ using System.Threading.Channels;
 namespace PetHome.Discussions.Infrastructure.Database;
 public class DiscussionDbContext : DbContext
 {
-    //DbSet<Discussion> Discussions => Set<Discussion>();
-    //DbSet<Relation> Relations => Set<Relation>();
+     DbSet<Discussion> Discussions => Set<Discussion>();
+     DbSet<Relation> Relations => Set<Relation>();
 
     private readonly string _conntecitonString;
 
     public DiscussionDbContext(string conntecitonString
-        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres") 
     {
         _conntecitonString = conntecitonString;
     }

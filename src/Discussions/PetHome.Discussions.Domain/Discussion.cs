@@ -17,7 +17,7 @@ public class Discussion
     private static Error DiscussionCloseError = Errors.Validation("Дискуссия закрыта");
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
-
+    private Discussion() { }
     public Discussion(RelationId relationId, IEnumerable<User> users)
     {
         Id = DiscussionId.Create().Value;

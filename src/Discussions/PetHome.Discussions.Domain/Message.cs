@@ -16,6 +16,8 @@ public class Message
     public Date CreatedAt { get; private set; }
     public bool IsEdited { get; private set; } = false;
 
+    private Message() { }
+
     private Message(MessageText text, UserId userId)
     {
         Id = MessageId.Create().Value;
