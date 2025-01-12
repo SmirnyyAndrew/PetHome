@@ -13,7 +13,7 @@ using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 namespace PetHome.Volunteers.Infrastructure.Migrations.Write
 {
     [DbContext(typeof(VolunteerWriteDbContext))]
-    [Migration("20250112075423_Volunteer_Write_InitMigrations")]
+    [Migration("20250112115849_Volunteer_Write_InitMigrations")]
     partial class Volunteer_Write_InitMigrations
     {
         /// <inheritdoc />

@@ -9,6 +9,7 @@ public class Discussion
 {
     public DiscussionId Id { get; private set; }
     public RelationId RelationId { get; private set; }
+    public Relation Relation { get; private set; }
     public List<User> Users { get; private set; } = [];
     public List<Message> Messages { get; private set; } = [];
     public DiscussionStatus Status { get; private set; }
@@ -17,9 +18,7 @@ public class Discussion
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
 
-    public Discussion(
-        RelationId relationId,
-        IEnumerable<User> users)
+    public Discussion(RelationId relationId, IEnumerable<User> users)
     {
         Id = DiscussionId.Create().Value;
         RelationId = relationId;
