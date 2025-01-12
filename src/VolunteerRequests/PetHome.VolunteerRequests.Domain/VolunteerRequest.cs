@@ -10,7 +10,7 @@ public class VolunteerRequest
     public UserId? AdminId { get; private set; }
     public UserId UserId { get; private set; }
     public VolunteerInfo? VolunteerInfo { get; private set; }
-    public VolunteerRequestStatus Status { get; private set; }
+    public VolunteerRequestStatus? Status { get; private set; }
     public Date CreatedAt { get; private set; }
     public RequestComment? RejectedComment { get; private set; }
     public DiscussionId? DiscussionId { get; private set; }
