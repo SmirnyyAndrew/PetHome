@@ -22,7 +22,7 @@ public class Discussion
     {
         Id = DiscussionId.Create().Value;
         RelationId = relationId;
-        //Users = users.ToList();
+        Users = users.ToList();
         Status = DiscussionStatus.Open;
     }
 
@@ -41,42 +41,42 @@ public class Discussion
         if (Status == DiscussionStatus.Close)
             return DiscussionCloseError;
 
-        //bool isDiscussionParticipant = Users.Select(u => u.Id)
-        //    .Contains(message.UserId);
+        bool isDiscussionParticipant = Users.Select(u => u.Id)
+            .Contains(message.UserId);
 
-        //if (isDiscussionParticipant is not true)
-        //    return IsNotParticipantError;
+        if (isDiscussionParticipant is not true)
+            return IsNotParticipantError;
 
         Messages.Add(message);
         return Result.Success<Error>();
     }
 
-    //public UnitResult<Error> RemoveMessage(Message message)
-    //{
-    //    if (Status == DiscussionStatus.Close)
-    //        return DiscussionCloseError;
+    public UnitResult<Error> RemoveMessage(Message message)
+    {
+        if (Status == DiscussionStatus.Close)
+            return DiscussionCloseError;
 
-    //    Messages.Remove(message);
-    //    return Result.Success<Error>();
-    //}
+        Messages.Remove(message);
+        return Result.Success<Error>();
+    }
 
-    //public UnitResult<Error> AddUser(User user)
-    //{
-    //    if (Status == DiscussionStatus.Close)
-    //        return DiscussionCloseError;
+    public UnitResult<Error> AddUser(User user)
+    {
+        if (Status == DiscussionStatus.Close)
+            return DiscussionCloseError;
 
-    //    Users.Add(user);
-    //    return Result.Success<Error>();
-    //}
+        Users.Add(user);
+        return Result.Success<Error>();
+    }
 
-    //public UnitResult<Error> AddUser(IEnumerable<User> users)
-    //{
-    //    if (Status == DiscussionStatus.Close)
-    //        return DiscussionCloseError;
+    public UnitResult<Error> AddUser(IEnumerable<User> users)
+    {
+        if (Status == DiscussionStatus.Close)
+            return DiscussionCloseError;
 
-    //    Users.AddRange(users);
-    //    return Result.Success<Error>();
-    //}
+        Users.AddRange(users);
+        return Result.Success<Error>();
+    }
 
     public void Close() => Status = DiscussionStatus.Close;
     public void ReOpen() => Status = DiscussionStatus.Open;

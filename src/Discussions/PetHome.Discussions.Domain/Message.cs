@@ -22,8 +22,8 @@ public class Message
     {
         Id = MessageId.Create().Value;
         CreatedAt = Date.Create().Value;
-        Text = text; 
-        //UserId = userId;
+        Text = text;
+        UserId = userId;
     }
 
     public static Message Create(MessageText text, UserId userId) => new Message(text, userId);
