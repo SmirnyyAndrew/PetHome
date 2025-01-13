@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Relation;
+using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Discussions.Domain;
 public class Discussion
@@ -10,7 +10,7 @@ public class Discussion
     public DiscussionId Id { get; private set; }
     public RelationId RelationId { get; private set; }
     public Relation Relation { get; private set; }
-    public List<User> Users { get; private set; } = [];
+    public List<UserId> UserIds { get; private set; } = [];
     public List<Message> Messages { get; private set; } = [];
     public DiscussionStatus Status { get; private set; }
 
@@ -18,22 +18,22 @@ public class Discussion
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
     private Discussion() { }
-    public Discussion(RelationId relationId, IEnumerable<User> users)
+    public Discussion(RelationId relationId, IEnumerable<UserId> userIds)
     {
         Id = DiscussionId.Create().Value;
         RelationId = relationId;
-        Users = users.ToList();
+        UserIds = userIds.ToList();
         Status = DiscussionStatus.Open;
     }
 
 
     public static Result<Discussion, Error> Create(
-        RelationId relationId, IEnumerable<User> users)
+        RelationId relationId, IEnumerable<UserId> userIds)
     {
-        if (users.Count() < 2)
+        if (userIds.Count() < 2)
             return UsersCountError;
 
-        return new Discussion(relationId, users);
+        return new Discussion(relationId, userIds);
     }
 
     public UnitResult<Error> AddMessage(Message message)
@@ -41,8 +41,7 @@ public class Discussion
         if (Status == DiscussionStatus.Close)
             return DiscussionCloseError;
 
-        bool isDiscussionParticipant = Users.Select(u => u.Id)
-            .Contains(message.UserId);
+        bool isDiscussionParticipant = UserIds.Contains(message.UserId);
 
         if (isDiscussionParticipant is not true)
             return IsNotParticipantError;
@@ -60,21 +59,21 @@ public class Discussion
         return Result.Success<Error>();
     }
 
-    public UnitResult<Error> AddUser(User user)
+    public UnitResult<Error> AddUser(UserId userId)
     {
         if (Status == DiscussionStatus.Close)
             return DiscussionCloseError;
 
-        Users.Add(user);
+        UserIds.Add(userId);
         return Result.Success<Error>();
     }
 
-    public UnitResult<Error> AddUser(IEnumerable<User> users)
+    public UnitResult<Error> AddUser(IEnumerable<UserId> userIds)
     {
         if (Status == DiscussionStatus.Close)
             return DiscussionCloseError;
 
-        Users.AddRange(users);
+        UserIds.AddRange(userIds);
         return Result.Success<Error>();
     }
 

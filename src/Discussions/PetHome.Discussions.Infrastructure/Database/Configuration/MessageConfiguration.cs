@@ -45,16 +45,12 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 value => Date.Create(value).Value)
             .IsRequired()
             .HasColumnName("created_at");
-
-
+         
         builder.Property(m => m.DiscussionId)
             .HasConversion(
                 d => d.Value,
                 value => DiscussionId.Create(value).Value)
             .IsRequired()
-            .HasColumnName("discussion_id");
-
-        builder.HasOne(m => m.User)
-            .WithMany();
+            .HasColumnName("discussion_id");  
     }
 }
