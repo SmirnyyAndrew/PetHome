@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PetHome.VolunteerRequests.Application.Database.Dto;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 
@@ -23,6 +24,7 @@ public class VolunteerRequestReadDbContext : DbContext, IVolunteerRequestReadDbC
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 
 

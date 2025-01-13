@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.VolunteerRequests.Application.Database.Dto;
@@ -23,6 +24,9 @@ public class GetAllUserVolunteerRequestsUseCase
             .Where(r => r.UserId == query.UserId)
             .ToListAsync(ct);
 
-        return volunteerRequests.ToList();
+        var volunteerRequestsPagedList = await volunteerRequests.AsQueryable()
+            .ToPagedList(query.PageNum, query.PageSize, ct);
+
+        return volunteerRequestsPagedList;
     }
 }

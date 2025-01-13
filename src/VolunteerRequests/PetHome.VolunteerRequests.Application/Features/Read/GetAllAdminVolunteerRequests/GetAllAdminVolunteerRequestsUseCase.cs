@@ -1,12 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Models;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Application.Features.Read.GetAllAdminVolunteerRequests;
 public class GetAllAdminVolunteerRequestsUseCase
-    : IQueryHandler<IReadOnlyList<VolunteerRequest>, GetAllAdminVolunteerRequestsQuery>
+    : IQueryHandler<PagedList<VolunteerRequest>, GetAllAdminVolunteerRequestsQuery>
 {
     private readonly IVolunteerRequestRepository _repository;
 
@@ -17,10 +19,14 @@ public class GetAllAdminVolunteerRequestsUseCase
     }
 
 
-    public async Task<Result<IReadOnlyList<VolunteerRequest>, ErrorList>> Execute(
+    public async Task<Result<PagedList<VolunteerRequest>, ErrorList>> Execute(
         GetAllAdminVolunteerRequestsQuery query, CancellationToken ct)
     {
-        IReadOnlyList<VolunteerRequest> volunteerRequests = await _repository.GetByAdminId(query.AdminId, ct);
-        return volunteerRequests.ToList();
+        var volunteerRequests = await _repository.GetByAdminId(query.AdminId, ct);
+        
+        PagedList<VolunteerRequest> volunteerRequestsPagedList = await volunteerRequests.AsQueryable()
+            .ToPagedList(query.PageNum, query.PageSize, ct);
+
+        return volunteerRequestsPagedList;
     }
 }
