@@ -2,16 +2,16 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Discussions.Domain;
 
-namespace PetHome.Discussions.Infrastructure.Database;
+namespace PetHome.Discussions.Infrastructure.Database.Write;
 public class DiscussionDbContext : DbContext
 {
-     DbSet<Discussion> Discussions => Set<Discussion>();
-     DbSet<Relation> Relations => Set<Relation>();
+    public DbSet<Discussion> Discussions => Set<Discussion>();
+    public DbSet<Relation> Relations => Set<Relation>();
 
     private readonly string _conntecitonString;
 
     public DiscussionDbContext(string conntecitonString
-        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres") 
+        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
         _conntecitonString = conntecitonString;
     }
@@ -36,6 +36,6 @@ public class DiscussionDbContext : DbContext
         builder.HasDefaultSchema("Discussions");
 
         builder.ApplyConfigurationsFromAssembly(typeof(DiscussionDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("database.configuration") ?? false); 
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 }

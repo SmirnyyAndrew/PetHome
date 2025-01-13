@@ -14,4 +14,9 @@
     <ProjectReference Include="..\PetHome.VolunteerRequests.Domain\PetHome.VolunteerRequests.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Dto\" />
+    <Folder Include="Features\Read\" />
+  </ItemGroup>
+
 </Project>

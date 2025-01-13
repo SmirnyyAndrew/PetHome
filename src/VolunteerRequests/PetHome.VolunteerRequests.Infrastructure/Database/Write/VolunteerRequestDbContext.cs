@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Logging;
 using PetHome.VolunteerRequests.Domain;
 
-namespace PetHome.VolunteerRequests.Infrastructure.Database;
+namespace PetHome.VolunteerRequests.Infrastructure.Database.Write;
 public class VolunteerRequestDbContext : DbContext
 {
-    DbSet<VolunteerRequest> VolunteerRequests => Set<VolunteerRequest>();
+    public DbSet<VolunteerRequest> VolunteerRequests => Set<VolunteerRequest>();
 
     private readonly string _conntecitonString;
 
@@ -35,6 +35,6 @@ public class VolunteerRequestDbContext : DbContext
         builder.HasDefaultSchema("VolunteerRequests");
 
         builder.ApplyConfigurationsFromAssembly(typeof(VolunteerRequestDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("database.configuration") ?? false);  
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 }

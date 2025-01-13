@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.VolunteerRequests.Application.Database;
+using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Infrastructure.Database.Read.DBContext;

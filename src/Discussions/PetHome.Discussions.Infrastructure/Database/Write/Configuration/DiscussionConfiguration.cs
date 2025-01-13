@@ -4,7 +4,7 @@ using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Discussions.Domain;
 
-namespace PetHome.Discussions.Infrastructure.Database.Configuration;
+namespace PetHome.Discussions.Infrastructure.Database.Write.Configuration;
 public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
 {
     public void Configure(EntityTypeBuilder<Discussion> builder)

@@ -6,7 +6,7 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Domain;
 
-namespace PetHome.VolunteerRequests.Infrastructure.Database.Configuration;
+namespace PetHome.VolunteerRequests.Infrastructure.Database.Write.Configuration;
 public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerRequest>
 {
     public void Configure(EntityTypeBuilder<VolunteerRequest> builder)
@@ -67,5 +67,5 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
                 value => DiscussionId.Create(value).Value)
             .IsRequired()
             .HasColumnName("discussion_id");
-    } 
+    }
 }

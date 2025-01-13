@@ -6,7 +6,7 @@ using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Domain;
 
-namespace PetHome.Discussions.Infrastructure.Database.Configuration;
+namespace PetHome.Discussions.Infrastructure.Database.Write.Configuration;
 public class MessageConfiguration : IEntityTypeConfiguration<Message>
 {
     public void Configure(EntityTypeBuilder<Message> builder)
@@ -45,12 +45,12 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
                 value => Date.Create(value).Value)
             .IsRequired()
             .HasColumnName("created_at");
-         
+
         builder.Property(m => m.DiscussionId)
             .HasConversion(
                 d => d.Value,
                 value => DiscussionId.Create(value).Value)
             .IsRequired()
-            .HasColumnName("discussion_id");  
+            .HasColumnName("discussion_id");
     }
 }

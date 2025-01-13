@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Discussions.Domain;
 
-namespace PetHome.Discussions.Infrastructure.Database.Configuration;
+namespace PetHome.Discussions.Infrastructure.Database.Write.Configuration;
 public class RelationConfiguration : IEntityTypeConfiguration<Relation>
 {
     public void Configure(EntityTypeBuilder<Relation> builder)

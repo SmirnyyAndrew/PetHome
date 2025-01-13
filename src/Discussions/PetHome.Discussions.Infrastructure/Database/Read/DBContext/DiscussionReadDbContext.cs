@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Discussions.Application.Database;
 using PetHome.Discussions.Application.Database.Dto;
+using PetHome.Discussions.Application.Database.Interfaces;
 
 namespace PetHome.Discussions.Infrastructure.Database.Read.DBContext;
 public class DiscussionReadDbContext : DbContext, IDiscussionReadDbContext

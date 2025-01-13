@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
+    <ProjectReference Include="..\PetHome.Discussions.Domain\PetHome.Discussions.Domain.csproj" />
   </ItemGroup>
 
 </Project>
