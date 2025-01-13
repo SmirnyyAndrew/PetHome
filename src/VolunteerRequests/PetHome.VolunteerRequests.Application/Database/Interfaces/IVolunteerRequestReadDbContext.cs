@@ -1,7 +1,8 @@
-﻿using PetHome.VolunteerRequests.Domain;
+﻿using PetHome.VolunteerRequests.Application.Database.Dto;
+using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Application.Database.Interfaces;
 public interface IVolunteerRequestReadDbContext
 {
-    public IQueryable<VolunteerRequest> VolunteerRequests { get; }
+    public IQueryable<VolunteerRequestDto> VolunteerRequests { get; }
 }

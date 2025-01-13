@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHome.VolunteerRequests.Application.Database.Dto;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
-using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Infrastructure.Database.Read.DBContext;
 public class VolunteerRequestReadDbContext : DbContext, IVolunteerRequestReadDbContext
 {
-    public IQueryable<VolunteerRequest> VolunteerRequests => Set<VolunteerRequest>();
+    public IQueryable<VolunteerRequestDto> VolunteerRequests => Set<VolunteerRequestDto>();
 
     private readonly string _conntecitonString;
 
