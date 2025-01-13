@@ -2,7 +2,7 @@
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
 
-namespace PetHome.VolunteerRequests.Infrastructure.Database.Write;
+namespace PetHome.VolunteerRequests.Infrastructure.Database.Write.Repositories;
 public class VolunteerRequestRepository(VolunteerRequestDbContext dbContext)
     : IVolunteerRequestRepository
 {

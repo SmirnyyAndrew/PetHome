@@ -5,6 +5,7 @@ using PetHome.Discussions.Application.Database.Interfaces;
 using PetHome.Discussions.Infrastructure.Database.Read.DBContext;
 using PetHome.Discussions.Infrastructure.Database.Write;
 using PetHome.Discussions.Infrastructure.Database.Write.Repositories;
+using PetHome.Framework.Database;
 
 namespace PetHome.Discussions.Infrastructure.Inject;
 public static class InfrastructureDependencyInjection
@@ -18,6 +19,8 @@ public static class InfrastructureDependencyInjection
             new DiscussionReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<IDiscussionRepository, DiscussionRepository>();
+
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.DISCUSSION_UNIT_OF_WORK_KEY);
 
         return services;
     }

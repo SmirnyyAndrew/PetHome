@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 
+
 #nullable disable
 
 namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Write
