@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
 
@@ -21,9 +22,28 @@ public class VolunteerRequestRepository(VolunteerRequestDbContext dbContext)
         dbContext.VolunteerRequests.Remove(volunteerRequest);
     }
 
-    public async Task Remove(IEnumerable<VolunteerRequest> volunteerRequest)
+    public async Task Remove(IEnumerable<VolunteerRequest> volunteerRequests)
     {
-        dbContext.VolunteerRequests.RemoveRange(volunteerRequest);
+        dbContext.VolunteerRequests.RemoveRange(volunteerRequests);
+    }
+
+    public void Update(VolunteerRequest volunteerRequest)
+    {
+        dbContext.VolunteerRequests.Update(volunteerRequest);
+    }
+
+    public void Update(IEnumerable<VolunteerRequest> volunteerRequests)
+    {
+        dbContext.VolunteerRequests.UpdateRange(volunteerRequests);
+    }
+
+    public async Task<VolunteerRequest?> GetById(Guid volunteerRequestId, CancellationToken ct)
+    {
+        VolunteerRequestId id = VolunteerRequestId.Create(volunteerRequestId).Value; 
+        var volunteerRequest = await dbContext.VolunteerRequests
+            .FirstOrDefaultAsync(r=>r.Id == id);
+
+        return volunteerRequest;
     }
 
     public async Task<IReadOnlyList<VolunteerRequest>> GetByUserId(Guid userId, CancellationToken ct)
@@ -49,7 +69,4 @@ public class VolunteerRequestRepository(VolunteerRequestDbContext dbContext)
             .ToListAsync(ct);
         return adminVolunteerRequests;
     }
-
-
-
 }

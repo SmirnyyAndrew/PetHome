@@ -9,23 +9,23 @@ using PetHome.Framework.Database;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
 
-namespace PetHome.VolunteerRequests.Application.Features.Write.CreateVolunteerRequests;
-public class CreateVolunteerRequestsUseCase
-    : ICommandHandler<CreateVolunteerRequestsCommand>
+namespace PetHome.VolunteerRequests.Application.Features.Write.CreateVolunteerRequest;
+public class CreateVolunteerRequestUseCase
+    : ICommandHandler<CreateVolunteerRequestCommand>
 {
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateVolunteerRequestsUseCase(
+    public CreateVolunteerRequestUseCase(
         IVolunteerRequestRepository repository,
-        [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<UnitResult<ErrorList>> Execute(
-        CreateVolunteerRequestsCommand command, CancellationToken ct)
+        CreateVolunteerRequestCommand command, CancellationToken ct)
     {
         UserId userId = UserId.Create(command.UserId).Value;
         VolunteerInfo volunteerInfo = VolunteerInfo.Create(command.VolunteerInfo).Value;
