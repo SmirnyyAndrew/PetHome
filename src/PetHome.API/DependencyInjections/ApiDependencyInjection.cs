@@ -1,10 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace PetHome.API;
+namespace PetHome.API.DependencyInjections;
 
 public static class ApiDependencyInjection
 {
-    public static IServiceCollection AdddSwaggerGetWithAuthentication(this IServiceCollection services)
+    public static IServiceCollection AddSwaggerGetWithAuthentication(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
         {

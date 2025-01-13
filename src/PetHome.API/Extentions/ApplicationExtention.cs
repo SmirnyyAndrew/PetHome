@@ -2,7 +2,7 @@
 using PetHome.SharedKernel.Middlewares;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
 
-namespace PetHome.API;
+namespace PetHome.API.Extentions;
 
 public static class ApplicationExtention
 {

@@ -21,7 +21,7 @@ namespace PetHome.Species.Infrastructure;
 public static class InfrastructureDependencyInjection
 {
     public static IServiceCollection AddSpeciesInfrastructure(
-       this IServiceCollection services, ConfigurationManager configuration)
+       this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<SpeciesWriteDbContext>(_ =>
               new SpeciesWriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
@@ -40,7 +40,7 @@ public static class InfrastructureDependencyInjection
     }
 
     private static IServiceCollection AddMinio(
-        this IServiceCollection services, ConfigurationManager configuration)
+        this IServiceCollection services, IConfiguration configuration)
     {
         var minioOptions = configuration.GetSection(MinioOptions.MINIO_NAME).Get<MinioOptions>()
             ?? throw new Exception("Ошибка со строкой подключения minio. Проверьте конфигурацию.");
