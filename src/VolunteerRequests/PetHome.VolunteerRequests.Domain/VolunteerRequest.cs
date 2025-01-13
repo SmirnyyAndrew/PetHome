@@ -21,7 +21,7 @@ public class VolunteerRequest
     {
         Id = VolunteerRequestId.Create().Value;
         CreatedAt = Date.Create().Value;
-        Status = VolunteerRequestStatus.RevisionRequired;
+        Status = VolunteerRequestStatus.Submitted;
         VolunteerInfo = volunteerInfo;
     }
 
@@ -71,5 +71,5 @@ public class VolunteerRequest
     {
         AdminId = adminId;
         Status = VolunteerRequestStatus.Submitted;
-    }
+    } 
 }
