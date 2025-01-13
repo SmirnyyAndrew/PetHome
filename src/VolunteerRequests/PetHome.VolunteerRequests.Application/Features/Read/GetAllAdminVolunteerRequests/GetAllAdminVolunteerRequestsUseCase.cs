@@ -23,7 +23,10 @@ public class GetAllAdminVolunteerRequestsUseCase
         GetAllAdminVolunteerRequestsQuery query, CancellationToken ct)
     {
         var volunteerRequests = await _repository.GetByAdminId(query.AdminId, ct);
-        
+
+        if (query.Status is not null)
+            volunteerRequests = volunteerRequests.Where(d => d.Status == query.Status).ToList();
+
         PagedList<VolunteerRequest> volunteerRequestsPagedList = await volunteerRequests.AsQueryable()
             .ToPagedList(query.PageNum, query.PageSize, ct);
 
