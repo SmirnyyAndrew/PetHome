@@ -12,8 +12,11 @@ public record VolunteerInfo
 
     public static Result<VolunteerInfo, Error> Create(string value)
     {
+        if (value.Trim().Length <= 10)
+            return Errors.Validation("Данные будущего волонтёра");
+
         return new VolunteerInfo(value);
-    } 
+    }
 
     public static implicit operator string(VolunteerInfo id) => id.Value;
 }
