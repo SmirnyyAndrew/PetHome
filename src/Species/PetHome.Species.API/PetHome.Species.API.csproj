@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scrutor" Version="5.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PetHome.Species.Application\PetHome.Species.Application.csproj" />
     <ProjectReference Include="..\PetHome.Species.Contracts\PetHome.Species.Contracts.csproj" />
     <ProjectReference Include="..\PetHome.Species.Domain\PetHome.Species.Domain.csproj" />

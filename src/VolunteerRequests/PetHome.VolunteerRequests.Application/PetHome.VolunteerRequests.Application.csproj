@@ -19,4 +19,8 @@
     <Folder Include="Features\Read\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Scrutor" Version="6.0.0" />
+  </ItemGroup>
+
 </Project>
