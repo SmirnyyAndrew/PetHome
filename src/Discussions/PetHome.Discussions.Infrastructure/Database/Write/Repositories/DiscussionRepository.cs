@@ -26,6 +26,16 @@ public class DiscussionRepository(DiscussionDbContext dbContext) : IDiscussionRe
         dbContext.Discussions.RemoveRange(discussions);
     }
 
+    public async Task UpdateDiscussion(Discussion discussion)
+    {
+        dbContext.Discussions.Update(discussion);
+    }
+
+    public async Task UpdateDiscussion(IEnumerable<Discussion> discussions)
+    {
+        dbContext.Discussions.UpdateRange(discussions);
+    }
+
     public async Task<Discussion?> GetDiscussionById(Guid discussionId, CancellationToken ct)
     {
         var discussion = await dbContext.Discussions
@@ -72,6 +82,16 @@ public class DiscussionRepository(DiscussionDbContext dbContext) : IDiscussionRe
     public async Task RemoveRelation(IEnumerable<Relation> relations)
     {
         dbContext.Relations.RemoveRange(relations);
+    }
+
+    public async Task UpdateRelation(Relation relation)
+    {
+        dbContext.Relations.Update(relation);
+    }
+
+    public async Task UpdateRelation(IEnumerable<Relation> relations)
+    {
+        dbContext.Relations.UpdateRange(relations);
     }
 
     public async Task<Relation?> GetRelationById(Guid relationId, CancellationToken ct)
