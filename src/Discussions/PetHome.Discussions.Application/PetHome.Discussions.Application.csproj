@@ -18,4 +18,8 @@
     <ProjectReference Include="..\PetHome.Discussions.Domain\PetHome.Discussions.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Write\" />
+  </ItemGroup>
+
 </Project>
