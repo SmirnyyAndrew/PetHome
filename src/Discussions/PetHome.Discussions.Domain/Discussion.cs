@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.Discussion;
+using PetHome.Core.ValueObjects.Discussion.Message;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 
@@ -56,6 +58,20 @@ public class Discussion
             return DiscussionCloseError;
 
         Messages.Remove(message);
+        return Result.Success<Error>();
+    }
+
+    public UnitResult<Error> EditMessage(MessageId messageId, MessageText newMessageText)
+    {
+        if (Status == DiscussionStatus.Close)
+            return DiscussionCloseError;
+
+        Message? message = Messages.FirstOrDefault(m => m.Id == messageId);
+        if (message is null)
+            return Errors.NotFound(nameof(Message));
+
+        message = message.EditMessage(newMessageText);
+
         return Result.Success<Error>();
     }
 

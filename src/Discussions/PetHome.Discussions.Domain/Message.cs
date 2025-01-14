@@ -8,7 +8,7 @@ public class Message
 {
     public MessageId Id { get; private set; }
     public MessageText? Text { get; private set; }
-    public UserId UserId { get; private set; } 
+    public UserId UserId { get; private set; }
     public DiscussionId DiscussionId { get; private set; }
     public Discussion Discussion { get; private set; }
     public Date CreatedAt { get; private set; }
@@ -18,17 +18,26 @@ public class Message
 
     private Message(MessageText text, UserId userId)
     {
-        Id = MessageId.Create().Value;
-        CreatedAt = Date.Create().Value;
         Text = text;
         UserId = userId;
     }
 
-    public static Message Create(MessageText text, UserId userId) => new Message(text, userId);
-
-    public void EditMessage(MessageText? newText)
+    public static Message Create(MessageText text, UserId userId)
     {
-        Text = newText;
-        IsEdited = true;
+        return new Message(text, userId)
+        {
+            Id = MessageId.Create().Value,
+            CreatedAt = Date.Create().Value
+        };
     }
+
+    public Message EditMessage(MessageText newText)
+    {  
+        return new Message(newText, UserId)
+        {
+            Id = Id,
+            CreatedAt = CreatedAt,
+            IsEdited = true
+        };
+    } 
 }
