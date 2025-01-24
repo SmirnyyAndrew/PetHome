@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.User;
+using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestRevisionRequired;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 using Xunit;
@@ -19,10 +22,15 @@ public class SetVolunteerRequestRevisionRequiredUseCaseTest : VolunteerRequestFa
     public async void Set_volunteer_request_revision_required()
     {
         //array 
-        Guid adminId = Guid.NewGuid();
-        Guid volunteerRequestId = Guid.NewGuid();
+        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
         string rejectedMessage = "message";
-        SetVolunteerRequestRevisionRequiredCommand command = new SetVolunteerRequestRevisionRequiredCommand(volunteerRequestId, adminId, rejectedMessage);
+        
+        SetVolunteerRequestRevisionRequiredCommand command = new SetVolunteerRequestRevisionRequiredCommand(
+            volunteerRequestId, 
+            adminId, 
+            rejectedMessage);
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

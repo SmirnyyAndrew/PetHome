@@ -23,7 +23,8 @@ public class RegisterParticipantUserUseCaseTest : AccountFactory
         string name = "Ivanov";
         string password = "IvanovPassword1123@";
 
-        RegisterParticipantUserCommand command = new RegisterParticipantUserCommand(email,name,password);
+        RegisterParticipantUserCommand command = new RegisterParticipantUserCommand(
+            email, name, password);
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

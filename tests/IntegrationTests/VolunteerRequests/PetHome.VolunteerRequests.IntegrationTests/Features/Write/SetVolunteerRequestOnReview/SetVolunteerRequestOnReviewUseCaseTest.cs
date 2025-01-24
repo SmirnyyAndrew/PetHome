@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.Discussion;
+using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.User;
+using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestOnReview;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 using Xunit;
@@ -18,10 +22,19 @@ public class SetVolunteerRequestOnReviewUseCaseTest : VolunteerRequestFactory
     public async void Set_volunteer_request_on_review()
     {
         //array 
-        Guid adminId = Guid.NewGuid();
-        Guid volunteerRequestId = Guid.NewGuid();
-        Guid discussionId = Guid.NewGuid();
-        SetVolunteerRequestOnReviewCommand command = new SetVolunteerRequestOnReviewCommand(volunteerRequestId, adminId, discussionId);
+        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
+
+        UserId firstUserId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        UserId secondUserId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        List<UserId> userIds = new() { firstUserId, secondUserId };
+
+        var discussionId = await _createDiscussionContract.Execute(userIds, CancellationToken.None);
+        SetVolunteerRequestOnReviewCommand command = new SetVolunteerRequestOnReviewCommand(
+            volunteerRequestId,
+            adminId, 
+            discussionId.Value);
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

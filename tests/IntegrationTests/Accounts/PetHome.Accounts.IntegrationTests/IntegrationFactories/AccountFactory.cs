@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
+using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
 using PetHome.Accounts.Contracts.User;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Infrastructure.Database;
@@ -14,13 +15,23 @@ public class AccountFactory
     protected readonly IServiceScope _scope;
     private readonly SeedManager _seedManager; 
     protected readonly AuthorizationDbContext _dbContext;
-    protected readonly ICreateUserContract _createUseContract;
+
+    protected readonly ICreateUserContract _createUserContract;
+    protected readonly IGetRoleContract _getRoleContract;
+    protected readonly IGenerateAccessTokenContract _generateAccessTokenContract;
+    protected readonly IGenerateRefreshTokenContract _generateRefreshTokenContract;
+    
     public AccountFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _scope = factory.Services.CreateScope(); 
         _dbContext = _scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
-        _createUseContract = _scope.ServiceProvider.GetRequiredService<CreateUserUsingContract>();
+
+        _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
+        _createUserContract = _scope.ServiceProvider.GetRequiredService<CreateUserUsingContract>();
+        _generateAccessTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateAccessTokenContract>();
+        _generateRefreshTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateRefreshTokenContract>();
+
         _seedManager = new SeedManager(factory);
     }
 

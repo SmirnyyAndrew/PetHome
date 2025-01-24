@@ -27,7 +27,7 @@ public class CreateDiscussionUsingContractUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<DiscussionId, ErrorList>> CreateDiscussion(
+    public async Task<Result<DiscussionId, ErrorList>> Execute(
         RelationId relationId, IEnumerable<UserId> userIds, CancellationToken ct)
     {
         if (userIds.Count() > 2)
@@ -43,7 +43,7 @@ public class CreateDiscussionUsingContractUseCase
         return discussion.Id;
     }
 
-    public async Task<Result<DiscussionId, ErrorList>> CreateDiscussion(
+    public async Task<Result<DiscussionId, ErrorList>> Execute(
         IEnumerable<UserId> userIds, CancellationToken ct)
     {
         if (userIds.Count() > 2)
