@@ -1,7 +1,6 @@
 using PetHome.Accounts.Infrastructure.Inject.Auth;
 using PetHome.API.DependencyInjections;
 using PetHome.API.DependencyInjections.AppExtentions;
-using PetHome.API.Extentions;
 using PetHome.API.MinimumApi;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;

@@ -2,7 +2,7 @@
 
 public static class ArrayMinimumApi
 {
-    public static WebApplication GetStringsArray(this WebApplication app)
+    public static WebApplication GetStringsArrayApi(this WebApplication app)
     {
         app.MapGet("strings-array", () =>
         {
