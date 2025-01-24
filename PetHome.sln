@@ -105,6 +105,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discussions", "Discussions"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Discussions.IntegrationTests", "tests\IntegrationTests\Discussions\PetHome.Discussions.IntegrationTests\PetHome.Discussions.IntegrationTests.csproj", "{BEB0CA7A-35CD-4AD3-B96F-F05AF2852170}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Accounts.Contracts", "src\Accounts\PetHome.Accounts.Contracts\PetHome.Accounts.Contracts.csproj", "{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -251,6 +253,10 @@ Global
 		{BEB0CA7A-35CD-4AD3-B96F-F05AF2852170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEB0CA7A-35CD-4AD3-B96F-F05AF2852170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEB0CA7A-35CD-4AD3-B96F-F05AF2852170}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -304,6 +310,7 @@ Global
 		{6641295F-B4F5-4547-8393-634D11A21A2C} = {DB246CD4-6CFB-4CD3-8824-5089C4635CB6}
 		{09BE9C1C-4ED8-4A75-A8A2-5FF7F9305A9B} = {8CF84D71-1943-4582-B48D-1C6BB95490B3}
 		{BEB0CA7A-35CD-4AD3-B96F-F05AF2852170} = {09BE9C1C-4ED8-4A75-A8A2-5FF7F9305A9B}
+		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A} = {FD13DEDB-9436-4388-96F5-2A14A6B10AAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F9854031-7707-4BE6-A92C-67D9DA83E819}
