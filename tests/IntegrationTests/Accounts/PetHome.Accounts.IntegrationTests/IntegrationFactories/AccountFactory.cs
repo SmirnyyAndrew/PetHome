@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Application.Features.Contracts.CreateUser;
+using PetHome.Accounts.Contracts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.IntegrationTests.Seeds;
@@ -12,11 +14,13 @@ public class AccountFactory
     protected readonly IServiceScope _scope;
     private readonly SeedManager _seedManager; 
     protected readonly AuthorizationDbContext _dbContext;
+    protected readonly ICreateUserContract _createUseContract;
     public AccountFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _scope = factory.Services.CreateScope(); 
         _dbContext = _scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
+        _createUseContract = _scope.ServiceProvider.GetRequiredService<CreateUserUsingContract>();
         _seedManager = new SeedManager(factory);
     }
 

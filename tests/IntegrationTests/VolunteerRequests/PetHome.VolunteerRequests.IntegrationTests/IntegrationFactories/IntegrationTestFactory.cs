@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using PetHome.Accounts.Application.Features.Contracts.CreateRole;
+using PetHome.Accounts.Application.Features.Contracts.CreateUser;
+using PetHome.Accounts.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using Respawn;
 using System.Data.Common;
@@ -24,7 +27,7 @@ public class IntegrationTestFactory
 
     private Respawner _respawner;
     private DbConnection _dbConnection;
-     private VolunteerRequestDbContext _writeDbContext;
+    private VolunteerRequestDbContext _writeDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -33,11 +36,17 @@ public class IntegrationTestFactory
     }
 
     private void ConfigureDefault(IServiceCollection services)
-    { 
-        services.RemoveAll(typeof(VolunteerRequestDbContext)); 
-         
+    {
+        services.RemoveAll(typeof(VolunteerRequestDbContext));
+        services.RemoveAll(typeof(IGetRoleContract));
+        services.RemoveAll(typeof(ICreateUserContract));
+
         services.AddScoped(_ =>
-              new VolunteerRequestDbContext(_dbContainer.GetConnectionString()));   
+              new VolunteerRequestDbContext(_dbContainer.GetConnectionString()));
+
+        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+        services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
+
     }
 
     public async Task InitializeAsync()
@@ -77,5 +86,5 @@ public class IntegrationTestFactory
         _respawner = await Respawner.CreateAsync(
             _dbConnection,
             respawnerOptions);
-    } 
+    }
 }

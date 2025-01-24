@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.User;
 using PetHome.VolunteerRequests.Application.Features.Write.CreateVolunteerRequest;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 using Xunit;
@@ -19,8 +22,12 @@ public class CreateVolunteerRequestUseCaseTest : VolunteerRequestFactory
     public async void Create_volunteer_request()
     {
         //array 
-        Guid userId = Guid.NewGuid();
-        string volunteerInfo = "info";
+        Email email = Email.Create("Emas2fgoiL123@mail.com").Value;
+        UserName userName = UserName.Create("Ivanov Ivan").Value;
+        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        UserId userId = await _createUserContract.Execute(email, userName, roleId, CancellationToken.None);
+
+        string volunteerInfo = "It's length enough volunteer requiest info";
         CreateVolunteerRequestCommand command = new CreateVolunteerRequestCommand(userId, volunteerInfo);
 
         //act

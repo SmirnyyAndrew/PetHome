@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
+    <ProjectReference Include="..\PetHome.Accounts.Contracts\PetHome.Accounts.Contracts.csproj" />
     <ProjectReference Include="..\PetHome.Accounts.Domain\PetHome.Accounts.Domain.csproj" />
   </ItemGroup>
 
