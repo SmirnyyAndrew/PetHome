@@ -14,7 +14,7 @@ public class SoftDeleteRestorePetUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_soft_delete_restore_pet()
+    public async void Soft_delete_restore_pet()
     {
         //array
         await SeedVolunteersWithAggregates();

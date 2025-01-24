@@ -16,7 +16,7 @@ public class RegisterParticipantUserUseCaseTest : AccountFactory
 
 
     [Fact]
-    public async void Login_user()
+    public async void Register_user()
     {
         //array 
         string email = "email2112@mail.com";

@@ -16,7 +16,7 @@ public class SetVolunteerRequestRejectedUseCaseTest : VolunteerRequestFactory
     }
 
     [Fact]
-    public async void Success_set_volunteer_request_on_review()
+    public async void Set_volunteer_request_rejected()
     {
         //array 
         Guid adminId = Guid.NewGuid();

@@ -13,7 +13,7 @@ public class OpenDiscussionUseCaseTest : DiscussionFactory
     }
 
     [Fact]
-    public async void Close_discussion()
+    public async void Open_discussion()
     {
         //array
         await SeedDiscussions(5);

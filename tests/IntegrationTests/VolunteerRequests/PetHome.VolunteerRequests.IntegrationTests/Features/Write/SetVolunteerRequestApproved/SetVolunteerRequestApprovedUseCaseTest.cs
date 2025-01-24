@@ -15,7 +15,7 @@ public class SetVolunteerRequestApprovedUseCaseTest : VolunteerRequestFactory
     }
 
     [Fact]
-    public async void Success_set_volunteer_request_approved()
+    public async void Set_volunteer_request_approved()
     {
         //array 
         Guid volunteerrequestId = Guid.NewGuid();

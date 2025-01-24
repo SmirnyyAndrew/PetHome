@@ -14,7 +14,7 @@ public class SendMessageInDiscussionUseCaseTest : DiscussionFactory
     }
 
     [Fact]
-    public async void Close_discussion()
+    public async void Send_message_in_discussion()
     {
         //array
         await SeedDiscussions(5);

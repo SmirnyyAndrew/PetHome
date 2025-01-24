@@ -19,7 +19,7 @@ public class UpdateAccessTokenUsingRefreshTokenUseCaseTest : AccountFactory
 
 
     [Fact]
-    public async void Login_user()
+    public async void Update_access_token_using_refresh_token()
     {
         //array 
         Guid refreshToken = Guid.NewGuid();

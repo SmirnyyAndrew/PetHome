@@ -14,7 +14,7 @@ public class RemoveMessageInDiscussionUseCaseTest : DiscussionFactory
     }
 
     [Fact]
-    public async void Close_discussion()
+    public async void Remove_message_in_discussion()
     {
         //array
         await SeedDiscussions(5);

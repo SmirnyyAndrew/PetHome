@@ -13,7 +13,7 @@ public class CreateBreedUseCaseTest : SpeciesFactory
     }
 
     [Fact]
-    public async void Success_create_breed()
+    public async void Create_breed()
     {
         //array
         await SeedSpecies(1);

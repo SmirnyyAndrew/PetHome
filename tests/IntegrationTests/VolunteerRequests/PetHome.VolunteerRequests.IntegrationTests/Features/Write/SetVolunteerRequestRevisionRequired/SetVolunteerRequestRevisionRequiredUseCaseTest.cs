@@ -16,7 +16,7 @@ public class SetVolunteerRequestRevisionRequiredUseCaseTest : VolunteerRequestFa
     }
 
     [Fact]
-    public async void Success_set_volunteer_request_on_review()
+    public async void Set_volunteer_request_revision_required()
     {
         //array 
         Guid adminId = Guid.NewGuid();

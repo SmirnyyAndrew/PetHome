@@ -16,7 +16,7 @@ public class ChangePetStatusUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_change_pet_status()
+    public async void Change_pet_status()
     {
         //array
         await SeedVolunteersWithAggregates();

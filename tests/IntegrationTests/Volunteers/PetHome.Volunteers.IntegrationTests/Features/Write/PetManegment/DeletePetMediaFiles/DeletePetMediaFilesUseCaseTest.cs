@@ -16,7 +16,7 @@ public class DeletePetMediaFilesUseCaseTest : FileProviderFactory
     }
 
     [Fact]
-    public async void Success_delete_pet_media_files()
+    public async void Delete_pet_media_files()
     {
         //array
         await SeedVolunteersWithAggregates();

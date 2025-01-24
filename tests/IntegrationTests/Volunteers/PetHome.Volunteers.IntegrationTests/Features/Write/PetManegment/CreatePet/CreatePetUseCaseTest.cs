@@ -18,7 +18,7 @@ public class CreatePetUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_create_pet()
+    public async void Create_pet()
     {
         //array
         await SeedVolunteersWithAggregates();

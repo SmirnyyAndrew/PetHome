@@ -14,7 +14,7 @@ public class HardDeletePetUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_hard_delete_pet_by_id()
+    public async void Hard_delete_pet_by_id()
     {
         //array
         await SeedVolunteersWithAggregates();
