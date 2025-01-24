@@ -1,9 +1,9 @@
 ﻿using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts;
+using PetHome.Accounts.Contracts.User;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.ValueObjects.RolePermission;
 
-namespace PetHome.Accounts.Application.Features.Contracts.CreateRole;
+namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
 public class GetRoleUsingContract : IGetRoleContract
 {
     private readonly IAuthenticationRepository _repository;

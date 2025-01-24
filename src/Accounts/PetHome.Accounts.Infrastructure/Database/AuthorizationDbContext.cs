@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Accounts.Domain.Tokens.RefreshToken;
+using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database;

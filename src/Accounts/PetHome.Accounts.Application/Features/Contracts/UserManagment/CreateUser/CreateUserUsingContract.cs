@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts;
+using PetHome.Accounts.Contracts.User;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
 using PetHome.Core.ValueObjects.MainInfo;
@@ -8,7 +8,7 @@ using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 
-namespace PetHome.Accounts.Application.Features.Contracts.CreateUser;
+namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
 public class CreateUserUsingContract : ICreateUserContract
 {
     private readonly IAuthenticationRepository _repository;

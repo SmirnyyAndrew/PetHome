@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Accounts.Domain.Tokens.RefreshToken;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.RefreshToken;
 
 namespace PetHome.Accounts.Infrastructure.Database.Repositories;
 public class RefreshSessionRepository

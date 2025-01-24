@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Application.Features.Contracts.CreateUser;
-using PetHome.Accounts.Contracts;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
+using PetHome.Accounts.Contracts.User;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.IntegrationTests.Seeds;

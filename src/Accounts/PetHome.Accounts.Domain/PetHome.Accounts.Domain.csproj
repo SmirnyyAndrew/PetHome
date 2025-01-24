@@ -15,4 +15,8 @@
     <ProjectReference Include="..\..\Volunteers\PetHome.Volunteers.Domain\PetHome.Volunteers.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Tokens\" />
+  </ItemGroup>
+
 </Project>

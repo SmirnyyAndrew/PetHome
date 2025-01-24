@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Application.Features.Contracts.CreateRole;
-using PetHome.Accounts.Application.Features.Contracts.CreateUser;
-using PetHome.Accounts.Contracts;
+using PetHome.Accounts.Contracts.User;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.Seeds;
 using Xunit;

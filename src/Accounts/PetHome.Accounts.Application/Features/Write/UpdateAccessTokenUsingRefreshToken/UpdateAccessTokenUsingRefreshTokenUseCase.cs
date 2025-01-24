@@ -4,12 +4,12 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Accounts.Domain.Tokens.RefreshToken;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 

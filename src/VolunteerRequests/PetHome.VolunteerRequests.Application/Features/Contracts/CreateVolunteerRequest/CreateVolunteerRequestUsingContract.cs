@@ -1,4 +1,4 @@
-﻿using PetHome.Accounts.Contracts;
+﻿using PetHome.Accounts.Contracts.User;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Core.ValueObjects.VolunteerRequest;

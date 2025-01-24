@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Accounts.Domain.Tokens.RefreshToken;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.Response.Validation.Validator;
 using System.Security.Claims;
 

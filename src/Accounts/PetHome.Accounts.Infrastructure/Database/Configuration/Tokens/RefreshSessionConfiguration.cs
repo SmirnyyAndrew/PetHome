@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Accounts.Domain.Tokens.RefreshToken;
+using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Accounts.Infrastructure.Database.Configuration.Tokens;
