@@ -13,10 +13,9 @@ public partial class SeedManager
         for (int i = 0; i < volunteerRequestsCountToSeed; i++)
         {
             UserId userId = UserId.Create().Value;
-            VolunteerInfo volunteerInfo = VolunteerInfo.Create($"Info {i}").Value;
-            DiscussionId discussionId = DiscussionId.Create().Value;
+            VolunteerInfo volunteerInfo = VolunteerInfo.Create($"Info {i}").Value; 
 
-            VolunteerRequest request = new VolunteerRequest(userId, volunteerInfo, discussionId);
+            VolunteerRequest request = new VolunteerRequest(userId, volunteerInfo);
             result.Add(request);
         }
 

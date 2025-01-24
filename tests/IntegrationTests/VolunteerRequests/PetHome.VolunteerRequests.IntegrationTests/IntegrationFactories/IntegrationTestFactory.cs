@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
-using NSubstitute;
-using PetHome.Core.Interfaces;
-using PetHome.VolunteerRequests.Infrastructure.Database;
+using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -26,8 +24,7 @@ public class IntegrationTestFactory
 
     private Respawner _respawner;
     private DbConnection _dbConnection;
-    private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
-    private VolunteerRequestDbContext _writeDbContext;
+     private VolunteerRequestDbContext _writeDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -75,7 +72,7 @@ public class IntegrationTestFactory
         RespawnerOptions respawnerOptions = new RespawnerOptions()
         {
             DbAdapter = DbAdapter.Postgres,
-            SchemasToInclude = ["public"]
+            SchemasToInclude = ["VolunteerRequests"]
         };
         _respawner = await Respawner.CreateAsync(
             _dbConnection,

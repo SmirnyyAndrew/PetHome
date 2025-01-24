@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.VolunteerRequests.Infrastructure.Database;
+using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 
 namespace PetHome.VolunteerRequests.IntegrationTests.Seeds;

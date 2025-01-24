@@ -2,6 +2,7 @@
 using PetHome.Discussions.Application.Inject;
 using PetHome.Species.Application;
 using PetHome.Volunteers.Application;
+using PetHome.VolunteerRequests.Application.Inject;
 
 namespace PetHome.API.DependencyInjections;
 
@@ -14,7 +15,8 @@ public static class ServicesDependencyInjection
             .AddSpeciesServices()
             .AddVolunteerServices()
             .AddAccountsServices()
-            .AddDiscussionServices();
+            .AddDiscussionServices()
+            .AddVolunteerRequestsServices();
 
         return services;
     }
