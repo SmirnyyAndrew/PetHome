@@ -1,6 +1,8 @@
 using PetHome.Accounts.Infrastructure.Inject.Auth;
 using PetHome.API.DependencyInjections;
+using PetHome.API.DependencyInjections.AppExtentions;
 using PetHome.API.Extentions;
+using PetHome.API.MinimumApi;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
 using Serilog;
@@ -74,6 +76,12 @@ public partial class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        //Добавить минимум-api
+        app.AddMinimumApi();
+
+        //Добавить CORS
+        app.AddCORS("http://localhost:5173/");
 
         app.Run();
     }
