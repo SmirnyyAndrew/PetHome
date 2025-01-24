@@ -17,28 +17,28 @@ public class VolunteerRequest
 
     public VolunteerRequest(
         UserId userId,
-        VolunteerInfo? volunteerInfo,
-        DiscussionId? discussionId)
+        VolunteerInfo? volunteerInfo)
     {
         Id = VolunteerRequestId.Create().Value;
         CreatedAt = Date.Create().Value;
-        Status = VolunteerRequestStatus.OnReview;
+        Status = VolunteerRequestStatus.Submitted;
         VolunteerInfo = volunteerInfo;
-        DiscussionId = discussionId;
     }
 
-    public VolunteerRequest Create(
+    public static VolunteerRequest Create(
         UserId userId,
-        VolunteerInfo? volunteerInfo,
-        DiscussionId? discussionId)
+        VolunteerInfo? volunteerInfo)
     {
-        return new VolunteerRequest(userId, volunteerInfo, discussionId);
+        return new VolunteerRequest(userId, volunteerInfo);
     }
 
-    public void SetOnReview(UserId adminId)
+    public void SetOnReview(
+        UserId adminId,
+        DiscussionId? discussionId)
     {
         AdminId = adminId;
         Status = VolunteerRequestStatus.OnReview;
+        DiscussionId = discussionId;
     }
 
     public void SetRevisionRequired(

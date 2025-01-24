@@ -10,14 +10,9 @@ public record DiscussionId
         Value = value;
     }
 
-    public static Result<DiscussionId, Error> Create(Guid value)
-    {
-        return new DiscussionId(value);
-    }
-    public static Result<DiscussionId, Error> Create()
-    {
-        return new DiscussionId(Guid.NewGuid());
-    }
+    public static Result<DiscussionId, Error> Create(Guid value) => new DiscussionId(value);
+
+    public static Result<DiscussionId, Error> Create() => new DiscussionId(Guid.NewGuid());
 
     public static implicit operator Guid(DiscussionId id) => id.Value;
 }

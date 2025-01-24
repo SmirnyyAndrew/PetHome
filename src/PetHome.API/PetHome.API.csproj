@@ -16,24 +16,23 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" /> 
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" /> 
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" /> 
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Scrutor" Version="5.1.0" /> 
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" /> 
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Accounts\PetHome.Accounts.API\PetHome.Accounts.API.csproj" />
-    <ProjectReference Include="..\Accounts\PetHome.Accounts.Infrastructure\PetHome.Accounts.Infrastructure.csproj" />
-    <ProjectReference Include="..\Shared\PetHome.Core\PetHome.Core.csproj" />
-    <ProjectReference Include="..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
-    <ProjectReference Include="..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
-    <ProjectReference Include="..\Species\PetHome.Species.API\PetHome.Species.API.csproj" />
-    <ProjectReference Include="..\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
-    <ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.API\PetHome.VolunteerRequests.API.csproj" />
-    <ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.Application\PetHome.VolunteerRequests.Application.csproj" />
-    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
-    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
-    <ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup> 
+		<ProjectReference Include="..\Accounts\PetHome.Accounts.API\PetHome.Accounts.API.csproj" /> 
+		<ProjectReference Include="..\Accounts\PetHome.Accounts.Infrastructure\PetHome.Accounts.Infrastructure.csproj" /> 
+		<ProjectReference Include="..\Discussions\PetHome.Discussions.API\PetHome.Discussions.API.csproj" /> 
+		<ProjectReference Include="..\Discussions\PetHome.Discussions.Contracts\PetHome.Discussions.Contracts.csproj" /> 
+		<ProjectReference Include="..\Discussions\PetHome.Discussions.Infrastructure\PetHome.Discussions.Infrastructure.csproj" />    
+		<ProjectReference Include="..\Species\PetHome.Species.API\PetHome.Species.API.csproj" />    
+		<ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.API\PetHome.VolunteerRequests.API.csproj" />    
+		<ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.Infrastructure\PetHome.VolunteerRequests.Infrastructure.csproj" /> 
+		<ProjectReference Include="..\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
+		<ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
+	</ItemGroup>
 
 </Project>
