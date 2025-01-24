@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Interfaces.FeatureManagment; 
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.VolunteerRequests.Application.Features.Contracts.CreateVolunteerRequest;
+using PetHome.VolunteerRequests.Contracts;
 
 namespace PetHome.VolunteerRequests.Application.Inject;
 public static class ApplicationDependencyInjection
@@ -15,6 +17,7 @@ public static class ApplicationDependencyInjection
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
 
+        services.AddScoped<ICreateVolunteerRequestContract,CreateVolunteerRequestUsingContract>();
  
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 
