@@ -22,9 +22,10 @@ public class CreateUserUsingContract : ICreateUserContract
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserId> Execute(
-        Email email, UserName userName, RoleId roleId, CancellationToken ct)
+    public async Task<UserId> Execute(RoleId roleId, CancellationToken ct)
     {
+        Email email = Email.Create("Emas2fgoiL123@mail.com").Value;
+        UserName userName = UserName.Create("Ivanov Ivan").Value;
         Role role = _repository.GetRole(roleId.Value).Result.Value;
         User user = User.Create(email, userName, role).Value;
         UserId userId = UserId.Create(user.Id).Value;

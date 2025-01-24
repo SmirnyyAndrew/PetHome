@@ -22,10 +22,8 @@ public class CreateVolunteerRequestUseCaseTest : VolunteerRequestFactory
     public async void Create_volunteer_request()
     {
         //array 
-        Email email = Email.Create("Emas2fgoiL123@mail.com").Value;
-        UserName userName = UserName.Create("Ivanov Ivan").Value;
         RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
-        UserId userId = await _createUserContract.Execute(email, userName, roleId, CancellationToken.None);
+        UserId userId = await _createUserContract.Execute(roleId, CancellationToken.None);
 
         string volunteerInfo = "It's length enough volunteer requiest info";
         CreateVolunteerRequestCommand command = new CreateVolunteerRequestCommand(userId, volunteerInfo);
