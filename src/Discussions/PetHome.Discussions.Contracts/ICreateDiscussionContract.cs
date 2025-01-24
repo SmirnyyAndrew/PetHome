@@ -9,4 +9,7 @@ public interface ICreateDiscussionContract
 {
     public Task<Result<DiscussionId, ErrorList>> CreateDiscussion(
         RelationId relationId, IEnumerable<UserId> userIds, CancellationToken ct);
+
+    public Task<Result<DiscussionId, ErrorList>> CreateDiscussion(
+        IEnumerable<UserId> userIds, CancellationToken ct);
 }

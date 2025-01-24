@@ -42,4 +42,26 @@ public class CreateDiscussionUsingContractUseCase
 
         return discussion.Id;
     }
+
+    public async Task<Result<DiscussionId, ErrorList>> CreateDiscussion(
+        IEnumerable<UserId> userIds, CancellationToken ct)
+    {
+        if (userIds.Count() > 2)
+            return Errors.Validation("Пользователей не должно быть больше 2").ToErrorList();
+
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+
+        RelationName relationName = RelationName.Create("test discussion name").Value;
+        Relation relation = Relation.Create(relationName);
+        RelationId relationId = RelationId.Create(relation.Id).Value;
+        await _repository.AddRelation(relation);
+
+        Discussion discussion = Discussion.Create(relationId, userIds).Value;
+        await _repository.AddDiscussion(discussion);
+       
+        transaction.Commit();
+        await _unitOfWork.SaveChanges(ct);
+
+        return discussion.Id;
+    }
 }
