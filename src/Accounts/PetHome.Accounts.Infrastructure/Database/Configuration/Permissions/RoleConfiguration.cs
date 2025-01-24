@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
+using PetHome.Accounts.Domain.Aggregates;
 
 namespace PetHome.Accounts.Infrastructure.Database.Configuration.Permissions;
 public class RoleConfiguration : IEntityTypeConfiguration<Role>

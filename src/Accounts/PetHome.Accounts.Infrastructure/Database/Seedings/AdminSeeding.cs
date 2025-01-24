@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Domain.Aggregates.RolePermission;
-using PetHome.Accounts.Domain.Aggregates.User;
-using PetHome.Accounts.Domain.Aggregates.User.Accounts;
-using PetHome.Core.ValueObjects;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.User;
 using PetHome.SharedKernel.Options.Accounts;
 
 namespace PetHome.Accounts.Infrastructure.Database.Seedings;
@@ -20,6 +20,8 @@ public static class AdminSeeding
             return services;
 
         var adminOptions = configuration.GetSection(AdminOption.SECTION_NAME).Get<AdminOption>();
+        if(adminOptions is null)
+            return services;
 
         Role? role = dbContext.Roles.FirstOrDefault(r => r.Name.ToLower() == AdminAccount.ROLE);  
         UserName userName = UserName.Create(adminOptions.UserName).Value;

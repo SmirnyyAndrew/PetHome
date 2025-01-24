@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Core.ValueObjects.PetManagment.Species;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Infrastructure.Database.Write.Configuration;
@@ -33,5 +33,12 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<_Species>
             .IsRequired(false)
             .HasForeignKey(x => x.SpeciesId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        //soft delete 
+        builder.Property(d => d.IsDeleted)
+            .HasColumnName("is_deleted");
+
+        builder.Property(d => d.DeletionDate)
+            .HasColumnName("soft_deleted_date");
     }
 }

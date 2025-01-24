@@ -3,33 +3,58 @@ public static class Permissions
 {
     public static class Pet
     {
-        public static string GET = "get.pet";
-        public static string CREATE = "create.pet";
-        public static string UDPATE = "update.pet";
-        public static string DELETE = "delete.pet";
+        public const string GET = "get.pet";
+        public const string CREATE = "create.pet";
+        public const string UDPATE = "update.pet";
+        public const string DELETE = "delete.pet";
     }
 
     public static class Species
     {
-        public static string GET = "get.species";
-        public static string CREATE = "create.species";
-        public static string UDPATE = "update.species";
-        public static string DELETE = "delete.species";
+        public const string GET = "get.species";
+        public const string CREATE = "create.species";
+        public const string UDPATE = "update.species";
+        public const string DELETE = "delete.species";
+    }
+
+    public static class User
+    {
+        public const string GET = "get.user";
+        public const string CREATE = "create.user";
+        public const string UDPATE = "update.user";
+        public const string DELETE = "delete.user";
     }
 
     public static class Volunteer
     {
-        public static string GET = "get.volunteer";
-        public static string CREATE = "create.volunteer";
-        public static string UDPATE = "update.volunteer";
-        public static string DELETE = "delete.volunteer";
+        public const string GET = "get.volunteer";
+        public const string CREATE = "create.volunteer";
+        public const string UDPATE = "update.volunteer";
+        public const string DELETE = "delete.volunteer";
     }
+
+    public static class Participant
+    {
+        public const string GET = "get.participant";
+        public const string CREATE = "create.participant";
+        public const string UDPATE = "update.participant";
+        public const string DELETE = "delete.participant";
+    }
+
+    public static class Admin
+    {
+        public const string GET = "get.admin";
+        public const string CREATE = "create.admin";
+        public const string UDPATE = "update.admin";
+        public const string DELETE = "delete.admin";
+    }
+
 
     public static class MinioFiles
     { 
-        public static string GET = "get.miniofiles";
-        public static string CREATE = "create.miniofiles";
-        public static string UDPATE = "update.miniofiles";
-        public static string DELETE = "delete.miniofiles";
+        public const string GET = "get.miniofiles";
+        public const string CREATE = "create.miniofiles";
+        public const string UDPATE = "update.miniofiles";
+        public const string DELETE = "delete.miniofiles";
     }
 }

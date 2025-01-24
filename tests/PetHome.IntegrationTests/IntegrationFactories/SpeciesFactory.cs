@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.IntegrationTests.Seeds;
+using PetHome.IntegrationTests.Seeds.Species;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 using PetHome.Species.Infrastructure.Database.Write.DBContext;

@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests;
-using PetHome.Accounts.Application.Features.LoginUser;
-using PetHome.Accounts.Application.Features.RegisterAccount;
-using PetHome.Accounts.Application.Features.UpdateAccessTokenUsingRefreshToken;
+using PetHome.Accounts.Application.Features.Read.GetUserInformation;
+using PetHome.Accounts.Application.Features.Write.LoginUser;
+using PetHome.Accounts.Application.Features.Write.RegisterAccount;
+using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
 using PetHome.Core.Controllers;
 
@@ -38,18 +36,19 @@ public class AccountAuthenticationController : ParentController
         return Ok(result.Value);
     }
 
-
-    [Authorize]
-    [HttpPost("tokens")]
-    public async Task<IActionResult> GetNewTokens(
-        [FromServices] UpdateAccessTokenUsingRefreshTokenUseCase useCase,
-        [FromBody] UpdateAccessTokenUsingRefreshTokenRequest request,
+    //Указал Permission-заглушку для доступа этого метода у Participant
+    [Permission(Permissions.Pet.GET)]
+    [HttpGet("user-information/{id:guid}")]
+    public async Task<IActionResult> GetUserInformationWithHisAccounts(
+        [FromServices] GetUserInformationUseCase useCase,
+        [FromRoute] Guid id,
         CancellationToken ct)
     {
-        var result = await useCase.Execute(request, ct);
-        if (result.IsFailure)
+        GetUserInformationQuery query = new(id);
+        var result = await useCase.Execute(query, ct);
+        if (result.IsFailure) 
             return BadRequest(result.Error);
-          
+
         return Ok(result.Value);
     }
 }

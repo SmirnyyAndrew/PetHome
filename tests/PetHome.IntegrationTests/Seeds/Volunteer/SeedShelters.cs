@@ -1,6 +1,6 @@
-﻿using PetHome.Volunteers.Domain.PetManagment.PetEntity;
+﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
 
-namespace PetHome.IntegrationTests.Seeds;
+namespace PetHome.IntegrationTests.Seeds.Species;
 public partial class SeedManager
 {
     public async Task<IReadOnlyList<PetShelter>> SeedShelters(int shelterCountToSeed)

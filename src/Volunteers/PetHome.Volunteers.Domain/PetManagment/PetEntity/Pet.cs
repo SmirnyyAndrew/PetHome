@@ -1,10 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects;
-using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
-using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Breed;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetHome.Core.ValueObjects.PetManagment.Species;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 
 namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public class Pet : SoftDeletableEntity
@@ -97,7 +100,7 @@ public class Pet : SoftDeletableEntity
             volunteerId,
             requisites);
 
-        pet.InitSerialNumer();
+        pet.InitSerialNumber();
         Pets.Add(pet);
         return pet;
     }
@@ -106,7 +109,7 @@ public class Pet : SoftDeletableEntity
     public override void SoftRestore() => base.SoftRestore();
 
     // Присвоить serial number = max + 1
-    public UnitResult<Error> InitSerialNumer()
+    public UnitResult<Error> InitSerialNumber()
     {
         SerialNumber serialNumber = Pets.Count == 0
             ? SerialNumber.Create(1)
@@ -121,7 +124,7 @@ public class Pet : SoftDeletableEntity
     {
         if (Pets.Count == 0)
         {
-            InitSerialNumer();
+            InitSerialNumber();
             return Result.Success<Error>();
         }
 

@@ -28,6 +28,14 @@ namespace PetHome.Species.Infrastructure.Migrations.Write
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_deleted_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -51,6 +59,14 @@ namespace PetHome.Species.Infrastructure.Migrations.Write
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("soft_deleted_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("Name")
                         .IsRequired()

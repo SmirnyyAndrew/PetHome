@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
@@ -88,7 +89,7 @@ public class VolunteerRepository : IVolunteerRepository
     public IReadOnlyList<Volunteer> GetDeleted(CancellationToken ct)
     {
         return _dBContext.Volunteers
-            .Where(x => x._isDeleted == true)
+            .Where(x => x.IsDeleted == true)
             .ToList();
     }
 }

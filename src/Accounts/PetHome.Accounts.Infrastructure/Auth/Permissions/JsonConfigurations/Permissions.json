@@ -5,26 +5,65 @@
       "create.pet",
       "update.pet",
       "delete.pet",
+
       "get.volunteer",
       "create.volunteer",
-      "update.volunteer"
+      "update.volunteer",
+
+      "get.species",
+      "create.species",
+      "update.species",
+      "get.miniofiles",
+
+      "create.miniofiles",
+      "update.miniofiles",
+      "delete.miniofiles"
     ],
     "admin": [
-      "create.admin",
-      "delete.admin",
-      "update.admin",
       "get.pet",
       "create.pet",
       "update.pet",
       "delete.pet",
       "get.volunteer",
+
+      "create.user",
+      "delete.user",
+      "update.user",
+
+      "create.admin",
+      "delete.admin",
+      "update.admin",
+
       "create.volunteer",
       "update.volunteer",
-      "delete.volunteer"
+      "delete.volunteer",
+
+      "create.participant",
+      "update.participant",
+      "delete.participant",
+
+      "get.species",
+      "create.species",
+      "update.species",
+      "delete.species",
+
+      "get.miniofiles",
+      "create.miniofiles",
+      "update.miniofiles",
+      "delete.miniofiles"
+    ],
+    "participant": [
+      "create.participant",
+      "update.participant",
+      "delete.participant",
+
+      "get.pet",
+      "get.species"
     ],
     "visitor": [
       "get.pet",
-      "get.volunteer"
+      "get.volunteer",
+      "get.species"
     ]
   }
 }

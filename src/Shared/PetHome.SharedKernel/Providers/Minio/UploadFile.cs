@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Minio.DataModel.Args;
 using PetHome.Core.Interfaces;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 
 namespace PetHome.SharedKernel.Providers.Minio;
 public partial class MinioProvider : IFilesProvider

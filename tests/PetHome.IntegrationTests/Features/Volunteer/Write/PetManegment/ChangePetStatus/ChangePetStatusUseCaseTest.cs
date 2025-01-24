@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
 using PetHome.IntegrationTests.IntegrationFactories;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetStatus;
-using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using Xunit;
 
 namespace PetHome.IntegrationTests.Features.Volunteer.Write.PetManegment.ChangePetStatus;

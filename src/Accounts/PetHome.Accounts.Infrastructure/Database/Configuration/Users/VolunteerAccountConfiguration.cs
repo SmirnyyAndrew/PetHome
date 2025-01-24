@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Accounts.Domain.Aggregates.User;
-using PetHome.Accounts.Domain.Aggregates.User.Accounts;
-using PetHome.Core.ValueObjects;
+using PetHome.Accounts.Domain.Accounts;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using System.Text.Json;
 
@@ -48,5 +49,12 @@ public class VolunteerAccountConfiguration : IEntityTypeConfiguration<VolunteerA
                 u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IReadOnlyList<Pet>>(json, JsonSerializerOptions.Default))
             .HasColumnName("pets");
+
+
+        builder.Property(d => d.IsDeleted)
+            .HasColumnName("is_deleted");
+
+        builder.Property(d => d.DeletionDate)
+            .HasColumnName("soft_deleted_date");
     }
 }

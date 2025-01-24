@@ -7,7 +7,7 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;

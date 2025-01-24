@@ -1,9 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces;
+using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects;
-using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Breed;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetHome.Core.ValueObjects.PetManagment.Species;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
@@ -86,13 +90,13 @@ public class Volunteer : SoftDeletableEntity
     public override void SoftDelete()
     {
         base.SoftDelete();
-        Pets.ForEach(pet => pet.SoftDelete());
+        Pets?.ForEach(pet => pet.SoftDelete());
     }
 
     public override void SoftRestore()
     {
         base.SoftRestore();
-        Pets.ForEach(pet => pet.SoftRestore());
+        Pets?.ForEach(pet => pet.SoftRestore());
     }
 
     public Result<Pet, Error> CreatePet(

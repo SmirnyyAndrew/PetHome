@@ -1,7 +1,7 @@
 ﻿using PetHome.IntegrationTests.IntegrationFactories;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
-namespace PetHome.IntegrationTests.Seeds;
+namespace PetHome.IntegrationTests.Seeds.Species;
 public partial class SeedManager
 {
     public async Task<IReadOnlyList<_Species>> SeedSpecies(int speciesCountToSeed = 3)

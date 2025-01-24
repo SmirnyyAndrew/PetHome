@@ -2,12 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PetHome.Accounts.Application;
-using PetHome.Accounts.Domain.Aggregates.User;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Domain.Tokens.RefreshToken;
 using PetHome.Accounts.Infrastructure.Inject.Auth;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

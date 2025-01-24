@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
+		<ProjectReference Include="..\..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
+		<ProjectReference Include="..\..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
+		<ProjectReference Include="..\PetHome.VolunteerRequests.Application\PetHome.VolunteerRequests.Application.csproj" />
+		<ProjectReference Include="..\PetHome.VolunteerRequests.Contracts\PetHome.VolunteerRequests.Contracts.csproj" />
+		<ProjectReference Include="..\PetHome.VolunteerRequests.Domain\PetHome.VolunteerRequests.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
+		<PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+	</ItemGroup>
+</Project>

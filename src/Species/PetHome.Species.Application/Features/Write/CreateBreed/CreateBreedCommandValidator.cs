@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
-using PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetHome.Species.Application.Features.Write.CreateBreed;
 public class CreateBreedCommandValidator : AbstractValidator<CreateBreedCommand>

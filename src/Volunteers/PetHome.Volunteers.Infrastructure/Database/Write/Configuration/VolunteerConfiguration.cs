@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Configuration;
@@ -101,13 +104,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         //Is soft deleted
-        builder.Property<bool>("_isDeleted")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
+        builder.Property(d => d.IsDeleted) 
             .HasColumnName("is_deleted");
 
         //has been deleted date
-        builder.Property<DateTime>("DeletionDate")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
+        builder.Property(d => d.DeletionDate) 
             .HasColumnName("soft_deleted_date");
     }
 }
