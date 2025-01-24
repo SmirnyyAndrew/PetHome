@@ -81,6 +81,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Discussions.Contrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Discussions.Infrastructure", "src\Discussions\PetHome.Discussions.Infrastructure\PetHome.Discussions.Infrastructure.csproj", "{D6417AD0-CF88-4B24-91D7-73CBFF1383AB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Species", "Species", "{0A317FC6-D2D6-45B5-90CF-EBEC60C33471}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Species.IntegrationTests", "tests\IntegrationTests\Species\PetHome.Species.IntegrationTests\PetHome.Species.IntegrationTests.csproj", "{7FDECAE3-F5F1-44AF-9957-E9B74B7945A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +215,10 @@ Global
 		{D6417AD0-CF88-4B24-91D7-73CBFF1383AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6417AD0-CF88-4B24-91D7-73CBFF1383AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6417AD0-CF88-4B24-91D7-73CBFF1383AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FDECAE3-F5F1-44AF-9957-E9B74B7945A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FDECAE3-F5F1-44AF-9957-E9B74B7945A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FDECAE3-F5F1-44AF-9957-E9B74B7945A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FDECAE3-F5F1-44AF-9957-E9B74B7945A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
