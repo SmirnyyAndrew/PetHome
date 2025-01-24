@@ -1,12 +1,8 @@
-using PetHome.Accounts.Application;
-using PetHome.Accounts.Infrastructure.Inject;
 using PetHome.Accounts.Infrastructure.Inject.Auth;
+using PetHome.API.DependencyInjections;
+using PetHome.API.Extentions;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
-using PetHome.Species.Application;
-using PetHome.Species.Infrastructure;
-using PetHome.Volunteers.Application;
-using PetHome.Volunteers.Infrastructure;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -18,7 +14,6 @@ public partial class Program
         DotNetEnv.Env.Load();
 
         var builder = WebApplication.CreateBuilder(args);
-
 
         //Включить логгер от Serilog
         builder.Services.AddSerilog();
@@ -41,27 +36,16 @@ public partial class Program
         });
 
         //Подключение swagger с возможностью аутентификации
-        builder.Services.AdddSwaggerGetWithAuthentication();
-
-
+        builder.Services.AddSwaggerGetWithAuthentication();
 
         //Подключение аутентификации
         builder.Services.ApplyAuthenticationAuthorizeConfiguration(builder.Configuration);
 
-
-
         //Подключение infrastructures
-        builder.Services
-            .AddAccountsInfrastructure(builder.Configuration)
-            .AddSpeciesInfrastructure(builder.Configuration)
-            .AddVolunteerInfrastructure(builder.Configuration);
+        builder.Services.AddModulesInfrastructures(builder.Configuration);
 
         //Подключение handlers
-        builder.Services
-            .AddSpeciesServices()
-            .AddVolunteerServices()
-            .AddAccountsServices();
-
+        builder.Services.AddModulesServices(builder.Configuration);
 
 
 
