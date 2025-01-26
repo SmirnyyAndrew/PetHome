@@ -71,16 +71,16 @@ public partial class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        app.MapControllers();
-
         //Добавить минимум-api
         app.AddMinimumApi();
 
         //Добавить CORS
         app.AddCORS("http://localhost:5173/");
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllers();
 
         app.Run();
     }
