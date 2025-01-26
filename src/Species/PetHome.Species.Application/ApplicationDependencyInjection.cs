@@ -19,6 +19,7 @@ public static class ApplicationDependencyInjection
         .WithScopedLifetime());
 
         services.AddScoped<ICreateSpeciesContract, CreateSpeciesUsingContract>();
+        services.AddScoped<IGetSpeciesIdContract, GetSpeciesIdUsingContract>();
 
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 
