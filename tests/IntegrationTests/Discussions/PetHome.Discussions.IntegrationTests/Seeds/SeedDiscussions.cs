@@ -1,4 +1,5 @@
-﻿using PetHome.Core.ValueObjects.Discussion.Relation;
+﻿using PetHome.Accounts.Contracts.User;
+using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Domain;
 namespace PetHome.Discussions.IntegrationTests.Seeds;
@@ -12,7 +13,8 @@ public partial class SeedManager
         {
             RelationId relationId = RelationId.Create().Value;
             List<UserId> users = new List<UserId>()
-            {
+            { 
+                //TODO:
                  UserId.Create(Guid.NewGuid()).Value,
                  UserId.Create(Guid.NewGuid()).Value
             };

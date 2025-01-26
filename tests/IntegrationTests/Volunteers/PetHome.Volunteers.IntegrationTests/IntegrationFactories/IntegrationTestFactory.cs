@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
@@ -16,7 +15,6 @@ using PetHome.Species.Infrastructure.Database.Write.DBContext;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
-using PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;

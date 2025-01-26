@@ -12,13 +12,13 @@ public partial class SeedManager
         {
             Email email = Email.Create($"emai21l{i}@mail.ru").Value;
             UserName userName = UserName.Create($"Ivanov {i}").Value;
-            Role role = Role.Create("name").Value;
+            Role role = _dbContext.Roles.ToList().FirstOrDefault();
             User user = User.Create(email, userName, role).Value;
 
             result.Add(user);
         }
 
-        await _dbContext.AddRangeAsync(result);
+        await _dbContext.Users.AddRangeAsync(result);
         await _dbContext.SaveChangesAsync();
         return result;
     }

@@ -11,7 +11,7 @@ using PetHome.Framework.Database;
 namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
 public class CreateUserUsingContract : ICreateUserContract
 {
-    private readonly IAuthenticationRepository _repository;
+    private readonly IAuthenticationRepository _repository; 
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateUserUsingContract(

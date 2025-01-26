@@ -25,13 +25,13 @@ public class UpdateAccessTokenUsingRefreshTokenUseCaseTest : AccountFactory
     public async void Update_access_token_using_refresh_token()
     {
         //array  
-        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        await SeedRoles();
+        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
         UserId userId = await _createUserContract.Execute(roleId, CancellationToken.None);
-
         var accessTokenResult = await _generateAccessTokenContract.Execute(userId, CancellationToken.None);
         var refreshSessionResult = await _generateRefreshTokenContract.Execute(userId, CancellationToken.None);
-        
-        UpdateAccessTokenUsingRefreshTokenCommand command = 
+
+        UpdateAccessTokenUsingRefreshTokenCommand command =
             new UpdateAccessTokenUsingRefreshTokenCommand(
                 refreshSessionResult.Value.RefreshToken,
                 accessTokenResult.Value);

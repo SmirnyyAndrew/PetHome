@@ -1,4 +1,5 @@
 ﻿using PetHome.Accounts.Contracts.User;
+using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Core.ValueObjects.VolunteerRequest;
@@ -21,7 +22,7 @@ public class CreateVolunteerRequestUsingContract : ICreateVolunteerRequestContra
       
     public async Task<VolunteerRequestId> Execute(CancellationToken ct)
     {
-        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
         UserId userId = await _createUserContract.Execute(roleId, CancellationToken.None);
         VolunteerInfo volunteerInfo = VolunteerInfo.Create("info").Value;
 

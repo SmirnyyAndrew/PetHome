@@ -19,9 +19,12 @@ public class RegisterParticipantUserUseCaseTest : AccountFactory
     public async void Register_user()
     {
         //array 
-        string email = "email2112@mail.com";
-        string name = "Ivanov";
-        string password = "IvanovPassword1123@";
+        await SeedRoles();
+        var list = _dbContext.Roles.ToList();   
+
+        string email = "email211s12@mail.com";
+        string name = "Ivan312ov";
+        string password = "Iva1243novPassword1123"; 
 
         RegisterParticipantUserCommand command = new RegisterParticipantUserCommand(
             email, name, password);

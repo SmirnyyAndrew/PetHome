@@ -23,11 +23,11 @@ public class SetVolunteerRequestSubmittedUseCaseTest : VolunteerRequestFactory
     {
         //array 
         VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
-        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
         UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        
+
         SetVolunteerRequestSubmittedCommand command = new SetVolunteerRequestSubmittedCommand(
-            volunteerRequestId, 
+            volunteerRequestId,
             adminId);
 
         //act

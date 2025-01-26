@@ -10,11 +10,11 @@ using PetHome.Core.ValueObjects.RolePermission;
 namespace PetHome.Accounts.Infrastructure.Database;
 public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
 {
-    public DbSet<User> Users => Set<User>();
+    public override DbSet<User> Users => Set<User>();
     public DbSet<AdminAccount> Admins => Set<AdminAccount>();
     public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
     public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
-    public DbSet<Role> Roles => Set<Role>();
+    public override DbSet<Role> Roles => Set<Role>();
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<RolePermission> RolesPermissions => Set<RolePermission>();
     public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();

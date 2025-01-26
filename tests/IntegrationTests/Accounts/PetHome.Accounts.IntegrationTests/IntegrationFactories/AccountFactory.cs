@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
 using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
 using PetHome.Accounts.Contracts.User;
 using PetHome.Accounts.Domain.Aggregates;
@@ -28,7 +27,7 @@ public class AccountFactory
         _dbContext = _scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
 
         _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
-        _createUserContract = _scope.ServiceProvider.GetRequiredService<CreateUserUsingContract>();
+        _createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
         _generateAccessTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateAccessTokenContract>();
         _generateRefreshTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateRefreshTokenContract>();
 
@@ -36,7 +35,10 @@ public class AccountFactory
     }
 
 
-     protected async Task<IReadOnlyList<User>> SeedUsers(int accountsCountToSeed = 3)
+    protected async Task<IReadOnlyList<Role>> SeedRoles()
+        => await _seedManager.SeedRoles();
+
+    protected async Task<IReadOnlyList<User>> SeedUsers(int accountsCountToSeed = 3)
          => await _seedManager.SeedUsers(5);
       
       

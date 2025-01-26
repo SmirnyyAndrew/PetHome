@@ -4,7 +4,16 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using PetHome.Accounts.Application.Database.Repositories;
+using PetHome.Accounts.Application.Features.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Application.Features.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
+using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.User;
 using PetHome.Accounts.Infrastructure.Database;
+using PetHome.Accounts.Infrastructure.Database.Repositories;
+using PetHome.Framework.Database;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -23,21 +32,38 @@ public class IntegrationTestFactory
         .Build();
 
     private Respawner _respawner;
-    private DbConnection _dbConnection; 
+    private DbConnection _dbConnection;
     private AuthorizationDbContext _dbContext;
+    private IAuthenticationRepository _repository;
+    private IUnitOfWork _unitOfWork;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("SpeciesTesting");
+        builder.UseEnvironment("AccountTesting");
         builder.ConfigureTestServices(ConfigureDefault);
     }
 
     private void ConfigureDefault(IServiceCollection services)
-    { 
-        services.RemoveAll(typeof(AuthorizationDbContext)); 
-         
-        services.AddScoped(_ =>
-               new AuthorizationDbContext(_dbContainer.GetConnectionString()));   
+    {
+        services.RemoveAll(typeof(AuthorizationDbContext));
+        services.RemoveAll(typeof(IAuthenticationRepository));
+        services.RemoveAll(typeof(ICreateUserContract));
+        services.RemoveAll(typeof(IGetRoleContract));
+        services.RemoveAll(typeof(IGenerateAccessTokenContract));
+        services.RemoveAll(typeof(IGenerateRefreshTokenContract));
+
+
+        _repository = new AuthenticationRepository(new AuthorizationDbContext(_dbContainer.GetConnectionString()));
+        _unitOfWork = new UnitOfWork(new AuthorizationDbContext(_dbContainer.GetConnectionString()));
+
+        services.AddScoped(_ => new AuthorizationDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped(_ => _repository);
+        services.AddScoped(_ => _unitOfWork);
+
+        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+        services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
+        services.AddScoped<IGenerateAccessTokenContract, GenerateAccessTokenUsingContract>();
+        services.AddScoped<IGenerateRefreshTokenContract, GenerateRefreshTokenUsingContract>();
     }
 
     public async Task InitializeAsync()
@@ -48,7 +74,6 @@ public class IntegrationTestFactory
         _dbContext = Services.CreateScope().ServiceProvider.GetRequiredService<AuthorizationDbContext>();
 
         await _dbContext.Database.EnsureCreatedAsync();
-
         await InilizeRespawner();
     }
 
@@ -77,5 +102,5 @@ public class IntegrationTestFactory
         _respawner = await Respawner.CreateAsync(
             _dbConnection,
             respawnerOptions);
-    } 
+    }
 }

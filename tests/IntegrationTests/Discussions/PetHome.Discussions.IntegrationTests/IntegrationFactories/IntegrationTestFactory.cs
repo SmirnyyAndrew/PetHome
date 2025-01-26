@@ -4,7 +4,12 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
-using PetHome.Accounts.Infrastructure.Database;
+using PetHome.Accounts.Application.Database.Repositories;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
+using PetHome.Accounts.Contracts.User;
+using PetHome.Discussions.Infrastructure.Database.Write;
+using PetHome.Discussions.Infrastructure.Database.Write.Repositories;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -24,20 +29,28 @@ public class IntegrationTestFactory
 
     private Respawner _respawner;
     private DbConnection _dbConnection; 
-    private AuthorizationDbContext _dbContext;
+    private DiscussionDbContext _dbContext;
+    private DiscussionRepository _repository;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("SpeciesTesting");
+        builder.UseEnvironment("DiscussionTesting");
         builder.ConfigureTestServices(ConfigureDefault);
     }
 
     private void ConfigureDefault(IServiceCollection services)
-    { 
-        services.RemoveAll(typeof(AuthorizationDbContext)); 
+    {
+        services.RemoveAll(typeof(DiscussionDbContext));
+        services.RemoveAll(typeof(IAuthenticationRepository));
+        services.RemoveAll(typeof(ICreateUserContract));
+        services.RemoveAll(typeof(IGetRoleContract)); 
          
-        services.AddScoped(_ =>
-               new AuthorizationDbContext(_dbContainer.GetConnectionString()));   
+        _repository = new DiscussionRepository(new DiscussionDbContext(_dbContainer.GetConnectionString()));  
+        services.AddScoped(_ => _repository); 
+        services.AddScoped(_ => new DiscussionDbContext(_dbContainer.GetConnectionString()));
+
+        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+        services.AddScoped<IGetRoleContract, GetRoleUsingContract>(); 
     }
 
     public async Task InitializeAsync()
@@ -45,7 +58,7 @@ public class IntegrationTestFactory
         await _dbContainer.StartAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
-        _dbContext = Services.CreateScope().ServiceProvider.GetRequiredService<AuthorizationDbContext>();
+        _dbContext = Services.CreateScope().ServiceProvider.GetRequiredService<DiscussionDbContext>();
 
         await _dbContext.Database.EnsureCreatedAsync();
 

@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
 using PetHome.Accounts.Contracts.User;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
+using PetHome.VolunteerRequests.Infrastructure.Database.Write.Repositories;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -27,26 +29,28 @@ public class IntegrationTestFactory
 
     private Respawner _respawner;
     private DbConnection _dbConnection;
-    private VolunteerRequestDbContext _writeDbContext;
+    private VolunteerRequestDbContext _dbContext;
+    private VolunteerRequestRepository _repository;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Testing");
+        builder.UseEnvironment("VolunteerRequestTesting");
         builder.ConfigureTestServices(ConfigureDefault);
     }
 
     private void ConfigureDefault(IServiceCollection services)
     {
         services.RemoveAll(typeof(VolunteerRequestDbContext));
-        services.RemoveAll(typeof(IGetRoleContract));
+        services.RemoveAll(typeof(IAuthenticationRepository));
         services.RemoveAll(typeof(ICreateUserContract));
+        services.RemoveAll(typeof(IGetRoleContract));
 
-        services.AddScoped(_ =>
-              new VolunteerRequestDbContext(_dbContainer.GetConnectionString()));
+        _repository = new VolunteerRequestRepository(new VolunteerRequestDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped(_ => _repository);
+        services.AddScoped(_ => new VolunteerRequestDbContext(_dbContainer.GetConnectionString()));
 
         services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
-        services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
-
+        services.AddScoped<IGetRoleContract, GetRoleUsingContract>(); 
     }
 
     public async Task InitializeAsync()
@@ -54,9 +58,9 @@ public class IntegrationTestFactory
         await _dbContainer.StartAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
-        _writeDbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerRequestDbContext>();
+        _dbContext = Services.CreateScope().ServiceProvider.GetRequiredService<VolunteerRequestDbContext>();
 
-        await _writeDbContext.Database.EnsureCreatedAsync();
+        await _dbContext.Database.EnsureCreatedAsync();
 
         await InilizeRespawner();
     }

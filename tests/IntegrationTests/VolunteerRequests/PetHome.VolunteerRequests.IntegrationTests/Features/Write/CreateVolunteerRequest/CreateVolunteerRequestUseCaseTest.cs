@@ -22,7 +22,8 @@ public class CreateVolunteerRequestUseCaseTest : VolunteerRequestFactory
     public async void Create_volunteer_request()
     {
         //array 
-        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        var roleResult = await _getRoleContract.Execute("admin", CancellationToken.None); 
+        RoleId roleId = roleResult.Value;
         UserId userId = await _createUserContract.Execute(roleId, CancellationToken.None);
 
         string volunteerInfo = "It's length enough volunteer requiest info";

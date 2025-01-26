@@ -23,7 +23,7 @@ public class SetVolunteerRequestOnReviewUseCaseTest : VolunteerRequestFactory
     {
         //array 
         VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
-        RoleId roleId = await _getRoleContract.Execute("admin", CancellationToken.None);
+        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
         UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
 
         UserId firstUserId = await _createUserContract.Execute(roleId, CancellationToken.None);

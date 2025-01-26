@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.User;
 using PetHome.Discussions.Domain;
 using PetHome.Discussions.Infrastructure.Database.Write;
 using PetHome.Discussions.IntegrationTests.Seeds;
@@ -12,12 +14,22 @@ public class DiscussionFactory
     protected readonly IServiceScope _scope;
     private readonly SeedManager _seedManager; 
     protected readonly DiscussionDbContext _dbContext;
+
+    protected readonly ICreateUserContract _createUserContract;
+    protected readonly IGetRoleContract _getRoleContract;
+    protected readonly IGenerateAccessTokenContract _generateAccessTokenContract;
+    protected readonly IGenerateRefreshTokenContract _generateRefreshTokenContract;
     public DiscussionFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _scope = factory.Services.CreateScope(); 
         _dbContext = _scope.ServiceProvider.GetRequiredService<DiscussionDbContext>();
         _seedManager = new SeedManager(factory);
+
+        _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
+        _createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
+        _generateAccessTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateAccessTokenContract>();
+        _generateRefreshTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateRefreshTokenContract>();
     }
 
 

@@ -1,7 +1,9 @@
-﻿using PetHome.Core.ValueObjects.RolePermission;
+﻿using CSharpFunctionalExtensions;
+using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Contracts.User;
 public interface IGetRoleContract
 {
-    public Task<RoleId> Execute(string name, CancellationToken ct);
+    public Task<Result<RoleId, Error>> Execute(string name, CancellationToken ct);
 }
