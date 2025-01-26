@@ -17,7 +17,7 @@ public class ChangePetSerialNumberUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_changed_pet_serial_number()
+    public async void Changed_pet_serial_number()
     {
         //array
         await SeedVolunteersWithAggregates();

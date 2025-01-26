@@ -13,7 +13,7 @@ public class HardDeleteVolunteerUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_hard_delete_volunteer()
+    public async void Hard_delete_volunteer()
     {
         //array
         await SeedVolunteers(1);

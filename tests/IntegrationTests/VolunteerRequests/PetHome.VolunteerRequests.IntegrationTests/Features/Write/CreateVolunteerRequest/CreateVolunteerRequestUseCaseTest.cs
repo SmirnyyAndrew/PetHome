@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.User;
 using PetHome.VolunteerRequests.Application.Features.Write.CreateVolunteerRequest;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 using Xunit;
@@ -16,11 +19,14 @@ public class CreateVolunteerRequestUseCaseTest : VolunteerRequestFactory
 
 
     [Fact]
-    public async void Success_create_volunteer_request()
+    public async void Create_volunteer_request()
     {
         //array 
-        Guid userId = Guid.NewGuid();
-        string volunteerInfo = "info";
+        var roleResult = await _getRoleContract.Execute("admin", CancellationToken.None); 
+        RoleId roleId = roleResult.Value;
+        UserId userId = await _createUserContract.Execute(roleId, CancellationToken.None);
+
+        string volunteerInfo = "It's length enough volunteer requiest info";
         CreateVolunteerRequestCommand command = new CreateVolunteerRequestCommand(userId, volunteerInfo);
 
         //act

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.User;
+using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestRejected;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 using Xunit;
@@ -16,12 +19,14 @@ public class SetVolunteerRequestRejectedUseCaseTest : VolunteerRequestFactory
     }
 
     [Fact]
-    public async void Success_set_volunteer_request_on_review()
+    public async void Set_volunteer_request_rejected()
     {
         //array 
-        Guid adminId = Guid.NewGuid();
-        Guid volunteerRequestId = Guid.NewGuid();
+        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
+        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
         string rejectedMessage = "message";
+
         SetVolunteerRequestRejectedCommand command = new SetVolunteerRequestRejectedCommand(volunteerRequestId, adminId, rejectedMessage);
 
         //act

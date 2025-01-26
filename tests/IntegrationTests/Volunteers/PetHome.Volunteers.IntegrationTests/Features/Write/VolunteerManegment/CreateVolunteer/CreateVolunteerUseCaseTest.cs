@@ -14,7 +14,7 @@ public class CreateVolunteerUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_create_volunteer()
+    public async void Create_volunteer()
     {
         //array
         FullNameDto fullNameDto = new FullNameDto("Иван", "Иванов");

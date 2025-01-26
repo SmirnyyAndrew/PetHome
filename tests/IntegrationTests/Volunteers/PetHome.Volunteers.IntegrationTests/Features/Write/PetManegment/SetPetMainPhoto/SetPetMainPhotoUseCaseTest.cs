@@ -14,7 +14,7 @@ public class SetPetMainPhotoUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_set_pet_main_info()
+    public async void Set_pet_main_info()
     {
         //array
         await SeedVolunteersWithAggregates();

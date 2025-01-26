@@ -13,7 +13,7 @@ public class CreateSpeciesUseCaseTest : SpeciesFactory
     }
 
     [Fact]
-    public async void Success_create_species()
+    public async void Create_species()
     {
         //array
         CreateSpeciesCommand command = new CreateSpeciesCommand("Собака");

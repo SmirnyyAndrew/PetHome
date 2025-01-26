@@ -14,7 +14,7 @@ public class DeleteSpeciesByIdUseCaseTest : SpeciesFactory
     }
 
     [Fact]
-    public async void Success_delete_species_by_id()
+    public async void Delete_species_by_id()
     {
         //array
        await SeedSpecies(1);

@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Contracts.User;
+using PetHome.Discussions.Contracts;
+using PetHome.VolunteerRequests.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.Seeds;
 using Xunit;
@@ -11,12 +14,22 @@ public class VolunteerRequestFactory
     protected readonly IServiceScope _scope;
     private readonly SeedManager _seedManager; 
     protected readonly VolunteerRequestDbContext _writeDbContext;
+    protected readonly ICreateUserContract _createUserContract;
+    protected readonly IGetRoleContract _getRoleContract;
+    protected readonly ICreateVolunteerRequestContract _createVolunteerRequestContract;
+    protected readonly ICreateDiscussionContract _createDiscussionContract;
 
     public VolunteerRequestFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _scope = factory.Services.CreateScope();
-        _writeDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerRequestDbContext>(); 
+
+        _writeDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerRequestDbContext>();
+        _createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
+        _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
+        _createVolunteerRequestContract = _scope.ServiceProvider.GetRequiredService<ICreateVolunteerRequestContract>();
+        _createDiscussionContract = _scope.ServiceProvider.GetRequiredService<ICreateDiscussionContract>(); 
+
         _seedManager = new SeedManager(factory);
     }
 

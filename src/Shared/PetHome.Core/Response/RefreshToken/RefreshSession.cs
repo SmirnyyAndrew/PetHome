@@ -1,6 +1,6 @@
 ﻿using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Domain.Tokens.RefreshToken;
+namespace PetHome.Core.Response.RefreshToken;
 public class RefreshSession
 {
     public Guid Id { get; init; }

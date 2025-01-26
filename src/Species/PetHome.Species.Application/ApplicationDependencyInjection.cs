@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Species.Application.Features.Contracts;
+using PetHome.Species.Contracts;
 
 namespace PetHome.Species.Application;
 
@@ -15,6 +17,9 @@ public static class ApplicationDependencyInjection
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
+
+        services.AddScoped<ICreateSpeciesContract, CreateSpeciesUsingContract>();
+        services.AddScoped<IGetSpeciesIdContract, GetSpeciesIdUsingContract>();
 
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 

@@ -14,7 +14,7 @@ public class UpdateMainInfoVolunteerUseCaseTest : VolunteerFactory
     }
 
     [Fact]
-    public async void Success_update_volunteer_main_info()
+    public async void Update_volunteer_main_info()
     {
         //array
         await SeedVolunteers(1);

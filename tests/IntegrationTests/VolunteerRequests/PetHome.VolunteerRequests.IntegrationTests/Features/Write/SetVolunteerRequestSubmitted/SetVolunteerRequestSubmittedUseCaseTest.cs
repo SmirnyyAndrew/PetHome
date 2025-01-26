@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.User;
+using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestSubmitted;
 using PetHome.VolunteerRequests.IntegrationTests.IntegrationFactories;
 using Xunit;
@@ -16,12 +19,16 @@ public class SetVolunteerRequestSubmittedUseCaseTest : VolunteerRequestFactory
     }
 
     [Fact]
-    public async void Success_set_volunteer_request_on_review()
+    public async void Set_volunteer_request_submitted()
     {
         //array 
-        Guid adminId = Guid.NewGuid();
-        Guid volunteerRequestId = Guid.NewGuid();
-        SetVolunteerRequestSubmittedCommand command = new SetVolunteerRequestSubmittedCommand(volunteerRequestId, adminId);
+        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
+        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
+
+        SetVolunteerRequestSubmittedCommand command = new SetVolunteerRequestSubmittedCommand(
+            volunteerRequestId,
+            adminId);
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

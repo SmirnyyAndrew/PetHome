@@ -40,12 +40,7 @@
 		<ProjectReference Include="..\..\..\..\src\Shared\PetHome.Core\PetHome.Core.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Shared\PetHome.Framework\PetHome.Framework.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Species\PetHome.Species.API\PetHome.Species.API.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Species\PetHome.Species.Contracts\PetHome.Species.Contracts.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Species\PetHome.Species.Domain\PetHome.Species.Domain.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Species\PetHome.Species.Infrastructure\PetHome.Species.Infrastructure.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Volunteers\PetHome.Volunteers.Application\PetHome.Volunteers.Application.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Volunteers\PetHome.Volunteers.Contracts\PetHome.Volunteers.Contracts.csproj" />
 		<ProjectReference Include="..\..\..\..\src\Volunteers\PetHome.Volunteers.Domain\PetHome.Volunteers.Domain.csproj" />

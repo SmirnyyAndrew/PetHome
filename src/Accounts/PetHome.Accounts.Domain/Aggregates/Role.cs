@@ -13,6 +13,7 @@ public class Role : IdentityRole<Guid>
     private Role() { }
     public Role(string name)
     {
+        Id = Guid.NewGuid();
         Name = name;
     }
 

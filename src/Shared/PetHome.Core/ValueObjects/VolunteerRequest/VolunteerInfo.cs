@@ -12,7 +12,7 @@ public record VolunteerInfo
 
     public static Result<VolunteerInfo, Error> Create(string value)
     {
-        if (value.Trim().Length <= 10)
+        if (string.IsNullOrWhiteSpace(value))
             return Errors.Validation("Данные будущего волонтёра");
 
         return new VolunteerInfo(value);

@@ -54,17 +54,21 @@ public class RegisterParticipantUserUseCase
         if (userIsExist.IsSuccess)
             return Errors.Conflict($"Email = {command.Email}").ToErrorList();
 
-        Role role = _repository.GetRole(ParticipantAccount.ROLE).Result.Value;
+        var roleResult = await _repository.GetRole(ParticipantAccount.ROLE);
+        if (roleResult.IsFailure)
+            return roleResult.Error.ToErrorList(); 
+        Role role = roleResult.Value;
+
         UserName userName = UserName.Create(command.Name).Value;
         User user = User.Create(email, userName, role).Value;
-
-        ParticipantAccount participant = ParticipantAccount.Create(user).Value;
-        await _repository.AddParticipant(participant, ct);
-
+         
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
             return result.Errors.ToErrorList();
-
+         
+        ParticipantAccount participant = ParticipantAccount.Create(user).Value;
+        await _repository.AddParticipant(participant, ct);
+         
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
