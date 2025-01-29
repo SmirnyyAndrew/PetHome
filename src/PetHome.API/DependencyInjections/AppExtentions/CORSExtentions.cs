@@ -10,7 +10,7 @@ public static class CORSExtentions
             config.WithOrigins(urls)
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowAnyOrigin();
+            .AllowCredentials();
         });
 
         return app;

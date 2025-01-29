@@ -52,6 +52,9 @@ public partial class Program
 
         var app = builder.Build();
 
+        //Добавить CORS
+        app.AddCORS("http://localhost:5173");
+
         //Middleware для отлова исключений (-стэк трейс)
         app.UseExceptionHandler();
 
@@ -74,8 +77,6 @@ public partial class Program
         //Добавить минимум-api
         app.AddMinimumApi();
 
-        //Добавить CORS
-        app.AddCORS("http://localhost:5173/");
 
         app.UseAuthentication();
         app.UseAuthorization();

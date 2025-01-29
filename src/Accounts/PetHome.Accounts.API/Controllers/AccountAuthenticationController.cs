@@ -5,7 +5,9 @@ using PetHome.Accounts.Application.Features.Write.LoginUser;
 using PetHome.Accounts.Application.Features.Write.RegisterAccount;
 using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
+using PetHome.Core.Auth.Cookies;
 using PetHome.Core.Controllers;
+using PetHome.Core.Response.Dto;
 
 namespace PetHome.Accounts.API.Controllers;
 public class AccountAuthenticationController : ParentController
@@ -23,7 +25,7 @@ public class AccountAuthenticationController : ParentController
         return Ok();
     }
 
-    [HttpPatch("login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(
        [FromServices] LoginUserUseCase useCase,
        [FromBody] LoginUserRequest request,
@@ -33,8 +35,12 @@ public class AccountAuthenticationController : ParentController
         if (result.IsFailure)
             return BadRequest(result.Error);
 
-        return Ok(result.Value);
-    }
+        TokenResponse response = result.Value;
+        HttpContext.Response.Cookies.Append(Cookies.RefreshToken.ToString(), response.RefreshToken);
+
+        return Ok(response);
+    } 
+
 
     //Указал Permission-заглушку для доступа этого метода у Participant
     [Permission(Permissions.Pet.GET)]
