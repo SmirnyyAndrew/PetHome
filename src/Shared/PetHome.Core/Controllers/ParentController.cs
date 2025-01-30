@@ -6,7 +6,7 @@ using PetHome.Core.Response.Validation.Validator;
 namespace PetHome.Core.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ParentController : ControllerBase
 {
     public override OkObjectResult Ok([ActionResultObjectValue] object? value)
