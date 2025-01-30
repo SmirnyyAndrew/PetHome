@@ -26,17 +26,40 @@ public class TokenProvider : ITokenProvider
     }
 
     public Result<RefreshSession, ErrorList> GenerateRefreshToken(
-        User user,
-        string accessToken)
+        User user, RefreshSession oldRefreshSession)
+    {
+        Guid userId = oldRefreshSession.UserId;
+        Guid jti = oldRefreshSession.JTI;
+
+        bool isValidUser = userId == user.Id;
+        if (isValidUser)
+        {
+            RefreshSession refreshSession = new RefreshSession()
+            {
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+                ExpiredIn = DateTime.UtcNow.AddDays(10),
+                UserId = UserId.Create(user.Id).Value,
+                RefreshToken = Guid.NewGuid(),
+                JTI = jti
+            };
+            return refreshSession;
+        }
+        return Errors.Validation("Refresh token").ToErrorList();
+    }
+
+
+    public Result<RefreshSession, ErrorList> GenerateRefreshToken(
+        User user, string accessToken)
     {
         var getUserIdResult = GetUserId(accessToken);
-        var getJtiResult = GetJti(accessToken);
-
+        var getJtiResult = GetJti(accessToken); 
         if (getUserIdResult.IsFailure || getJtiResult.IsFailure)
             return new ErrorList([getJtiResult.Error, getJtiResult.Error]);
 
         Guid userId = getUserIdResult.Value;
         Guid jti = getJtiResult.Value;
+
         bool isValidUser = userId == user.Id;
         if (isValidUser)
         {

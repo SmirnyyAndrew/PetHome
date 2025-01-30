@@ -8,6 +8,7 @@ using System.Security.Claims;
 namespace PetHome.Accounts.Application;
 public interface ITokenProvider
 {
+    public Result<RefreshSession, ErrorList> GenerateRefreshToken(User user, RefreshSession oldRefreshSession);
     public Result<RefreshSession, ErrorList> GenerateRefreshToken(User user, string accessToken);
     public string GenerateAccessToken(User user); 
     public IReadOnlyList<Claim> GetClaims(string accessToken);
