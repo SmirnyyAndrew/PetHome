@@ -1,9 +1,7 @@
 services:
   web:
     container_name: web
-    build:
-        context: .
-        dockerfile: src/PetHome.API/Dockerfile
+    image: smirnyy82/pethome-backend:1.0
     ports:
         - "8080:8080"
     restart: always
