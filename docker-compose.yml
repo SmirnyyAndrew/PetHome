@@ -1,6 +1,30 @@
 services:
+  web:
+    container_name: web
+    image: smirnyy82/pethome-backend:1.0
+    ports:
+        - "8080:8080"
+    restart: always
+    depends_on: 
+        - postgres
+        - seq
+        - minio
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Docker
+
+  nginx:
+    container_name: nginx_main
+    image: nginx:latest
+    ports:
+     - "80:80"
+    volumes:
+     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+     - web
+    restart: always
+
   postgres:
-    container_name: postgres_first
+    container_name: postgres_main
     image: postgres
     restart: always
     environment:
@@ -8,29 +32,29 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-    - 5434:5432
+    - "5434:5432"
     volumes:
     - postgres-data:/var/lib/postgres/data
   
   seq:
     image: datalust/seq:latest
-    container_name: seq_first
+    container_name: seq_main
     restart: always
     environment:
     - ACCEPT_EULA=Y
     ports: 
-    - 5341:5341
-    - 8081:80
+    - "5341:5341"
+    - "8081:80"
     volumes:
     - postgres-data:/var/lib/postgres/data
 
   minio:
     image: minio/minio
-    container_name: minio_first
+    container_name: minio_main
     restart: always
     ports:
-    - 9000:9000
-    - 9001:9001
+    - "9000:9000"
+    - "9001:9001"
     volumes:
     - minio_data:/data
     command: server /data --console-address ":9001"
