@@ -15,7 +15,7 @@ using PetHome.Core.Response.Login;
 namespace PetHome.Accounts.API.Controllers;
 public class AccountAuthenticationController : ParentController
 {
-    [HttpPost("registration")]
+    [HttpPost("participant/registration")]
     public async Task<IActionResult> Register(
         [FromServices] RegisterParticipantUserUseCase useCase,
         [FromBody] RegisterParticipantUserRequest request,
