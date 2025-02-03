@@ -16,8 +16,7 @@ using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.UpdateMai
 
 namespace PetHome.Volunteers.API.Controllers.Volunteer;
 public class VolunteerDataManegmentController : ParentController
-{
-    [Authorize]
+{ 
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromServices] CreateVolunteerUseCase createVolunteerUseCase,

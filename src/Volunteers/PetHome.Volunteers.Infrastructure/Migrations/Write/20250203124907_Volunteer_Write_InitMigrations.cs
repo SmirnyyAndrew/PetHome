@@ -42,6 +42,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     email = table.Column<string>(type: "text", nullable: true),
                     description = table.Column<string>(type: "text", nullable: false),
                     start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

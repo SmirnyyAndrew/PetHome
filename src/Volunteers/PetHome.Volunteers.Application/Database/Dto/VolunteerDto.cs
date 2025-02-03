@@ -3,6 +3,7 @@ namespace PetHome.Volunteers.Application.Database.Dto;
 public class VolunteerDto
 {
     public Guid Id { get; private set; }
+    public Guid UserId { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string? Email { get; private set; }

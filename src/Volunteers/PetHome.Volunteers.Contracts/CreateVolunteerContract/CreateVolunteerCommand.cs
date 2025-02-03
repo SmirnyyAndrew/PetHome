@@ -1,6 +1,6 @@
 ﻿using PetHome.Core.Interfaces.FeatureManagment;
 
-namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+namespace PetHome.Volunteers.Contracts.CreateVolunteerContract;
 
 public record CreateVolunteerCommand(
         FullNameDto FullNameDto,

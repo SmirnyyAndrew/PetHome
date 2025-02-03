@@ -12,6 +12,11 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         //id
         builder.HasKey(x => x.Id);
 
+        //User id
+        builder.Property(f => f.UserId)
+            .IsRequired()
+            .HasColumnName("user_id");
+
         //fullname
         builder.Property(f => f.FirstName)
             .IsRequired()

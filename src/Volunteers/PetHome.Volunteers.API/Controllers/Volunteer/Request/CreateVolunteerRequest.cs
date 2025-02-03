@@ -1,4 +1,4 @@
-﻿using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+﻿using PetHome.Volunteers.Contracts.CreateVolunteerContract;
 
 namespace PetHome.Volunteers.API.Controllers.Volunteer.Request;
 
