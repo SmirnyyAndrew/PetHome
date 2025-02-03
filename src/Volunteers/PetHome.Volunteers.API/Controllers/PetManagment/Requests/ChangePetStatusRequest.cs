@@ -1,7 +1,7 @@
 ﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetStatus;
 
-namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
+namespace PetHome.Volunteers.API.Controllers.PetManagment.Requests;
 public record ChangePetStatusRequest(
     Guid VolunteerId,
     Guid PetId,

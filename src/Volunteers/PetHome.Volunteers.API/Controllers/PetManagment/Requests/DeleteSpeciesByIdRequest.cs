@@ -1,6 +1,6 @@
 ﻿using PetHome.Volunteers.Application.Features.Write.PetManegment.DeleteSpeciesById;
 
-namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
+namespace PetHome.Volunteers.API.Controllers.PetManagment.Requests;
 
 public record DeleteSpeciesByIdRequest(Guid SpeciesId)
 {

@@ -7,7 +7,7 @@ using Minio;
 using PetHome.Core.Controllers;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.SharedKernel.Providers.Minio;
-using PetHome.Volunteers.API.Controllers.PetManegment.Requests;
+using PetHome.Volunteers.API.Controllers.PetManagment.Requests;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
@@ -22,13 +22,13 @@ using PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteRestore;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 
-namespace PetHome.Volunteers.API.Controllers.PetManegment;
+namespace PetHome.Volunteers.API.Controllers.PetManagment;
 
-public class PetManegmentController : ParentController
+public class PetManagmentController : ParentController
 {
     private readonly MinioProvider _minioProvider;
 
-    public PetManegmentController(
+    public PetManagmentController(
         IMinioClient minioClient,
         ILogger<MinioProvider> minioLogger)
     {
@@ -40,15 +40,15 @@ public class PetManegmentController : ParentController
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> CreatePet(
         [FromRoute] Guid volunteerId,
-        [FromBody] PetMainInfoDto PetMainInfoDto,
-        [FromServices] CreatePetUseCase createPetUseCase,
+        [FromBody] PetMainInfoDto petMainInfo,
+        [FromServices] CreatePetUseCase useCase,
         CancellationToken ct = default)
     {
         CreatePetRequest createPetRequest = new CreatePetRequest(
                         volunteerId,
-                        PetMainInfoDto);
+                        petMainInfo);
 
-        var result = await createPetUseCase.Execute(createPetRequest, ct);
+        var result = await useCase.Execute(createPetRequest, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
@@ -61,8 +61,8 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> UploadMedia(
         [FromRoute] Guid volunteerId,
         IEnumerable<IFormFile> formFiles,
-        [FromQuery] UploadPetMediaFilesDto uploadPetMediaDto,
-        [FromServices] UploadPetMediaFilesUseCase uploadPetMediaUseCase,
+        [FromQuery] UploadPetMediaFilesDto uploadPetMedia,
+        [FromServices] UploadPetMediaFilesUseCase useCase,
         CancellationToken ct = default)
     {
         List<Stream> streams = new List<Stream>();
@@ -74,13 +74,13 @@ public class PetManegmentController : ParentController
             new UploadPetMediaFilesRequest(
                 streams,
                 formFiles.ToList().Select(x => x.FileName),
-                uploadPetMediaDto,
+                uploadPetMedia,
                 volunteerId,
                 _minioProvider);
 
         try
         {
-            result = await uploadPetMediaUseCase.Execute(request, ct);
+            result = await useCase.Execute(request, ct);
             if (result.IsFailure)
                 return BadRequest(result.Error);
         }
@@ -96,14 +96,14 @@ public class PetManegmentController : ParentController
     [HttpDelete("{volunteerId:guid}/pets/media")]
     public async Task<IActionResult> DeleteMedia(
         [FromRoute] Guid volunteerId,
-        [FromBody] DeletePetMediaFilesDto deleteMediaDto,
-        [FromServices] DeletePetMediaFilesUseCase deletePetMediaFUseCase,
+        [FromBody] DeletePetMediaFilesDto toDeleteMedia,
+        [FromServices] DeletePetMediaFilesUseCase useCase,
         CancellationToken ct)
     {
         DeletePetMediaFilesRequest deleteMediaRequest =
-            new DeletePetMediaFilesRequest(volunteerId, deleteMediaDto, _minioProvider);
+            new DeletePetMediaFilesRequest(volunteerId, toDeleteMedia, _minioProvider);
 
-        var deleteResult = await deletePetMediaFUseCase.Execute(
+        var deleteResult = await useCase.Execute(
             deleteMediaRequest,
             ct);
         if (deleteResult.IsFailure)
@@ -118,7 +118,7 @@ public class PetManegmentController : ParentController
     public async Task<IActionResult> ChangeSerialNumber(
         [FromRoute] Guid volunteerId,
         [FromBody] ChangePetSerialNumberDto changeNumberDto,
-        [FromServices] ChangePetSerialNumberUseCase changeNumberUseCase,
+        [FromServices] ChangePetSerialNumberUseCase useCase,
         CancellationToken ct = default)
     {
         ChangePetSerialNumberRequest request =
@@ -126,7 +126,7 @@ public class PetManegmentController : ParentController
                 volunteerId,
                 changeNumberDto);
 
-        var executeResult = await changeNumberUseCase.Execute(request, ct);
+        var executeResult = await useCase.Execute(request, ct);
         if (executeResult.IsFailure)
             return BadRequest(executeResult.Error);
 
@@ -220,7 +220,7 @@ public class PetManegmentController : ParentController
     }
 
     [HttpGet("sorted-filtred-paged")]
-    public async Task<IActionResult> GetSortedFiltredPagedPets(
+    public async Task<IActionResult> GetSortedFilteredPagedPets(
         [FromQuery] GetPetsWithPaginationAndFiltersRequest request,
         [FromServices] GetPetsWithPaginationAndFiltersUseCase useCase,
         CancellationToken ct = default)

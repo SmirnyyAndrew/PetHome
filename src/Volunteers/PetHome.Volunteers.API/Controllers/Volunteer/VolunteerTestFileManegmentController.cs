@@ -10,10 +10,10 @@ using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Volunteers.API.Controllers.Media.Requests;
 namespace PetHome.Volunteers.API.Controllers.Volunteer;
 
-public class VolunteerTestFileManegmentController : ParentController
+public class VolunteerTestFileManagmentController : ParentController
 {
     private readonly MinioProvider _minioProvider;
-    public VolunteerTestFileManegmentController(
+    public VolunteerTestFileManagmentController(
         IMinioClient minioClient,
         ILogger<MinioProvider> logger)
     {
@@ -23,7 +23,7 @@ public class VolunteerTestFileManegmentController : ParentController
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> UdloadFile(
+    public async Task<IActionResult> UploadFile(
         IFormFile file,
         [FromQuery] string bucketName = "photos",
         [FromQuery] bool createBucketIfNotExist = false,
@@ -73,12 +73,12 @@ public class VolunteerTestFileManegmentController : ParentController
     [Authorize]
     [HttpPut("presigned-path")]
     public async Task<IActionResult> GetFilePresignedPath(
-        [FromBody] FilesInfoDto filesInfoDto,
+        [FromBody] FilesInfoDto filesInfo,
         CancellationToken ct = default)
     {
         MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
-            filesInfoDto.BucketName,
-            filesInfoDto.FileNames.Select(f => MinioFileName.Create(f).Value).ToList());
+            filesInfo.BucketName,
+            filesInfo.FileNames.Select(f => MinioFileName.Create(f).Value).ToList());
         var result = await _minioProvider.GetFilePresignedPath(minioFilesInfoDto, ct);
         if (result.IsFailure)
             return BadRequest(ResponseEnvelope.Error(result.Error));
@@ -90,10 +90,10 @@ public class VolunteerTestFileManegmentController : ParentController
     [Authorize]
     [HttpDelete]
     public async Task<IActionResult> DeleteFile(
-        [FromBody] MinioFilesInfoDto fileInfoDto,
+        [FromBody] MinioFilesInfoDto fileInfo,
         CancellationToken ct = default)
     {
-        var result = await _minioProvider.DeleteFile(fileInfoDto, ct);
+        var result = await _minioProvider.DeleteFile(fileInfo, ct);
         if (result.IsFailure)
             return BadRequest(ResponseEnvelope.Error(result.Error));
 

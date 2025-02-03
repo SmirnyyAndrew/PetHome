@@ -2,7 +2,7 @@
 using PetHome.Core.ValueObjects.PetManagment.Pet;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 
-namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
+namespace PetHome.Volunteers.API.Controllers.PetManagment.Requests;
 
 public record GetPetsWithPaginationAndFiltersRequest(Guid? VolunteerId,
     string? Name,

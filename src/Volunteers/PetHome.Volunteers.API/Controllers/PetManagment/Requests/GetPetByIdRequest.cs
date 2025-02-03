@@ -1,6 +1,6 @@
 ﻿using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
 
-namespace PetHome.Volunteers.API.Controllers.PetManegment.Requests;
+namespace PetHome.Volunteers.API.Controllers.PetManagment.Requests;
 
 public record GetPetByIdRequest(Guid PetId)
 {

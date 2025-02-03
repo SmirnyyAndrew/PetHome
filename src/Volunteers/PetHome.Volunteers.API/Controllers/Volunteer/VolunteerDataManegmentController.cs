@@ -16,18 +16,18 @@ using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.UpdateMai
 using PetHome.Volunteers.Contracts;
 
 namespace PetHome.Volunteers.API.Controllers.Volunteer;
-public class VolunteerDataManegmentController : ParentController
+public class VolunteerDataManagmentController : ParentController
 { 
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] ICreateVolunteerContract createVolunteerUseCase,
+        [FromServices] ICreateVolunteerContract useCase,
         [FromBody] CreateVolunteerRequest request,
         CancellationToken ct = default)
     {
 
         //throw new ApplicationException("Something went wrong");
 
-        Result<Guid, ErrorList> result = await createVolunteerUseCase.Execute(request, ct);
+        Result<Guid, ErrorList> result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return result.Error.GetSatusCode();
 
@@ -39,13 +39,13 @@ public class VolunteerDataManegmentController : ParentController
     [HttpPatch("{id:guid}/main-info")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid id,
-        [FromBody] UpdateMainInfoVolunteerDto updateInfoDto,
-        [FromServices] UpdateMainInfoVolunteerUseCase updateMainInfoUseCase,
+        [FromBody] UpdateMainInfoVolunteerDto updateInfo,
+        [FromServices] UpdateMainInfoVolunteerUseCase useCase,
         CancellationToken ct = default)
     {
-        UpdateMainInfoVolunteerRequest request = new UpdateMainInfoVolunteerRequest(id, updateInfoDto);
+        UpdateMainInfoVolunteerRequest request = new UpdateMainInfoVolunteerRequest(id, updateInfo);
 
-        Result<Guid, ErrorList> result = await updateMainInfoUseCase.Execute(request, ct);
+        Result<Guid, ErrorList> result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return result.Error.GetSatusCode();
 
@@ -57,13 +57,13 @@ public class VolunteerDataManegmentController : ParentController
     [HttpDelete("hard/{id:guid}")]
     public async Task<IActionResult> HardDelete(
          [FromRoute] Guid id,
-         [FromServices] HardDeleteVolunteerUseCase hardDeleteUseCase,
+         [FromServices] HardDeleteVolunteerUseCase useCase,
          CancellationToken ct)
     {
         VolunteerId volunteerId = VolunteerId.Create(id).Value;
         HardDeleteVolunteerRequest request = new HardDeleteVolunteerRequest(volunteerId);
 
-        var result = await hardDeleteUseCase.Execute(request, ct);
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
@@ -75,13 +75,13 @@ public class VolunteerDataManegmentController : ParentController
     [HttpPatch("soft/{id:guid}")]
     public async Task<IActionResult> SoftDelete(
         [FromRoute] Guid id,
-        [FromServices] SoftDeleteVolunteerUseCase softDeleteVoUseCase,
+        [FromServices] SoftDeleteVolunteerUseCase useCase,
         CancellationToken ct = default)
     {
         VolunteerId volunteerId = VolunteerId.Create(id).Value;
         SoftDeleteRestoreVolunteerRequest request = new SoftDeleteRestoreVolunteerRequest(volunteerId);
 
-        var result = await softDeleteVoUseCase.Execute(request, ct);
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
@@ -93,13 +93,13 @@ public class VolunteerDataManegmentController : ParentController
     [HttpPatch("soft-re/{id:guid}")]
     public async Task<IActionResult> SoftRestore(
         [FromRoute] Guid id,
-        [FromServices] SoftRestoreVolunteerUseCase softRestoreUseCase,
+        [FromServices] SoftRestoreVolunteerUseCase useCase,
         CancellationToken ct = default)
     {
         VolunteerId volunteerId = VolunteerId.Create(id).Value;
         SoftDeleteRestoreVolunteerRequest request = new SoftDeleteRestoreVolunteerRequest(volunteerId);
 
-        var result = await softRestoreUseCase.Execute(request, ct);
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             result.Error.GetSatusCode();
 
