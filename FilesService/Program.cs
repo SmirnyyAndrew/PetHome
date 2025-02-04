@@ -1,4 +1,6 @@
+using Amazon.S3;
 using FilesService.Endpoints;
+using FilesService.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ builder.Services.AddEndpoints();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAmazonS3();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,7 +21,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseHttpsRedirection();
 
