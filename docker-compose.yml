@@ -59,8 +59,20 @@ services:
     - minio_data:/data
     command: server /data --console-address ":9001"
 
+  mongodb:
+    image: mongo
+    container_name: mongo_main
+    restart: always
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: mongo
+        MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+    - 27017:27017
+    volumes:
+    - mongo_data:/data/db
 
 volumes:
   postgres-data:
   minio_data:
+  mongo_data:
     

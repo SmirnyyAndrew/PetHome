@@ -1,6 +1,8 @@
 using FilesService.Core.Loggers;
 using FilesService.Core.Validation;
 using FilesService.Extentions;
+using FilesService.Infrastructure.MongoDB;
+using MongoDB.Driver;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -26,6 +28,14 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 });
 
 builder.Services.AddCors();
+
+//Подключение Mongo
+builder.Services.AddSingleton<IMongoClient>(new MongoClient(
+    builder.Configuration.GetConnectionString("Mongo")));
+
+builder.Services.AddScoped<MongoDbContext>();
+builder.Services.AddScoped<MongoDbRepository>();
+
 
 var app = builder.Build();
 
