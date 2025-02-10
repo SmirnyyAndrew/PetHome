@@ -9,7 +9,7 @@ public partial class MinioProvider : IFilesProvider
 {
     //Загрузить файл
     public async Task<Result<Media, Error>> UploadFile(
-         Stream stream,
+       Stream stream,
        MinioFileInfoDto fileInfo,
        bool createBucketIfNotExist,
        CancellationToken ct)

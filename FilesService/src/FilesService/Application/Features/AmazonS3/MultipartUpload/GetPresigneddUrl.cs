@@ -3,7 +3,7 @@ using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FilesService.Application.Features;
+namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class GetPresignedUrl
 {

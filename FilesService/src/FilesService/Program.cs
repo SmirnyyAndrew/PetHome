@@ -2,10 +2,11 @@ using FilesService.Core.Loggers;
 using FilesService.Core.Validation;
 using FilesService.Extentions.AppExtentions;
 using FilesService.Extentions.BuilderExtentions;
+using Microsoft.AspNetCore.Builder;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);  
 
 builder.Services.AddSerilog();
 Log.Logger = SeqLogger.InitDefaultSeqConfiguration(builder.Configuration);
@@ -23,11 +24,11 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 builder.Services.AddServices(builder.Configuration);
 
 
-var app = builder.Build();
+var app = builder.Build(); 
 
 app.AddAppAttributes();
 
-app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

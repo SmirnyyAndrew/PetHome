@@ -4,7 +4,7 @@ using FilesService.Application.Endpoints;
 using FilesService.Infrastructure.MongoDB;
 using FilesService.Infrastructure.MongoDB.Documents;
 
-namespace FilesService.Application.Features;
+namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class CompleteMultipartUpload
 {

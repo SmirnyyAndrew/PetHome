@@ -2,9 +2,9 @@
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
 
-namespace FilesService.Application.Features;
+namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
-public static class test
+public static class StartMultipartUpload
 {
     private record StartMultipartUploadRequest(
        string BucketName,
