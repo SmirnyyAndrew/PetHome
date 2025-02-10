@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3;
 
@@ -20,7 +21,7 @@ public static class UploadPresignedUrl
         }
     }
     private static async Task<IResult> Handler(
-           UploadPresignedUrlRequest request,
+           [FromBody] UploadPresignedUrlRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {

@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
@@ -20,7 +21,7 @@ public static class StartMultipartUpload
         }
     }
     private static async Task<IResult> Handler(
-           StartMultipartUploadRequest request,
+           [FromBody] StartMultipartUploadRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {

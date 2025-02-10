@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
@@ -19,14 +20,13 @@ public static class UploadPresignedPartUrl
         }
     }
     private static async Task<IResult> Handler(
-           string key,
-           UploadPresignedPartUrlRequest request,
+           [FromRoute] string key,
+           [FromBody] UploadPresignedPartUrlRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {
         try
-        {
-
+        { 
             GetPreSignedUrlRequest presignedRequest = new GetPreSignedUrlRequest
             {
                 BucketName = request.BucketName,

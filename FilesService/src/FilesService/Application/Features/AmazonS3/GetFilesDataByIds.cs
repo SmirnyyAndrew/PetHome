@@ -1,5 +1,6 @@
 ﻿using FilesService.Application.Endpoints;
 using FilesService.Infrastructure.MongoDB;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3;
 
@@ -15,7 +16,7 @@ public static class GetFilesDataByIds
         }
     }
     private static async Task<IResult> Handler(
-           GetFilesDataByIdsRequest request,
+           [FromBody] GetFilesDataByIdsRequest request,
            MongoDbRepository repository,
            CancellationToken ct)
     {

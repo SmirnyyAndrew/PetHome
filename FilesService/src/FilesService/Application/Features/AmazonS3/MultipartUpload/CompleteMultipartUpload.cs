@@ -3,6 +3,7 @@ using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
 using FilesService.Infrastructure.MongoDB;
 using FilesService.Infrastructure.MongoDB.Documents;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
@@ -24,8 +25,8 @@ public static class CompleteMultipartUpload
         }
     }
     private static async Task<IResult> Handler(
-           string key,
-           CompleteMultipartRequest request,
+          [FromRoute] string key,
+          [FromBody] CompleteMultipartRequest request,
            IAmazonS3 s3Client,
            MongoDbRepository repository,
            CancellationToken ct)

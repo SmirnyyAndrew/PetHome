@@ -19,8 +19,8 @@ public static class GetPresignedUrl
     private record GetPresignedUrlRequest(string BucketName);
 
     private static async Task<IResult> Handler(
+            [FromRoute] string key,
             [FromBody] GetPresignedUrlRequest request,
-            string key,
             IAmazonS3 s3Client,
             CancellationToken ct)
     {
