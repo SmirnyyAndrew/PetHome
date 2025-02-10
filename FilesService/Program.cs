@@ -1,5 +1,4 @@
 using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
-using FilesService.Endpoints;
 using FilesService.Extentions;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
