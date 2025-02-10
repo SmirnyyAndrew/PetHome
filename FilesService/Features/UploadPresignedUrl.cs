@@ -35,6 +35,7 @@ public static class UploadPresignedUrl
                 Verb = HttpVerb.PUT,
                 Expires = DateTime.UtcNow.AddDays(14),
                 ContentType = request.ContentType,
+                Protocol = Protocol.HTTP,
                 Metadata =
                 {
                     ["file-name"] = request.ContentType
