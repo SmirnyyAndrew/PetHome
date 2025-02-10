@@ -20,7 +20,7 @@ public static class UploadPresignedUrl
         }
     }
     private static async Task<IResult> Handler(
-            UploadPresignedUrlRequest request,
+           UploadPresignedUrlRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {

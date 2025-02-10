@@ -1,8 +1,7 @@
 using FilesService.Core.Loggers;
 using FilesService.Core.Validation;
-using FilesService.Extentions;
-using FilesService.Infrastructure.MongoDB;
-using MongoDB.Driver;
+using FilesService.Extentions.AppExtentions;
+using FilesService.Extentions.BuilderExtentions;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -11,15 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSerilog();
 Log.Logger = SeqLogger.InitDefaultSeqConfiguration(builder.Configuration);
 
-// Add services to the container.
-
-builder.Services.AddEndpoints();
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAmazonS3();
 
 //Auto validation
 builder.Services.AddFluentValidationAutoValidation(configuration =>
@@ -27,35 +20,20 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
     configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
 });
 
-builder.Services.AddCors();
-
-//Подключение Mongo
-builder.Services.AddSingleton<IMongoClient>(new MongoClient(
-    builder.Configuration.GetConnectionString("Mongo")));
-
-builder.Services.AddScoped<MongoDbContext>();
-builder.Services.AddScoped<MongoDbRepository>();
+builder.Services.AddServices(builder.Configuration);
 
 
 var app = builder.Build();
 
-//Добавить CORS
-app.AddCORS("http://localhost:5173");
-
-//Middleware для отлова исключений (-стэк трейс)
-app.UseExceptionHandler();
+app.AddAppAttributes();
 
 app.UseSerilogRequestLogging();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-} 
-
-app.MapEndpoints();
+}
 
 app.Run();
-

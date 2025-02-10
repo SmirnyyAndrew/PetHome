@@ -1,6 +1,6 @@
 ﻿using FilesService.Core.Middlewares;
 
-namespace FilesService.Extentions;
+namespace FilesService.Extentions.AppExtentions;
 
 public static class ExceptionMiddlewareExtention
 {

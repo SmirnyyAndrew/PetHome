@@ -2,7 +2,7 @@
 using System.Reflection;
 using FilesService.Endpoints;
 
-namespace FilesService.Extentions;
+namespace FilesService.Extentions.BuilderExtentions;
 
 public static class EndpointsExtentions
 {

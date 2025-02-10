@@ -1,4 +1,4 @@
-﻿namespace FilesService.Extentions;
+﻿namespace FilesService.Extentions.AppExtentions;
 
 public static class CORSExtentions
 {
