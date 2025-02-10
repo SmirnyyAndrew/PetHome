@@ -44,10 +44,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Models\" />
     <Folder Include="Core\Response\ErrorManagment\Envelopes\" />
-    <Folder Include="Response\Envelope\" />
-    <Folder Include="Response\Error\" />
   </ItemGroup>
 
 </Project>

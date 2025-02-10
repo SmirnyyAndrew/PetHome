@@ -1,12 +1,12 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using FilesService.Endpoints;
+using FilesService.Application.Endpoints;
 
-namespace FilesService.Features;
+namespace FilesService.Application.Features;
 
-public static class UploadPresignedUrl
+public static class test
 {
-    private record UploadPresignedUrlRequest(
+    private record StartMultipartUploadRequest(
        string BucketName,
        string FileName,
        string ContentType,
@@ -16,11 +16,11 @@ public static class UploadPresignedUrl
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/presigned", Handler);
+            app.MapPost("files/multipart/presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(
-           UploadPresignedUrlRequest request,
+           StartMultipartUploadRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {
@@ -28,31 +28,29 @@ public static class UploadPresignedUrl
         {
             Guid key = Guid.NewGuid();
 
-            GetPreSignedUrlRequest presignedRequest = new GetPreSignedUrlRequest
+            var presignedRequest = new InitiateMultipartUploadRequest
             {
                 BucketName = request.BucketName,
                 Key = key.ToString(),
-                Verb = HttpVerb.PUT,
-                Expires = DateTime.UtcNow.AddDays(14),
                 ContentType = request.ContentType,
-                Protocol = Protocol.HTTP,
                 Metadata =
                 {
                     ["file-name"] = request.ContentType
                 }
             };
 
-            string? presignedUrl = await s3Client.GetPreSignedURLAsync(presignedRequest);
+            var response = await s3Client.InitiateMultipartUploadAsync(
+                presignedRequest, ct);
 
             return Results.Ok(new
             {
                 key,
-                url = presignedUrl
+                uploadId = response.UploadId
             });
         }
         catch (AmazonS3Exception ex)
         {
-            return Results.BadRequest($"S3: upload presigned url failed: \r\t\n{ex.Message}");
+            return Results.BadRequest($"S3: start multipart upload failed: \r\t\n{ex.Message}");
         }
     }
 }

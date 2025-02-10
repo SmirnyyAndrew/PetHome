@@ -1,9 +1,9 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using FilesService.Endpoints;
+using FilesService.Application.Endpoints;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FilesService.Features;
+namespace FilesService.Application.Features;
 
 public static class GetPresignedUrl
 {
@@ -29,7 +29,7 @@ public static class GetPresignedUrl
             GetPreSignedUrlRequest presignedUrlRequest = new GetPreSignedUrlRequest
             {
                 BucketName = request.BucketName,
-                Key = key, 
+                Key = key,
                 Verb = HttpVerb.GET,
                 Expires = DateTime.UtcNow.AddDays(14),
                 Protocol = Protocol.HTTP,

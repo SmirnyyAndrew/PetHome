@@ -1,8 +1,8 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using FilesService.Endpoints;
+using FilesService.Application.Endpoints;
 
-namespace FilesService.Features;
+namespace FilesService.Application.Features;
 
 public static class StartMultipartUpload
 {

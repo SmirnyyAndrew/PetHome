@@ -1,16 +1,16 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using FilesService.Endpoints;
+using FilesService.Application.Endpoints;
 using FilesService.Infrastructure.MongoDB;
 using FilesService.Infrastructure.MongoDB.Documents;
 
-namespace FilesService.Features;
+namespace FilesService.Application.Features;
 
 public static class CompleteMultipartUpload
 {
 
     public record PartETagInfo(int PartNumber, string ETag);
-     
+
     private record CompleteMultipartRequest(
        string BucketName,
        string UploadId,

@@ -1,4 +1,4 @@
-﻿namespace FilesService.Endpoints;
+﻿namespace FilesService.Application.Endpoints;
 
 public interface IEndpoint
 {

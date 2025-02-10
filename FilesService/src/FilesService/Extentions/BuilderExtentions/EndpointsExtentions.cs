@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
-using FilesService.Endpoints;
+using FilesService.Application.Endpoints;
 
 namespace FilesService.Extentions.BuilderExtentions;
 

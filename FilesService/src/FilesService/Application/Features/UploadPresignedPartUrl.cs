@@ -1,8 +1,8 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using FilesService.Endpoints;
+using FilesService.Application.Endpoints;
 
-namespace FilesService.Features;
+namespace FilesService.Application.Features;
 
 public static class UploadPresignedPartUrl
 {
@@ -32,7 +32,7 @@ public static class UploadPresignedPartUrl
                 BucketName = request.BucketName,
                 Key = key,
                 Verb = HttpVerb.PUT,
-                Expires = DateTime.UtcNow.AddDays(14), 
+                Expires = DateTime.UtcNow.AddDays(14),
                 Protocol = Protocol.HTTP,
                 UploadId = request.UploadId,
                 PartNumber = request.PartNumber
