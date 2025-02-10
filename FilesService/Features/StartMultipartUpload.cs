@@ -48,9 +48,9 @@ public static class StartMultipartUpload
                 uploadId = response.UploadId
             });
         }
-        catch (Exception ex)
+        catch (AmazonS3Exception ex)
         {
-            return Results.BadRequest($"S3: start multipart upload failed: \r\t\n{ex}");
+            return Results.BadRequest($"S3: start multipart upload failed: \r\t\n{ex.Message}");
         }
     }
 }

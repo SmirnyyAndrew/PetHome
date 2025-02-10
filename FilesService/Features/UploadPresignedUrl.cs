@@ -16,14 +16,14 @@ public static class UploadPresignedUrl
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/presigned-url", Handler);
+            app.MapPost("files/presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(
-           UploadPresignedUrlRequest request,
-           IAmazonS3 s3Client, 
+            UploadPresignedUrlRequest request,
+           IAmazonS3 s3Client,
            CancellationToken ct)
-    { 
+    {
         try
         {
             Guid key = Guid.NewGuid();
@@ -47,12 +47,12 @@ public static class UploadPresignedUrl
             return Results.Ok(new
             {
                 key,
-                presignedUrl
+                url = presignedUrl
             });
         }
-        catch (Exception ex)
+        catch (AmazonS3Exception ex)
         {
-            return Results.BadRequest($"S3: upload presigned url failed: \r\t\n{ex}");
-        } 
+            return Results.BadRequest($"S3: upload presigned url failed: \r\t\n{ex.Message}");
+        }
     }
 }

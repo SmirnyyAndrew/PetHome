@@ -15,26 +15,25 @@ public static class UploadPresignedPartUrl
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/part-presigned", Handler);
+            app.MapPost("files/{key:guid}/part-presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(
+           Guid key,
            UploadPresignedPartUrlRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {
         try
         {
-            Guid key = Guid.NewGuid();
 
             GetPreSignedUrlRequest presignedRequest = new GetPreSignedUrlRequest
             {
                 BucketName = request.BucketName,
                 Key = key.ToString(),
                 Verb = HttpVerb.PUT,
-                Expires = DateTime.UtcNow.AddDays(14),
-                //ContentType = request.ContentType,
-                Protocol = Protocol.HTTP, 
+                Expires = DateTime.UtcNow.AddDays(14), 
+                Protocol = Protocol.HTTP,
                 UploadId = request.UploadId,
                 PartNumber = request.PartNumber
             };
@@ -44,12 +43,12 @@ public static class UploadPresignedPartUrl
             return Results.Ok(new
             {
                 key,
-                presignedUrl
+                url = presignedUrl
             });
         }
-        catch (Exception ex)
+        catch (AmazonS3Exception ex)
         {
-            return Results.BadRequest($"S3: part upload presigned url failed: \r\t\n{ex}");
+            return Results.BadRequest($"S3: part upload presigned url failed: \r\t\n{ex.Message}");
         }
     }
 }

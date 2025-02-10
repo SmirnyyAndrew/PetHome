@@ -22,7 +22,7 @@ public static class CompleteMultipartUpload
     }
     private static async Task<IResult> Handler(
            Guid key,
-           CompleteMultipartRequest request,
+            CompleteMultipartRequest request,
            IAmazonS3 s3Client,
            CancellationToken ct)
     {
@@ -43,12 +43,12 @@ public static class CompleteMultipartUpload
             return Results.Ok(new
             {
                 key,
-                response.Location
+                location = response.Location
             });
         }
-        catch (Exception ex)
+        catch (AmazonS3Exception ex)
         {
-            return Results.BadRequest($"S3: complete multipart upload failed: \r\t\n{ex}");
+            return Results.BadRequest($"S3: complete multipart upload failed: \r\t\n{ex.Message}");
         }
     }
 }
