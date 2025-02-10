@@ -1,7 +1,6 @@
-using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
+using FilesService.Core.Loggers;
+using FilesService.Core.Validation;
 using FilesService.Extentions;
-using PetHome.Core.Response.Loggers;
-using PetHome.Core.Response.Validation;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 

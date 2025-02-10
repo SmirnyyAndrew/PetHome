@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FilesService.Core.ErrorManagment;
+using FilesService.Core.ErrorManagment.Envelopes;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.ErrorManagment.Envelopes;
-using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Core.Extentions.ErrorExtentions;
+namespace FilesService.Extentions.ErrorExtentions;
 // Позволяет автоматически опредлетить status code ошибки в контроллерах
 public static class ResponseExtentions
 {

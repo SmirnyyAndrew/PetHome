@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.ErrorManagment;
 using FluentValidation;
-using PetHome.Core.Response.ErrorManagment;
 
-namespace PetHome.Core.Response.Validation.Validator;
-public static class CustomValidatior
+namespace FilesService.Core.Validation.Validator;
+public static class CustomValidator
 {
     public static IRuleBuilderOptionsConditions<T, TElement> MustBeValueObject<T, TElement, TValueObject>
         (this IRuleBuilder<T, TElement> ruleBuilder, Func<TElement, Result<TValueObject, Error>> factoryMethod)

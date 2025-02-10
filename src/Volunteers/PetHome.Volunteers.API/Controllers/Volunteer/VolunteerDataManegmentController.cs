@@ -29,7 +29,7 @@ public class VolunteerDataManagmentController : ParentController
 
         Result<Guid, ErrorList> result = await useCase.Execute(request, ct);
         if (result.IsFailure)
-            return result.Error.GetSatusCode();
+            return result.Error.GetStatusCode();
 
         return Ok(result.Value);
     }
@@ -47,7 +47,7 @@ public class VolunteerDataManagmentController : ParentController
 
         Result<Guid, ErrorList> result = await useCase.Execute(request, ct);
         if (result.IsFailure)
-            return result.Error.GetSatusCode();
+            return result.Error.GetStatusCode();
 
         return Ok(result.Value);
     }
@@ -65,7 +65,7 @@ public class VolunteerDataManagmentController : ParentController
 
         var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
-            result.Error.GetSatusCode();
+            result.Error.GetStatusCode();
 
         return Ok(result.Value);
     }
@@ -83,7 +83,7 @@ public class VolunteerDataManagmentController : ParentController
 
         var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
-            result.Error.GetSatusCode();
+            result.Error.GetStatusCode();
 
         return Ok(result.Value);
     }
@@ -101,7 +101,7 @@ public class VolunteerDataManagmentController : ParentController
 
         var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
-            result.Error.GetSatusCode();
+            result.Error.GetStatusCode();
 
         return Ok(result.Value);
     }
@@ -115,7 +115,7 @@ public class VolunteerDataManagmentController : ParentController
     {
         var result = useCase.Execute(ct);
         if (result.IsFailure)
-            result.Error.GetSatusCode();
+            result.Error.GetStatusCode();
 
         return Ok(result.Value);
     }
