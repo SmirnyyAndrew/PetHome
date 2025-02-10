@@ -10,12 +10,33 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.413.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Expressions" Version="5.0.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Core\Models\" />
+    <Folder Include="Response\Envelope\" />
+    <Folder Include="Response\Error\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>
