@@ -1,4 +1,5 @@
 ﻿using FilesService.Application.Interfaces;
+using FilesService.Core.Models.File;
 
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IFilesProvider

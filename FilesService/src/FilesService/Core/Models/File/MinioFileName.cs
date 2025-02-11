@@ -1,4 +1,6 @@
-﻿using CSharpFunctionalExtensions;
+﻿namespace FilesService.Core.Models.File;
+
+using CSharpFunctionalExtensions;
 using FilesService.Core.ErrorManagment;
 
 public record MinioFileName

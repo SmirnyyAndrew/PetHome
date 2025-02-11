@@ -6,14 +6,14 @@ namespace FilesService.Application.Interfaces;
 public interface IFilesProvider
 {
     //Загрузить файл
-    public Task<Result<Media, Error>> UploadFile(
+    public Task<Result<MediaFile, Error>> UploadFile(
        Stream stream,
        MinioFileInfoDto fileInfo,
        bool createBucketIfNotExist,
        CancellationToken ct);
 
     //Загрузить несколько файлов
-    public Task<Result<IReadOnlyList<Media>, Error>> UploadFile(
+    public Task<Result<IReadOnlyList<MediaFile>, Error>> UploadFile(
         IEnumerable<Stream> streams,
         MinioFilesInfoDto fileInfoDto,
         bool createBucketIfNotExist,

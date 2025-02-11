@@ -7,7 +7,7 @@ namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     //Загрузить несколько файлов
-    public async Task<Result<IReadOnlyList<Media>, Error>> UploadFile(
+    public async Task<Result<IReadOnlyList<MediaFile>, Error>> UploadFile(
         IEnumerable<Stream> streams,
         MinioFilesInfoDto fileInfoDto,
         bool createBucketIfNotExist,
@@ -29,7 +29,7 @@ public partial class MinioProvider : IFilesProvider
         }
 
         var semaphoreSlim = new SemaphoreSlim(MAX_STREAMS_LENGHT);
-        List<Media> medias = new List<Media>();
+        List<MediaFile> medias = new List<MediaFile>();
         int index = 0;
         IEnumerable<Task> uploadTasks = streams.Select(async stream =>
         {
@@ -39,7 +39,7 @@ public partial class MinioProvider : IFilesProvider
 
                 MinioFileInfoDto fileInfo = new MinioFileInfoDto(
                     fileInfoDto.BucketName,
-                    fileInfoDto.FileNames.ToList()[index++]);
+                    fileInfoDto.FileNames.ToList()[index++].Value);
                 var result = await UploadFile(
                                 stream,
                                 fileInfo,
