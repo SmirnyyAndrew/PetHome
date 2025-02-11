@@ -8,7 +8,7 @@ using Npgsql;
 using NSubstitute;
 using PetHome.Core.Interfaces;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.ValueObjects.File;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Species.Infrastructure.Database.Write.DBContext;
@@ -105,14 +105,14 @@ public class IntegrationTestFactory
 
     public void SetupSuccessFileServiceMock()
     {
-        var response = Media.Create("photos", "test_file_name").Value;
+        var response = MediaFile.Create("photos", "test_file_name").Value;
 
         _fileServiceMock.UploadFile(
                Arg.Any<Stream>(),
                Arg.Any<MinioFileInfoDto>(),
                false,
                CancellationToken.None)
-            .Returns(Result.Success<Media, Error>(response));
+            .Returns(Result.Success<MediaFile, Error>(response));
     }
 
     public void SetupFailedFileServiceMock()

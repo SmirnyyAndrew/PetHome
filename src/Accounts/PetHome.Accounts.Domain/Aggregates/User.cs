@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 
@@ -13,7 +13,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("user").Value;
     public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
-    public IReadOnlyList<Media>? Medias { get; private set; } = [];
+    public IReadOnlyList<MediaFile>? Medias { get; private set; } = [];
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
     public RoleId? RoleId { get; private set; }
     public Role? Role { get; set; }
@@ -51,7 +51,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 
     private User(
         IReadOnlyList<SocialNetwork> socialNetworks,
-        IReadOnlyList<Media> medias,
+        IReadOnlyList<MediaFile> medias,
         IReadOnlyList<PhoneNumber> phoneNumbers,
         RoleId roleId)
     {
@@ -63,7 +63,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 
     public static User Create(
         IEnumerable<SocialNetwork> socialNetworks,
-        IEnumerable<Media> medias,
+        IEnumerable<MediaFile> medias,
         IEnumerable<PhoneNumber> phoneNumbers,
         RoleId roleId)
     {
@@ -88,7 +88,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
         return UnitResult.Success<Error>();
     }
 
-    public UnitResult<Error> SetMedia(IEnumerable<Media> medias)
+    public UnitResult<Error> SetMedia(IEnumerable<MediaFile> medias)
     {
         Medias = medias.ToList();
         return UnitResult.Success<Error>();

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.User;
+using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Discussions.Contracts;
 using PetHome.VolunteerRequests.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;

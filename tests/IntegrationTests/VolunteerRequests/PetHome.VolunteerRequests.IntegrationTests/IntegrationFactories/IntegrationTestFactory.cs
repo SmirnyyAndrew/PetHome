@@ -7,7 +7,7 @@ using Npgsql;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
-using PetHome.Accounts.Contracts.User;
+using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write.Repositories;
 using Respawn;

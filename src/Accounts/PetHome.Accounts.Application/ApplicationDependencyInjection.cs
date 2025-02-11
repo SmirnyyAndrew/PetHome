@@ -6,7 +6,8 @@ using PetHome.Accounts.Application.Features.Contracts.TokensManagment.RefreshTok
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
 using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
 using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Contracts.User;
+using PetHome.Accounts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
+using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 
