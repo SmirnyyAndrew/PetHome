@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.RolePermission;
 using System.Text.Json;
 
@@ -43,7 +43,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(s => s.Medias)
             .HasConversion(
                 u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IReadOnlyList<Media>>(json, JsonSerializerOptions.Default))
+                json => JsonSerializer.Deserialize<IReadOnlyList<MediaFile>>(json, JsonSerializerOptions.Default))
             .HasColumnName("medias");
 
         builder.Property(s => s.PhoneNumbers)

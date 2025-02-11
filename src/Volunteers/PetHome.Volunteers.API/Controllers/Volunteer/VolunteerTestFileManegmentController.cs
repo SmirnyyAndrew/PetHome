@@ -31,9 +31,8 @@ public class VolunteerTestFileManagmentController : ParentController
     {
         //Загрузить файл
         await using Stream stream = file.OpenReadStream();
-
-        MinioFileName minioFileName = MinioFileName.Create(file.FileName).Value;
-        MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(bucketName, minioFileName);
+         
+        MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(bucketName, file.FileName);
         var result = await _minioProvider.UploadFile(
             stream,
             minioFileInfoDto,

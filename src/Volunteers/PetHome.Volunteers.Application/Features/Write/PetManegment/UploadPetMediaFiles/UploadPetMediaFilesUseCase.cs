@@ -8,6 +8,7 @@ using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Messaging;
 using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
@@ -80,7 +81,7 @@ public class UploadPetMediaFilesUseCase
             return uploadResult.Error.ToErrorList();
         }
 
-        IReadOnlyList<Media> uploadPetMedias = uploadResult.Value;
+        IReadOnlyList<MediaFile> uploadPetMedias = uploadResult.Value;
 
         pet.UploadMedia(uploadPetMedias);
 
