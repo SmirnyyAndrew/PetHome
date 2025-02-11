@@ -1,8 +1,6 @@
 ﻿using FilesService.Application.Interfaces;
-using FilesService.Core.Options;
 using FilesService.Infrastructure.Minio;
 using FilesService.Infrastructure.MongoDB;
-using Minio;
 using MongoDB.Driver;
 
 namespace FilesService.Extentions.BuilderExtentions;
