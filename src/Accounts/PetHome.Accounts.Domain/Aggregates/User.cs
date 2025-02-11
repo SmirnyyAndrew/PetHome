@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
@@ -13,7 +14,6 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("user").Value;
     public IReadOnlyList<SocialNetwork>? SocialNetworks { get; private set; } = [];
-    public IReadOnlyList<MediaFile>? Medias { get; private set; } = [];
     public IReadOnlyList<PhoneNumber>? PhoneNumbers { get; private set; } = [];
     public RoleId? RoleId { get; private set; }
     public Role? Role { get; set; }
@@ -23,28 +23,33 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public AdminAccount? Admin { get; private set; }
     public ParticipantAccount? Participant { get; private set; }
     public VolunteerAccount? Volunteer { get; private set; }
+    public IReadOnlyList<MediaFile> Medias { get; private set; } = [];
+    public MediaFile? Avatar { get; private set; }
 
     public User() { }
 
     private User(
             Email email,
             UserName userName,
-            Role role)
+            Role role,
+            MediaFile avatar = null)
     {
         Id = Guid.NewGuid();
         Email = email;
         UserName = userName;
         Role = role;
         RoleId = RoleId.Create(role.Id).Value;
+        Avatar = avatar;
     }
 
     public static Result<User, Error> Create(
             Email email,
             UserName userName,
-            Role role)
+            Role role,
+            MediaFile avatar = null)
     {
         if (role != null && email != null && role != null)
-            return new User(email, userName, role);
+            return new User(email, userName, role, avatar);
 
         return Errors.Validation("User");
     }
@@ -99,6 +104,41 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
         PhoneNumbers = phoneNumbers.ToList();
         return UnitResult.Success<Error>();
     }
+
+     
+    public void SetAvatar(MediaFile avatar)
+    {
+        Avatar = avatar;
+    }
+
+
+    //Добавить медиа
+    public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
+    {
+        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
+
+        IReadOnlyList<MediaFile> oldMedias = Medias.ToList();
+        oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
+         
+        Medias = newMediaFiles;
+
+        return Result.Success<Error>();
+    }
+
+
+    //Удалить медиа
+    public UnitResult<Error> RemoveMedia(IEnumerable<MediaFile> mediasToDelete)
+    {
+        List<MediaFile> oldMediaFiles = Medias
+            .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
+
+        List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
+         
+        Medias = newMediaFiles;
+
+        return Result.Success<Error>();
+    }
+
 
     //Класс не может наследоваться от двух абстрактных классов одновременно,
     //поэтому реализация интерфейса ISoftDeletableEntity

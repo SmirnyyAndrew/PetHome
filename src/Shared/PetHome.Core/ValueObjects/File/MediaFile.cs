@@ -4,10 +4,10 @@ using PetHome.Core.Response.ErrorManagment;
 namespace PetHome.Core.ValueObjects.File;
 public record MediaFile
 {
-    public Guid Id { get; }
-    public FileType Type { get; }
-    public string BucketName { get; }
-    public string FileName { get; }
+    public Guid? Key { get; }
+    public FileType? Type { get; }
+    public string? BucketName { get; }
+    public string? FileName { get; }
 
     private MediaFile(){}
     private MediaFile(
@@ -15,7 +15,7 @@ public record MediaFile
         string bucketName,
         string fileName)
     {
-        Id = Guid.NewGuid();
+        Key = Guid.NewGuid();
         Type = type;
         BucketName = bucketName;
         FileName = fileName;

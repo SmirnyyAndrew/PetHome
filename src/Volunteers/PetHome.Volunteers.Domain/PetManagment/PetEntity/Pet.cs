@@ -30,7 +30,8 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        ValueObjectList<Requisites> requisites)
+        ValueObjectList<Requisites> requisites,
+        MediaFile avatar = null)
     {
         Id = PetId.Create().Value;
         Name = name;
@@ -47,6 +48,7 @@ public class Pet : SoftDeletableEntity
         VolunteerId = volunteerId;
         ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
         Medias = new List<MediaFile>();
+        Avatar = avatar;
     }
 
 
@@ -67,6 +69,7 @@ public class Pet : SoftDeletableEntity
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
     public ValueObjectList<MediaFile> Medias { get; private set; }
+    public MediaFile? Avatar { get; private set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -81,7 +84,8 @@ public class Pet : SoftDeletableEntity
         bool isVaccinated,
         PetStatusEnum status,
         VolunteerId volunteerId,
-        ValueObjectList<Requisites> requisites)
+        ValueObjectList<Requisites> requisites,
+        MediaFile avatar = null)
     {
         if (weight > 500 || weight <= 0)
             return Errors.Validation("Вес");
@@ -99,7 +103,8 @@ public class Pet : SoftDeletableEntity
             isVaccinated,
             status,
             volunteerId,
-            requisites);
+            requisites,
+            avatar);
 
         pet.InitSerialNumber();
         Pets.Add(pet);
@@ -166,13 +171,11 @@ public class Pet : SoftDeletableEntity
     //Добавить медиа
     public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
     {
-        List<MediaFile> newMediaFiles = new List<MediaFile>();
-        newMediaFiles.AddRange(mediasToUpload);
+        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
 
         IReadOnlyList<MediaFile> oldMedias = Medias.Values.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
-
-        //Medias = MediaDetails.Create(newMediaFiles).Value;
+         
         Medias = newMediaFiles;
 
         return Result.Success<Error>();
@@ -185,8 +188,7 @@ public class Pet : SoftDeletableEntity
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
-
-        //Medias = MediaDetails.Create(newMediaFiles).Value;
+         
         Medias = newMediaFiles;
 
         return Result.Success<Error>();
@@ -239,5 +241,10 @@ public class Pet : SoftDeletableEntity
             .Except([media])
             .ToList());
         Medias = new ValueObjectList<MediaFile>(medias);
+    }
+
+    public void SetAvatar(MediaFile avatar)
+    {
+        Avatar = avatar;
     }
 }
