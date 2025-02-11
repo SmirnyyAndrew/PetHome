@@ -9,6 +9,7 @@ public record MediaFile
     public string BucketName { get; }
     public string FileName { get; }
 
+    private MediaFile(){}
     private MediaFile(
         FileType type,
         string bucketName,

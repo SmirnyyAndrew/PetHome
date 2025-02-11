@@ -2,6 +2,7 @@
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Breed;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
@@ -45,7 +46,7 @@ public class Pet : SoftDeletableEntity
         Requisites = requisites;
         VolunteerId = volunteerId;
         ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
-        Medias = new List<Media>();
+        Medias = new List<MediaFile>();
     }
 
 
@@ -65,7 +66,7 @@ public class Pet : SoftDeletableEntity
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
-    public ValueObjectList<Media> Medias { get; private set; }
+    public ValueObjectList<MediaFile> Medias { get; private set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -157,19 +158,19 @@ public class Pet : SoftDeletableEntity
     }
 
     // Присвоить serial number =  1
-    public UnitResult<Error> ChangeSerialNumberToBegining()
+    public UnitResult<Error> ChangeSerialNumberToBeginning()
     {
         return ChangeSerialNumber(1);
     }
 
     //Добавить медиа
-    public UnitResult<Error> UploadMedia(IEnumerable<Media> mediasToUpload)
+    public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
     {
-        List<Media> newMediaFiles = new List<Media>();
+        List<MediaFile> newMediaFiles = new List<MediaFile>();
         newMediaFiles.AddRange(mediasToUpload);
 
-        IReadOnlyList<Media> oldMedias = Medias.Values.ToList();
-        oldMedias.ToList().ForEach(x => newMediaFiles.Add(Media.Create(x.BucketName, x.FileName).Value));
+        IReadOnlyList<MediaFile> oldMedias = Medias.Values.ToList();
+        oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
 
         //Medias = MediaDetails.Create(newMediaFiles).Value;
         Medias = newMediaFiles;
@@ -178,12 +179,12 @@ public class Pet : SoftDeletableEntity
     }
 
     //Удалить медиа
-    public UnitResult<Error> RemoveMedia(IEnumerable<Media> mediasToDelete)
+    public UnitResult<Error> RemoveMedia(IEnumerable<MediaFile> mediasToDelete)
     {
-        List<Media> oldMediaFiles = Medias.Values
-            .Select(m => Media.Create(m.BucketName, m.FileName).Value).ToList();
+        List<MediaFile> oldMediaFiles = Medias.Values
+            .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
-        List<Media> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
+        List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
 
         //Medias = MediaDetails.Create(newMediaFiles).Value;
         Medias = newMediaFiles;
@@ -230,13 +231,13 @@ public class Pet : SoftDeletableEntity
     }
 
     //Установить главную фотографию
-    public void SetMainPhoto(Media media)
+    public void SetMainPhoto(MediaFile media)
     {
-        List<Media> medias = new List<Media>() { media };
+        List<MediaFile> medias = new List<MediaFile>() { media };
         medias.AddRange(Medias
-            .Select(m => Media.Create(m.BucketName, m.FileName).Value)
+            .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value)
             .Except([media])
             .ToList());
-        Medias = new ValueObjectList<Media>(medias);
+        Medias = new ValueObjectList<MediaFile>(medias);
     }
 }
