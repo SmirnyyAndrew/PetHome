@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 
-namespace PetHome.Core.Response.Loggers;
+namespace FilesService.Core.Loggers;
 
 public class SeqLogger
 {
