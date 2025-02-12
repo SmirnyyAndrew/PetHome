@@ -1,4 +1,5 @@
 ﻿using FilesService.Extentions.BuilderExtentions;
+using Hangfire;
 
 namespace FilesService.Extentions.AppExtentions;
 
@@ -13,6 +14,9 @@ public static class AppExtentions
         app.UseExceptionHandler();
          
         app.MapEndpoints();
+
+        app.UseHangfireServer();
+        app.UseHangfireDashboard();
 
         return app;
     }
