@@ -78,4 +78,18 @@ public class FilesHttpClient(HttpClient httpClient)
         UploadPartFileResponse? uploadResponse = await response.Content.ReadFromJsonAsync<UploadPartFileResponse>(ct);
         return uploadResponse;
     }
+
+
+    public async Task<Result<FileUrlResponse, Error>> UploadPresignedPartUrl(
+        string key, UploadPresignedPartUrlRequest request, CancellationToken ct)
+    {
+        var response = await httpClient.PostAsJsonAsync($"files/{key}/part-presigned", request, ct);
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            return Errors.Conflict("key");
+        }
+
+        FileUrlResponse? fileUrl = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
+        return fileUrl;
+    }
 }

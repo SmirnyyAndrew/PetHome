@@ -1,18 +1,14 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Core.Request;
 using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class UploadPresignedPartUrl
-{
-    private record UploadPresignedPartUrlRequest(
-       string BucketName,
-       string UploadId,
-       int PartNumber);
-
+{ 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
