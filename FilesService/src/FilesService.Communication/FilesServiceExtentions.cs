@@ -6,7 +6,7 @@ namespace FilesService.Communication;
 public static class FilesServiceExtentions
 {
     public static IServiceCollection AddFileHttpCommunication(
-        this IServiceCollection services, string sectionName, IConfiguration configuration)
+        this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<FilesServiceOptions>(configuration.GetSection(FilesServiceOptions.SECTION_NAME));
 
