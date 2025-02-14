@@ -23,6 +23,7 @@ public class FilesHttpClient(HttpClient httpClient)
         return files?.ToList() ?? [];
     }
 
+
     public async Task<Result<FileUrlResponse, Error>> UploadPresignedUrl(
         UploadPresignedUrlRequest request, CancellationToken ct)
     {
@@ -36,6 +37,7 @@ public class FilesHttpClient(HttpClient httpClient)
         FileUrlResponse? file = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
         return file;
     }
+
 
     public async Task<Result<FileLocationResponse, Error>> CompleteMultipartUpload(
         string key, CompleteMultipartRequest request, CancellationToken ct)
@@ -61,5 +63,19 @@ public class FilesHttpClient(HttpClient httpClient)
         }
         FileUrlResponse? fileUrl = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
         return fileUrl;
+    }
+
+
+    public async Task<Result<UploadPartFileResponse, Error>> StartMultipartUpload(
+      StartMultipartUploadRequest request, CancellationToken ct)
+    {
+        var response = await httpClient.PostAsJsonAsync("files/multipart/presigned", request, ct);
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            return Errors.Conflict("file");
+        }
+
+        UploadPartFileResponse? uploadResponse = await response.Content.ReadFromJsonAsync<UploadPartFileResponse>(ct);
+        return uploadResponse;
     }
 }
