@@ -47,6 +47,19 @@ public class FilesHttpClient(HttpClient httpClient)
         }
 
         FileLocationResponse? fileLocation = await response.Content.ReadFromJsonAsync<FileLocationResponse>(ct);
-        return fileLocation; 
+        return fileLocation;
+    }
+
+
+    public async Task<Result<FileUrlResponse, Error>> GetPresignedUrl(
+        string key, GetPresignedUrlRequest request, CancellationToken ct)
+    {
+        var response = await httpClient.PostAsJsonAsync($"files/{key}/presigned", request, ct);
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            return Errors.NotFound("file");
+        }
+        FileUrlResponse? fileUrl = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
+        return fileUrl;
     }
 }

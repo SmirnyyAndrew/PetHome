@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Core.Request;
 using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,6 @@ public static class GetPresignedUrl
         }
     }
 
-    private record GetPresignedUrlRequest(string BucketName);
 
     private static async Task<IResult> Handler(
             [FromRoute] string key,
