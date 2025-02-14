@@ -53,6 +53,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Core\Models\" />
+	  <Folder Include="Infrastructure\MongoDB\Documents\" />
 	</ItemGroup>
 
 	<ItemGroup>

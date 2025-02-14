@@ -1,4 +1,4 @@
-﻿using FilesService.Infrastructure.MongoDB.Documents;
+﻿using FilesService.Core.Models;
 using MongoDB.Driver;
 
 namespace FilesService.Infrastructure.MongoDB;

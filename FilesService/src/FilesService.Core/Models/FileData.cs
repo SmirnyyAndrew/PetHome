@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace FilesService.Infrastructure.MongoDB.Documents;
+namespace FilesService.Core.Models;
 
 public class FileData
 {

@@ -2,8 +2,8 @@
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
 using FilesService.Application.Jobs;
+using FilesService.Core.Models;
 using FilesService.Infrastructure.MongoDB;
-using FilesService.Infrastructure.MongoDB.Documents;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +18,7 @@ public static class CompleteMultipartUpload
        string BucketName,
        string UploadId,
        List<PartETagInfo> Parts);
+
 
     public sealed class Endpoint : IEndpoint
     {
