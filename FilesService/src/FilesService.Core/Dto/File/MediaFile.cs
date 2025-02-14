@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.ErrorManagment;
 
-namespace FilesService.Core.Models.File;
+namespace FilesService.Core.Dto.File;
 public record MediaFile
 {
     public Guid? Key { get; }
@@ -9,7 +9,7 @@ public record MediaFile
     public string? BucketName { get; }
     public string? FileName { get; }
 
-    private MediaFile(){}
+    private MediaFile() { }
     private MediaFile(
         FileType type,
         string bucketName,

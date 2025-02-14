@@ -2,7 +2,7 @@
 using FilesService.Application.Jobs;
 using Hangfire;
 
-namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
+namespace FilesService.Application.Features.Hangfire;
 
 public static class JobTest
 {

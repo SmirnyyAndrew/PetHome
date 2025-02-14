@@ -9,6 +9,13 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Core\Response\**" />
+    <Content Remove="Core\Response\**" />
+    <EmbeddedResource Remove="Core\Response\**" />
+    <None Remove="Core\Response\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="AWSSDK.S3" Version="3.7.413.2" />
 		<PackageReference Include="CSharpFunctionalExtensions" Version="3.4.3" />
@@ -44,8 +51,12 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\Response\ErrorManagment\Envelopes\" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Core\Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FilesService.Core\FilesService.Core.csproj" />
+	</ItemGroup>
 
 </Project>

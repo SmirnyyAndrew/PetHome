@@ -1,4 +1,6 @@
 ﻿
+using FilesService.Core.ErrorManagment;
+
 namespace FilesService.Core.ErrorManagment;
 public record Error
 {

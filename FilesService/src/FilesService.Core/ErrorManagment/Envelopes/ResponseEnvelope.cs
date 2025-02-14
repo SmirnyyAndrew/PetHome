@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation.Results;
 using Minio.DataModel;
 
 namespace FilesService.Core.ErrorManagment.Envelopes;

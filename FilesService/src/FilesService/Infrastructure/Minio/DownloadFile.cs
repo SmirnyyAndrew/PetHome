@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Application.Interfaces;
+using FilesService.Core.Dto.File;
 using FilesService.Core.ErrorManagment;
-using FilesService.Core.Models.File;
 using Minio.DataModel;
 using Minio.DataModel.Args;
 

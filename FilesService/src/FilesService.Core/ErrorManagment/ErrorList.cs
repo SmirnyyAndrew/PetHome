@@ -1,5 +1,6 @@
-﻿namespace FilesService.Core.ErrorManagment;
- 
+﻿namespace FilesService.Core.ErrorManagment; 
+using CSharpFunctionalExtensions;
+
 public record ErrorList(List<Error> Errors)
 {
 

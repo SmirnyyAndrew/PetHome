@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
 using FilesService.Core.ErrorManagment;
-using FilesService.Core.Models.File;
 
 namespace FilesService.Application.Interfaces;
 public interface IFilesProvider

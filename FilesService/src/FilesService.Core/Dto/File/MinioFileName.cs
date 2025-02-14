@@ -1,4 +1,4 @@
-﻿namespace FilesService.Core.Models.File;
+﻿namespace FilesService.Core.Dto.File;
 
 using CSharpFunctionalExtensions;
 using FilesService.Core.ErrorManagment;
