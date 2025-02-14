@@ -3,8 +3,6 @@ using FilesService.Core.ErrorManagment;
 using FilesService.Core.Models;
 using FilesService.Core.Request;
 using FilesService.Core.Response;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -32,10 +30,23 @@ public class FilesHttpClient(HttpClient httpClient)
 
         if (response.StatusCode != HttpStatusCode.OK)
         {
-            return Errors.NotFound("files");
+            return Errors.Conflict("files");
         }
 
-        FileUrlResponse file = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
+        FileUrlResponse? file = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
         return file;
+    }
+
+    public async Task<Result<FileLocationResponse, Error>> CompleteMultipartUpload(
+        string key, CompleteMultipartRequest request, CancellationToken ct)
+    {
+        var response = await httpClient.PostAsJsonAsync($"files/{key}/complite-multipart/presigned", request, ct);
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            return Errors.NotFound("Key");
+        }
+
+        FileLocationResponse? fileLocation = await response.Content.ReadFromJsonAsync<FileLocationResponse>(ct);
+        return fileLocation; 
     }
 }
