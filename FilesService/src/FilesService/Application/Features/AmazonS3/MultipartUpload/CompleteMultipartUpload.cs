@@ -3,6 +3,8 @@ using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
 using FilesService.Application.Jobs;
 using FilesService.Core.Models;
+using FilesService.Core.Request;
+using FilesService.Core.Response;
 using FilesService.Infrastructure.MongoDB;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
@@ -10,16 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class CompleteMultipartUpload
-{
-
-    public record PartETagInfo(int PartNumber, string ETag);
-
-    private record CompleteMultipartRequest(
-       string BucketName,
-       string UploadId,
-       List<PartETagInfo> Parts);
-
-
+{ 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
@@ -75,11 +68,8 @@ public static class CompleteMultipartUpload
 
             BackgroundJob.Delete(jobId);
 
-            return Results.Ok(new
-            {
-                key,
-                location = response.Location
-            });
+            FileLocationResponse fileLocation = new FileLocationResponse(key, response.Location); 
+            return Results.Ok(fileLocation);
         }
         catch (AmazonS3Exception ex)
         {

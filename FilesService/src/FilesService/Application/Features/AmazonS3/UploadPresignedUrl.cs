@@ -23,12 +23,12 @@ public static class UploadPresignedUrl
     {
         try
         {
-            Guid key = Guid.NewGuid();
+            string key = Guid.NewGuid().ToString();
 
             GetPreSignedUrlRequest presignedRequest = new GetPreSignedUrlRequest
             {
                 BucketName = request.BucketName,
-                Key = key.ToString(),
+                Key = key,
                 Verb = HttpVerb.PUT,
                 Expires = DateTime.UtcNow.AddDays(14),
                 ContentType = request.ContentType,

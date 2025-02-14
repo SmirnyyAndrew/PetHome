@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
@@ -37,11 +38,8 @@ public static class GetPresignedUrl
 
             string? presignedUrl = await s3Client.GetPreSignedURLAsync(presignedUrlRequest);
 
-            return Results.Ok(new
-            {
-                key,
-                url = presignedUrl
-            });
+            FileUrlResponse response = new FileUrlResponse(key, presignedUrl);
+            return Results.Ok(response);
         }
         catch (AmazonS3Exception ex)
         {

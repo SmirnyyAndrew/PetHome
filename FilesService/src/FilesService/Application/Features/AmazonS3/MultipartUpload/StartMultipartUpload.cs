@@ -1,18 +1,14 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Core.Request;
+using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class StartMultipartUpload
-{
-    private record StartMultipartUploadRequest(
-       string BucketName,
-       string FileName,
-       string ContentType,
-       long Size);
-
+{ 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
@@ -27,12 +23,12 @@ public static class StartMultipartUpload
     {
         try
         {
-            Guid key = Guid.NewGuid();
+            string key = Guid.NewGuid().ToString();
 
             var presignedRequest = new InitiateMultipartUploadRequest
             {
                 BucketName = request.BucketName,
-                Key = key.ToString(),
+                Key = key,
                 ContentType = request.ContentType,
                 Metadata =
                 {
@@ -43,11 +39,8 @@ public static class StartMultipartUpload
             var response = await s3Client.InitiateMultipartUploadAsync(
                 presignedRequest, ct);
 
-            return Results.Ok(new
-            {
-                key,
-                uploadId = response.UploadId
-            });
+            UploadPartFileResponse uploadResponse = new UploadPartFileResponse(key, response.UploadId); 
+            return Results.Ok(uploadResponse);
         }
         catch (AmazonS3Exception ex)
         {
