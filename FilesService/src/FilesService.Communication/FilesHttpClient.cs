@@ -1,7 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.ErrorManagment;
 using FilesService.Core.Models;
-using FilesService.Core.Request;
+using FilesService.Core.Request.AmazonS3;
+using FilesService.Core.Request.AmazonS3.MultipartUpload;
 using FilesService.Core.Response;
 using System.Net;
 using System.Net.Http.Json;

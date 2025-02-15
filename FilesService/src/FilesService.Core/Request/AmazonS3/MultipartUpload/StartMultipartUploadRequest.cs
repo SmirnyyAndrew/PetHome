@@ -1,4 +1,4 @@
-﻿namespace FilesService.Core.Request;
+﻿namespace FilesService.Core.Request.AmazonS3.MultipartUpload;
 
 public record StartMultipartUploadRequest(
        string BucketName,

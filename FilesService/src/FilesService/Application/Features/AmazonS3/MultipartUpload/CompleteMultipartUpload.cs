@@ -3,7 +3,7 @@ using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
 using FilesService.Application.Jobs;
 using FilesService.Core.Models;
-using FilesService.Core.Request;
+using FilesService.Core.Request.AmazonS3.MultipartUpload;
 using FilesService.Core.Response;
 using FilesService.Infrastructure.MongoDB;
 using Hangfire;

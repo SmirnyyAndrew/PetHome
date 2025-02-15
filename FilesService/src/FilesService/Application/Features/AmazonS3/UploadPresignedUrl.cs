@@ -1,7 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
-using FilesService.Core.Request;
+using FilesService.Core.Request.AmazonS3;
 using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
