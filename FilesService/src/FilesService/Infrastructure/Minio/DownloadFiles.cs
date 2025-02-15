@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Application.Interfaces;
-using FilesService.Core.Dto.File;
 using FilesService.Core.ErrorManagment;
+using FilesService.Core.Request.Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;
 
@@ -10,9 +10,9 @@ public partial class MinioProvider : IFilesProvider
 {
     //Скачать файл
     public async Task<Result<string, Error>> DownloadFiles(
-         MinioFilesInfoDto fileInfoDto, string fileSavePath, CancellationToken ct)
+         DownloadFilesRequest request, CancellationToken ct)
     {
-        var isExistBucketResult = await CheckIsExistBucket(fileInfoDto.BucketName, ct);
+        var isExistBucketResult = await CheckIsExistBucket(request.FileInfoDto.BucketName, ct);
         if (isExistBucketResult.IsFailure)
             return isExistBucketResult.Error;
 
@@ -20,29 +20,29 @@ public partial class MinioProvider : IFilesProvider
         {{"response-content-type","application/json"}};
 
 
-        foreach (var fileName in fileInfoDto.FileNames)
+        foreach (var fileName in request.FileInfoDto.FileNames)
         {
             try
             {
                 string fileExtension = Path.GetExtension(fileName.Value);
-                fileSavePath = $"{fileSavePath}{fileExtension}";
+                string fullFileName = $"{request.FileSavePath}{fileExtension}";
                 var minioFileArgs = new GetObjectArgs()
-                    .WithBucket(fileInfoDto.BucketName)
+                    .WithBucket(request.FileInfoDto.BucketName)
                     .WithObject(fileName.Value)
-                    .WithFile(fileSavePath);
+                    .WithFile(fullFileName);
 
                 ObjectStat presignedUrl = await _minioClient.GetObjectAsync(minioFileArgs, ct)
                     .ConfigureAwait(false);
 
                 _logger.LogInformation("Файл {0} из bucket {1} сохранён по пути = {2}",
-                    fileName, fileInfoDto.BucketName, fileSavePath);
+                    fileName, request.FileInfoDto.BucketName, fullFileName);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Файл {0} в bucket {1} не найден", fileName, fileInfoDto.BucketName);
+                _logger.LogError("Файл {0} в bucket {1} не найден", fileName, request.FileInfoDto.BucketName);
             }
         }
-        string message = $"В bucket {fileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", fileInfoDto.FileNames)}";
+        string message = $"В bucket {request.FileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", request.FileInfoDto.FileNames)}";
         return message;
     }
 }

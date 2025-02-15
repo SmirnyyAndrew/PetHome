@@ -1,29 +1,30 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Application.Features.Minio;
 using FilesService.Application.Interfaces;
 using FilesService.Core.Dto.File;
-using FilesService.Core.ErrorManagment; 
+using FilesService.Core.ErrorManagment;
+using FilesService.Core.Request.Minio;
 
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IFilesProvider
 {
     //Загрузить несколько файлов
-    public async Task<Result<IReadOnlyList<MediaFile>, Error>> UploadFile(
+    public async Task<Result<IReadOnlyList<MediaFile>, Error>> UploadFiles(
         IEnumerable<Stream> streams,
-        MinioFilesInfoDto fileInfoDto,
-        bool createBucketIfNotExist,
+        UploadFilesRequest request,
         CancellationToken ct)
     {
-        if (fileInfoDto.FileNames.Count() != streams.Count())
+        if (request.FileInfoDto.FileNames.Count() != streams.Count())
         {
             string message = "Несовпадение количества файлов и их Dto";
             _logger.LogError(message);
             return Errors.Conflict(message);
         }
-        var bucketExistingCheck = await CheckIsExistBucket(fileInfoDto.BucketName, ct);
-        if (createBucketIfNotExist == false
+        var bucketExistingCheck = await CheckIsExistBucket(request.FileInfoDto.BucketName, ct);
+        if (request.CreateBucketIfNotExist == false
             && bucketExistingCheck.IsFailure)
         {
-            string message = $"Bucket с именем {fileInfoDto.BucketName} не найден";
+            string message = $"Bucket с именем {request.FileInfoDto.BucketName} не найден";
             _logger.LogError(message);
             return Errors.Failure(message);
         }
@@ -38,12 +39,12 @@ public partial class MinioProvider : IFilesProvider
                 await semaphoreSlim.WaitAsync(ct);
 
                 MinioFileInfoDto fileInfo = new MinioFileInfoDto(
-                    fileInfoDto.BucketName,
-                    fileInfoDto.FileNames.ToList()[index++].Value);
+                    request.FileInfoDto.BucketName,
+                    request.FileInfoDto.FileNames.ToList()[index++].Value);
+                UploadFileRequest uploadFileRequest = new UploadFileRequest(fileInfo, request.CreateBucketIfNotExist);
                 var result = await UploadFile(
                                 stream,
-                                fileInfo,
-                                createBucketIfNotExist,
+                                uploadFileRequest,
                                 ct);
                 medias.Add(result.Value);
             }
@@ -56,7 +57,7 @@ public partial class MinioProvider : IFilesProvider
 
         string result = uploadTasks.Count(x => x.IsCompleted).ToString();
         _logger.LogInformation("В {0} было добавлено {1} медиа файла(-ов)",
-          fileInfoDto.BucketName, result);
+          request.FileInfoDto.BucketName, result);
         return medias;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Application.Interfaces;
-using FilesService.Core.Dto.File;
 using FilesService.Core.ErrorManagment;
+using FilesService.Core.Request.Minio;
 using Minio.DataModel.Args;
 
 namespace FilesService.Infrastructure.Minio;
@@ -9,13 +9,12 @@ public partial class MinioProvider : IFilesProvider
 {
     //Загрузить файл
     public async Task<UnitResult<Error>> UploadFileWithDataChecking(
-        Stream stream,
-       MinioFileInfoDto fileInfo,
-       bool createBucketIfNotExist,
+       Stream stream,
+       UploadFileRequest request,
        CancellationToken ct)
     {
-        var isExistBucketResult = await CheckIsExistBucket(fileInfo.BucketName, ct);
-        if (isExistBucketResult.IsFailure && createBucketIfNotExist == false)
+        var isExistBucketResult = await CheckIsExistBucket(request.FileInfo.BucketName, ct);
+        if (isExistBucketResult.IsFailure && request.CreateBucketIfNotExist == false)
         {
             string message = "Bucket с именем {bucketName} не найден";
             _logger.LogError(message);
@@ -24,11 +23,11 @@ public partial class MinioProvider : IFilesProvider
         else
         {
             var makeBucketArgs = new MakeBucketArgs()
-                .WithBucket(fileInfo.BucketName);
+                .WithBucket(request.FileInfo.BucketName);
             await _minioClient.MakeBucketAsync(makeBucketArgs, ct);
         }
 
-        await UploadFile(stream, fileInfo, createBucketIfNotExist, ct);
+        await UploadFile(stream, request, ct);
 
         return Result.Success<Error>();
     }

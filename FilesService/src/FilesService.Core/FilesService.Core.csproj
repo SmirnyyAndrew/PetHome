@@ -21,8 +21,4 @@
 		<PackageReference Include="MongoDB.Bson" Version="3.1.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Request\Minio\" />
-	</ItemGroup>
-
 </Project>

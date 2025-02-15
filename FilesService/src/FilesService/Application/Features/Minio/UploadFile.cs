@@ -1,0 +1,33 @@
+﻿using FilesService.Application.Endpoints;
+using FilesService.Application.Interfaces;
+using FilesService.Core.Dto.File;
+using FilesService.Core.Request.Minio;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FilesService.Application.Features.Minio;
+
+
+public static class UploadFile
+{
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapPost("upload-file", Handler);
+        }
+    }
+    private static async Task<IResult> Handler(
+           IFormFile file,
+           [FromForm] UploadFileRequest request,
+           IFilesProvider fileProvider,
+           CancellationToken ct)
+    {
+        await using Stream stream = file.OpenReadStream();
+
+        var result = await fileProvider.UploadFile(stream, request, ct);
+        if (result.IsFailure)
+            return Results.BadRequest(result.Error);
+
+        return Results.Ok(result.Value);
+    }
+}
