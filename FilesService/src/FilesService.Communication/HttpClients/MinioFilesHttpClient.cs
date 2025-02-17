@@ -42,8 +42,14 @@ public class MinioFilesHttpClient(HttpClient httpClient) : IMinioFilesHttpClient
 
         string? result = await response.Content.ReadFromJsonAsync<string>(ct);
         return result;
-    }
+    } 
 
+    public async Task<MinioFileName> InitName(string filePath)
+    {
+        var response = await httpClient.PostAsJsonAsync("minio/init-file-minio-name", filePath);
+        MinioFileName? result = await response.Content.ReadFromJsonAsync<MinioFileName>();
+        return result;
+    }
 
     public async Task<Result<MediaFile, string>> UploadFile(
         UploadFileRequest request, CancellationToken ct)
@@ -75,4 +81,5 @@ public class MinioFilesHttpClient(HttpClient httpClient) : IMinioFilesHttpClient
          
         return Result.Success();
     }
+
 }

@@ -30,5 +30,5 @@ public interface IMinioFilesHttpClient
     public Task<Result<List<string>, string>> GetFilePresignedPath(
         MinioFilesInfoDto fileInfoDto, CancellationToken ct);
 
-    public MinioFileName InitName(string filePath);
+    public Task<MinioFileName> InitName(string filePath);
 }

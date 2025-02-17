@@ -16,7 +16,7 @@ public static class InitFileMinioName
             app.MapPost("minio/init-file-minio-name", Handler);
         }
     }
-    private static MinioFileName Handler( 
+    private static Task<MinioFileName> Handler( 
            [FromQuery] string fileName,
            IMinioFilesHttpClient fileProvider)
     {   
