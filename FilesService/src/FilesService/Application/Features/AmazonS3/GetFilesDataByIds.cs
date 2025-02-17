@@ -13,7 +13,7 @@ public static class GetFilesDataByIds
         //Использую POST, потому что у GET нет Body
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files", Handler);
+            app.MapPost("amazon/files", Handler);
         }
     }
     private static async Task<IResult> Handler(

@@ -5,15 +5,15 @@ using FilesService.Core.Interfaces;
 using Minio.DataModel.Args;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     //Удалить файлы
-    public async Task<Result<string, Error>> DeleteFile(
+    public async Task<UnitResult<string>> DeleteFile(
          MinioFilesInfoDto fileInfoDto, CancellationToken ct)
     {
         var isExistBucketResult = await CheckIsExistBucket(fileInfoDto.BucketName, ct);
         if (isExistBucketResult.IsFailure)
-            return isExistBucketResult.Error;
+            return isExistBucketResult.Error.Message;
 
         foreach (var fileName in fileInfoDto.FileNames)
         {

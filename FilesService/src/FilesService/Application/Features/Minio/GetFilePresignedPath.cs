@@ -11,12 +11,12 @@ public static class GetFilePresignedPath
     { 
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("file-presigned-path", Handler);
+            app.MapPost("minio/file-presigned-path", Handler);
         }
     }
     private static async Task<IResult> Handler(
            [FromBody] MinioFilesInfoDto fileInfoDto,
-           IFilesProvider fileProvider,
+           IMinioFilesHttpClient fileProvider,
            CancellationToken ct)
     {
         var result = await fileProvider.GetFilePresignedPath(fileInfoDto, ct);

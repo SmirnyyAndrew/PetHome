@@ -2,4 +2,4 @@
 using Microsoft.AspNetCore.Http;
 
 namespace FilesService.Core.Request.Minio;
-public record UploadFileRequest(MinioFileInfoDto FileInfo, bool CreateBucketIfNotExist);
+public record UploadFileRequest(Stream Stream, MinioFileInfoDto FileInfo, bool CreateBucketIfNotExist);

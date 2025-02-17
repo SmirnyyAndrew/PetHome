@@ -6,24 +6,24 @@ using FilesService.Core.Request.Minio;
 using Minio.DataModel.Args;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     //Загрузить файл
-    public async Task<Result<MediaFile, Error>> UploadFile(
-       Stream stream,
+    public async Task<Result<MediaFile, string>> UploadFile( 
        UploadFileRequest request,
        CancellationToken ct)
     {
         PutObjectArgs minioFileArgs = new PutObjectArgs()
         .WithBucket(request.FileInfo.BucketName.ToLower())
-            .WithStreamData(stream)
-            .WithObjectSize(stream.Length)
+            .WithStreamData(request.Stream)
+            .WithObjectSize(request.Stream.Length)
             .WithObject(request.FileInfo.FileName);
 
         var result = await _minioClient.PutObjectAsync(minioFileArgs, ct);
         string message = $"Файл {result.ObjectName} загружен в bucket = {request.FileInfo.BucketName}";
         _logger.LogInformation(message);
-
-        return MediaFile.Create(request.FileInfo.BucketName, request.FileInfo.FileName);
+         
+        MediaFile mediaFile = MediaFile.Create(request.FileInfo.BucketName, request.FileInfo.FileName).Value;
+        return mediaFile;
     }
 }

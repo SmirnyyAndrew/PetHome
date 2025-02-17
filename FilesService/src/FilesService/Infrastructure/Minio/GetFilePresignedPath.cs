@@ -5,10 +5,10 @@ using FilesService.Core.Interfaces;
 using Minio.DataModel.Args;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 
 { //Получить ссылку на файл
-    public async Task<Result<List<string>, Error>> GetFilePresignedPath(
+    public async Task<Result<List<string>, string>> GetFilePresignedPath(
         MinioFilesInfoDto fileInfoDto, CancellationToken ct)
     {
         List<string> presignedPathes = new List<string>();
@@ -41,6 +41,7 @@ public partial class MinioProvider : IFilesProvider
             {
                 _logger.LogError("{0}\n\t{1}\n\tФайл {2} в bucket {3} не найден",
                    ex.Source, ex.InnerException, fileName, fileInfoDto.BucketName);
+                return ex.Message;
             }
         }
         return presignedPathes;

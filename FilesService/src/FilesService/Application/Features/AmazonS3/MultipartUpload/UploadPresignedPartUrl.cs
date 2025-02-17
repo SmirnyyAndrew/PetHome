@@ -13,7 +13,7 @@ public static class UploadPresignedPartUrl
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/{key}/part-presigned", Handler);
+            app.MapPost("amazon/files/{key}/part-presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(

@@ -7,17 +7,17 @@ using FilesService.Core.Response;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace FilesService.Communication;
+namespace FilesService.Communication.HttpClients;
 
-public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
+public class AmazonFilesHttpClient(HttpClient httpClient) : IAmazonFilesHttpClient
 {
     public async Task<Result<IReadOnlyList<FileData>?, string>> GetFilesDataByIds(
         IEnumerable<Guid> ids, CancellationToken ct)
-    { 
-        var response = await httpClient.PostAsJsonAsync("files", ids, ct);
+    {
+        var response = await httpClient.PostAsJsonAsync("amazon/files", ids, ct);
 
-        if (response.StatusCode != HttpStatusCode.OK) 
-            return "Get files data by ids failed";  
+        if (response.StatusCode != HttpStatusCode.OK)
+            return "Get files data by ids failed";
 
         IReadOnlyList<FileData>? files = await response.Content.ReadFromJsonAsync<IReadOnlyList<FileData>>(ct);
         return files?.ToList() ?? [];
@@ -27,10 +27,10 @@ public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
     public async Task<Result<FileUrlResponse, string>> UploadPresignedUrl(
         UploadPresignedUrlRequest request, CancellationToken ct)
     {
-        var response = await httpClient.PostAsJsonAsync("files/presigned", request, ct);
+        var response = await httpClient.PostAsJsonAsync("amazon/files/presigned", request, ct);
 
-        if (response.StatusCode != HttpStatusCode.OK) 
-            return "Upload presigned url failed"; 
+        if (response.StatusCode != HttpStatusCode.OK)
+            return "Upload presigned url failed";
 
         FileUrlResponse? file = await response.Content.ReadFromJsonAsync<FileUrlResponse>(ct);
         return file;
@@ -40,7 +40,7 @@ public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
     public async Task<Result<FileLocationResponse, string>> CompleteMultipartUpload(
         string key, CompleteMultipartRequest request, CancellationToken ct)
     {
-        var response = await httpClient.PostAsJsonAsync($"files/{key}/complite-multipart/presigned", request, ct);
+        var response = await httpClient.PostAsJsonAsync($"amazon/files/{key}/complete-multipart/presigned", request, ct);
         if (response.StatusCode != HttpStatusCode.OK)
             return "Complete multipart upload failed";
 
@@ -52,7 +52,7 @@ public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
     public async Task<Result<FileUrlResponse, string>> GetPresignedUrl(
         string key, GetPresignedUrlRequest request, CancellationToken ct)
     {
-        var response = await httpClient.PostAsJsonAsync($"files/{key}/presigned", request, ct);
+        var response = await httpClient.PostAsJsonAsync($"amazon/files/{key}/presigned", request, ct);
         if (response.StatusCode != HttpStatusCode.OK)
             return "Get presigned url failed";
 
@@ -64,7 +64,7 @@ public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
     public async Task<Result<UploadPartFileResponse, string>> StartMultipartUpload(
       StartMultipartUploadRequest request, CancellationToken ct)
     {
-        var response = await httpClient.PostAsJsonAsync("files/multipart/presigned", request, ct);
+        var response = await httpClient.PostAsJsonAsync("amazon/files/multipart/presigned", request, ct);
         if (response.StatusCode != HttpStatusCode.OK)
             return "Start multipart upload failed";
 
@@ -76,7 +76,7 @@ public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
     public async Task<Result<FileUrlResponse, string>> UploadPresignedPartUrl(
         string key, UploadPresignedPartUrlRequest request, CancellationToken ct)
     {
-        var response = await httpClient.PostAsJsonAsync($"files/{key}/part-presigned", request, ct);
+        var response = await httpClient.PostAsJsonAsync($"amazon/files/{key}/part-presigned", request, ct);
         if (response.StatusCode != HttpStatusCode.OK)
             return "Upload presigned part url failed";
 

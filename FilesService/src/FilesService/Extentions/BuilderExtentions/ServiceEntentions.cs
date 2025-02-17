@@ -22,7 +22,7 @@ public static class ServiceExtentions
         services.AddSingleton<IMongoClient>(new MongoClient(
              configuration.GetConnectionString("Mongo")));
 
-        services.AddSingleton<IFilesProvider, MinioProvider>(); 
+        services.AddSingleton<IMinioFilesHttpClient, MinioProvider>(); 
 
         services.AddScoped<MongoDbContext>();
         services.AddScoped<MongoDbRepository>();

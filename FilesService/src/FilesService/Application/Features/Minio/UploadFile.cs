@@ -13,21 +13,21 @@ public static class UploadFile
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("upload-file", Handler);
+            app.MapPost("minio/upload-file", Handler);
         }
     }
     private static async Task<IResult> Handler(
            IFormFile file,
            [FromQuery] string bucketName,
            [FromQuery] bool createBucketIfNotExist,
-           IFilesProvider fileProvider,
+           IMinioFilesHttpClient fileProvider,
            CancellationToken ct)
     {
         await using Stream stream = file.OpenReadStream();
 
         MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(bucketName, file.Name);
-        UploadFileRequest request = new UploadFileRequest(minioFileInfoDto, createBucketIfNotExist);
-        var result = await fileProvider.UploadFile(stream, request, ct);
+        UploadFileRequest request = new UploadFileRequest(stream, minioFileInfoDto, createBucketIfNotExist);
+        var result = await fileProvider.UploadFile(request, ct);
         if (result.IsFailure)
             return Results.BadRequest(result.Error);
 

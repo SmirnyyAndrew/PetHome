@@ -13,7 +13,7 @@ public static class StartMultipartUpload
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/multipart/presigned", Handler);
+            app.MapPost("amazon/files/multipart/presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(

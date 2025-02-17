@@ -5,11 +5,10 @@ using FilesService.Core.Request.Minio;
 using Minio.DataModel.Args;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     //Загрузить файл
-    public async Task<UnitResult<Error>> UploadFileWithDataChecking(
-       Stream stream,
+    public async Task<UnitResult<string>> UploadFileWithDataChecking( 
        UploadFileRequest request,
        CancellationToken ct)
     {
@@ -18,7 +17,7 @@ public partial class MinioProvider : IFilesProvider
         {
             string message = "Bucket с именем {bucketName} не найден";
             _logger.LogError(message);
-            return Errors.Failure(message);
+            return message;
         }
         else
         {
@@ -27,8 +26,8 @@ public partial class MinioProvider : IFilesProvider
             await _minioClient.MakeBucketAsync(makeBucketArgs, ct);
         }
 
-        await UploadFile(stream, request, ct);
+        await UploadFile(request, ct);
 
-        return Result.Success<Error>();
+        return Result.Success();
     }
 }

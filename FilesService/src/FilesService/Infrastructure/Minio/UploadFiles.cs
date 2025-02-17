@@ -5,19 +5,18 @@ using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     //Загрузить несколько файлов
-    public async Task<Result<IReadOnlyList<MediaFile>, Error>> UploadFiles(
-        IEnumerable<Stream> streams,
+    public async Task<Result<IReadOnlyList<MediaFile>, string>> UploadFiles(
         UploadFilesRequest request,
         CancellationToken ct)
     {
-        if (request.FileInfoDto.FileNames.Count() != streams.Count())
+        if (request.FileInfoDto.FileNames.Count() != request.Streams.Count())
         {
             string message = "Несовпадение количества файлов и их Dto";
             _logger.LogError(message);
-            return Errors.Conflict(message);
+            return message;
         }
         var bucketExistingCheck = await CheckIsExistBucket(request.FileInfoDto.BucketName, ct);
         if (request.CreateBucketIfNotExist == false
@@ -25,13 +24,13 @@ public partial class MinioProvider : IFilesProvider
         {
             string message = $"Bucket с именем {request.FileInfoDto.BucketName} не найден";
             _logger.LogError(message);
-            return Errors.Failure(message);
+            return message;
         }
 
         var semaphoreSlim = new SemaphoreSlim(MAX_STREAMS_LENGHT);
         List<MediaFile> medias = new List<MediaFile>();
         int index = 0;
-        IEnumerable<Task> uploadTasks = streams.Select(async stream =>
+        IEnumerable<Task> uploadTasks = request.Streams.Select(async stream =>
         {
             try
             {
@@ -40,9 +39,8 @@ public partial class MinioProvider : IFilesProvider
                 MinioFileInfoDto fileInfo = new MinioFileInfoDto(
                     request.FileInfoDto.BucketName,
                     request.FileInfoDto.FileNames.ToList()[index++].Value);
-                UploadFileRequest uploadFileRequest = new UploadFileRequest(fileInfo, request.CreateBucketIfNotExist);
+                UploadFileRequest uploadFileRequest = new UploadFileRequest(stream, fileInfo, request.CreateBucketIfNotExist);
                 var result = await UploadFile(
-                                stream,
                                 uploadFileRequest,
                                 ct);
                 medias.Add(result.Value);

@@ -11,18 +11,18 @@ public static class DeleteFile
     { 
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("file", Handler);
+            app.MapPost("minio/file", Handler);
         }
     }
     private static async Task<IResult> Handler(
            [FromBody] MinioFilesInfoDto fileInfoDto,
-           IFilesProvider fileProvider,
+           IMinioFilesHttpClient fileProvider,
            CancellationToken ct)
     {   
         var result = await fileProvider.DeleteFile(fileInfoDto,ct);
         if (result.IsFailure)
             return Results.BadRequest(result.Error);
          
-        return Results.Ok(result.Value);
+        return Results.Ok();
     }
 }

@@ -12,21 +12,21 @@ public static class UploadFileWithDataChecking
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("upload-file-with-data-checking", Handler);
+            app.MapPost("minio/upload-file-with-data-checking", Handler);
         }
     }
     private static async Task<IResult> Handler(
            IFormFile formFile,
            [FromQuery] string bucketName,
            [FromQuery] bool createBucketIfNotExist,
-           IFilesProvider fileProvider,
+           IMinioFilesHttpClient fileProvider,
            CancellationToken ct)
     {
         await using Stream stream = formFile.OpenReadStream();
         MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(bucketName, formFile.Name);
-        UploadFileRequest request = new UploadFileRequest(minioFileInfoDto, createBucketIfNotExist);
-        
-        var result = await fileProvider.UploadFileWithDataChecking(stream, request, ct);
+        UploadFileRequest request = new UploadFileRequest(stream, minioFileInfoDto, createBucketIfNotExist);
+
+        var result = await fileProvider.UploadFileWithDataChecking(request, ct);
         if (result.IsFailure)
             return Results.BadRequest(result.Error);
 

@@ -11,18 +11,18 @@ public static class DownloadFiles
     { 
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("download-file", Handler);
+            app.MapPost("minio/download-files", Handler);
         }
     }
     private static async Task<IResult> Handler(
            [FromBody] DownloadFilesRequest request,  
-           IFilesProvider fileProvider,
+           IMinioFilesHttpClient fileProvider,
            CancellationToken ct)
     {
         var result = await fileProvider.DownloadFiles(request, ct);
         if (result.IsFailure)
             return Results.BadRequest(result.Error);
 
-        return Results.Ok(result.Value);
+        return Results.Ok();
     }
 }

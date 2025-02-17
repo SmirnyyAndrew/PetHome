@@ -17,7 +17,7 @@ public static class CompleteMultipartUpload
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/{key}/complite-multipart/presigned", Handler);
+            app.MapPost("amazon/files/{key}/complete-multipart/presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(

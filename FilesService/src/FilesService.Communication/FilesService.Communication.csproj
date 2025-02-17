@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PackageId>FilesService.Communication</PackageId>
-		<Version>1.0.6</Version>
+		<Version>1.0.7</Version>
 		<Authors>Smirnyy</Authors>
 		<Company>SmirnyyCompany</Company>
 		<PackageDescription>File service</PackageDescription>

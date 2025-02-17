@@ -6,15 +6,15 @@ using Minio.DataModel;
 using Minio.DataModel.Args;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     //Скачать файл
-    public async Task<Result<string, Error>> DownloadFiles(
+    public async Task<UnitResult<string>> DownloadFiles(
          DownloadFilesRequest request, CancellationToken ct)
     {
         var isExistBucketResult = await CheckIsExistBucket(request.FileInfoDto.BucketName, ct);
         if (isExistBucketResult.IsFailure)
-            return isExistBucketResult.Error;
+            return "Failed to download the file";
 
         var requestParams = new Dictionary<string, string>(StringComparer.Ordinal)
         {{"response-content-type","application/json"}};
@@ -42,7 +42,7 @@ public partial class MinioProvider : IFilesProvider
                 _logger.LogError("Файл {0} в bucket {1} не найден", fileName, request.FileInfoDto.BucketName);
             }
         }
-        string message = $"В bucket {request.FileInfoDto.BucketName} скачены {string.Join("\n\t\n\t", request.FileInfoDto.FileNames)}";
-        return message;
+
+        return Result.Success();
     }
 }

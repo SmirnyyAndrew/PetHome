@@ -6,7 +6,7 @@ using FilesService.Core.Response;
 
 namespace FilesService.Core.Interfaces;
 
-public interface IFilesHttpClient
+public interface IAmazonFilesHttpClient
 {
     public Task<Result<IReadOnlyList<FileData>?, string>> GetFilesDataByIds(
         IEnumerable<Guid> ids, CancellationToken ct);

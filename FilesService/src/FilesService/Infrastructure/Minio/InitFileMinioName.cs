@@ -2,7 +2,7 @@
 using FilesService.Core.Interfaces;
 
 namespace FilesService.Infrastructure.Minio;
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     public MinioFileName InitName(string filePath)
     {
