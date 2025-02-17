@@ -1,5 +1,6 @@
 ﻿using FilesService.Application.Endpoints;
 using FilesService.Application.Interfaces;
+using FilesService.Core.Dto.File;
 using FilesService.Core.Request.Minio;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +12,20 @@ public static class UploadFileWithDataChecking
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("upload-file-with-checking", Handler);
+            app.MapPost("upload-file-with-data-checking", Handler);
         }
     }
     private static async Task<IResult> Handler(
-           [FromForm] IFormFile formFile,
-           [FromForm] UploadFileRequest request,
+           IFormFile formFile,
+           [FromQuery] string bucketName,
+           [FromQuery] bool createBucketIfNotExist,
            IFilesProvider fileProvider,
            CancellationToken ct)
     {
         await using Stream stream = formFile.OpenReadStream();
-
+        MinioFileInfoDto minioFileInfoDto = new MinioFileInfoDto(bucketName, formFile.Name);
+        UploadFileRequest request = new UploadFileRequest(minioFileInfoDto, createBucketIfNotExist);
+        
         var result = await fileProvider.UploadFileWithDataChecking(stream, request, ct);
         if (result.IsFailure)
             return Results.BadRequest(result.Error);
