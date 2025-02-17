@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FilesService.Core.Dto.File;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
 using System.Text.Json;

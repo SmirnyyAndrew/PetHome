@@ -12,7 +12,7 @@ public record ErrorList(List<Error> Errors)
     {
         var errorListed = new List<Error>() { error };
         return new ErrorList(errorListed);
-    }
+    } 
 
     public static implicit operator ErrorList(List<FluentValidation.Results.ValidationFailure> validationErrors)
     {

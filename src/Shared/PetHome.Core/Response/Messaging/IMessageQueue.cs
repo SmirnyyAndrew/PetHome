@@ -1,4 +1,6 @@
-﻿namespace PetHome.Core.Response.Messaging;
+﻿using FilesService.Core.Dto.File;
+
+namespace PetHome.Core.Response.Messaging;
 
 public interface IMessageQueue
 {

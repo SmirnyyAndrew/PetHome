@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Communication;
+using FilesService.Core.Interfaces;
 using FilesService.Core.Models;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -10,9 +11,9 @@ namespace PetHome.Volunteers.Application.Features.Write.FilesService.GetFilesDat
 public class GetFilesDataByIdsUseCase
     : ICommandHandler<IReadOnlyList<FileData>, GetFilesDataByIdsCommand>
 {
-    private readonly FilesHttpClient _httpClient;
+    private readonly IAmazonFilesHttpClient _httpClient;
 
-    public GetFilesDataByIdsUseCase(FilesHttpClient httpClient)
+    public GetFilesDataByIdsUseCase(IAmazonFilesHttpClient httpClient)
     {
         _httpClient = httpClient;
     }

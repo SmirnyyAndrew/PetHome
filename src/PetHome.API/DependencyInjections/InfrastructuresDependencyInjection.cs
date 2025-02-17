@@ -19,7 +19,8 @@ public static class InfrastructuresDependencyInjection
             .AddVolunteerRequestInfrastructure(configuration)
             .AddDiscussionInfrastructure(configuration);
 
-        services.AddFileHttpCommunication(configuration);
+        services.AddAmazonHttpCommunication(configuration);
+        services.AddMinioHttpCommunication(configuration);
 
         return services;
     }

@@ -1,15 +1,16 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
+using FilesService.Core.Request.Minio;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Messaging;
 using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.File;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
@@ -61,15 +62,18 @@ public class UploadPetMediaFilesUseCase
 
 
         List<MinioFileName> initedMinioFileNames = command.FileNames
-            .Select(n => command.FilesProvider.InitName(n))
+            .Select(n => command.FilesHttpClient.InitName(n).Result)
             .ToList();
         MinioFilesInfoDto minioFilesInfoDto = new MinioFilesInfoDto(
             command.UploadPetMediaDto.BucketName,
             initedMinioFileNames);
-        var uploadResult = await command.FilesProvider.UploadFile(
+        UploadFilesRequest uploadFileRequest = new UploadFilesRequest(
             command.Streams,
             minioFilesInfoDto,
-            command.UploadPetMediaDto.CreateBucketIfNotExist,
+            command.UploadPetMediaDto.CreateBucketIfNotExist);
+
+        var uploadResult = await command.FilesHttpClient.UploadFiles(
+            uploadFileRequest,
             ct);
 
         if (uploadResult.IsFailure)
@@ -78,7 +82,8 @@ public class UploadPetMediaFilesUseCase
                 command.UploadPetMediaDto.BucketName,
                 initedMinioFileNames);
             await _messageQueue.WriteAsync(minioFileInfoDto, ct);
-            return uploadResult.Error.ToErrorList();
+            //TODO: вынести error в nuget
+            return Errors.Conflict(uploadResult.Error).ToErrorList();
         }
 
         IReadOnlyList<MediaFile> uploadPetMedias = uploadResult.Value;

@@ -1,1 +1,0 @@
-﻿public record FileInfoDto(string BucketName, string FileName);

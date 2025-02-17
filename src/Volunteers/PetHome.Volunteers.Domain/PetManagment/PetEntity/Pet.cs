@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Breed;
 using PetHome.Core.ValueObjects.PetManagment.Extra;

@@ -1,10 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
 using Microsoft.AspNetCore.Identity;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;

@@ -1,4 +1,4 @@
-﻿using PetHome.Core.Interfaces;
+﻿using FilesService.Core.Interfaces;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 
@@ -7,7 +7,7 @@ public record UploadPetMediaFilesRequest(
     IEnumerable<string> FileNames,
     UploadPetMediaFilesDto UploadPetMediaDto,
     Guid VolunteerId,
-    IFilesProvider FilesProvider)
+    IMinioFilesHttpClient FilesHttpClient)
 {
     public static implicit operator UploadPetMediaFilesCommand(
         UploadPetMediaFilesRequest request)
@@ -16,7 +16,7 @@ public record UploadPetMediaFilesRequest(
             request.Streams,
             request.FileNames,
             request.UploadPetMediaDto,
-            request.VolunteerId,
-            request.FilesProvider);
+            request.FilesHttpClient,
+            request.VolunteerId);
     }
 }

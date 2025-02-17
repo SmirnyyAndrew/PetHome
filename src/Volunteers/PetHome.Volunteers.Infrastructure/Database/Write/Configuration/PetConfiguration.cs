@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Core.Constants;
-using PetHome.Core.Interfaces;
-using PetHome.Core.ValueObjects.File;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Breed;
 using PetHome.Core.ValueObjects.PetManagment.Extra;

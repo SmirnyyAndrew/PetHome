@@ -1,11 +1,11 @@
-﻿using PetHome.Core.Interfaces;
+﻿using FilesService.Core.Interfaces;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 
 public record DeletePetMediaFilesRequest(
     Guid VolunteerId,
     DeletePetMediaFilesDto DeletePetMediaFilesDto,
-    IFilesProvider FileProvider)
+    IMinioFilesHttpClient FileProvider)
 {
     public static implicit operator DeletePetMediaFilesCommand(
         DeletePetMediaFilesRequest request)
