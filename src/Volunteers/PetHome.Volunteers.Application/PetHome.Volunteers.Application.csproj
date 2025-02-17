@@ -26,4 +26,8 @@
 		<PackageReference Include="Scrutor" Version="6.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Features\Write\PetManegment\AmazonUploadPetMediaFiles\" />
+	</ItemGroup>
+
 </Project>
