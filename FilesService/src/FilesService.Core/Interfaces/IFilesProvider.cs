@@ -3,7 +3,7 @@ using FilesService.Core.Dto.File;
 using FilesService.Core.ErrorManagment;
 using FilesService.Core.Request.Minio;
 
-namespace FilesService.Application.Interfaces;
+namespace FilesService.Core.Interfaces;
 public interface IFilesProvider
 {
     //Загрузить файл

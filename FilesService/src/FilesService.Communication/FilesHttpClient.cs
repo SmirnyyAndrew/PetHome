@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
+using FilesService.Core.Interfaces;
 using FilesService.Core.Models;
 using FilesService.Core.Request.AmazonS3;
 using FilesService.Core.Request.AmazonS3.MultipartUpload;
@@ -9,7 +9,7 @@ using System.Net.Http.Json;
 
 namespace FilesService.Communication;
 
-public class FilesHttpClient(HttpClient httpClient)
+public class FilesHttpClient(HttpClient httpClient): IFilesHttpClient
 {
     public async Task<Result<IReadOnlyList<FileData>?, string>> GetFilesDataByIds(
         IEnumerable<Guid> ids, CancellationToken ct)

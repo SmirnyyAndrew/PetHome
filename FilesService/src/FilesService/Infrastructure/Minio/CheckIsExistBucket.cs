@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Application.Interfaces;
 using FilesService.Core.ErrorManagment;
+using FilesService.Core.Interfaces;
 
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IFilesProvider

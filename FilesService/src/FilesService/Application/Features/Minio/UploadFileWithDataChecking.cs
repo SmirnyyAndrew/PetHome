@@ -1,6 +1,6 @@
 ﻿using FilesService.Application.Endpoints;
-using FilesService.Application.Interfaces;
 using FilesService.Core.Dto.File;
+using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 using Microsoft.AspNetCore.Mvc;
 

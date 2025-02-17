@@ -1,4 +1,4 @@
-﻿using FilesService.Application.Interfaces;
+﻿using FilesService.Core.Interfaces;
 using FilesService.Infrastructure.Minio;
 using FilesService.Infrastructure.MongoDB;
 using MongoDB.Driver;

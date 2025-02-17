@@ -1,4 +1,4 @@
-﻿using FilesService.Application.Interfaces;
+﻿using FilesService.Core.Interfaces;
 using Minio;
 
 namespace FilesService.Infrastructure.Minio;

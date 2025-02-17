@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Application.Interfaces;
 using FilesService.Core.ErrorManagment;
+using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;

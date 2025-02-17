@@ -1,8 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Application.Features.Minio;
-using FilesService.Application.Interfaces;
 using FilesService.Core.Dto.File;
 using FilesService.Core.ErrorManagment;
+using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 
 namespace FilesService.Infrastructure.Minio;
