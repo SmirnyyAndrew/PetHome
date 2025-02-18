@@ -39,7 +39,7 @@ public class GetPetByIdUseCase
             return Errors.NotFound($"Питомец с id = {query.PetId}").ToErrorList();
         }
 
-        MediaFile avatar = petDto.Avatar;
+        MediaFile? avatar = petDto.Avatar;
         GetPresignedUrlRequest getPresignedAvatarUrlRequest = new GetPresignedUrlRequest(avatar.BucketName);
         var getAvatarUrlResult = await _httpClient.GetPresignedUrl(avatar.Key.ToString(), getPresignedAvatarUrlRequest, ct);
         if (getAvatarUrlResult.IsSuccess)

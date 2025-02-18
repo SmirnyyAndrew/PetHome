@@ -22,8 +22,10 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public AdminAccount? Admin { get; private set; }
     public ParticipantAccount? Participant { get; private set; }
     public VolunteerAccount? Volunteer { get; private set; }
-    public IReadOnlyList<MediaFile> Medias { get; private set; } = [];
+    public IReadOnlyList<MediaFile> Photos { get; private set; } = [];
+    public IReadOnlyList<string> PhotosUrls { get; set; } = [];
     public MediaFile? Avatar { get; private set; }
+    public string AvatarUrl { get; set; } = string.Empty;
 
     public User() { }
 
@@ -55,12 +57,12 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 
     private User(
         IReadOnlyList<SocialNetwork> socialNetworks,
-        IReadOnlyList<MediaFile> medias,
+        IReadOnlyList<MediaFile> photos,
         IReadOnlyList<PhoneNumber> phoneNumbers,
         RoleId roleId)
     {
         SocialNetworks = socialNetworks;
-        Medias = medias;
+        Photos = photos;
         PhoneNumbers = phoneNumbers;
         RoleId = roleId;
     }
@@ -94,7 +96,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 
     public UnitResult<Error> SetMedia(IEnumerable<MediaFile> medias)
     {
-        Medias = medias.ToList();
+        Photos = medias.ToList();
         return UnitResult.Success<Error>();
     }
 
@@ -116,10 +118,10 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     {
         List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
 
-        IReadOnlyList<MediaFile> oldMedias = Medias.ToList();
+        IReadOnlyList<MediaFile> oldMedias = Photos.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
          
-        Medias = newMediaFiles;
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -128,12 +130,12 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     //Удалить медиа
     public UnitResult<Error> RemoveMedia(IEnumerable<MediaFile> mediasToDelete)
     {
-        List<MediaFile> oldMediaFiles = Medias
+        List<MediaFile> oldMediaFiles = Photos
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
          
-        Medias = newMediaFiles;
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }

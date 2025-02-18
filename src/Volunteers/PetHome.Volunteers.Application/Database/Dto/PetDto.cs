@@ -7,9 +7,9 @@ public class PetDto
     public Guid Id { get; init; }
     public string Name { get; init; }
     public string AvatarUrl { get; set; }  = string.Empty;
-    public MediaFile Avatar {  get; init; }
+    public MediaFile? Avatar {  get; init; }
     public IReadOnlyList<string> PhotosUrls { get; set; } = [];
-    public IReadOnlyList<MediaFile> Photos { get; init; }
+    public IReadOnlyList<MediaFile> Photos { get; init; } = [];
     public Guid SpeciesId { get; init; }
     public string Description { get; init; }
     public Guid? BreedId { get; init; }
