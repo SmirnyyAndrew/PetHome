@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FilesService.Core.Dto.File;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Volunteers.Application.Database.Dto;
+using System.Text.Json;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Read.Configuration;
 public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
@@ -16,6 +18,36 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
             .IsRequired()
             .HasColumnName("name");
 
+        //avatar url
+        builder.Ignore(x => x.AvatarUrl);
+
+        //avatar
+        builder.ComplexProperty(a => a.Avatar, ab =>
+        {
+            ab.Property(p => p.Type)
+            .HasConversion<string>()
+            .HasColumnName("type");
+
+            ab.Property(p => p.Key)
+            .HasColumnName("key");
+
+            ab.Property(p => p.BucketName)
+            .HasColumnName("bucket_name");
+
+            ab.Property(p => p.FileName)
+            .HasColumnName("file_name");
+        });
+
+        //photos urls
+        builder.Ignore(p=>p.PhotosUrls);
+
+        //photos
+        builder.Property(s => s.Photos)
+          .HasConversion(
+               u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
+               json => JsonSerializer.Deserialize<IReadOnlyList<MediaFile>>(json, JsonSerializerOptions.Default))
+          .HasColumnName("photos");
+         
         //speacies 
         builder.Property(i => i.SpeciesId)
             .IsRequired()
@@ -75,11 +107,11 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         //volunteer id
         builder.Property(i => i.VolunteerId)
             .IsRequired()
-            .HasColumnName("volunteer_id"); 
+            .HasColumnName("volunteer_id");
 
         //serial number
         builder.Property(s => s.SerialNumber)
             .IsRequired()
-            .HasColumnName("serial_number");  
+            .HasColumnName("serial_number");
     }
 }
