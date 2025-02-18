@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,6 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
@@ -55,9 +55,9 @@ public class DeletePetMediaFilesUseCase
             return Errors.NotFound($"Питомец с id {command.DeletePetMediaFilesDto.PetId}").ToErrorList();
 
         List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
-        List<Media> mediasToDelete = command.DeletePetMediaFilesDto.FilesName
+        List<MediaFile> mediasToDelete = command.DeletePetMediaFilesDto.FilesName
             .Intersect(oldFileNames)
-            .Select(m => Media.Create(command.DeletePetMediaFilesDto.BucketName, m).Value)
+            .Select(m => MediaFile.Create(command.DeletePetMediaFilesDto.BucketName, m).Value)
             .ToList();
         pet.RemoveMedia(mediasToDelete);
 
@@ -72,7 +72,8 @@ public class DeletePetMediaFilesUseCase
 
         var deleteResult = await command.FileProvider.DeleteFile(minioFileInfoDto, ct);
         if (deleteResult.IsFailure)
-            return deleteResult.Error.ToErrorList();
+            //TODO: вынести error в nuget
+            return Errors.Conflict(deleteResult.Error).ToErrorList(); 
 
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();

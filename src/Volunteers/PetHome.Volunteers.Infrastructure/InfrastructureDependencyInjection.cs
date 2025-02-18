@@ -1,22 +1,17 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Minio;
 using PetHome.Core.Constants;
-using PetHome.Core.Interfaces;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.MessageQueues;
 using PetHome.Core.Response.Messaging;
 using PetHome.Framework.Database;
-using PetHome.SharedKernel.Options;
-using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Infrastructure;
 using PetHome.Volunteers.Infrastructure.Background;
 using PetHome.Volunteers.Infrastructure.Contracts;
 using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write;
 using PetHome.Volunteers.Infrastructure.Database.Write.DBContext;
-using PetHome.Volunteers.Infrastructure.Database.Write.Repositories; 
+using PetHome.Volunteers.Infrastructure.Database.Write.Repositories;
 
 namespace PetHome.Volunteers.Infrastructure;
 public static class InfrastructureDependencyInjection
@@ -30,30 +25,12 @@ public static class InfrastructureDependencyInjection
               new VolunteerReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedPetManagmentEntitiesContract>();
-
-
-        services.AddScoped<IVolunteerRepository, VolunteerRepository>(); 
-        services.AddMinio(configuration);
-        services.AddSingleton<IFilesProvider, MinioProvider>();
+         
+        services.AddScoped<IVolunteerRepository, VolunteerRepository>();  
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.VOLUNTEER_UNIT_OF_WORK_KEY);
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
-        services.AddHostedService<FilesCleanerHostedService>();
+        
+        //services.AddHostedService<FilesCleanerHostedService>();
         return services;
-    }
-
-    private static IServiceCollection AddMinio(
-        this IServiceCollection services, IConfiguration configuration)
-    {
-        var minioOptions = configuration.GetSection(MinioOptions.MINIO_NAME).Get<MinioOptions>()
-            ?? throw new Exception("Ошибка со строкой подключения minio. Проверьте конфигурацию.");
-
-        services.AddMinio(options =>
-        {
-            options.WithEndpoint(minioOptions.Endpoint);
-            options.WithCredentials(minioOptions.Accesskey, minioOptions.Secretkey);
-            options.WithSSL(minioOptions.IsWithSSL);
-        });
-        return services;
-    }
-
+    } 
 }

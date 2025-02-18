@@ -8,7 +8,7 @@ namespace PetHome.Core.Extentions.ErrorExtentions;
 // Позволяет автоматически опредлетить status code ошибки в контроллерах
 public static class ResponseExtentions
 {
-    public static ActionResult GetSatusCode(this Error error)
+    public static ActionResult GetStatusCode(this Error error)
     {
         var statusCode = error.Type switch
         {
@@ -26,6 +26,6 @@ public static class ResponseExtentions
             StatusCode = statusCode
         };
     }
-    public static ActionResult GetSatusCode(this ErrorList errorList)
-        => GetSatusCode(errorList.Errors.FirstOrDefault());
+    public static ActionResult GetStatusCode(this ErrorList errorList)
+        => GetStatusCode(errorList.Errors.FirstOrDefault());
 }

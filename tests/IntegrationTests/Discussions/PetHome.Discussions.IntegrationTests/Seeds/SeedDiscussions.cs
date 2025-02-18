@@ -1,5 +1,4 @@
-﻿using PetHome.Accounts.Contracts.User;
-using PetHome.Core.ValueObjects.Discussion.Relation;
+﻿using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Domain;
 namespace PetHome.Discussions.IntegrationTests.Seeds;

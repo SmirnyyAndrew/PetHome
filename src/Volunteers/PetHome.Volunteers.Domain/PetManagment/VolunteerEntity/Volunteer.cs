@@ -8,6 +8,7 @@ using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.PetManagment.Pet;
 using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
@@ -37,6 +38,7 @@ public class Volunteer : SoftDeletableEntity
     }
 
     public VolunteerId Id { get; private set; }
+    public UserId UserId { get; private set; }
     public FullName FullName { get; private set; }
     public Email? Email { get; private set; }
     public Description Description { get; private set; }
@@ -72,6 +74,11 @@ public class Volunteer : SoftDeletableEntity
             socialNetworks,
             requisites)
         { };
+    }
+
+    public void SetUserId(UserId userId)
+    {
+        UserId = userId;
     }
 
     public void UpdateMainInfo(

@@ -45,7 +45,7 @@ public class PetSerialNumberTest
         //Проверка переноса serial number вначало, уникальности всех номеров и их порядок
         int numToCheck = 5;
         string nameWithOldSerialNumber = Pet.Pets[numToCheck].Name.Value;
-        Pet.Pets[numToCheck].ChangeSerialNumberToBegining();
+        Pet.Pets[numToCheck].ChangeSerialNumberToBeginning();
         string nameWithNewSerialNumber = Pet.Pets[0].Name.Value;
 
         Assert.Equal(GetUniqueSerialNumbersCount(), petCount);

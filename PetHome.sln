@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Discussions.Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Accounts.Contracts", "src\Accounts\PetHome.Accounts.Contracts\PetHome.Accounts.Contracts.csproj", "{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesService", "FilesService\src\FilesService\FilesService.csproj", "{D2749D74-C70D-4D5D-8E2E-0270AE036272}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +259,10 @@ Global
 		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{216D2B1C-9B0B-4B2C-952E-35124CA3FB6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

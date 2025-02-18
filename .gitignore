@@ -482,3 +482,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/FilesService/src/FilesService.Communication/nuget.config
+/FilesService/src/FilesService.Core/nuget.config

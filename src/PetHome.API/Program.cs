@@ -19,7 +19,7 @@ public partial class Program
         //Включить логгер от Serilog
         builder.Services.AddSerilog();
         //Логирование через Seq 
-        Log.Logger = SeqLogger.InitDefaultSeqConfiguration();
+        Log.Logger = SeqLogger.InitDefaultSeqConfiguration(builder.Configuration);
 
 
         // Add services to the container.
@@ -52,6 +52,9 @@ public partial class Program
 
         var app = builder.Build();
 
+        //Добавить CORS
+        app.AddCORS("http://localhost:5173");
+
         //Middleware для отлова исключений (-стэк трейс)
         app.UseExceptionHandler();
 
@@ -71,16 +74,14 @@ public partial class Program
 
         app.UseHttpsRedirection();
 
+        //Добавить минимум-api
+        app.AddMinimumApi();
+
+
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
-
-        //Добавить минимум-api
-        app.AddMinimumApi();
-
-        //Добавить CORS
-        app.AddCORS("http://localhost:5173/");
 
         app.Run();
     }

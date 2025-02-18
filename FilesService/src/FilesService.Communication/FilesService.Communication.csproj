@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>FilesService.Communication</PackageId>
+		<Version>1.0.9</Version>
+		<Authors>Smirnyy</Authors>
+		<Company>SmirnyyCompany</Company>
+		<PackageDescription>File service</PackageDescription>
+		<RepositoryUrl>https://github.com/MironovAndrew/PetHome</RepositoryUrl>
+	</PropertyGroup> 
+
+	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.4.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FilesService.Core\FilesService.Core.csproj" />
+	</ItemGroup>
+
+</Project>

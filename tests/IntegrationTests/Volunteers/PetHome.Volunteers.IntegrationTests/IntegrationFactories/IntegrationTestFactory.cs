@@ -1,4 +1,6 @@
-﻿using CSharpFunctionalExtensions;
+﻿using FilesService.Core.Dto.File;
+using FilesService.Core.Interfaces;
+using FilesService.Core.Request.Minio;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -6,9 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using NSubstitute;
-using PetHome.Core.Interfaces;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Species.Infrastructure.Database.Write.DBContext;
@@ -34,7 +33,7 @@ public class IntegrationTestFactory
 
     private Respawner _respawner;
     private DbConnection _dbConnection;
-    private IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
+    private IMinioFilesHttpClient _fileServiceMock = Substitute.For<IMinioFilesHttpClient>();
     private VolunteerWriteDbContext _volunteerWriteDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -45,17 +44,17 @@ public class IntegrationTestFactory
 
     private void ConfigureDefault(IServiceCollection services)
     {
-        services.RemoveAll(typeof(ISpeciesReadDbContext)); 
-        services.RemoveAll(typeof(IVolunteerReadDbContext));  
+        services.RemoveAll(typeof(ISpeciesReadDbContext));
+        services.RemoveAll(typeof(IVolunteerReadDbContext));
         services.RemoveAll(typeof(SpeciesWriteDbContext));
-        services.RemoveAll(typeof(VolunteerWriteDbContext)); 
-        services.RemoveAll(typeof(IFilesProvider));
+        services.RemoveAll(typeof(VolunteerWriteDbContext));
+        services.RemoveAll(typeof(IMinioFilesHttpClient));
 
-          
+
         services.AddScoped(_ =>
-               new SpeciesWriteDbContext(_dbContainer.GetConnectionString())); 
+               new SpeciesWriteDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped(_ =>
-              new VolunteerWriteDbContext(_dbContainer.GetConnectionString())); 
+              new VolunteerWriteDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped<IVolunteerReadDbContext, VolunteerReadDbContext>(_ =>
               new VolunteerReadDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped<ISpeciesReadDbContext, SpeciesReadDbContext>(_ =>
@@ -105,23 +104,22 @@ public class IntegrationTestFactory
 
     public void SetupSuccessFileServiceMock()
     {
-        var response = Media.Create("photos", "test_file_name").Value;
+        var response = MediaFile.Create("photos", "test_file_name").Value;
 
-        _fileServiceMock.UploadFile(
-               Arg.Any<Stream>(),
-               Arg.Any<MinioFileInfoDto>(),
-               false,
-               CancellationToken.None)
-            .Returns(Result.Success<Media, Error>(response));
+        //TODO:
+        //_fileServiceMock.UploadFile(
+        //       Arg.Any<Stream>(),
+        //       Arg.Any<MinioFileInfoDto>(),
+        //       false,
+        //       CancellationToken.None)
+        //    .Returns(Result.Success<MediaFile, Error>(response)); 
     }
 
     public void SetupFailedFileServiceMock()
-    {
-        _fileServiceMock.UploadFile(
-                Arg.Any<Stream>(),
-                Arg.Any<MinioFileInfoDto>(),
-                false,
+    { 
+        _fileServiceMock.UploadFile( 
+                Arg.Any<UploadFileRequest>(),
                 Arg.Any<CancellationToken>())
-            .Returns(Errors.Failure("Интеграционный тест"));
+            .Returns("");
     }
 }

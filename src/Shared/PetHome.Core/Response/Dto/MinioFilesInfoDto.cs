@@ -1,1 +1,0 @@
-﻿public record MinioFilesInfoDto(string BucketName, IEnumerable<MinioFileName> FileNames);

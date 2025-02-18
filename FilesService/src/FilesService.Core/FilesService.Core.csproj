@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>FilesService.Core</PackageId>
+		<Version>1.0.9</Version>
+		<Authors>Smirnyy</Authors>
+		<Company>SmirnyyCompany</Company>
+		<PackageDescription>File service core</PackageDescription>
+		<RepositoryUrl>https://github.com/MironovAndrew/PetHome</RepositoryUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.4.3" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+		<PackageReference Include="Minio" Version="6.0.4" />
+		<PackageReference Include="MongoDB.Bson" Version="3.1.0" />
+	</ItemGroup>
+
+</Project>

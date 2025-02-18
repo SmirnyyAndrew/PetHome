@@ -8,12 +8,13 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Login;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 
 namespace PetHome.Accounts.Application.Features.Write.LoginUser;
 public class LoginUserUseCase
-    : IQueryHandler<TokenResponse, LoginUserQuery>
+    : IQueryHandler<LoginResponse, LoginUserQuery>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenProvider _tokenProvider;
@@ -32,7 +33,7 @@ public class LoginUserUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<TokenResponse, ErrorList>> Execute(
+    public async Task<Result<LoginResponse, ErrorList>> Execute(
         LoginUserQuery query,
         CancellationToken ct)
     {
@@ -50,14 +51,19 @@ public class LoginUserUseCase
 
         var jwtToken = _tokenProvider.GenerateAccessToken(user);
         var refreshSession = _tokenProvider.GenerateRefreshToken(user, jwtToken).Value;
+        Guid refreshToken = refreshSession.RefreshToken; 
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.Add(refreshSession, ct);
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
-
-        var refreshToken = refreshSession.RefreshToken;
-        TokenResponse tokenResponse = new TokenResponse(jwtToken, refreshToken.ToString());
-        return tokenResponse;
+         
+        LoginResponse loginResponse = new LoginResponse(
+            jwtToken, 
+            refreshToken.ToString(), 
+            user.Id.ToString(), 
+            user.Email?? string.Empty, 
+            user.UserName ?? string.Empty);
+        return loginResponse;
     }
 }

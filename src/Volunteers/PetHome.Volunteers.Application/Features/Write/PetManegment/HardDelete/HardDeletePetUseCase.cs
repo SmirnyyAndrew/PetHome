@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
+using FilesService.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
@@ -20,20 +21,20 @@ public class HardDeletePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IVolunteerReadDbContext _readDBContext;
-    private readonly IFilesProvider _filesProvider;
+    private readonly IMinioFilesHttpClient _FilesHttpClient;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ChangePetInfoUseCase> _logger;
 
     public HardDeletePetUseCase(
          IVolunteerRepository volunteerRepository,
          IVolunteerReadDbContext readDBContext,
-         IFilesProvider filesProvider,
+         IMinioFilesHttpClient FilesHttpClient,
         [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
          ILogger<ChangePetInfoUseCase> logger)
-    {
+    { 
         _volunteerRepository = volunteerRepository;
         _readDBContext = readDBContext;
-        _filesProvider = filesProvider;
+        _FilesHttpClient = FilesHttpClient;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -73,7 +74,7 @@ public class HardDeletePetUseCase
                 .ToList();
             string bucketName = pet.Medias.Select(f => f.BucketName).First();
             MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(bucketName, minioFileNames);
-            await _filesProvider.DeleteFile(minioFileInfoDto, ct);
+            await _FilesHttpClient.DeleteFile(minioFileInfoDto, ct);
         }
         string message = $"Питомец = {command.PetId} успешно hard deleted!";
         _logger.LogInformation(message);

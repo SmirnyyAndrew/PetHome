@@ -2,6 +2,7 @@
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Volunteers.Contracts.CreateVolunteerContract;
 
 namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>

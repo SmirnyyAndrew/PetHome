@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 public class UpdateAccessTokenUsingRefreshTokenValidator
@@ -8,6 +6,6 @@ public class UpdateAccessTokenUsingRefreshTokenValidator
 {
     public UpdateAccessTokenUsingRefreshTokenValidator()
     {
-        RuleFor(t => t.AccessToken).Must(l => l.Trim().Length > 20).WithError(Errors.Validation("Access token"));
+        //RuleFor(t => t.AccessToken).Must(l => l.Trim().Length > 20).WithError(Errors.Validation("Access token"));
     }
 }

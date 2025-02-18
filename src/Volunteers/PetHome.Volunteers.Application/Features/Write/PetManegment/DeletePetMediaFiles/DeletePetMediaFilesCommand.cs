@@ -1,4 +1,4 @@
-﻿using PetHome.Core.Interfaces;
+﻿using FilesService.Core.Interfaces;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 
@@ -6,4 +6,4 @@ namespace PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMe
 public record DeletePetMediaFilesCommand(
     Guid VolunteerId,
     DeletePetMediaFilesDto DeletePetMediaFilesDto,
-    IFilesProvider FileProvider) : ICommand;
+    IMinioFilesHttpClient FileProvider) : ICommand;

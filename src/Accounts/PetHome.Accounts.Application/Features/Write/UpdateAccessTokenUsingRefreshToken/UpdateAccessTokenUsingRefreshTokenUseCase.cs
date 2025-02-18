@@ -7,15 +7,15 @@ using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Response.Login;
 using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 
 namespace PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 public class UpdateAccessTokenUsingRefreshTokenUseCase
-    : ICommandHandler<TokenResponse, UpdateAccessTokenUsingRefreshTokenCommand>
+    : ICommandHandler<LoginResponse, UpdateAccessTokenUsingRefreshTokenCommand>
 {
     private readonly IRefreshSessionRepository _refreshTokenRepository;
     private readonly IAuthenticationRepository _authenticationRepository;
@@ -37,7 +37,7 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<TokenResponse, ErrorList>> Execute(
+    public async Task<Result<LoginResponse, ErrorList>> Execute(
         UpdateAccessTokenUsingRefreshTokenCommand command,
         CancellationToken ct)
     {
@@ -53,11 +53,7 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
         if (oldRefreshSession.ExpiredIn < DateTime.UtcNow)
             return Errors.Failure("Access token is expired").ToErrorList();
 
-        var getUserIdFromTokenResult = _tokenProvider.GetUserId(command.AccessToken);
-        if (getUserIdFromTokenResult.IsFailure)
-            return refreshSessionResult.Error.ToErrorList();
-
-        Guid userId = getUserIdFromTokenResult.Value;
+        Guid userId = oldRefreshSession.UserId;
         var getUserFromDbResult = await _authenticationRepository.GetUserById(userId, ct);
         if (getUserFromDbResult.IsFailure)
             return refreshSessionResult.Error.ToErrorList();
@@ -66,11 +62,12 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
         User user = getUserFromDbResult.Value;
         await _refreshTokenRepository.RemoveOldWithSavingChanges(user, ct);
 
-        var generateRefreshTokenResul = _tokenProvider.GenerateRefreshToken(user, command.AccessToken);
+        var generateRefreshTokenResul = _tokenProvider.GenerateRefreshToken(user, oldRefreshSession);
         if (generateRefreshTokenResul.IsFailure)
             return generateRefreshTokenResul.Error;
 
         RefreshSession newRefreshSession = generateRefreshTokenResul.Value;
+        await _refreshTokenRepository.Remove(oldRefreshSession, ct);
         await _refreshTokenRepository.Add(newRefreshSession, ct);
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
@@ -78,7 +75,11 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
         string newJwtTokenString = _tokenProvider.GenerateAccessToken(user);
         string newRefreshToken = newRefreshSession.RefreshToken.ToString();
 
-        TokenResponse tokenResponse = new TokenResponse(newJwtTokenString, newRefreshToken);
-        return tokenResponse;
+        LoginResponse loginResponse = new LoginResponse(newJwtTokenString,
+            newRefreshToken,
+            user.Id.ToString(),
+            user.Email ?? string.Empty,
+            user.UserName ?? string.Empty);
+        return loginResponse;
     }
 }

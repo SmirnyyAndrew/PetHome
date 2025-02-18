@@ -18,7 +18,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -221,6 +221,10 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("start_volunteering_date");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
                     b.ComplexProperty<Dictionary<string, object>>("FullName", "PetHome.Volunteers.Domain.PetManagment.VolunteerEntity.Volunteer.FullName#FullName", b1 =>
                         {
                             b1.IsRequired();
@@ -259,7 +263,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.PetManagment.Extra.Media>", "Medias", b1 =>
+                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.File.MediaFile>", "Medias", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -274,24 +278,40 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.PetManagment.Extra.Media", "Values", b2 =>
+                            b1.OwnsMany("PetHome.Core.ValueObjects.File.MediaFile", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectListPetId")
                                         .HasColumnType("uuid");
 
-                                    b2.Property<int>("__synthesizedOrdinal")
+                                    b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
                                     b2.Property<string>("BucketName")
                                         .IsRequired()
-                                        .HasColumnType("text");
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("text")
+                                        .HasColumnName("bucket_name");
 
                                     b2.Property<string>("FileName")
                                         .IsRequired()
-                                        .HasColumnType("text");
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("text")
+                                        .HasColumnName("file_name");
 
-                                    b2.HasKey("ValueObjectListPetId", "__synthesizedOrdinal");
+                                    b2.Property<Guid?>("Key")
+                                        .IsRequired()
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("key");
+
+                                    b2.Property<string>("Type")
+                                        .IsRequired()
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("text")
+                                        .HasColumnName("type");
+
+                                    b2.HasKey("ValueObjectListPetId", "Id");
 
                                     b2.ToTable("pets");
 
@@ -305,7 +325,43 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                             b1.Navigation("Values");
                         });
 
-                    b.OwnsOne("ValueObjectList", "Requisites", b1 =>
+                    b.OwnsOne("PetHome.Core.ValueObjects.File.MediaFile", "Avatar", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("BucketName")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("text")
+                                .HasColumnName("bucket_name");
+
+                            b1.Property<string>("FileName")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("text")
+                                .HasColumnName("file_name");
+
+                            b1.Property<Guid?>("Key")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("uuid")
+                                .HasColumnName("key");
+
+                            b1.Property<string>("Type")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("text")
+                                .HasColumnName("type");
+
+                            b1.HasKey("PetId");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("avatar");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId")
+                                .HasConstraintName("fk_pets_pets_id");
+                        });
+
+                    b.OwnsOne("PetHome.Volunteers.Domain.PetManagment.PetEntity.Pet.Requisites#ValueObjectList", "Requisites", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -326,7 +382,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                     b2.Property<Guid>("ValueObjectListPetId")
                                         .HasColumnType("uuid");
 
-                                    b2.Property<int>("__synthesizedOrdinal")
+                                    b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
@@ -341,7 +397,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                     b2.Property<int>("PaymentMethod")
                                         .HasColumnType("integer");
 
-                                    b2.HasKey("ValueObjectListPetId", "__synthesizedOrdinal");
+                                    b2.HasKey("ValueObjectListPetId", "Id");
 
                                     b2.ToTable("pets");
 
@@ -354,6 +410,8 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
 
                             b1.Navigation("Values");
                         });
+
+                    b.Navigation("Avatar");
 
                     b.Navigation("Medias")
                         .IsRequired();
@@ -384,7 +442,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                     b2.Property<Guid>("ValueObjectListVolunteerId")
                                         .HasColumnType("uuid");
 
-                                    b2.Property<int>("__synthesizedOrdinal")
+                                    b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
@@ -392,7 +450,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.HasKey("ValueObjectListVolunteerId", "__synthesizedOrdinal");
+                                    b2.HasKey("ValueObjectListVolunteerId", "Id");
 
                                     b2.ToTable("volunteers");
 
@@ -426,7 +484,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                     b2.Property<Guid>("ValueObjectListVolunteerId")
                                         .HasColumnType("uuid");
 
-                                    b2.Property<int>("__synthesizedOrdinal")
+                                    b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
@@ -434,7 +492,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.HasKey("ValueObjectListVolunteerId", "__synthesizedOrdinal");
+                                    b2.HasKey("ValueObjectListVolunteerId", "Id");
 
                                     b2.ToTable("volunteers");
 
@@ -468,7 +526,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                     b2.Property<Guid>("ValueObjectList<Requisites>VolunteerId")
                                         .HasColumnType("uuid");
 
-                                    b2.Property<int>("__synthesizedOrdinal")
+                                    b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
 
@@ -483,7 +541,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                     b2.Property<int>("PaymentMethod")
                                         .HasColumnType("integer");
 
-                                    b2.HasKey("ValueObjectList<Requisites>VolunteerId", "__synthesizedOrdinal");
+                                    b2.HasKey("ValueObjectList<Requisites>VolunteerId", "Id");
 
                                     b2.ToTable("volunteers");
 

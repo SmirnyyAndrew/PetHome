@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.Dto.File;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,6 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Application.Database.Dto;
@@ -68,7 +68,7 @@ public class SetPetMainPhotoUseCase
             return Errors.NotFound($"Питомец с id = {command.PetId}").ToErrorList();
         }
 
-        Media media = Media.Create(command.BucketName, command.FileName).Value;
+        MediaFile media = MediaFile.Create(command.BucketName, command.FileName).Value;
         pet.SetMainPhoto(media);
         var transaction = await _unitOfWork.BeginTransaction(ct);
 

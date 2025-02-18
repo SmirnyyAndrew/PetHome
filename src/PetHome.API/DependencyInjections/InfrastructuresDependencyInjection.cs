@@ -1,4 +1,5 @@
-﻿using PetHome.Accounts.Infrastructure.Inject;
+﻿using FilesService.Communication;
+using PetHome.Accounts.Infrastructure.Inject;
 using PetHome.Discussions.Infrastructure.Inject;
 using PetHome.Species.Infrastructure;
 using PetHome.VolunteerRequests.Infrastructure.Inject;
@@ -17,6 +18,9 @@ public static class InfrastructuresDependencyInjection
             .AddVolunteerInfrastructure(configuration)
             .AddVolunteerRequestInfrastructure(configuration)
             .AddDiscussionInfrastructure(configuration);
+
+        services.AddAmazonHttpCommunication(configuration);
+        services.AddMinioHttpCommunication(configuration);
 
         return services;
     }

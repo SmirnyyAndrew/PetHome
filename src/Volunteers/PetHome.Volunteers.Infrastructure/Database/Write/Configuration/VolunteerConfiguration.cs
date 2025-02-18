@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Infrastructure.Database.Write.Configuration;
@@ -21,6 +22,14 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 value => VolunteerId.Create(value).Value)
             .IsRequired()
             .HasColumnName("id");
+
+        //user id 
+        builder.Property(i => i.UserId)
+            .HasConversion(
+                id => id.Value,
+                value => UserId.Create(value).Value)
+            .IsRequired()
+            .HasColumnName("user_id");
 
         //fullname
         builder.ComplexProperty(f => f.FullName, tb =>

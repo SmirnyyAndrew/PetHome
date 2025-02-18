@@ -10,6 +10,7 @@ public class SetMainPhotoCommandValidator:AbstractValidator<SetPetMainPhotoComma
     {
         RuleFor(m => m.VolunteerId).MustBeValueObject(VolunteerId.Create);
         RuleFor(m => m.PetId).MustBeValueObject(PetId.Create);
-        RuleFor(m => m.FileName).MustBeValueObject(MinioFileName.Create);
+        //TODO: добавить валидацию с Error, в будущем добавленнего в nuget
+        //RuleFor(m => m.FileName).MustBeValueObject(MinioFileName.Create);
     }
 }

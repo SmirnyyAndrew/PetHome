@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.RefreshToken;
@@ -23,7 +24,8 @@ public class GenerateRefreshTokenUsingContract : IGenerateRefreshTokenContract
         _generateAccessTokenContract = generateAccessTokenContract;
     }
 
-    public async Task<Result<RefreshSession, Error>> Execute(UserId userId, CancellationToken ct)
+    public async Task<Result<RefreshSession, Error>> Execute(
+        UserId userId, string accessToken, CancellationToken ct)
     {
         var getUserResult = await _repository.GetUserById(userId, ct);
         if (getUserResult.IsFailure)
@@ -32,10 +34,7 @@ public class GenerateRefreshTokenUsingContract : IGenerateRefreshTokenContract
         User user = getUserResult.Value;
         var generateAccessTokenResult = await _generateAccessTokenContract.Execute(userId, ct);
         if(generateAccessTokenResult.IsFailure)
-            return generateAccessTokenResult.Error;
-
-        string accessToken = generateAccessTokenResult.Value;
-
+            return generateAccessTokenResult.Error;  
 
         var generateRefreshTokenResult =  _tokenProvider.GenerateRefreshToken(user, accessToken);
         if(generateRefreshTokenResult.IsFailure)
@@ -43,5 +42,11 @@ public class GenerateRefreshTokenUsingContract : IGenerateRefreshTokenContract
 
         RefreshSession refreshSession = generateRefreshTokenResult.Value; 
         return refreshSession;
+    }
+
+    public Task<Result<RefreshSession, Error>> Execute(
+        UserId userId, RefreshSession oldRefreshSession, CancellationToken ct)
+    {
+        throw new NotImplementedException();
     }
 }
