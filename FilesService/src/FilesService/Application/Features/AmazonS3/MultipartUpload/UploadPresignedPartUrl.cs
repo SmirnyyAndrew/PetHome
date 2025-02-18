@@ -1,22 +1,19 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Core.Request.AmazonS3.MultipartUpload;
+using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class UploadPresignedPartUrl
-{
-    private record UploadPresignedPartUrlRequest(
-       string BucketName,
-       string UploadId,
-       int PartNumber);
-
+{ 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/{key}/part-presigned", Handler);
+            app.MapPost("amazon/files/{key}/part-presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(
@@ -40,11 +37,8 @@ public static class UploadPresignedPartUrl
 
             string? presignedUrl = await s3Client.GetPreSignedURLAsync(presignedRequest);
 
-            return Results.Ok(new
-            {
-                key,
-                url = presignedUrl
-            });
+            FileUrlResponse response = new FileUrlResponse(key, presignedUrl); 
+            return Results.Ok(response);
         }
         catch (AmazonS3Exception ex)
         {

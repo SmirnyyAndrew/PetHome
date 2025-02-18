@@ -1,19 +1,17 @@
-﻿
+﻿using FilesService.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using PetHome.Core.Interfaces;
-using Xunit;
 
 namespace PetHome.Volunteers.IntegrationTests.IntegrationFactories;
 public class FileProviderFactory : VolunteerFactory
 {
-    protected readonly IFilesProvider _fileServiceMock = Substitute.For<IFilesProvider>();
+    protected readonly IMinioFilesHttpClient _fileServiceMock = Substitute.For<IMinioFilesHttpClient>();
     private static IntegrationTestFactory _factory;
 
     public FileProviderFactory(IntegrationTestFactory factory) : base(factory)
     {
         _factory = factory;
-        _fileServiceMock = factory.Services.GetRequiredService<IFilesProvider>();
+        _fileServiceMock = factory.Services.GetRequiredService<IMinioFilesHttpClient>();
         _factory.SetupSuccessFileServiceMock();
     }
 

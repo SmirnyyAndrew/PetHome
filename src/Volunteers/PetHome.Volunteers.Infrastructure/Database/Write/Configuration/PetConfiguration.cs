@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Core.Constants;
-using PetHome.Core.Interfaces;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Breed;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
@@ -139,11 +138,11 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasColumnName("volunteer_id");
 
         //is soft deleted
-        builder.Property(d=>d.IsDeleted)  
+        builder.Property(d => d.IsDeleted)
             .HasColumnName("is_deleted");
 
         //has been soft deleted date
-        builder.Property(d=>d.DeletionDate)  
+        builder.Property(d => d.DeletionDate)
             .HasColumnName("soft_deleted_date");
 
         //serial number
@@ -160,12 +159,47 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             db.ToJson("photos");
             db.OwnsMany(db => db.Values, pb =>
             {
+                pb.Property(p => p.Key)
+                .IsRequired()
+                .HasColumnName("key");
+
                 pb.Property(p => p.BucketName)
-                .IsRequired();
+                    .IsRequired()
+                .HasColumnName("bucket_name");
+
+                pb.Property(p => p.Type)
+                .HasConversion<string>()
+                 .IsRequired()
+                .HasColumnName("type");
 
                 pb.Property(p => p.FileName)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnName("file_name");
             });
+        });
+
+
+        //avatar
+        builder.OwnsOne(d => d.Avatar, db =>
+        {
+            db.ToJson("avatar");
+
+            db.Property(p => p.Key)
+            .IsRequired(false)
+            .HasColumnName("key");
+
+            db.Property(p => p.BucketName)
+                .IsRequired(false)
+            .HasColumnName("bucket_name");
+
+            db.Property(p => p.Type)
+            .HasConversion<string>()
+             .IsRequired(false)
+            .HasColumnName("type");
+
+            db.Property(p => p.FileName)
+            .IsRequired(false)
+            .HasColumnName("file_name");
         });
     }
 }

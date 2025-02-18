@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.User;
+using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
 using PetHome.Core.ValueObjects.MainInfo;

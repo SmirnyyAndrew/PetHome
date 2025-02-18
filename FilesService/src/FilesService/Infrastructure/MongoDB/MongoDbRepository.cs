@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.ErrorManagment;
-using FilesService.Infrastructure.MongoDB.Documents;
+using FilesService.Core.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 

@@ -1,10 +1,10 @@
-﻿using FilesService.Application.Interfaces;
+﻿using FilesService.Core.Interfaces;
 using Minio;
 
 namespace FilesService.Infrastructure.Minio;
 
 //Этот класс является partial - реализация методов лежит в отдельных классах
-public partial class MinioProvider : IFilesProvider
+public partial class MinioProvider : IMinioFilesHttpClient
 {
     private readonly int MAX_STREAMS_LENGHT = 5;
     private IMinioClient _minioClient;

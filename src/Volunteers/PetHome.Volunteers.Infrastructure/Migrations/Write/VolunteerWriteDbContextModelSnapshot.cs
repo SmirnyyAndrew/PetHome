@@ -263,7 +263,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.PetManagment.Extra.Media>", "Medias", b1 =>
+                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.File.MediaFile>", "Medias", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -278,7 +278,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.PetManagment.Extra.Media", "Values", b2 =>
+                            b1.OwnsMany("PetHome.Core.ValueObjects.File.MediaFile", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectListPetId")
                                         .HasColumnType("uuid");
@@ -289,11 +289,27 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
 
                                     b2.Property<string>("BucketName")
                                         .IsRequired()
-                                        .HasColumnType("text");
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("text")
+                                        .HasColumnName("bucket_name");
 
                                     b2.Property<string>("FileName")
                                         .IsRequired()
-                                        .HasColumnType("text");
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("text")
+                                        .HasColumnName("file_name");
+
+                                    b2.Property<Guid?>("Key")
+                                        .IsRequired()
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("key");
+
+                                    b2.Property<string>("Type")
+                                        .IsRequired()
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("text")
+                                        .HasColumnName("type");
 
                                     b2.HasKey("ValueObjectListPetId", "Id");
 
@@ -307,6 +323,42 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                 });
 
                             b1.Navigation("Values");
+                        });
+
+                    b.OwnsOne("PetHome.Core.ValueObjects.File.MediaFile", "Avatar", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("BucketName")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("text")
+                                .HasColumnName("bucket_name");
+
+                            b1.Property<string>("FileName")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("text")
+                                .HasColumnName("file_name");
+
+                            b1.Property<Guid?>("Key")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("uuid")
+                                .HasColumnName("key");
+
+                            b1.Property<string>("Type")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("text")
+                                .HasColumnName("type");
+
+                            b1.HasKey("PetId");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("avatar");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId")
+                                .HasConstraintName("fk_pets_pets_id");
                         });
 
                     b.OwnsOne("PetHome.Volunteers.Domain.PetManagment.PetEntity.Pet.Requisites#ValueObjectList", "Requisites", b1 =>
@@ -358,6 +410,8 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
 
                             b1.Navigation("Values");
                         });
+
+                    b.Navigation("Avatar");
 
                     b.Navigation("Medias")
                         .IsRequired();

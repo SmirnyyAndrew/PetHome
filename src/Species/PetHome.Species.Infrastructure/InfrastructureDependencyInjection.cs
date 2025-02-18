@@ -1,16 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Minio;
 using PetHome.Core.Constants;
-using PetHome.Core.Interfaces;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.MessageQueues;
 using PetHome.Core.Response.Messaging;
 using PetHome.Framework.Database;
-using PetHome.SharedKernel.Options;
-using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Species.Application.Database;
-using PetHome.Species.Infrastructure;
 using PetHome.Species.Infrastructure.Contracts.HardDeleteExpiredSoftDeletedEntities;
 using PetHome.Species.Infrastructure.Database.Read.DBContext;
 using PetHome.Species.Infrastructure.Database.Write;
@@ -31,27 +26,9 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedSpeciesEntitiesContract>();
-
-        services.AddMinio(configuration);
-        services.AddSingleton<IFilesProvider, MinioProvider>();
+         
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.SPECIES_UNIT_OF_WORK_KEY);
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
         return services;
-    }
-
-    private static IServiceCollection AddMinio(
-        this IServiceCollection services, IConfiguration configuration)
-    {
-        var minioOptions = configuration.GetSection(MinioOptions.MINIO_NAME).Get<MinioOptions>()
-            ?? throw new Exception("Ошибка со строкой подключения minio. Проверьте конфигурацию.");
-
-        services.AddMinio(options =>
-        {
-            options.WithEndpoint(minioOptions.Endpoint);
-            options.WithCredentials(minioOptions.Accesskey, minioOptions.Secretkey);
-            options.WithSSL(minioOptions.IsWithSSL);
-        });
-        return services;
-    }
-
+    } 
 }

@@ -6,13 +6,14 @@ namespace FilesService.Application.Features.AmazonS3;
 
 public static class GetFilesDataByIds
 {
-    private record GetFilesDataByIdsRequest(Guid[] Ids);
+    private record GetFilesDataByIdsRequest(IEnumerable<Guid> Ids);
 
     public sealed class Endpoint : IEndpoint
     {
+        //Использую POST, потому что у GET нет Body
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("files", Handler);
+            app.MapPost("amazon/files", Handler);
         }
     }
     private static async Task<IResult> Handler(

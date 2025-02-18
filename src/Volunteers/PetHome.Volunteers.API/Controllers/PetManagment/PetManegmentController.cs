@@ -1,12 +1,6 @@
-﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Minio;
 using PetHome.Core.Controllers;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.SharedKernel.Providers.Minio;
 using PetHome.Volunteers.API.Controllers.PetManagment.Requests;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
@@ -15,27 +9,15 @@ using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetStatus;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangeSerialNumber;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
-using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.DeleteSpeciesById;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.HardDelete;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.SetMainPhoto;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteRestore;
-using PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
 
 namespace PetHome.Volunteers.API.Controllers.PetManagment;
 
 public class PetManagmentController : ParentController
-{
-    private readonly MinioProvider _minioProvider;
-
-    public PetManagmentController(
-        IMinioClient minioClient,
-        ILogger<MinioProvider> minioLogger)
-    {
-        _minioProvider = new MinioProvider(minioClient, minioLogger);
-    }
-
-
+{  
     [Authorize]
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> CreatePet(
@@ -55,63 +37,7 @@ public class PetManagmentController : ParentController
         return Ok(result.Value);
     }
 
-
-    [Authorize]
-    [HttpPost("{volunteerId:guid}/pets/media")]
-    public async Task<IActionResult> UploadMedia(
-        [FromRoute] Guid volunteerId,
-        IEnumerable<IFormFile> formFiles,
-        [FromQuery] UploadPetMediaFilesDto uploadPetMedia,
-        [FromServices] UploadPetMediaFilesUseCase useCase,
-        CancellationToken ct = default)
-    {
-        List<Stream> streams = new List<Stream>();
-        streams = formFiles.Select(x => x.OpenReadStream()).ToList();
-        Result<string, ErrorList> result;
-
-
-        UploadPetMediaFilesRequest request =
-            new UploadPetMediaFilesRequest(
-                streams,
-                formFiles.ToList().Select(x => x.FileName),
-                uploadPetMedia,
-                volunteerId,
-                _minioProvider);
-
-        try
-        {
-            result = await useCase.Execute(request, ct);
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-        }
-        finally
-        {
-            streams.ForEach(x => x.Dispose());
-        }
-
-        return Ok(result.Value);
-    }
-
-    [Authorize]
-    [HttpDelete("{volunteerId:guid}/pets/media")]
-    public async Task<IActionResult> DeleteMedia(
-        [FromRoute] Guid volunteerId,
-        [FromBody] DeletePetMediaFilesDto toDeleteMedia,
-        [FromServices] DeletePetMediaFilesUseCase useCase,
-        CancellationToken ct)
-    {
-        DeletePetMediaFilesRequest deleteMediaRequest =
-            new DeletePetMediaFilesRequest(volunteerId, toDeleteMedia, _minioProvider);
-
-        var deleteResult = await useCase.Execute(
-            deleteMediaRequest,
-            ct);
-        if (deleteResult.IsFailure)
-            return BadRequest(deleteResult.Error);
-
-        return Ok(deleteResult.Value);
-    }
-
+     
 
     [Authorize]
     [HttpPatch("{volunteerId:guid}/pets/serial-number")]
@@ -133,6 +59,7 @@ public class PetManagmentController : ParentController
         return Ok(executeResult.Value);
     }
 
+
     [Authorize]
     [HttpPost("info")]
     public async Task<IActionResult> ChangeInfo(
@@ -146,6 +73,7 @@ public class PetManagmentController : ParentController
 
         return Ok(result.Value);
     }
+
 
     [Authorize]
     [HttpPost("status")]

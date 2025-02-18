@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\FilesService\src\FilesService\FilesService.csproj" />
 		<ProjectReference Include="..\..\Species\PetHome.Species.Application\PetHome.Species.Application.csproj" />
 		<ProjectReference Include="..\PetHome.Volunteers.Contracts\PetHome.Volunteers.Contracts.csproj" />
 		<ProjectReference Include="..\PetHome.Volunteers.Domain\PetHome.Volunteers.Domain.csproj" />
@@ -14,6 +15,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
+		<PackageReference Include="FilesService.Communication" Version="1.0.9" />
+		<PackageReference Include="FilesService.Core" Version="1.0.9" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />

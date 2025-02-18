@@ -1,4 +1,5 @@
-﻿using PetHome.Core.Response.Messaging;
+﻿using FilesService.Core.Dto.File;
+using PetHome.Core.Response.Messaging;
 using System.Threading.Channels;
 
 namespace PetHome.Core.Response.MessageQueues;

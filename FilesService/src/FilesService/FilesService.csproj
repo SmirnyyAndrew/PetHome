@@ -9,6 +9,13 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Core\Response\**" />
+    <Content Remove="Core\Response\**" />
+    <EmbeddedResource Remove="Core\Response\**" />
+    <None Remove="Core\Response\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="AWSSDK.S3" Version="3.7.413.2" />
 		<PackageReference Include="CSharpFunctionalExtensions" Version="3.4.3" />
@@ -17,7 +24,6 @@
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="Hangfire.AspNetCore" Version="1.8.17" />
 		<PackageReference Include="Hangfire.Core" Version="1.8.17" />
-		<PackageReference Include="Hangfire.Mongo" Version="1.11.2" />
 		<PackageReference Include="Hangfire.PostgreSql" Version="1.20.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
@@ -25,6 +31,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 		<PackageReference Include="Minio" Version="6.0.4" />
 		<PackageReference Include="Minio.AspNetCore" Version="6.0.1" />
+		<PackageReference Include="MongoDB.Driver" Version="3.1.0" />
 		<PackageReference Include="MongoDB.Driver.Core" Version="2.30.0" />
 		<PackageReference Include="Serilog" Version="4.2.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
@@ -44,8 +51,13 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\Response\ErrorManagment\Envelopes\" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Core\Models\" />
+	  <Folder Include="Infrastructure\MongoDB\Documents\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FilesService.Core\FilesService.Core.csproj" />
+	</ItemGroup>
 
 </Project>

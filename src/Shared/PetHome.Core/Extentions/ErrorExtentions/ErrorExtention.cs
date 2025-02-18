@@ -8,7 +8,7 @@ public static class ErrorExtention
     public static ErrorList ToErrorList(this Error error)
     {
         return new ErrorList([error]);
-    }
+    } 
 
     public static ErrorList ToErrorList(
         this IEnumerable<FluentValidation.Results.ValidationFailure> validationErrors)

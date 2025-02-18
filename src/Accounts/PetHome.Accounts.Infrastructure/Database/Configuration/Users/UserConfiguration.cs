@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FilesService.Core.Dto.File;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.RolePermission;
 using System.Text.Json;
 
@@ -28,10 +28,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false)
             .HasColumnName("birth_date");
 
-        builder.Property(d => d.IsDeleted) 
+        builder.Property(d => d.IsDeleted)
             .HasColumnName("is_deleted");
 
-        builder.Property(d => d.DeletionDate) 
+        builder.Property(d => d.DeletionDate)
             .HasColumnName("deletion_date");
 
         builder.Property(s => s.SocialNetworks)
@@ -39,12 +39,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                  u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
                  json => JsonSerializer.Deserialize<IReadOnlyList<SocialNetwork>>(json, JsonSerializerOptions.Default))
             .HasColumnName("social_networks");
-
-        builder.Property(s => s.Medias)
-            .HasConversion(
-                u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
-                json => JsonSerializer.Deserialize<IReadOnlyList<Media>>(json, JsonSerializerOptions.Default))
-            .HasColumnName("medias");
 
         builder.Property(s => s.PhoneNumbers)
             .HasConversion(
@@ -69,5 +63,36 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .WithOne(u => u.User)
                 .HasPrincipalKey<VolunteerAccount>(d => d.UserId)
                 .IsRequired(false);
+
+
+        //medias 
+        builder.Property(s => s.Medias)
+            .HasConversion(
+                u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<IReadOnlyList<MediaFile>>(json, JsonSerializerOptions.Default))
+            .HasColumnName("medias");
+
+        //avatar
+        builder.OwnsOne(d => d.Avatar, db =>
+        {
+            db.ToJson("avatar");
+
+            db.Property(p => p.Key)
+            .IsRequired(false)
+            .HasColumnName("key");
+
+            db.Property(p => p.BucketName)
+            .IsRequired(false)
+            .HasColumnName("bucket_name");
+
+            db.Property(p => p.Type)
+            .HasConversion<string>()
+             .IsRequired(false)
+            .HasColumnName("type");
+
+            db.Property(p => p.FileName)
+            .IsRequired(false)
+            .HasColumnName("file_name");
+        });
     }
 }

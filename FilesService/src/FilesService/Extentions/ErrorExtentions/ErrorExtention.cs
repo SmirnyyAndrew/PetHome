@@ -1,4 +1,5 @@
-﻿using FilesService.Core.ErrorManagment;
+﻿using CSharpFunctionalExtensions;
+using FilesService.Core.ErrorManagment;
 using Microsoft.AspNetCore.Identity;
 
 namespace FilesService.Extentions.ErrorExtentions;

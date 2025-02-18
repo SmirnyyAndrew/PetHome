@@ -1,23 +1,19 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Core.Request.AmazonS3;
+using FilesService.Core.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3;
 
 public static class UploadPresignedUrl
-{
-    private record UploadPresignedUrlRequest(
-       string BucketName,
-       string FileName,
-       string ContentType,
-       long Size);
-
+{  
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/presigned", Handler);
+            app.MapPost("amazon/files/presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(
@@ -27,12 +23,12 @@ public static class UploadPresignedUrl
     {
         try
         {
-            Guid key = Guid.NewGuid();
+            string key = Guid.NewGuid().ToString();
 
             GetPreSignedUrlRequest presignedRequest = new GetPreSignedUrlRequest
             {
                 BucketName = request.BucketName,
-                Key = key.ToString(),
+                Key = key,
                 Verb = HttpVerb.PUT,
                 Expires = DateTime.UtcNow.AddDays(14),
                 ContentType = request.ContentType,
@@ -45,11 +41,8 @@ public static class UploadPresignedUrl
 
             string? presignedUrl = await s3Client.GetPreSignedURLAsync(presignedRequest);
 
-            return Results.Ok(new
-            {
-                key,
-                url = presignedUrl
-            });
+            FileUrlResponse response = new FileUrlResponse(key, presignedUrl); 
+            return Results.Ok(response);
         }
         catch (AmazonS3Exception ex)
         {

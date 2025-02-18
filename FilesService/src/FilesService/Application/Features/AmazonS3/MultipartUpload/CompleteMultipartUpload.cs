@@ -1,27 +1,23 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using FilesService.Application.Endpoints;
+using FilesService.Application.Jobs;
+using FilesService.Core.Models;
+using FilesService.Core.Request.AmazonS3.MultipartUpload;
+using FilesService.Core.Response;
 using FilesService.Infrastructure.MongoDB;
-using FilesService.Infrastructure.MongoDB.Documents;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesService.Application.Features.AmazonS3.MultipartUpload;
 
 public static class CompleteMultipartUpload
-{
-
-    public record PartETagInfo(int PartNumber, string ETag);
-
-    private record CompleteMultipartRequest(
-       string BucketName,
-       string UploadId,
-       List<PartETagInfo> Parts);
-
+{ 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("files/{key}/complite-multipart/presigned", Handler);
+            app.MapPost("amazon/files/{key}/complete-multipart/presigned", Handler);
         }
     }
     private static async Task<IResult> Handler(
@@ -35,7 +31,9 @@ public static class CompleteMultipartUpload
         {
             Guid fileId = Guid.NewGuid();
 
-            //TODO: job проверки файла в mongo и s3
+            //job проверки файла в mongo и s3
+            var enqueueAt = TimeSpan.FromHours(24);
+            var jobId = BackgroundJob.Schedule<ConfirmConsistencyJob>(j => j.Execute(fileId, key, request.BucketName, ct), enqueueAt);
 
             var presignedRequest = new CompleteMultipartUploadRequest
             {
@@ -68,11 +66,10 @@ public static class CompleteMultipartUpload
 
             await repository.Add(fileData, ct);
 
-            return Results.Ok(new
-            {
-                key,
-                location = response.Location
-            });
+            BackgroundJob.Delete(jobId);
+
+            FileLocationResponse fileLocation = new FileLocationResponse(key, response.Location); 
+            return Results.Ok(fileLocation);
         }
         catch (AmazonS3Exception ex)
         {
