@@ -16,10 +16,16 @@ public class PermissionAttributeHandler(IHttpContextAccessor httpContextAccessor
             httpContextAccessor.HttpContext?.RequestServices.GetRequiredService<UserScopedData>()!;
 
         if (userScopedData is null)
+        {
             context.Fail();
+            return Task.FromResult<AuthorizationPolicy>(null!);
+        }
 
         if (userScopedData!.Permissions.Contains(requirement.Code))
-            context.Succeed(requirement);
+        {
+            context.Succeed(requirement); 
+            return Task.FromResult<AuthorizationPolicy>(null!);
+        }
          
         return Task.CompletedTask;
     }
