@@ -7,16 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tokens\**" />
+    <EmbeddedResource Remove="Tokens\**" />
+    <None Remove="Tokens\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
     <ProjectReference Include="..\..\Volunteers\PetHome.Volunteers.Domain\PetHome.Volunteers.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Tokens\" />
   </ItemGroup>
 
 </Project>

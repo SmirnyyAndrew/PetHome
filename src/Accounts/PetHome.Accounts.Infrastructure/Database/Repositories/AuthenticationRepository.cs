@@ -18,7 +18,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<Role, Error>> GetRole(Guid roleId)
     {
-        var result = await _dbContext.Roles  
+        var result = await _dbContext.Roles
             .FirstOrDefaultAsync(r => r.Id == roleId);
         if (result is null)
             return Errors.NotFound($"role с id == {roleId}");
@@ -27,11 +27,11 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<Role, Error>> GetRole(RoleName roleName)
     {
-        var result = await _dbContext.Roles 
+        var result = await _dbContext.Roles
             .FirstOrDefaultAsync(r => r.Name.ToLower() == roleName.Value.ToLower());
         if (result is null)
-            return Errors.NotFound($"role с name == {roleName}");  
-       
+            return Errors.NotFound($"role с name == {roleName}");
+
         return result;
     }
 
@@ -74,7 +74,7 @@ public class AuthenticationRepository : IAuthenticationRepository
     {
         var users = _dbContext.Users.ToList();
 
-        var result = await _dbContext.Users 
+        var result = await _dbContext.Users
             .Include(u => u.Role)
             .Include(u => u.Admin)
             .Include(u => u.Volunteer)
@@ -89,7 +89,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct)
     {
-        var result = await _dbContext.Users 
+        var result = await _dbContext.Users
             .Include(u => u.Role)
             .Include(u => u.Admin)
             .Include(u => u.Volunteer)
@@ -120,5 +120,36 @@ public class AuthenticationRepository : IAuthenticationRepository
         _dbContext.Users.Remove(result.Value);
 
         return UnitResult.Success<Error>();
+    }
+
+
+    public async Task<Result<IReadOnlyList<Permission>, Error>> GetUserPermissions(
+        Guid userId, CancellationToken ct)
+    {
+        var userRole = GetUserRole(userId, ct).Result.Value;
+        var permissionsIds = await _dbContext.RolesPermissions
+            .Where(r=>r.RoleId == userRole.Id)
+            .Select(p=>p.PermissionId)
+            .ToListAsync(ct);
+        var permissions = await _dbContext.Permissions
+            .Where(p=>permissionsIds.Contains(p.Id))
+            .ToListAsync(ct);
+        return permissions;
+    }
+
+
+    public async Task<Result<Role?, Error>> GetUserRole(Guid userId, CancellationToken ct)
+    {
+        var user = GetUser(userId, ct).Result;
+        var userRoleId = user?.RoleId;
+        var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == userRoleId, ct);
+        return role;
+    }
+
+
+    private async Task<User?> GetUser(Guid id, CancellationToken ct)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
+        return user;
     }
 }
