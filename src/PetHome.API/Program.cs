@@ -4,6 +4,7 @@ using PetHome.API.DependencyInjections.AppExtentions;
 using PetHome.API.MinimumApi;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
+using PetHome.SharedKernel.Middlewares.Extentions;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -79,6 +80,7 @@ public partial class Program
 
 
         app.UseAuthentication();
+        app.UseUserScopedDataMiddleware();
         app.UseAuthorization();
 
         app.MapControllers();
