@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Interfaces;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
@@ -21,20 +22,20 @@ public class HardDeletePetUseCase
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IVolunteerReadDbContext _readDBContext;
-    private readonly IMinioFilesHttpClient _FilesHttpClient;
+    private readonly IMinioFilesHttpClient _filesProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ChangePetInfoUseCase> _logger;
 
     public HardDeletePetUseCase(
          IVolunteerRepository volunteerRepository,
          IVolunteerReadDbContext readDBContext,
-         IMinioFilesHttpClient FilesHttpClient,
+         IMinioFilesHttpClient filesProvider,
         [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
          ILogger<ChangePetInfoUseCase> logger)
-    { 
+    {
         _volunteerRepository = volunteerRepository;
         _readDBContext = readDBContext;
-        _FilesHttpClient = FilesHttpClient;
+        _filesProvider = filesProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -67,14 +68,14 @@ public class HardDeletePetUseCase
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
-        if (pet.Medias.Count > 0)
+        if (pet.Photos.Count > 0)
         {
-            List<MinioFileName> minioFileNames = pet.Medias
+            List<MinioFileName> minioFileNames = pet.Photos
                 .Select(f => MinioFileName.Create(f.FileName).Value)
                 .ToList();
-            string bucketName = pet.Medias.Select(f => f.BucketName).First();
+            string bucketName = pet.Photos.Select(f => f.BucketName).First();
             MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(bucketName, minioFileNames);
-            await _FilesHttpClient.DeleteFile(minioFileInfoDto, ct);
+            await _filesProvider.DeleteFile(minioFileInfoDto, ct);
         }
         string message = $"Питомец = {command.PetId} успешно hard deleted!";
         _logger.LogInformation(message);

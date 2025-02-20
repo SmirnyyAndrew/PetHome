@@ -54,7 +54,7 @@ public class DeletePetMediaFilesUseCase
         if (pet == null)
             return Errors.NotFound($"Питомец с id {command.DeletePetMediaFilesDto.PetId}").ToErrorList();
 
-        List<string> oldFileNames = pet.Medias.Values.Select(x => x.FileName).ToList();
+        List<string> oldFileNames = pet.Photos.Values.Select(x => x.FileName).ToList();
         List<MediaFile> mediasToDelete = command.DeletePetMediaFilesDto.FilesName
             .Intersect(oldFileNames)
             .Select(m => MediaFile.Create(command.DeletePetMediaFilesDto.BucketName, m).Value)
@@ -73,7 +73,7 @@ public class DeletePetMediaFilesUseCase
         var deleteResult = await command.FileProvider.DeleteFile(minioFileInfoDto, ct);
         if (deleteResult.IsFailure)
             //TODO: вынести error в nuget
-            return Errors.Conflict(deleteResult.Error).ToErrorList(); 
+            return Errors.Conflict(deleteResult.Error).ToErrorList();
 
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();

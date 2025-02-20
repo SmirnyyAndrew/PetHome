@@ -47,7 +47,7 @@ public class Pet : SoftDeletableEntity
         Requisites = requisites;
         VolunteerId = volunteerId;
         ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
-        Medias = new List<MediaFile>();
+        Photos = new List<MediaFile>();
         Avatar = avatar;
     }
 
@@ -68,7 +68,7 @@ public class Pet : SoftDeletableEntity
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
-    public ValueObjectList<MediaFile> Medias { get; private set; }
+    public ValueObjectList<MediaFile> Photos { get; private set; }
     public MediaFile? Avatar { get; private set; }
 
     public static Result<Pet, Error> Create(
@@ -173,10 +173,10 @@ public class Pet : SoftDeletableEntity
     {
         List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
 
-        IReadOnlyList<MediaFile> oldMedias = Medias.Values.ToList();
+        IReadOnlyList<MediaFile> oldMedias = Photos.Values.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
          
-        Medias = newMediaFiles;
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -184,12 +184,12 @@ public class Pet : SoftDeletableEntity
     //Удалить медиа
     public UnitResult<Error> RemoveMedia(IEnumerable<MediaFile> mediasToDelete)
     {
-        List<MediaFile> oldMediaFiles = Medias.Values
+        List<MediaFile> oldMediaFiles = Photos.Values
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
          
-        Medias = newMediaFiles;
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -236,11 +236,11 @@ public class Pet : SoftDeletableEntity
     public void SetMainPhoto(MediaFile media)
     {
         List<MediaFile> medias = new List<MediaFile>() { media };
-        medias.AddRange(Medias
+        medias.AddRange(Photos
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value)
             .Except([media])
             .ToList());
-        Medias = new ValueObjectList<MediaFile>(medias);
+        Photos = new ValueObjectList<MediaFile>(medias);
     }
 
     public void SetAvatar(MediaFile avatar)
