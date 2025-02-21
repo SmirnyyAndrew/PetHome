@@ -1,11 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.PetManagment.Breed;
 using PetHome.Core.ValueObjects.PetManagment.Species;
 
 namespace PetHome.Species.Domain.SpeciesManagment.BreedEntity;
-public class Breed : SoftDeletableEntity<BreedId>
+public class Breed : DomainEntity<BreedId>, ISoftDeletableEntity
 {
     private Breed(BreedId id) : base(id) { }
     private Breed(BreedName name, SpeciesId speciesId)
@@ -18,6 +19,8 @@ public class Breed : SoftDeletableEntity<BreedId>
     public BreedId Id { get; private set; }
     public BreedName Name { get; private set; }
     public SpeciesId SpeciesId { get; private set; }
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     public static Result<Breed, Error> Create(string name, Guid speciesId)
     {
@@ -30,7 +33,16 @@ public class Breed : SoftDeletableEntity<BreedId>
             SpeciesId.Create(speciesId).Value);
     }
 
-    public override void SoftDelete() => base.SoftDelete();
 
-    public override void SoftRestore() => base.SoftRestore();
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
+    }
+
+    public void SoftRestore()
+    {
+        DeletionDate = default;
+        IsDeleted = false;
+    }
 }

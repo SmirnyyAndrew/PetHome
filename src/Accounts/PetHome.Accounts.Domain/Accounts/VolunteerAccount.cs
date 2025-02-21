@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
@@ -9,7 +10,7 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class VolunteerAccount : SoftDeletableEntity<UserId>
+public class VolunteerAccount : DomainEntity<UserId>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("volunteer").Value;
 
@@ -18,9 +19,9 @@ public class VolunteerAccount : SoftDeletableEntity<UserId>
     public Date? StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Requisites>? Requisites { get; private set; }
     public IReadOnlyList<Certificate>? Certificates { get; private set; }
-    public IReadOnlyList<Pet>? Pets { get; private set; }
-    public DateTime DeletionDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public bool IsDeleted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public IReadOnlyList<Pet>? Pets { get; private set; } 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     private VolunteerAccount(UserId id) : base(id)
     {
@@ -70,17 +71,17 @@ public class VolunteerAccount : SoftDeletableEntity<UserId>
     {
         Certificates = certificates.ToList();
         return UnitResult.Success<Error>();
+    } 
+
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
     }
 
-    public override void SoftDelete()
+    public void SoftRestore()
     {
-        base.SoftDelete();
-        Pets?.ToList().ForEach(pet => pet.SoftDelete());
-    }
-
-    public override void SoftRestore()
-    {
-        base.SoftRestore();
-        Pets?.ToList().ForEach(pet => pet.SoftRestore());
+        DeletionDate = default;
+        IsDeleted = false;
     }
 }

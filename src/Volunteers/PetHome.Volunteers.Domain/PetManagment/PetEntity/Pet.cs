@@ -11,7 +11,7 @@ using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 
 namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
-public class Pet : SoftDeletableEntity<PetId>
+public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
 {
     public static List<Pet> Pets { get; set; } = new List<Pet>();
 
@@ -68,7 +68,9 @@ public class Pet : SoftDeletableEntity<PetId>
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
     public ValueObjectList<MediaFile> Photos { get; private set; }
-    public MediaFile? Avatar { get; private set; }
+    public MediaFile? Avatar { get; private set; } 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -109,9 +111,18 @@ public class Pet : SoftDeletableEntity<PetId>
         Pets.Add(pet);
         return pet;
     }
+     
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
+    }
 
-    public override void SoftDelete() => base.SoftDelete();
-    public override void SoftRestore() => base.SoftRestore();
+    public void SoftRestore()
+    {
+        DeletionDate = default;
+        IsDeleted = false;
+    }
 
     // Присвоить serial number = max + 1
     public UnitResult<Error> InitSerialNumber()

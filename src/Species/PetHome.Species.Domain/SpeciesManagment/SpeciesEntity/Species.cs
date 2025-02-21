@@ -1,11 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 
 namespace PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
-public class Species : SoftDeletableEntity<SpeciesId>
+public class Species : DomainEntity<SpeciesId>, ISoftDeletableEntity
 {
     public Species(SpeciesId id) : base(id) { }
     private Species(SpeciesId id, SpeciesName name)
@@ -14,10 +15,13 @@ public class Species : SoftDeletableEntity<SpeciesId>
         Id = id;
         Name = name;
     }
+
     public SpeciesId Id { get; private set; }
     public SpeciesName Name { get; private set; }
     private List<Breed> _breeds = [];
     public IReadOnlyList<Breed> Breeds => _breeds;
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     public static Result<Species, Error> Create(string name)
     {
@@ -47,15 +51,15 @@ public class Species : SoftDeletableEntity<SpeciesId>
         return Result.Success<Error>();
     }
 
-    public override void SoftDelete()
+    public void SoftDelete()
     {
-        base.SoftDelete();
-        _breeds?.ToList().ForEach(breed => breed.SoftDelete());
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
     }
 
-    public override void SoftRestore()
+    public void SoftRestore()
     {
-        base.SoftRestore();
-        _breeds?.ToList().ForEach(breed => breed.SoftRestore());
+        DeletionDate = default;
+        IsDeleted = false;
     }
 }

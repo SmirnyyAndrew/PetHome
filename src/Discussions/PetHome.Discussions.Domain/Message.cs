@@ -1,10 +1,11 @@
-﻿using PetHome.Core.ValueObjects.Discussion;
+﻿using PetHome.Core.Models;
+using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Message;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Discussions.Domain;
-public class Message
+public class Message : DomainEntity<MessageId>
 {
     public MessageId Id { get; private set; }
     public MessageText? Text { get; private set; }
@@ -14,9 +15,9 @@ public class Message
     public Date CreatedAt { get; private set; }
     public bool IsEdited { get; private set; } = false;
 
-    private Message() { }
+    private Message(MessageId id) : base(id) { }
 
-    private Message(MessageText text, UserId userId)
+    private Message(MessageText text, UserId userId) : base(MessageId.Create().Value)
     {
         Text = text;
         UserId = userId;
@@ -26,18 +27,17 @@ public class Message
     {
         return new Message(text, userId)
         {
-            Id = MessageId.Create().Value,
             CreatedAt = Date.Create().Value
         };
     }
 
     public Message EditMessage(MessageText newText)
-    {  
+    {
         return new Message(newText, UserId)
         {
             Id = Id,
             CreatedAt = CreatedAt,
             IsEdited = true
         };
-    } 
+    }
 }

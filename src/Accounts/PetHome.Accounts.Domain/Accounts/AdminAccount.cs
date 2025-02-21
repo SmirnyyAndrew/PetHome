@@ -1,17 +1,20 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class AdminAccount : SoftDeletableEntity<UserId>
+public class AdminAccount : DomainEntity<UserId>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("admin").Value;
      
     public UserId UserId { get; private set; }
-    public User User { get; private set; }
+    public User User { get; private set; } 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     private AdminAccount(UserId userId) : base(userId)
     {
@@ -28,7 +31,16 @@ public class AdminAccount : SoftDeletableEntity<UserId>
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
     }
+     
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
+    }
 
-    public override void SoftDelete() => base.SoftDelete(); 
-    public override void SoftRestore() => base.SoftRestore();
+    public void SoftRestore()
+    {
+        DeletionDate = default;
+        IsDeleted = false;
+    }
 }

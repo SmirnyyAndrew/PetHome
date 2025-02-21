@@ -5,16 +5,19 @@ using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Core.Models;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class ParticipantAccount : SoftDeletableEntity<UserId>
+public class ParticipantAccount : DomainEntity<UserId>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("participant").Value;
 
     public UserId UserId { get; private set; }
     public User User { get; private set; }
-    public IReadOnlyList<Pet>? FavoritePets { get; private set; }
-     
+    public IReadOnlyList<Pet>? FavoritePets { get; private set; } 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
+
     private ParticipantAccount(UserId userId) : base(userId)
     {
         UserId = userId;
@@ -30,9 +33,16 @@ public class ParticipantAccount : SoftDeletableEntity<UserId>
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
     }
+     
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
+    }
 
-    public override void SoftDelete() => base.SoftDelete();
-
-    public override void SoftRestore() => base.SoftRestore();
-
+    public void SoftRestore()
+    {
+        DeletionDate = default;
+        IsDeleted = false;
+    }
 }
