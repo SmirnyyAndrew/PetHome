@@ -8,8 +8,7 @@ using PetHome.Species.Application.Features.Write.CreateBreed;
 namespace PetHome.Species.API.Controllers;
 
 public class PetBreedController : ParentController
-{
-    [Authorize]
+{ 
     [HttpPost]
     public async Task<IActionResult> CreateBreed(
         [FromBody] CreateBreedRequest request,

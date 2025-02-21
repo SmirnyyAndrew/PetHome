@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PetHome.VolunteerRequests.Infrastructure.Database.Write;
+using PetHome.VolunteerRequests.Infrastructure.Database.Read.DBContext;
 
 #nullable disable
 
-namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Write
+namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Read
 {
-    [DbContext(typeof(VolunteerRequestDbContext))]
-    [Migration("20250221135422_VolunteerRequests_Write_InitMigrations")]
+    [DbContext(typeof(VolunteerRequestReadDbContext))]
+    [Migration("20250221154800_VolunteerRequests_Write_InitMigrations")]
     partial class VolunteerRequests_Write_InitMigrations
     {
         /// <inheritdoc />
@@ -26,9 +26,10 @@ namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Write
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PetHome.VolunteerRequests.Domain.VolunteerRequest", b =>
+            modelBuilder.Entity("PetHome.VolunteerRequests.Application.Database.Dto.VolunteerRequestDto", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -40,7 +41,8 @@ namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Write
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<Guid>("DiscussionId")
+                    b.Property<Guid?>("DiscussionId")
+                        .IsRequired()
                         .HasColumnType("uuid")
                         .HasColumnName("discussion_id");
 

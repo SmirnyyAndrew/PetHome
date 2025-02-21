@@ -12,7 +12,7 @@ using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 namespace PetHome.Volunteers.Infrastructure.Migrations.Read
 {
     [DbContext(typeof(VolunteerReadDbContext))]
-    [Migration("20250221152920_ChangedUsingAssembliesVolunteerReadMigration")]
+    [Migration("20250221154752_ChangedUsingAssembliesVolunteerReadMigration")]
     partial class ChangedUsingAssembliesVolunteerReadMigration
     {
         /// <inheritdoc />

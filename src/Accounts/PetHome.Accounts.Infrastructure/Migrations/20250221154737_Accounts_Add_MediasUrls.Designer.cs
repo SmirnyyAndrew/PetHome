@@ -12,7 +12,7 @@ using PetHome.Accounts.Infrastructure.Database;
 namespace PetHome.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20250221135418_Accounts_Add_MediasUrls")]
+    [Migration("20250221154737_Accounts_Add_MediasUrls")]
     partial class Accounts_Add_MediasUrls
     {
         /// <inheritdoc />

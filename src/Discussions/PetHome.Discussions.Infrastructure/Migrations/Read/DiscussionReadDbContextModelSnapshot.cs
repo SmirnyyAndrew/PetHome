@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PetHome.Discussions.Infrastructure.Database.Write;
+using PetHome.Discussions.Infrastructure.Database.Read.DBContext;
 
 #nullable disable
 
-namespace PetHome.Discussions.Infrastructure.Migrations.Write
+namespace PetHome.Discussions.Infrastructure.Migrations.Read
 {
-    [DbContext(typeof(DiscussionDbContext))]
-    [Migration("20250221135426_Discussions_Write_InitMigrations")]
-    partial class Discussions_Write_InitMigrations
+    [DbContext(typeof(DiscussionReadDbContext))]
+    partial class DiscussionReadDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +23,10 @@ namespace PetHome.Discussions.Infrastructure.Migrations.Write
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Discussion", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.DiscussionDto", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -50,9 +48,10 @@ namespace PetHome.Discussions.Infrastructure.Migrations.Write
                     b.ToTable("discussions", "Discussions");
                 });
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Message", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.MessageDto", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -85,9 +84,10 @@ namespace PetHome.Discussions.Infrastructure.Migrations.Write
                     b.ToTable("messages", "Discussions");
                 });
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Relation", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.RelationDto", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -102,50 +102,21 @@ namespace PetHome.Discussions.Infrastructure.Migrations.Write
                     b.ToTable("relations", "Discussions");
                 });
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Discussion", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.DiscussionDto", b =>
                 {
-                    b.HasOne("PetHome.Discussions.Domain.Relation", "Relation")
+                    b.HasOne("PetHome.Discussions.Application.Database.Dto.RelationDto", "Relation")
                         .WithMany("Discussions")
                         .HasForeignKey("RelationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_discussions_relations_relation_id");
-
-                    b.OwnsMany("PetHome.Core.ValueObjects.User.UserId", "UserIds", b1 =>
-                        {
-                            b1.Property<Guid>("DiscussionId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("discussion_id");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer")
-                                .HasColumnName("id");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("user_id");
-
-                            b1.HasKey("DiscussionId", "Id")
-                                .HasName("pk_user_id");
-
-                            b1.ToTable("user_id", "Discussions");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DiscussionId")
-                                .HasConstraintName("fk_user_id_discussions_discussion_id");
-                        });
+                        .HasConstraintName("fk_discussions_relation_dto_relation_id");
 
                     b.Navigation("Relation");
-
-                    b.Navigation("UserIds");
                 });
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Message", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.MessageDto", b =>
                 {
-                    b.HasOne("PetHome.Discussions.Domain.Discussion", "Discussion")
+                    b.HasOne("PetHome.Discussions.Application.Database.Dto.DiscussionDto", "Discussion")
                         .WithMany("Messages")
                         .HasForeignKey("DiscussionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -155,12 +126,12 @@ namespace PetHome.Discussions.Infrastructure.Migrations.Write
                     b.Navigation("Discussion");
                 });
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Discussion", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.DiscussionDto", b =>
                 {
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("PetHome.Discussions.Domain.Relation", b =>
+            modelBuilder.Entity("PetHome.Discussions.Application.Database.Dto.RelationDto", b =>
                 {
                     b.Navigation("Discussions");
                 });
