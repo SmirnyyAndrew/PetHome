@@ -13,6 +13,7 @@ using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Framework.Auth;
+using System.Net.NetworkInformation;
 
 namespace PetHome.Accounts.Application;
 public static class ApplicationDependencyInjection
@@ -38,6 +39,11 @@ public static class ApplicationDependencyInjection
 
         services.AddHttpContextAccessor()
             .AddScoped<UserScopedData>();
+
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
+        });
 
         return services;
     }
