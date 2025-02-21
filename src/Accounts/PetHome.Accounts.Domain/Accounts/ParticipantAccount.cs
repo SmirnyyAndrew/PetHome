@@ -8,7 +8,7 @@ using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Models;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class ParticipantAccount : DomainEntity<UserId>, ISoftDeletableEntity
+public class ParticipantAccount : DomainEntity<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("participant").Value;
 

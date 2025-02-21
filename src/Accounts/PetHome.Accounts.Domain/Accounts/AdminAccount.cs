@@ -7,7 +7,7 @@ using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class AdminAccount : DomainEntity<UserId>, ISoftDeletableEntity
+public class AdminAccount : DomainEntity<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("admin").Value;
      

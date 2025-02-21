@@ -10,7 +10,7 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class VolunteerAccount : DomainEntity<UserId>, ISoftDeletableEntity
+public class VolunteerAccount : DomainEntity<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("volunteer").Value;
 
