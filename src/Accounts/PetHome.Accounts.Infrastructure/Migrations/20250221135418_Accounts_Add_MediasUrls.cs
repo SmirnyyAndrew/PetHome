@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace PetHome.Accounts.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Accounts_Write_InitMigrations : Migration
+    public partial class Accounts_Add_MediasUrls : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,9 +21,9 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    id = table.Column<long>(type: "bigint", nullable: false),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,9 +37,9 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     favorite_pets = table.Column<string>(type: "text", nullable: true),
-                    id = table.Column<long>(type: "bigint", nullable: false),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,9 +114,9 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     requisites = table.Column<string>(type: "text", nullable: true),
                     certificates = table.Column<string>(type: "text", nullable: true),
                     pets = table.Column<string>(type: "text", nullable: true),
-                    id = table.Column<long>(type: "bigint", nullable: false),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,7 +180,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     social_networks = table.Column<string>(type: "text", nullable: true),
-                    medias = table.Column<string>(type: "text", nullable: true),
                     phone_number = table.Column<string>(type: "text", nullable: true),
                     role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     role_id1 = table.Column<Guid>(type: "uuid", nullable: true),
@@ -190,6 +189,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     admin_user_id = table.Column<Guid>(type: "uuid", nullable: true),
                     participant_user_id = table.Column<Guid>(type: "uuid", nullable: true),
                     volunteer_user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    medias = table.Column<string>(type: "text", nullable: false),
                     user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -203,7 +203,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
                     lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     lockout_enabled = table.Column<bool>(type: "boolean", nullable: false),
-                    access_failed_count = table.Column<int>(type: "integer", nullable: false)
+                    access_failed_count = table.Column<int>(type: "integer", nullable: false),
+                    avatar = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {

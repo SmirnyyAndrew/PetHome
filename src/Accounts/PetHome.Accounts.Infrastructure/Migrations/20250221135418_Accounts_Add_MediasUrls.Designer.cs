@@ -12,8 +12,8 @@ using PetHome.Accounts.Infrastructure.Database;
 namespace PetHome.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20250112115858_Accounts_Write_InitMigrations")]
-    partial class Accounts_Write_InitMigrations
+    [Migration("20250221135418_Accounts_Add_MediasUrls")]
+    partial class Accounts_Add_MediasUrls
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Account")
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -185,8 +185,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("soft_deleted_date");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool>("IsDeleted")
@@ -213,8 +213,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("favorite_pets");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool>("IsDeleted")
@@ -241,8 +241,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("soft_deleted_date");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool>("IsDeleted")
@@ -365,10 +365,6 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("lockout_end");
 
-                    b.Property<string>("Medias")
-                        .HasColumnType("text")
-                        .HasColumnName("medias");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)")
@@ -398,6 +394,11 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                     b.Property<string>("PhoneNumbers")
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
+
+                    b.Property<string>("Photos")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("medias");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid")
@@ -460,7 +461,7 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PetHome.Accounts.Domain.Tokens.RefreshToken.RefreshSession", b =>
+            modelBuilder.Entity("PetHome.Core.Response.RefreshToken.RefreshSession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -606,7 +607,41 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasForeignKey("PetHome.Accounts.Domain.Aggregates.User", "VolunteerUserId")
                         .HasConstraintName("fk_users_volunteer_accounts_volunteer_user_id");
 
+                    b.OwnsOne("FilesService.Core.Dto.File.MediaFile", "Avatar", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("BucketName")
+                                .HasColumnType("text")
+                                .HasColumnName("bucket_name");
+
+                            b1.Property<string>("FileName")
+                                .HasColumnType("text")
+                                .HasColumnName("file_name");
+
+                            b1.Property<Guid?>("Key")
+                                .HasColumnType("uuid")
+                                .HasColumnName("key");
+
+                            b1.Property<string>("Type")
+                                .HasColumnType("text")
+                                .HasColumnName("type");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("users", "Account");
+
+                            b1.ToJson("avatar");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId")
+                                .HasConstraintName("fk_users_users_id");
+                        });
+
                     b.Navigation("Admin");
+
+                    b.Navigation("Avatar");
 
                     b.Navigation("Participant");
 

@@ -12,7 +12,7 @@ using PetHome.Species.Infrastructure.Database.Write.DBContext;
 namespace PetHome.Species.Infrastructure.Migrations.Write
 {
     [DbContext(typeof(SpeciesWriteDbContext))]
-    [Migration("20250112115853_Species_Write_InitMigrations")]
+    [Migration("20250221135414_Species_Write_InitMigrations")]
     partial class Species_Write_InitMigrations
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace PetHome.Species.Infrastructure.Migrations.Write
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
