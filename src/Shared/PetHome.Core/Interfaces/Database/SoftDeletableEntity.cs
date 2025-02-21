@@ -1,9 +1,11 @@
-﻿
-using CSharpFunctionalExtensions;
+﻿using PetHome.Core.Models;
 
 namespace PetHome.Core.Interfaces.Database;
-public abstract class SoftDeletableEntity : Entity, ISoftDeletableEntity
+public abstract class SoftDeletableEntity<TId>
+    : DomainEntity<TId>, ISoftDeletableEntity where TId : IComparable<TId>
 {
+    protected SoftDeletableEntity(TId id) : base(id) { } 
+
     public DateTime DeletionDate { get; set; }
     public bool IsDeleted { get; set; }
 

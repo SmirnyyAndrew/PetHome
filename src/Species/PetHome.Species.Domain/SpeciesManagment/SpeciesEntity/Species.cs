@@ -5,12 +5,11 @@ using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 
 namespace PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
-public class Species : SoftDeletableEntity
+public class Species : SoftDeletableEntity<SpeciesId>
 {
-    public Species() { }
-    private Species(
-        SpeciesId id,
-        SpeciesName name)
+    public Species(SpeciesId id) : base(id) { }
+    private Species(SpeciesId id, SpeciesName name)
+        : base(id)
     {
         Id = id;
         Name = name;

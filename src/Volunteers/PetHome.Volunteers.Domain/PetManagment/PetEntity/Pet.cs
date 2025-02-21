@@ -11,11 +11,11 @@ using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 
 namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
-public class Pet : SoftDeletableEntity
+public class Pet : SoftDeletableEntity<PetId>
 {
     public static List<Pet> Pets { get; set; } = new List<Pet>();
 
-    private Pet() { }
+    private Pet(PetId id) : base(id) { }
 
     private Pet(
         PetName name,
@@ -31,9 +31,8 @@ public class Pet : SoftDeletableEntity
         PetStatusEnum status,
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites,
-        MediaFile avatar = null)
-    {
-        Id = PetId.Create().Value;
+        MediaFile avatar = null) : base(PetId.Create().Value)
+    { 
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -171,11 +170,11 @@ public class Pet : SoftDeletableEntity
     //Добавить медиа
     public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
     {
-        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
+        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload);
 
         IReadOnlyList<MediaFile> oldMedias = Photos.Values.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
-         
+
         Photos = newMediaFiles;
 
         return Result.Success<Error>();
@@ -188,7 +187,7 @@ public class Pet : SoftDeletableEntity
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
-         
+
         Photos = newMediaFiles;
 
         return Result.Success<Error>();

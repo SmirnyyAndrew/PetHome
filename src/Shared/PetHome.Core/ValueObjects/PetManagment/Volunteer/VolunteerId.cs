@@ -2,7 +2,7 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Core.ValueObjects.PetManagment.Volunteer;
-public record VolunteerId
+public record VolunteerId : IComparable<VolunteerId>
 {
     public Guid Value { get; }
 
@@ -18,6 +18,8 @@ public record VolunteerId
     public static Result<VolunteerId, Error> Create(Guid id) => new VolunteerId(id);
 
     public static Result<VolunteerId, Error> CreateEmpty() => new VolunteerId(Guid.Empty);
+
+    public int CompareTo(VolunteerId? other) => 0;
 
     public static implicit operator Guid(VolunteerId volunteerId)
     {

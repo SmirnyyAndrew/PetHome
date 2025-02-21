@@ -12,9 +12,9 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
-public class Volunteer : SoftDeletableEntity
+public class Volunteer : SoftDeletableEntity<VolunteerId>
 {
-    private Volunteer() { }
+    private Volunteer(VolunteerId id) : base(id) { }
 
     private Volunteer(
         VolunteerId id,
@@ -24,7 +24,7 @@ public class Volunteer : SoftDeletableEntity
         Date startVolunteeringDate,
         ValueObjectList<PhoneNumber> phoneNumbers,
         ValueObjectList<SocialNetwork> socialNetworks,
-        ValueObjectList<Requisites> requisites)
+        ValueObjectList<Requisites> requisites) : base(id)
     {
         Id = id;
         FullName = fullName;

@@ -1,29 +1,28 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
-using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class VolunteerAccount : SoftDeletableEntity
+public class VolunteerAccount : SoftDeletableEntity<UserId>
 {
     public static RoleName ROLE = RoleName.Create("volunteer").Value;
 
-    public UserId UserId { get; set; }
-    public User User{ get; set; }
+    public UserId UserId { get; private set; }
+    public User User { get; private set; }
     public Date? StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Requisites>? Requisites { get; private set; }
     public IReadOnlyList<Certificate>? Certificates { get; private set; }
     public IReadOnlyList<Pet>? Pets { get; private set; }
+    public DateTime DeletionDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public bool IsDeleted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-
-    private VolunteerAccount() { }
-
-    private VolunteerAccount(UserId id)
+    private VolunteerAccount(UserId id) : base(id)
     {
         UserId = id;
     }
@@ -32,7 +31,7 @@ public class VolunteerAccount : SoftDeletableEntity
             UserId userId,
             Date startVolunteeringDate,
             IReadOnlyList<Requisites> requisites,
-            IReadOnlyList<Certificate> certificates)
+            IReadOnlyList<Certificate> certificates) : base(userId)
     {
         UserId = userId;
         StartVolunteeringDate = startVolunteeringDate;

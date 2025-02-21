@@ -7,16 +7,15 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Accounts.Domain.Aggregates;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class ParticipantAccount : SoftDeletableEntity
+public class ParticipantAccount : SoftDeletableEntity<UserId>
 {
     public static RoleName ROLE = RoleName.Create("participant").Value;
 
-    public UserId UserId { get; set; }
-    public User User { get; set; }
+    public UserId UserId { get; private set; }
+    public User User { get; private set; }
     public IReadOnlyList<Pet>? FavoritePets { get; private set; }
-
-    private ParticipantAccount() { }
-    private ParticipantAccount(UserId userId)
+     
+    private ParticipantAccount(UserId userId) : base(userId)
     {
         UserId = userId;
     }
