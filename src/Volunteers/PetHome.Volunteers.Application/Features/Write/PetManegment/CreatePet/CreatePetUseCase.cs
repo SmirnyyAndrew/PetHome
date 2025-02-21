@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
@@ -14,7 +15,6 @@ using PetHome.Core.ValueObjects.PetManagment.Pet;
 using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Framework.Database;
-using PetHome.Species.Application.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
@@ -28,6 +28,7 @@ public class CreatePetUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreatePetUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublisher _publisher;
     private readonly IValidator<CreatePetCommand> _validator;
 
     public CreatePetUseCase(
@@ -35,12 +36,14 @@ public class CreatePetUseCase
         IVolunteerRepository volunteerRepository,
         ILogger<CreatePetUseCase> logger,
         [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        IPublisher publisher,
         IValidator<CreatePetCommand> validator)
     {
         _volunteerReadDBContext = volunteerReadDBContext;
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
         _validator = validator;
     }
 
@@ -81,7 +84,11 @@ public class CreatePetUseCase
             return Errors.NotFound($"Порода с id = {mainInfoDto.SpeciesId}").ToErrorList();
         }
 
-        Volunteer volunteer = _volunteerRepository.GetById(createPetCommand.VolunteerId, ct).Result.Value;
+        var getVolunteerResult = await _volunteerRepository.GetById(createPetCommand.VolunteerId, ct);
+        if (getVolunteerResult.IsFailure)
+            return getVolunteerResult.Error.ToErrorList();
+
+        Volunteer volunteer = getVolunteerResult.Value;
         PetName petName = PetName.Create(mainInfoDto.Name).Value;
         SpeciesId petSpeciesId = SpeciesId.Create(mainInfoDto.SpeciesId).Value;
         Description petDescription = Description.Create(mainInfoDto.Description).Value;
@@ -119,6 +126,7 @@ public class CreatePetUseCase
         await _volunteerRepository.Update(volunteer, ct);
 
         await _unitOfWork.SaveChanges(ct);
+        await _publisher.Publish(pet, ct);
         transaction.Commit();
 
         _logger.LogInformation("Pet с id = {0} и volunteer_id = {1} создан", pet.Id.Value, pet.VolunteerId.Value);
