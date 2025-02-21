@@ -1,4 +1,2 @@
 ﻿namespace PetHome.Core.Interfaces.FeatureManagment;
-public interface ICommand
-{
-}
+public interface IQuery;
