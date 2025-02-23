@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
+using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.User;
@@ -23,15 +25,19 @@ public class CreateVolunteerUsingContract : ICreateVolunteerAccountContract
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserId> Execute(
+    public async Task<Result<UserId, Error>> Execute(
         Email email,
         UserName userName,
         Date startVolunteeringDate,
         IReadOnlyList<Requisites> requisites,
         IReadOnlyList<Certificate> certificates,
         CancellationToken ct)
-    {
-        Role role = _repository.GetRole(VolunteerAccount.ROLE).Result.Value;
+    { 
+        var geRoleResult = await _repository.GetRole(VolunteerAccount.ROLE);
+        if (geRoleResult.IsFailure)
+            return geRoleResult.Error; 
+
+        Role role = geRoleResult.Value;
         User user = User.Create(email, userName, role).Value;
         VolunteerAccount volunteer = VolunteerAccount.Create(
             user,

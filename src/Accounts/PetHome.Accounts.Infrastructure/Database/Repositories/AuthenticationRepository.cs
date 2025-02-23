@@ -126,7 +126,12 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<Result<IReadOnlyList<Permission>, Error>> GetUserPermissions(
         Guid userId, CancellationToken ct)
     {
-        var userRole = GetUserRole(userId, ct).Result.Value;
+        var userRoleResult = await GetUserRole(userId, ct);
+        if (userRoleResult.IsFailure)
+            return userRoleResult.Error;
+
+        Role userRole = userRoleResult.Value;
+
         var permissionsIds = await _dbContext.RolesPermissions
             .Where(r=>r.RoleId == userRole.Id)
             .Select(p=>p.PermissionId)
@@ -140,16 +145,23 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<Role?, Error>> GetUserRole(Guid userId, CancellationToken ct)
     {
-        var user = GetUser(userId, ct).Result;
+        var userResult = await GetUser(userId, ct);
+        if(userResult.IsFailure)
+            return userResult.Error;
+
+        User user = userResult.Value;
         var userRoleId = user?.RoleId;
         var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == userRoleId, ct);
         return role;
     }
 
 
-    private async Task<User?> GetUser(Guid id, CancellationToken ct)
+    private async Task<Result<User?,Error>> GetUser(Guid id, CancellationToken ct)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
+        if (user == null)
+            return Errors.NotFound("user");
+
         return user;
     }
 }

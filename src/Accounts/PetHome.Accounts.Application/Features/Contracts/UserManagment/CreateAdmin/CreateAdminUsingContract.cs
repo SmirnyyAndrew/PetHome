@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
+using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
@@ -22,9 +24,13 @@ internal class CreateAdminUsingContract : ICreateAdminContract
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserId> Execute(Email email, UserName userName, CancellationToken ct)
+    public async Task<Result<UserId, Error>> Execute(Email email, UserName userName, CancellationToken ct)
     {
-        Role role = _repository.GetRole(AdminAccount.ROLE).Result.Value;
+        var geRoleResult = await _repository.GetRole(AdminAccount.ROLE);
+        if(geRoleResult.IsFailure)
+            return geRoleResult.Error;
+
+        Role role = geRoleResult.Value;
         User user = User.Create(email, userName, role).Value;
         AdminAccount admin = AdminAccount.Create(user).Value;
 

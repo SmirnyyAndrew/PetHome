@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
+using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
@@ -22,11 +24,16 @@ public class CreateUserUsingContract : ICreateUserContract
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserId> Execute(RoleId roleId, CancellationToken ct)
+    public async Task<Result<UserId, Error>> Execute(RoleId roleId, CancellationToken ct)
     {
         Email email = Email.Create("Emas2fgoiL123@mail.com").Value;
-        UserName userName = UserName.Create("Ivanov Ivan").Value;
-        Role role = _repository.GetRole(roleId.Value).Result.Value;
+        UserName userName = UserName.Create("Ivanov Ivan").Value; 
+         
+        var geRoleResult = await _repository.GetRole(roleId.Value);
+        if (geRoleResult.IsFailure)
+            return geRoleResult.Error;
+
+        Role role = geRoleResult.Value; 
         User user = User.Create(email, userName, role).Value;
         UserId userId = UserId.Create(user.Id).Value;
 

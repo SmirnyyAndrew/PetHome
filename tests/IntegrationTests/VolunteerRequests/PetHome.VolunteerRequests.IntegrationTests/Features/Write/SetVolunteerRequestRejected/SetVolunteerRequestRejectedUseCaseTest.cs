@@ -22,12 +22,13 @@ public class SetVolunteerRequestRejectedUseCaseTest : VolunteerRequestFactory
     public async void Set_volunteer_request_rejected()
     {
         //array 
-        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        var createVolunteerRequestIdResult = await _createVolunteerRequestContract.Execute(CancellationToken.None);
         RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        var createAdminId = await _createUserContract.Execute(roleId, CancellationToken.None);
         string rejectedMessage = "message";
 
-        SetVolunteerRequestRejectedCommand command = new SetVolunteerRequestRejectedCommand(volunteerRequestId, adminId, rejectedMessage);
+        SetVolunteerRequestRejectedCommand command = new SetVolunteerRequestRejectedCommand(
+            createVolunteerRequestIdResult.Value, createAdminId.Value, rejectedMessage);
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

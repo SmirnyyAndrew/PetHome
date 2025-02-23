@@ -45,8 +45,12 @@ public class UpdateMainInfoVolunteerUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
 
-        Volunteer volunteer = _volunteerRepository.GetById(command.Id, ct).Result.Value;
+        var getVolunteerResult = await _volunteerRepository
+            .GetById(command.Id, ct);
+        if (getVolunteerResult.IsFailure)
+            return getVolunteerResult.Error.ToErrorList();
 
+        Volunteer volunteer = getVolunteerResult.Value; 
         FullName fullName = FullName.Create(
             updateInfoDto.FullNameDto.FirstName,
             updateInfoDto.FullNameDto.LastName).Value;

@@ -64,9 +64,12 @@ public class SpeciesRepository : ISpeciesRepository
 
     //Удалить один элемент по id
     public async Task<bool> RemoveById(Guid id, CancellationToken ct = default)
-    {
-        _Species species = GetById(id, ct).Result.Value;
-        await Remove(species, ct);
+    { 
+        var getSpeciesResult  = await GetById(id, ct);
+        if (getSpeciesResult.IsFailure)
+            return false;
+
+        await Remove(getSpeciesResult.Value, ct);
         return true;
     }
 

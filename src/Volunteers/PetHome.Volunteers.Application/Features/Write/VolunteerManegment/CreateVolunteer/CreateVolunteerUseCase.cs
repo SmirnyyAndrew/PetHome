@@ -85,11 +85,15 @@ public class CreateVolunteerUseCase
             requisitesList,
             socialNetworkList)
             .Value;
-        var userId = await _createVolunteerAccount.Execute(
+        var createUserIdResult = await _createVolunteerAccount.Execute(
             email,
             UserName.Create(Guid.NewGuid().ToString()).Value,
             startVolunteeringDate,
             requisitesList, [], ct);
+        if (createUserIdResult.IsFailure)
+            return createUserIdResult.Error.ToErrorList();
+
+        UserId userId = createUserIdResult.Value;
         volunteer.SetUserId(userId);
 
         var transaction = await _unitOfWork.BeginTransaction(ct);

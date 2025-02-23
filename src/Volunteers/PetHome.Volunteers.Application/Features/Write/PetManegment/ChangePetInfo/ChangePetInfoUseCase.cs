@@ -69,11 +69,15 @@ public class ChangePetInfoUseCase
             return Errors.NotFound($"Порода с id = {command.SpeciesId}").ToErrorList();
         }
 
-        Volunteer volunteer = _volunteerRepository
-            .GetById(command.VolunteerId, ct).Result.Value;
+        var getVolunteerResult = await _volunteerRepository
+            .GetById(command.VolunteerId, ct);
+        if(getVolunteerResult.IsFailure)
+            return getVolunteerResult.Error.ToErrorList();
+
+        Volunteer volunteer = getVolunteerResult.Value;
         Pet? pet = volunteer.Pets
             .FirstOrDefault(p => p.Id == command.PetId);
-        if (pet == null)
+        if (pet is null)
         {
             _logger.LogError("Питомец с id = {0} не найдена", command.PetId);
             return Errors.NotFound($"Питомец с id = {command.PetId}").ToErrorList();

@@ -22,18 +22,18 @@ public class SetVolunteerRequestOnReviewUseCaseTest : VolunteerRequestFactory
     public async void Set_volunteer_request_on_review()
     {
         //array 
-        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        var createVolunteerRequestIdResult = await _createVolunteerRequestContract.Execute(CancellationToken.None);
         RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        var createAdminId = await _createUserContract.Execute(roleId, CancellationToken.None);
 
-        UserId firstUserId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        UserId secondUserId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        List<UserId> userIds = new() { firstUserId, secondUserId };
+        var createFirstUserId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        var createSecondUserId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        List<UserId> userIds = new() { createFirstUserId.Value, createSecondUserId.Value};
 
         var discussionId = await _createDiscussionContract.Execute(userIds, CancellationToken.None);
         SetVolunteerRequestOnReviewCommand command = new SetVolunteerRequestOnReviewCommand(
-            volunteerRequestId,
-            adminId, 
+            createVolunteerRequestIdResult.Value,
+            createAdminId.Value, 
             discussionId.Value);
 
         //act

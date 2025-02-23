@@ -1,4 +1,6 @@
-﻿using PetHome.Accounts.Contracts.UserManagment;
+﻿using CSharpFunctionalExtensions;
+using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Core.ValueObjects.VolunteerRequest;
@@ -18,13 +20,16 @@ public class CreateVolunteerRequestUsingContract : ICreateVolunteerRequestContra
         _createUserContract = createUserContract;
         _getRoleContract = getRoleContract;
     }
-      
-    public async Task<VolunteerRequestId> Execute(CancellationToken ct)
+
+    public async Task<Result<VolunteerRequestId, Error>> Execute(CancellationToken ct)
     {
         RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        UserId userId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        VolunteerInfo volunteerInfo = VolunteerInfo.Create("info").Value;
+        var createUserResult = await _createUserContract.Execute(roleId, CancellationToken.None);
+        if (createUserResult.IsFailure)
+            return createUserResult.Error;
 
+        UserId userId = createUserResult.Value;
+        VolunteerInfo volunteerInfo = VolunteerInfo.Create("info").Value; 
         VolunteerRequest request = VolunteerRequest.Create(userId, volunteerInfo);
         VolunteerRequestId volunteerRequestId = VolunteerRequestId.Create(request.Id).Value;
         return volunteerRequestId;

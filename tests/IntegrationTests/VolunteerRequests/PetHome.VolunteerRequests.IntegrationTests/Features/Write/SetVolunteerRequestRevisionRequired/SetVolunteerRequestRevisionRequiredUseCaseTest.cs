@@ -22,14 +22,14 @@ public class SetVolunteerRequestRevisionRequiredUseCaseTest : VolunteerRequestFa
     public async void Set_volunteer_request_revision_required()
     {
         //array 
-        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        var createVolunteerRequestIdResult = await _createVolunteerRequestContract.Execute(CancellationToken.None);
         RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
+        var createAdminId = await _createUserContract.Execute(roleId, CancellationToken.None);
         string message = "message";
 
         SetVolunteerRequestRevisionRequiredCommand command = new SetVolunteerRequestRevisionRequiredCommand(
-            volunteerRequestId,
-            adminId,
+            createVolunteerRequestIdResult.Value,
+            createAdminId.Value,
             message);
 
         //act
