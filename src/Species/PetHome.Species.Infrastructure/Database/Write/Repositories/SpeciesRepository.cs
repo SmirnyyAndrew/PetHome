@@ -38,7 +38,7 @@ public class SpeciesRepository : ISpeciesRepository
             .Include(x => x.Breeds)
             .FirstOrDefaultAsync(s => s.Id == speciesId, ct);
         if (species == null)
-            return Errors.NotFound($"Вид животного с id {id} не найден");
+            return Errors.NotFound($"Вид животного с id {id}");
 
         return species;
     }
@@ -50,7 +50,7 @@ public class SpeciesRepository : ISpeciesRepository
                  .Include(x => x.Breeds)
                  .TryFirst(s => s.Name.Value.ToLower() == name.ToLower());
         if (result == null)
-            return Errors.NotFound($"Вид животного с именем {name} не найден");
+            return Errors.NotFound($"Вид животного с именем {name}");
 
         return result.Value;
     }

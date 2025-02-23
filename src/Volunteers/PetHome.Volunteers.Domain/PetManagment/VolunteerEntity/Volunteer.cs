@@ -53,7 +53,8 @@ public class Volunteer : DomainEntity<VolunteerId>, ISoftDeletableEntity
     public DateTime DeletionDate { get; set; }
     public bool IsDeleted { get; set; }
 
-    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Count(pet => pet.Status == status && pet.VolunteerId == Id);
+    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) 
+        => Pets.Count(pet => pet.Status == status && pet.VolunteerId == Id);
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,

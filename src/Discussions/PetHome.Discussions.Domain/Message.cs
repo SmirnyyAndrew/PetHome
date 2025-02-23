@@ -17,25 +17,28 @@ public class Message : DomainEntity<MessageId>
 
     private Message(MessageId id) : base(id) { }
 
-    private Message(MessageText text, UserId userId) : base(MessageId.Create().Value)
+    private Message(MessageId id, MessageText text, UserId userId)
+        : base(id)
     {
+        Id = id;
         Text = text;
         UserId = userId;
     }
 
     public static Message Create(MessageText text, UserId userId)
     {
-        return new Message(text, userId)
+        MessageId id = MessageId.Create().Value;
+        Message message = new Message(id, text, userId)
         {
             CreatedAt = Date.Create().Value
-        };
+        }; 
+        return message;
     }
 
     public Message EditMessage(MessageText newText)
     {
-        return new Message(newText, UserId)
-        {
-            Id = Id,
+        return new Message(Id, newText, UserId)
+        { 
             CreatedAt = CreatedAt,
             IsEdited = true
         };

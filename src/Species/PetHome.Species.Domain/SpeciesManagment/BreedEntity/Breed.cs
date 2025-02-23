@@ -9,9 +9,10 @@ namespace PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 public class Breed : DomainEntity<BreedId>, ISoftDeletableEntity
 {
     private Breed(BreedId id) : base(id) { }
-    private Breed(BreedName name, SpeciesId speciesId)
-        : base(BreedId.Create().Value)
+    private Breed(BreedId id, BreedName name, SpeciesId speciesId)
+        : base(id)
     {
+        Id = id;
         Name = name;
         SpeciesId = speciesId;
     }
@@ -28,9 +29,12 @@ public class Breed : DomainEntity<BreedId>, ISoftDeletableEntity
         if (nameResult.IsFailure)
             return nameResult.Error;
 
-        return new Breed(
+        Breed breed = new Breed(
+            BreedId.Create().Value,
             nameResult.Value,
             SpeciesId.Create(speciesId).Value);
+
+        return breed;
     }
 
 

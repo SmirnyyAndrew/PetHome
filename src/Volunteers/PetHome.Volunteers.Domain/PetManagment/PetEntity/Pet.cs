@@ -18,6 +18,7 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
     private Pet(PetId id) : base(id) { }
 
     private Pet(
+        PetId id,
         PetName name,
         SpeciesId speciesId,
         Description description,
@@ -31,8 +32,9 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
         PetStatusEnum status,
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites,
-        MediaFile avatar = null) : base(PetId.Create().Value)
+        MediaFile avatar = null) : base(id)
     { 
+        Id = id;
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -92,6 +94,7 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
             return Errors.Validation("Вес");
 
         Pet pet = new Pet(
+            PetId.Create().Value,
             name,
             speciesId,
             description,

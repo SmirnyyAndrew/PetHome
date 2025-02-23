@@ -16,9 +16,10 @@ public class VolunteerRequest : DomainEntity<VolunteerRequestId>
     public RequestComment? RejectedComment { get; private set; }
     public DiscussionId? DiscussionId { get; private set; }
 
-    public VolunteerRequest(UserId userId, VolunteerInfo? volunteerInfo)
-        : base(VolunteerRequestId.Create().Value)
+    public VolunteerRequest(VolunteerRequestId id, UserId userId, VolunteerInfo? volunteerInfo)
+        : base(id)
     {
+        Id = id;
         CreatedAt = Date.Create().Value;
         Status = VolunteerRequestStatus.Submitted;
         VolunteerInfo = volunteerInfo;
@@ -28,7 +29,11 @@ public class VolunteerRequest : DomainEntity<VolunteerRequestId>
         UserId userId,
         VolunteerInfo? volunteerInfo)
     {
-        return new VolunteerRequest(userId, volunteerInfo);
+        VolunteerRequest volunteerRequest = new VolunteerRequest(
+            VolunteerRequestId.Create().Value,
+            userId,
+            volunteerInfo);
+        return volunteerRequest;
     }
 
     public void SetOnReview(

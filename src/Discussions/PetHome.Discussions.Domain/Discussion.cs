@@ -21,9 +21,10 @@ public class Discussion : DomainEntity<DiscussionId>
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
     private Discussion(DiscussionId id) : base(id) { }
-    public Discussion(RelationId relationId, IEnumerable<UserId> userIds)
-        : base(DiscussionId.Create().Value)
+    public Discussion(DiscussionId id, RelationId relationId, IEnumerable<UserId> userIds)
+        : base(id)
     {
+        Id = id;
         RelationId = relationId;
         UserIds = userIds.ToList();
         Status = DiscussionStatus.Open;
@@ -36,7 +37,11 @@ public class Discussion : DomainEntity<DiscussionId>
         if (userIds.Count() < 2)
             return UsersCountError;
 
-        return new Discussion(relationId, userIds);
+        Discussion discussion = new Discussion(
+            DiscussionId.Create().Value,
+            relationId,
+            userIds);
+        return discussion;
     }
 
     public UnitResult<Error> AddMessage(Message message)
