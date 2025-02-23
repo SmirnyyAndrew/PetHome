@@ -63,7 +63,7 @@ public class VolunteerRequestsController : ParentController
     [HttpPost("volunteer-requests")]
     public async Task<IActionResult> CreateVolunteerRequest(
        [FromServices] CreateVolunteerRequestUseCase useCase,
-       [FromRoute] CreateVolunteerRequestRequest request,
+       [FromQuery] CreateVolunteerRequestRequest request,
        CancellationToken ct)
     {
         var result = await useCase.Execute(request, ct);

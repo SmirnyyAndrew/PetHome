@@ -42,7 +42,7 @@ public class DiscussionController : ParentController
     }
 
 
-    [HttpPost("close-discussion/{relationId:guid}")]
+    [HttpPost("discussion/{relationId:guid}")]
     public async Task<IActionResult> CreateDiscussion(
        [FromServices] ICreateDiscussionContract contract,
        [FromRoute] Guid relationId,
