@@ -9,11 +9,10 @@ using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
 using PetHome.Core.Auth.Cookies;
 using PetHome.Core.Controllers;
-using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.Login;
 
 namespace PetHome.Accounts.API.Controllers;
-public class AccountAuthenticationController : ParentController
+public class AccountController : ParentController
 {
     [HttpPost("participant/registration")]
     public async Task<IActionResult> Register(

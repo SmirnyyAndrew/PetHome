@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Volunteers.Application.Features.Write.FilesService.GetFilesDataByIds;
 
-namespace PetHome.Volunteers.API.Controllers.Volunteer;
+namespace PetHome.Volunteers.API.Controllers.Media;
 public class FilesServiceController : ParentController
 { 
     [HttpPost]

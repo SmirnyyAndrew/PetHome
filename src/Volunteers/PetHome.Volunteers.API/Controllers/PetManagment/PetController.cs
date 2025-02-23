@@ -16,7 +16,7 @@ using PetHome.Volunteers.Application.Features.Write.PetManegment.SoftDeleteResto
 
 namespace PetHome.Volunteers.API.Controllers.PetManagment;
 
-public class PetManagmentController : ParentController
+public class PetController : ParentController
 {   
     [HttpPost("{volunteerId:guid}/pets")]
     public async Task<IActionResult> CreatePet(

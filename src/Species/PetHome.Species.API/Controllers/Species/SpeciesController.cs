@@ -4,10 +4,10 @@ using PetHome.Core.Controllers;
 using PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
 using PetHome.Species.Application.Features.Write.CreateSpecies;
 
-namespace PetHome.Species.API.Controllers;
+namespace PetHome.Species.API.Controllers.Species;
 
-public class PetSpeciesController : ParentController
-{ 
+public class SpeciesController : ParentController
+{
     [HttpPost]
     public async Task<IActionResult> CreateSpecies(
         [FromBody] CreateSpeciesRequest request,
