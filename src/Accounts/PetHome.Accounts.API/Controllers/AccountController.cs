@@ -4,6 +4,7 @@ using PetHome.Accounts.API.Controllers.Requests;
 using PetHome.Accounts.Application.Features.Read.GetUserInformation;
 using PetHome.Accounts.Application.Features.Write.LoginUser;
 using PetHome.Accounts.Application.Features.Write.RegisterAccount;
+using PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar;
 using PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
@@ -57,7 +58,7 @@ public class AccountController : ParentController
             new UpdateAccessTokenUsingRefreshTokenRequest(refreshToken);
 
         var result = await useCase.Execute(request, ct);
-        if (result.IsFailure) 
+        if (result.IsFailure)
             return BadRequest(result.Error);
 
         HttpContext.Response.Cookies.Delete(Cookies.RefreshToken.ToString());
@@ -93,6 +94,48 @@ public class AccountController : ParentController
     {
         GetUserInformationQuery query = new(id);
         var result = await useCase.Execute(query, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+
+    [HttpPost("upload-avatar-end")]
+    public async Task<IActionResult> CompleteUploadAvatar(
+       [FromServices] CompleteUploadAvatarUseCase useCase,
+       [FromBody] CompleteUploadAvatarRequest request,
+       CancellationToken ct)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+
+    [HttpPost("upload-avatar-start")]
+    public async Task<IActionResult> StartUploadAvatar(
+       [FromServices] StartUploadAvatarUseCase useCase,
+       [FromBody] StartUploadAvatarRequest request,
+       CancellationToken ct)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value);
+    }
+
+
+    [HttpPost("presigned-url-avatar")]
+    public async Task<IActionResult> UploadPresignedUrlAvatar(
+       [FromServices] UploadPresignedUrlAvatarUseCase useCase,
+       [FromBody] UploadPresignedUrlAvatarRequest request,
+       CancellationToken ct)
+    {
+        var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
