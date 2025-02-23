@@ -2,7 +2,7 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Core.ValueObjects.Discussion;
-public record DiscussionId : IComparable<DiscussionId>
+public class DiscussionId : ComparableValueObject
 {
     public Guid Value { get; }
     public DiscussionId(Guid value)
@@ -14,7 +14,10 @@ public record DiscussionId : IComparable<DiscussionId>
 
     public static Result<DiscussionId, Error> Create() => new DiscussionId(Guid.NewGuid());
 
-    public int CompareTo(DiscussionId? other) => 0;
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
+    { 
+        yield return Value;
+    }
 
     public static implicit operator Guid(DiscussionId id) => id.Value;
 }
