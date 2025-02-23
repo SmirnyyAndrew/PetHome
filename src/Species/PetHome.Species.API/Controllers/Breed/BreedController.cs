@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Species.API.Controllers.Breed.Requests;
@@ -25,14 +26,14 @@ public class BreedController : ParentController
         return Ok(createBreedResult.Value);
     }
 
-    [HttpGet("species-{id:guid}")]
+    [HttpGet("species/{speciesId:guid}")]
     public async Task<IActionResult> GetAllBreedsBySpeciesId(
-        [FromRoute] Guid id,
-        [FromServices] GetAllBreedDtoBySpeciesIdUseCase useCase,
+        [FromRoute] Guid speciesId,
+        [FromQuery] GetAllBreedDtoBySpeciesIdRequest request,
+        [FromServices] GetAllBreedDtosBySpeciesIdUseCase useCase,
         CancellationToken ct)
-    {
-        GetAllBreedDtoBySpeciesIdRequest request = new GetAllBreedDtoBySpeciesIdRequest(id);
-        var result = await useCase.Execute(request, ct);
+    { 
+        var result = await useCase.Execute(request.ToQuery(speciesId), ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 

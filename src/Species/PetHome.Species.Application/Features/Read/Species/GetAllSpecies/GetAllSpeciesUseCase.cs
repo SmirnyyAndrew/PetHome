@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Models;
+using PetHome.Core.Response.Validation.Validator;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Application.Database.Dto;
 
 namespace PetHome.Species.Application.Features.Read.Species.GetAllSpecies;
 public class GetAllSpeciesUseCase
-    : IQueryHandler<IReadOnlyList<SpeciesDto>>
+    : IQueryHandler<PagedList<SpeciesDto>, GetAllSpeciesQuery>
 {
     private readonly ISpeciesReadDbContext _readDBContext;
     private readonly ILogger<GetAllSpeciesUseCase> _logger;
@@ -19,11 +23,15 @@ public class GetAllSpeciesUseCase
         _logger = logger;
     }
 
-    public async Task<IReadOnlyList<SpeciesDto>> Execute(
+    public async Task<Result<PagedList<SpeciesDto>, ErrorList>> Execute(
+        GetAllSpeciesQuery query,
         CancellationToken ct)
     {
         IReadOnlyList<SpeciesDto> speciesDto =
             await _readDBContext.Species.ToListAsync(ct);
-        return speciesDto;
-    } 
+
+        var pagedSpeciesDto = await speciesDto.AsQueryable()
+            .ToPagedList(query.PageNum, query.PageSize, ct);
+        return pagedSpeciesDto;
+    }
 }

@@ -1,30 +1,32 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Species.Application.Database;
 using PetHome.Species.Application.Database.Dto;
 
 namespace PetHome.Species.Application.Features.Read.Breeds.GetAllBreedDtoBySpeciesId;
-public class GetAllBreedDtoBySpeciesIdUseCase
-    : IQueryHandler<IReadOnlyList<BreedDto>, GetAllBreedDtoBySpeciesIdQuery>
+public class GetAllBreedDtosBySpeciesIdUseCase
+    : IQueryHandler<PagedList<BreedDto>, GetAllBreedDtosBySpeciesIdQuery>
 {
-    private readonly  ISpeciesReadDbContext _readDBContext;
-    private readonly ILogger<GetAllBreedDtoBySpeciesIdUseCase> _logger;
+    private readonly ISpeciesReadDbContext _readDBContext;
+    private readonly ILogger<GetAllBreedDtosBySpeciesIdUseCase> _logger;
 
-    public GetAllBreedDtoBySpeciesIdUseCase(
+    public GetAllBreedDtosBySpeciesIdUseCase(
         ISpeciesReadDbContext readDBContext,
-        ILogger<GetAllBreedDtoBySpeciesIdUseCase> logger)
+        ILogger<GetAllBreedDtosBySpeciesIdUseCase> logger)
     {
         _readDBContext = readDBContext;
         _logger = logger;
     }
 
-    public async Task<Result<IReadOnlyList<BreedDto>, ErrorList>> Execute(
-        GetAllBreedDtoBySpeciesIdQuery query,
+    public async Task<Result<PagedList<BreedDto>, ErrorList>> Execute(
+        GetAllBreedDtosBySpeciesIdQuery query,
         CancellationToken ct)
     {
         SpeciesDto? getSpeciesByIdResult = await _readDBContext.Species
@@ -37,7 +39,8 @@ public class GetAllBreedDtoBySpeciesIdUseCase
             return Errors.NotFound($"вид животного с id - {query.SpeciesId}").ToErrorList();
         }
 
-        var breedDtos = getSpeciesByIdResult.Breeds.ToList();
-        return breedDtos;
+        var pagedBreedDtos = await getSpeciesByIdResult.Breeds.AsQueryable()
+            .ToPagedList(query.PageNum, query.PageSize, ct);
+        return pagedBreedDtos;
     }
 }
