@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.Discussion.Message;
 
 namespace PetHome.Core.ValueObjects.PetManagment.Pet;
 public class Color : ValueObject
@@ -19,6 +20,8 @@ public class Color : ValueObject
 
         return new Color(value);
     }
+     
+    public static implicit operator string(Color color) => color.Value;
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

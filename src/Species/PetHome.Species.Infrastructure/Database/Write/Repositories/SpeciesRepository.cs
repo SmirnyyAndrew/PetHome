@@ -46,13 +46,13 @@ public class SpeciesRepository : ISpeciesRepository
     //Получить вид животного по имени
     public async Task<Result<_Species, Error>> GetByName(string name, CancellationToken ct)
     {
-        var result = _dbContext.Species
+        var result = await _dbContext.Species
                  .Include(x => x.Breeds)
-                 .TryFirst(s => s.Name.Value.ToLower() == name.ToLower());
+                 .FirstOrDefaultAsync(s => s.Name == name, ct);
         if (result == null)
             return Errors.NotFound($"Вид животного с именем {name}");
 
-        return result.Value;
+        return result;
     }
 
     //Удалить один элемент

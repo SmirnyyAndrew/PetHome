@@ -23,11 +23,5 @@ public class PetId : ComparableValueObject
         yield return Value;
     }
 
-    public static implicit operator Guid(PetId petId)
-    {
-        if (petId == null)
-            throw new ArgumentNullException();
-
-        return petId.Value;
-    }
+    public static implicit operator Guid(PetId petId) => petId.Value;
 }

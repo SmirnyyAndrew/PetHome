@@ -5,7 +5,7 @@ namespace PetHome.Core.ValueObjects.User;
 public record UserName
 {
     public string Value { get; }
-    public UserName(string value)
+    private UserName(string value)
     {
         Value = value;
     }

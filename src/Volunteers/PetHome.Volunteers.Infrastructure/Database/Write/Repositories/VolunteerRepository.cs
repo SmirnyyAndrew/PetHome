@@ -67,7 +67,7 @@ public class VolunteerRepository : IVolunteerRepository
     }
 
     //Удаление волонтера по id
-    public async Task<Result<bool, Error>> RemoveById(VolunteerId id, CancellationToken ct = default)
+    public async Task<Result<bool, Error>> RemoveById(Guid id, CancellationToken ct = default)
     {
         var result = GetById(id, ct);
         if (result.Result.IsFailure)

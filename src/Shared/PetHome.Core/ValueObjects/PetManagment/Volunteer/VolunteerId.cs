@@ -24,11 +24,5 @@ public class VolunteerId : ComparableValueObject
         yield return Value;
     }
 
-    public static implicit operator Guid(VolunteerId volunteerId)
-    {
-        if (volunteerId == null)
-            throw new ArgumentNullException();
-
-        return volunteerId.Value;
-    }
+    public static implicit operator Guid(VolunteerId id) => id.Value;
 }

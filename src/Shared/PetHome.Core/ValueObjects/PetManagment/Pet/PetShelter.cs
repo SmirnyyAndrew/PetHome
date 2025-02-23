@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.Discussion.Message;
 
 namespace PetHome.Core.ValueObjects.PetManagment.Pet;
 public class PetShelter
 {
-    private PetShelter() { } 
+    private PetShelter() { }
     private PetShelter(string value)
     {
         Id = PetShelterId.Create().Value;
@@ -16,6 +17,9 @@ public class PetShelter
 
     public static Result<PetShelter, Error> Create(string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.Validation("Название приюта");
+
         return new PetShelter(value);
     }
 }

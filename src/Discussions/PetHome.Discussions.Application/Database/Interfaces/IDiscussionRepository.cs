@@ -39,5 +39,5 @@ public interface IDiscussionRepository
 
     public Task<Relation?> GetRelationById(Guid relationId, CancellationToken ct);
 
-    public Task<Relation?> GetRelationByName(RelationName relationName, CancellationToken ct);
+    public Task<Relation?> GetRelationByName(string relationName, CancellationToken ct);
 }

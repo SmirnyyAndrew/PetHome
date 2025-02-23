@@ -24,11 +24,5 @@ public class SpeciesId : ComparableValueObject
         yield return Value;
     }
 
-    public static implicit operator Guid(SpeciesId speciesId)
-    {
-        if (speciesId == null)
-            throw new ArgumentNullException();
-
-        return speciesId.Value;
-    }
+    public static implicit operator Guid(SpeciesId speciesId) => speciesId.Value;
 }

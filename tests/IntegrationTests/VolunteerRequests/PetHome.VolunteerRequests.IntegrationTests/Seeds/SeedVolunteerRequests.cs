@@ -15,7 +15,10 @@ public partial class SeedManager
             UserId userId = UserId.Create().Value;
             VolunteerInfo volunteerInfo = VolunteerInfo.Create($"Info {i}").Value; 
 
-            VolunteerRequest request = new VolunteerRequest(userId, volunteerInfo);
+            VolunteerRequest request = new VolunteerRequest(
+                VolunteerRequestId.Create().Value,
+                userId, 
+                volunteerInfo);
             result.Add(request);
         }
 
