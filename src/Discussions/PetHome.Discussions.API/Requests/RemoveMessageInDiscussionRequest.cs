@@ -1,10 +1,8 @@
 ﻿using PetHome.Discussions.Application.Features.Write.RemoveMessageInDiscussion;
 
 namespace PetHome.Discussions.API.Requests;
-public record RemoveMessageInDiscussionRequest(Guid DiscussionId, Guid UserId, Guid MessageId)
-{ 
-    public static implicit operator RemoveMessageInDiscussionCommand(RemoveMessageInDiscussionRequest request)
-    {
-        return new RemoveMessageInDiscussionCommand(request.DiscussionId, request.UserId, request.MessageId);
-    }
+public record RemoveMessageInDiscussionRequest(Guid UserId, Guid MessageId)
+{
+    public RemoveMessageInDiscussionCommand ToCommand(Guid DiscussionId)
+        => new RemoveMessageInDiscussionCommand(DiscussionId, UserId, MessageId);
 }

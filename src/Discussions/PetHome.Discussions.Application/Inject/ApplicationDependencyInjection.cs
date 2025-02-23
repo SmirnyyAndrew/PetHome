@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Discussions.Application.Features.Write.CreateDiscussionUsingContract;
-using PetHome.Discussions.Contracts;
+using PetHome.Discussions.Contracts.CreateDiscussion;
 
 namespace PetHome.Discussions.Application.Inject;
 public static class ApplicationDependencyInjection

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Contracts.UserManagment;
-using PetHome.Discussions.Contracts;
+using PetHome.Discussions.Contracts.CreateDiscussion;
 using PetHome.VolunteerRequests.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.Seeds;
