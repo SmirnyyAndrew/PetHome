@@ -3,7 +3,7 @@ using PetHome.Accounts.Infrastructure.Inject;
 using PetHome.Discussions.Infrastructure.Inject;
 using PetHome.Species.Infrastructure;
 using PetHome.VolunteerRequests.Infrastructure.Inject;
-using PetHome.Volunteers.Infrastructure;
+using PetHome.Volunteers.Infrastructure.DI;
 
 namespace PetHome.API.DependencyInjections;
 

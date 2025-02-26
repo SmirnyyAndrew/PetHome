@@ -12,6 +12,17 @@ services:
     environment:
         - ASPNETCORE_ENVIRONMENT=Docker
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_main
+    hostname: rabbitmq
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+  
   nginx:
     container_name: nginx_main
     image: nginx:latest
@@ -75,4 +86,5 @@ volumes:
   postgres-data:
   minio_data:
   mongo_data:
+  rabbitmq_data:
     
