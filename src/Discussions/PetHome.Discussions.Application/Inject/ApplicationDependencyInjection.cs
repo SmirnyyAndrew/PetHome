@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Discussions.Application.Features.Write.CreateDiscussionUsingContract;
-using PetHome.Discussions.Contracts.CreateDiscussion;
+using PetHome.Discussions.Contracts;
 
 namespace PetHome.Discussions.Application.Inject;
 public static class ApplicationDependencyInjection
@@ -15,16 +15,9 @@ public static class ApplicationDependencyInjection
                 typeof(ICommandHandler<>), typeof(ICommandHandler<,>),
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
-        .WithScopedLifetime());
-
-        services.AddScoped<ICreateDiscussionContract, CreateDiscussionUsingContractUseCase>();
+        .WithScopedLifetime()); 
 
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
-
-        services.AddMediatR(config =>
-        {
-            config.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
-        });
 
         return services;
     }

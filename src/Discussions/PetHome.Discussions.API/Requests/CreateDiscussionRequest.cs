@@ -1,4 +1,5 @@
-﻿using PetHome.Discussions.Contracts.CreateDiscussion;
+﻿using PetHome.Discussions.Application.Features.Write.CreateDiscussionUsingContract;
+using PetHome.Discussions.Contracts.Messaging;
 
 namespace PetHome.Discussions.API.Requests;
 public record CreateDiscussionRequest(IEnumerable<Guid> UsersIds)

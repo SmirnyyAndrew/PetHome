@@ -2,24 +2,24 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Application.Database.Interfaces;
-using PetHome.Discussions.Contracts.CreateDiscussion;
 using PetHome.Discussions.Domain;
 using PetHome.Framework.Database;
 
 namespace PetHome.Discussions.Application.Features.Write.CreateDiscussionUsingContract;
-public class CreateDiscussionUsingContractUseCase
-    : ICreateDiscussionContract
+public class CreateDiscussionUseCase
+    : ICommandHandler<DiscussionId, CreateDiscussionCommand>
 {
     private readonly IDiscussionRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDiscussionUsingContractUseCase(
+    public CreateDiscussionUseCase(
         IDiscussionRepository repository,
         [FromKeyedServices(Constants.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
@@ -28,7 +28,7 @@ public class CreateDiscussionUsingContractUseCase
     }
 
     public async Task<Result<DiscussionId, ErrorList>> Execute(
-        Contracts.CreateDiscussion.CreateDiscussionCommand command, CancellationToken ct)
+        CreateDiscussionCommand command, CancellationToken ct)
     {
         if (command.UsersIds.Count() > 2)
             return Errors.Validation("Пользователей не должно быть больше 2").ToErrorList();

@@ -7,6 +7,7 @@ public static class InjectMinimalApi
         app.GetStringsArrayApi();
         app.CreateVolunteerApi();
         app.CreateSpeciesApi();
+        app.CreateDiscussion();
 
         return app;
     }

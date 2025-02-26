@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Contracts.UserManagment;
-using PetHome.Discussions.Contracts.CreateDiscussion;
 using PetHome.VolunteerRequests.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.Seeds;
@@ -17,7 +17,7 @@ public class VolunteerRequestFactory
     protected readonly ICreateUserContract _createUserContract;
     protected readonly IGetRoleContract _getRoleContract;
     protected readonly ICreateVolunteerRequestContract _createVolunteerRequestContract;
-    protected readonly ICreateDiscussionContract _createDiscussionContract;
+    protected readonly IPublishEndpoint publisher;
 
     public VolunteerRequestFactory(IntegrationTestFactory factory)
     {
@@ -28,9 +28,9 @@ public class VolunteerRequestFactory
         _createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
         _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
         _createVolunteerRequestContract = _scope.ServiceProvider.GetRequiredService<ICreateVolunteerRequestContract>();
-        _createDiscussionContract = _scope.ServiceProvider.GetRequiredService<ICreateDiscussionContract>(); 
+        publisher = _scope.ServiceProvider.GetRequiredService<IPublishEndpoint>(); 
 
-        _seedManager = new SeedManager(factory);
+        _seedManager = new SeedManager(factory); 
     }
 
 
