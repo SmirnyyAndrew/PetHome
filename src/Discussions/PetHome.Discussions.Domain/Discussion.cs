@@ -20,7 +20,7 @@ public class Discussion : DomainEntity<DiscussionId>
     private static Error DiscussionCloseError = Errors.Validation("Дискуссия закрыта");
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
-    private Discussion(DiscussionId id) : base(id) { }
+
     public Discussion(DiscussionId id, RelationId relationId, IEnumerable<UserId> userIds)
         : base(id)
     {

@@ -14,8 +14,6 @@ using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 namespace PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 public class Volunteer : DomainEntity<VolunteerId>, ISoftDeletableEntity
 {
-    private Volunteer(VolunteerId id) : base(id) { }
-
     private Volunteer(
         VolunteerId id,
         FullName fullName,

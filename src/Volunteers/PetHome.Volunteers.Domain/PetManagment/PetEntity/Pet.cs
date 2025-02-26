@@ -15,8 +15,6 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
 {
     public static List<Pet> Pets { get; set; } = new List<Pet>();
 
-    private Pet(PetId id) : base(id) { }
-
     private Pet(
         PetId id,
         PetName name,

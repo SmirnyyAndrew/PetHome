@@ -7,8 +7,7 @@ using PetHome.Species.Domain.SpeciesManagment.BreedEntity;
 
 namespace PetHome.Species.Domain.SpeciesManagment.SpeciesEntity;
 public class Species : DomainEntity<SpeciesId>, ISoftDeletableEntity
-{
-    public Species(SpeciesId id) : base(id) { }
+{ 
     private Species(SpeciesId id, SpeciesName name)
         : base(id)
     {

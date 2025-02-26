@@ -15,8 +15,6 @@ public class Message : DomainEntity<MessageId>
     public Date CreatedAt { get; private set; }
     public bool IsEdited { get; private set; } = false;
 
-    private Message(MessageId id) : base(id) { }
-
     private Message(MessageId id, MessageText text, UserId userId)
         : base(id)
     {
