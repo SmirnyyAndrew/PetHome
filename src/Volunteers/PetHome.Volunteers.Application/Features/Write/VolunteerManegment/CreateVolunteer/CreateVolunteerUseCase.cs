@@ -13,15 +13,13 @@ using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Contracts;
-using PetHome.Volunteers.Contracts.CreateVolunteerContract;
+using PetHome.Volunteers.Contracts.Messaging;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 
 public class CreateVolunteerUseCase
-    //: ICommandHandler<Guid, CreateVolunteerCommand>
-    : ICreateVolunteerContract
+    : ICommandHandler<Guid, CreateVolunteerCommand> 
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;

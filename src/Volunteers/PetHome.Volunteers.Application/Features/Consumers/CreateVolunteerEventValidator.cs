@@ -2,11 +2,12 @@
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Volunteers.Contracts.Messaging;
 
-namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
-public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>
+namespace PetHome.Volunteers.Application.Features.Consumers;
+public class CreateVolunteerEventValidator : AbstractValidator<CreatedVolunteerEvent>
 {
-    public CreateVolunteerCommandValidator()
+    public CreateVolunteerEventValidator()
     {
         RuleFor(c => c.FullNameDto)
             .MustBeValueObject(n => FullName.Create(n.FirstName, n.LastName));

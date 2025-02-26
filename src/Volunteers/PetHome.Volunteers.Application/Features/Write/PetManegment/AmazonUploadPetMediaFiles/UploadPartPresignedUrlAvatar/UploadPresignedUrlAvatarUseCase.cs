@@ -4,7 +4,7 @@ using FilesService.Core.Response;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Volunteers.Application.Features.Write.PetManegment.AmazonUploadPetMediaFiles.UploadPresignedUrlAvatar;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.AmazonUploadPetMediaFiles.UploadPartPresignedUrlAvatar;
 public class UploadPresignedUrlAvatarUseCase
     : ICommandHandler<IEnumerable<FileUrlResponse>, UploadPresignedUrlAvatarCommand>
 {

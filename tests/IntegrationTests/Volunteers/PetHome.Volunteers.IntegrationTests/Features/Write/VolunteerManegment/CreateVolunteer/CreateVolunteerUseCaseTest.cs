@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Volunteers.Contracts.CreateVolunteerContract;
+using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
+using PetHome.Volunteers.Contracts.Messaging;
 using PetHome.Volunteers.IntegrationTests.IntegrationFactories;
 using Xunit;
 namespace PetHome.Volunteers.IntegrationTests.Features.Write.VolunteerManegment.CreateVolunteer;

@@ -13,20 +13,16 @@ using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.HardDelet
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeletedEntitiesToHardDelete;
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.SoftDeleteRestoreVolunteer;
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
-using PetHome.Volunteers.Contracts;
 
 namespace PetHome.Volunteers.API.Controllers.Volunteer;
 public class VolunteerController : ParentController
 { 
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] ICreateVolunteerContract useCase,
+        [FromServices] CreateVolunteerUseCase useCase,
         [FromBody] CreateVolunteerRequest request,
         CancellationToken ct = default)
-    {
-
-        //throw new ApplicationException("Something went wrong");
-
+    { 
         Result<Guid, ErrorList> result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return result.Error.GetStatusCode();

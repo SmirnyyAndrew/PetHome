@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.SharedKernel.Options.Volunteers;
+using PetHome.Volunteers.Application.Features.Consumers;
 
 namespace PetHome.Volunteers.Infrastructure.DI;
 public static class MassTransitDI
@@ -16,6 +17,7 @@ public static class MassTransitDI
             config.SetKebabCaseEndpointNameFormatter();
 
             //Consumers 
+            config.AddConsumer<CreateVolunteerEventConsumer>();
 
             config.UsingRabbitMq((context, cfg) =>
             {

@@ -1,6 +1,6 @@
 ﻿namespace PetHome.API.MinimumApi;
 
-public static class ArrayMinimumApi
+public static class ArrayMinimalApi
 {
     public static WebApplication GetStringsArrayApi(this WebApplication app)
     {
