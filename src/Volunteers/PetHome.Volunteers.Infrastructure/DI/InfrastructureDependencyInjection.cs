@@ -32,7 +32,7 @@ public static class InfrastructureDependencyInjection
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
         services.Configure<RabbitMqOption>(configuration.GetSection(RabbitMqOption.SECTION_NAME));
 
-        services.AddMassTransit(configuration);
+        //services.AddMassTransit(configuration);
 
         //services.AddHostedService<FilesCleanerHostedService>();
         return services;

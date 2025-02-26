@@ -6,6 +6,7 @@ public static class InjectMinimalApi
     {
         app.GetStringsArrayApi();
         app.CreateVolunteerApi();
+        app.CreateSpeciesApi();
 
         return app;
     }

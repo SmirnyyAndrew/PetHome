@@ -11,9 +11,11 @@ public static class VolunteerMinimalApi
     {
         app.MapPost("volunteer", async (IPublishEndpoint publisher) =>
         {
+            int randomInt = new Random().Next(1000);
+
             await publisher.Publish<CreatedVolunteerEvent>(new CreatedVolunteerEvent(
-                new FullNameDto("Ivan", "Ivanov"),
-                "mail@mail.com",
+                new FullNameDto($"Ivan{randomInt}", $"Ivanov{randomInt}"),
+                $"mail{randomInt}@mail.com",
                 "desc",
                 Date.Create().Value,
                 ["984545454"],

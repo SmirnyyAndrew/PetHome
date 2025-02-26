@@ -16,7 +16,7 @@ using PetHome.Volunteers.Contracts.Messaging;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Application.Features.Consumers;
-public class CreateVolunteerEventConsumer : IConsumer<CreatedVolunteerEvent>
+public class CreateVolunteerConsumer : IConsumer<CreatedVolunteerEvent>
 {
 
     private readonly IVolunteerRepository _volunteerRepository;
@@ -24,7 +24,7 @@ public class CreateVolunteerEventConsumer : IConsumer<CreatedVolunteerEvent>
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICreateVolunteerAccountContract _createVolunteerAccount;
     private readonly IValidator<CreatedVolunteerEvent> _validator;
-    public CreateVolunteerEventConsumer(
+    public CreateVolunteerConsumer(
         IVolunteerRepository volunteerRepository,
        ILogger<CreateVolunteerUseCase> logger,
        [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,

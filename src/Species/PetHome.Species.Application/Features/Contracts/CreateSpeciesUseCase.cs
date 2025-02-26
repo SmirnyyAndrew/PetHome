@@ -9,12 +9,12 @@ using PetHome.Species.Contracts;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Application.Features.Contracts;
-public class CreateSpeciesUsingContract : ICreateSpeciesContract
+public class CreateSpeciesUseCase  
 {
     private readonly ISpeciesRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateSpeciesUsingContract(
+    public CreateSpeciesUseCase(
         ISpeciesRepository repository,
         [FromKeyedServices(Constants.SPECIES_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {

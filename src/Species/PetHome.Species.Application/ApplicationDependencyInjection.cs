@@ -17,8 +17,7 @@ public static class ApplicationDependencyInjection
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
-
-        services.AddScoped<ICreateSpeciesContract, CreateSpeciesUsingContract>();
+         
         services.AddScoped<IGetSpeciesIdContract, GetSpeciesIdUsingContract>();
 
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
