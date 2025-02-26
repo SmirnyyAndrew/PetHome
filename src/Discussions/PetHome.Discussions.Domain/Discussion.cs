@@ -21,7 +21,8 @@ public class Discussion : DomainEntity<DiscussionId>
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
 
-    public Discussion(DiscussionId id, RelationId relationId, IEnumerable<UserId> userIds)
+    private Discussion(DiscussionId id) : base(id) { Id = id; }
+    private Discussion(DiscussionId id, RelationId relationId, IEnumerable<UserId> userIds)
         : base(id)
     {
         Id = id;

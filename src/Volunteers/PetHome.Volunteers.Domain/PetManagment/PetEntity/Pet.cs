@@ -14,7 +14,8 @@ namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
 public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
 {
     public static List<Pet> Pets { get; set; } = new List<Pet>();
-
+     
+    private Pet(PetId id) : base(id) { Id = id; }
     private Pet(
         PetId id,
         PetName name,
@@ -31,7 +32,7 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites,
         MediaFile avatar = null) : base(id)
-    { 
+    {
         Id = id;
         Name = name;
         SpeciesId = speciesId;
@@ -50,7 +51,6 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
         Avatar = avatar;
     }
 
-
     public PetId Id { get; private set; }
     public PetName Name { get; private set; }
     public SpeciesId SpeciesId;
@@ -68,7 +68,7 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
     public ValueObjectList<MediaFile> Photos { get; private set; }
-    public MediaFile? Avatar { get; private set; } 
+    public MediaFile? Avatar { get; private set; }
     public DateTime DeletionDate { get; set; }
     public bool IsDeleted { get; set; }
 
@@ -112,7 +112,7 @@ public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
         Pets.Add(pet);
         return pet;
     }
-     
+
     public void SoftDelete()
     {
         DeletionDate = DateTime.UtcNow;
