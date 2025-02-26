@@ -16,7 +16,8 @@ public class VolunteerRequestFactory
     protected readonly VolunteerRequestDbContext _writeDbContext;
     protected readonly ICreateUserContract _createUserContract;
     protected readonly IGetRoleContract _getRoleContract;
-    protected readonly ICreateVolunteerRequestContract _createVolunteerRequestContract;
+    //TODO: контракт
+    //protected readonly ICreateVolunteerRequestContract _createVolunteerRequestContract;
     protected readonly IPublishEndpoint publisher;
 
     public VolunteerRequestFactory(IntegrationTestFactory factory)
@@ -27,7 +28,7 @@ public class VolunteerRequestFactory
         _writeDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerRequestDbContext>();
         _createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
         _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
-        _createVolunteerRequestContract = _scope.ServiceProvider.GetRequiredService<ICreateVolunteerRequestContract>();
+        //_createVolunteerRequestContract = _scope.ServiceProvider.GetRequiredService<ICreateVolunteerRequestContract>();
         publisher = _scope.ServiceProvider.GetRequiredService<IPublishEndpoint>(); 
 
         _seedManager = new SeedManager(factory); 

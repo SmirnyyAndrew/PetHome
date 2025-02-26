@@ -1,4 +1,4 @@
-﻿namespace PetHome.API.MinimumApi;
+﻿namespace PetHome.API.MinimumApi.Agregates.Other;
 
 public static class ArrayMinimalApi
 {
@@ -6,7 +6,7 @@ public static class ArrayMinimalApi
     {
         app.MapGet("strings-array", () =>
         {
-            return new string[] {"str1", "str2", "str3", "str4", "str5" };
+            return new string[] { "str1", "str2", "str3", "str4", "str5" };
         });
 
         return app;

@@ -3,7 +3,7 @@ using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Volunteers.Contracts.Messaging;
 
-namespace PetHome.API.MinimumApi;
+namespace PetHome.API.MinimumApi.Agregates.Volunteers;
 
 public static class VolunteerMinimalApi
 {
@@ -13,7 +13,7 @@ public static class VolunteerMinimalApi
         {
             int randomInt = new Random().Next(1000);
 
-            await publisher.Publish<CreatedVolunteerEvent>(new CreatedVolunteerEvent(
+            await publisher.Publish(new CreatedVolunteerEvent(
                 new FullNameDto($"Ivan{randomInt}", $"Ivanov{randomInt}"),
                 $"mail{randomInt}@mail.com",
                 "desc",

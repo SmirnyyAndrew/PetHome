@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using PetHome.Species.Contracts.Messaging;
 
-namespace PetHome.API.MinimumApi;
+namespace PetHome.API.MinimumApi.Agregates.Species;
 
 public static class SpeciesMinimalApi
 {
@@ -11,7 +11,7 @@ public static class SpeciesMinimalApi
         app.MapPost("species", async (IPublishEndpoint publisher) =>
         {
             int randomInt = new Random().Next(1000);
-            await publisher.Publish<CreatedSpeciesEvent>(new CreatedSpeciesEvent(
+            await publisher.Publish(new CreatedSpeciesEvent(
                 $"species №{randomInt}"
                 ));
         });
