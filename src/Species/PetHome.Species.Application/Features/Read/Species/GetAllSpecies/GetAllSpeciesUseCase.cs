@@ -26,11 +26,8 @@ public class GetAllSpeciesUseCase
     public async Task<Result<PagedList<SpeciesDto>, ErrorList>> Execute(
         GetAllSpeciesQuery query,
         CancellationToken ct)
-    {
-        IReadOnlyList<SpeciesDto> speciesDto =
-            await _readDBContext.Species.ToListAsync(ct);
-
-        var pagedSpeciesDto = await speciesDto.AsQueryable()
+    {  
+        var pagedSpeciesDto = await _readDBContext.Species
             .ToPagedList(query.PageNum, query.PageSize, ct);
         return pagedSpeciesDto;
     }

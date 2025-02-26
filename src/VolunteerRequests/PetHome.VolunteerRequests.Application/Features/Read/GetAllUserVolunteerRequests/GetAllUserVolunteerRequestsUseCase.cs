@@ -19,12 +19,9 @@ public class GetAllUserVolunteerRequestsUseCase
     }
     public async Task<Result<IReadOnlyList<VolunteerRequestDto>, ErrorList>> Execute(
         GetAllUserVolunteerRequestsQuery query, CancellationToken ct)
-    {
-        IReadOnlyList<VolunteerRequestDto>? volunteerRequests = await _readDbContext.VolunteerRequests
+    { 
+        var volunteerRequestsPagedList = await _readDbContext.VolunteerRequests
             .Where(r => r.UserId == query.UserId)
-            .ToListAsync(ct);
-
-        var volunteerRequestsPagedList = await volunteerRequests.AsQueryable()
             .ToPagedList(query.PageNum, query.PageSize, ct);
 
         return volunteerRequestsPagedList;

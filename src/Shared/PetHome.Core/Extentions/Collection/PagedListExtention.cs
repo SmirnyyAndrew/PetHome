@@ -15,7 +15,26 @@ public static class PagedListExtention
         var items = await source
             .Skip((pageNum - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(ct);
+
+        return new PagedList<T>
+        {
+            Items = items,
+            PageNumber = pageNum,
+            PageSize = pageSize
+        };
+    }
+
+    public static PagedList<T> ToPagedList<T>(
+        this IEnumerable<T> source,
+        int pageNum,
+        int pageSize)
+    {
+        var count = source.Count();
+        var items = source
+            .Skip((pageNum - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
 
         return new PagedList<T>
         {

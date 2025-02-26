@@ -20,13 +20,10 @@ public class GetAllDiscussionByRelationIdUseCase
 
     public async Task<Result<PagedList<DiscussionDto>, ErrorList>> Execute(
         GetAllDiscussionByRelationIdQuery query, CancellationToken ct)
-    {
-        List<DiscussionDto> discussions = await _readDbContext.Discussions
+    { 
+        var discussionsPagedList = await _readDbContext.Discussions
             .Include(d => d.Messages)
             .Where(d => d.RelationId == query.RelationId)
-            .ToListAsync(ct);
-
-        var discussionsPagedList = await discussions.AsQueryable()
             .ToPagedList(query.PageNum, query.PageSize, ct);
 
         return discussionsPagedList;

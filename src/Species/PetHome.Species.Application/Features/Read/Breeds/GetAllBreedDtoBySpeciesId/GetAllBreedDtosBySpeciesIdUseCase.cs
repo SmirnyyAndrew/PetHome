@@ -39,8 +39,8 @@ public class GetAllBreedDtosBySpeciesIdUseCase
             return Errors.NotFound($"вид животного с id - {query.SpeciesId}").ToErrorList();
         }
 
-        var pagedBreedDtos = await getSpeciesByIdResult.Breeds.AsQueryable()
-            .ToPagedList(query.PageNum, query.PageSize, ct);
-        return pagedBreedDtos;
+        var pagedBreedDtos = getSpeciesByIdResult.Breeds
+            .ToPagedList(query.PageNum, query.PageSize);
+        return pagedBreedDtos; 
     }
 }
