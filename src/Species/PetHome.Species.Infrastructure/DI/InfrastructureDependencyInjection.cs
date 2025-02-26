@@ -32,8 +32,6 @@ public static class InfrastructureDependencyInjection
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.SPECIES_UNIT_OF_WORK_KEY);
         services.AddSingleton<IMessageQueue, FilesCleanerMessageQueue>();
 
-        services.AddMassTransit(configuration);
-        
         return services;
     }
 }

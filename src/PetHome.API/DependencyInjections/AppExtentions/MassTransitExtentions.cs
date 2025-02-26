@@ -2,12 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.SharedKernel.Options.Volunteers;
+using PetHome.Species.Application.Features.Consumers;
 using PetHome.Volunteers.Application.Features.Consumers;
+using PetHome.Volunteers.Infrastructure.DI;
 
-namespace PetHome.Volunteers.Infrastructure.DI;
-public static class MassTransitDI
+namespace PetHome.API.DependencyInjections.AppExtentions;
+public static class MassTransitExtentions
 {
-    public static IServiceCollection AddMassTransit(
+    public static IServiceCollection AddMassTransitConfig(
         this IServiceCollection services, IConfiguration configuration)
     {
         RabbitMqOption option = configuration.GetSection(RabbitMqOption.SECTION_NAME).Get<RabbitMqOption>()!;
@@ -18,6 +20,7 @@ public static class MassTransitDI
 
             //Consumers 
             config.AddConsumer<CreateVolunteerConsumer>();
+            config.AddConsumer<CreateSpeciesConsumer>();
 
             config.UsingRabbitMq((context, cfg) =>
             {
