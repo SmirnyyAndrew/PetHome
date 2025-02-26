@@ -30,7 +30,7 @@ public static class InfrastructureDependencyInjection
         services.AddSingleton<IAuthorizationHandler, PermissionAttributeHandler>();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
-        services.AddHostedService<SoftDeletableEntitiesMonitor>();
+        //services.AddHostedService<SoftDeletableEntitiesMonitor>();
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>();
 

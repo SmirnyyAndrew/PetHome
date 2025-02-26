@@ -2,21 +2,23 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Core.ValueObjects.User;
-public record UserId
+public class UserId : ComparableValueObject
 {
     public Guid Value { get; }
-    public UserId(Guid value)
+
+    private UserId() { }
+    private UserId(Guid value)
     {
         Value = value;
     }
 
-    public static Result<UserId, Error> Create(Guid value)
+    public static Result<UserId, Error> Create(Guid value) => new UserId(value);
+
+    public static Result<UserId, Error> Create() => new UserId(Guid.NewGuid());
+
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {
-        return new UserId(value);
-    }
-    public static Result<UserId, Error> Create()
-    {
-        return new UserId(Guid.NewGuid());
+        yield return Value;
     }
 
     public static implicit operator Guid(UserId id) => id.Value;

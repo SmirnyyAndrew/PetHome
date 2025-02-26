@@ -263,7 +263,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.File.MediaFile>", "Medias", b1 =>
+                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<FilesService.Core.Dto.File.MediaFile>", "Photos", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -278,7 +278,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.File.MediaFile", "Values", b2 =>
+                            b1.OwnsMany("FilesService.Core.Dto.File.MediaFile", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectListPetId")
                                         .HasColumnType("uuid");
@@ -325,7 +325,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
                             b1.Navigation("Values");
                         });
 
-                    b.OwnsOne("PetHome.Core.ValueObjects.File.MediaFile", "Avatar", b1 =>
+                    b.OwnsOne("FilesService.Core.Dto.File.MediaFile", "Avatar", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -413,7 +413,7 @@ namespace PetHome.Volunteers.Infrastructure.Migrations.Write
 
                     b.Navigation("Avatar");
 
-                    b.Navigation("Medias")
+                    b.Navigation("Photos")
                         .IsRequired();
 
                     b.Navigation("Requisites")

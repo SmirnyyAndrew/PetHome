@@ -21,10 +21,12 @@ public class SetVolunteerRequestApprovedUseCaseTest : VolunteerRequestFactory
     public async void Set_volunteer_request_approved()
     {
         //array 
-        VolunteerRequestId volunteerRequestId = await _createVolunteerRequestContract.Execute(CancellationToken.None);
+        var createVolunteerRequestIdResult = await _createVolunteerRequestContract.Execute(CancellationToken.None);
         RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        UserId adminId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        SetVolunteerRequestApprovedCommand command = new SetVolunteerRequestApprovedCommand(volunteerRequestId, adminId);
+        var createAdminIdResult = await _createUserContract.Execute(roleId, CancellationToken.None);
+        
+        SetVolunteerRequestApprovedCommand command = new SetVolunteerRequestApprovedCommand(
+            createVolunteerRequestIdResult.Value, createAdminIdResult.Value);
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

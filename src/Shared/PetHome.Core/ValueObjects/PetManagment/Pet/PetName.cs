@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.Discussion.Message;
 
 namespace PetHome.Core.ValueObjects.PetManagment.Pet;
 public record PetName
@@ -19,4 +20,6 @@ public record PetName
 
         return new PetName(value);
     }
+
+    public static implicit operator string(PetName name) => name.Value;
 }

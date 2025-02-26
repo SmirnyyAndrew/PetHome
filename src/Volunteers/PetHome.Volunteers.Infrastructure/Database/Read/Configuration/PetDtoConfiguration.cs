@@ -22,19 +22,25 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Ignore(x => x.AvatarUrl);
 
         //avatar
-        builder.ComplexProperty(a => a.Avatar, ab =>
+        builder.OwnsOne(d => d.Avatar, db =>
         {
-            ab.Property(p => p.Type)
-            .HasConversion<string>()
-            .HasColumnName("type");
+            db.ToJson("avatar");
 
-            ab.Property(p => p.Key)
+            db.Property(p => p.Key)
+            .IsRequired(false)
             .HasColumnName("key");
 
-            ab.Property(p => p.BucketName)
+            db.Property(p => p.BucketName)
+                .IsRequired(false)
             .HasColumnName("bucket_name");
 
-            ab.Property(p => p.FileName)
+            db.Property(p => p.Type)
+            .HasConversion<string>()
+             .IsRequired(false)
+            .HasColumnName("type");
+
+            db.Property(p => p.FileName)
+            .IsRequired(false)
             .HasColumnName("file_name");
         });
 

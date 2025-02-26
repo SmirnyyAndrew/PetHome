@@ -29,7 +29,7 @@ public interface IVolunteerRepository
     public Task<Guid> Remove(Volunteer volunteer, CancellationToken ct);
 
     //Удаление волонтера по id
-    public Task<Result<bool, Error>> RemoveById(VolunteerId id, CancellationToken ct);
+    public Task<Result<bool, Error>> RemoveById(Guid id, CancellationToken ct);
 
     //Удалить коллекцию
     public void Remove(IEnumerable<Volunteer> volunteers);

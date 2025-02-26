@@ -2,12 +2,11 @@
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.API.Requests;
-public record GetAllAdminVolunteerRequestsRequest(
-    Guid AdminId, 
+public record GetAllAdminVolunteerRequestsRequest( 
     int PageSize, 
     int PageNum,
     VolunteerRequestStatus? status)
 {
-    public static implicit operator GetAllAdminVolunteerRequestsQuery(GetAllAdminVolunteerRequestsRequest request)
-        => new(request.AdminId, request.PageSize, request.PageNum, request.status);
+    public GetAllAdminVolunteerRequestsQuery ToQuery(Guid adminId)
+        => new(adminId, PageSize, PageNum, status);
 }

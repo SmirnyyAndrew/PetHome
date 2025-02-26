@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
-using System.Runtime.InteropServices.Marshalling;
 
 namespace PetHome.Core.ValueObjects.RolePermission;
 public record RoleName

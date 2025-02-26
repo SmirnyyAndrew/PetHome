@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.Discussion.Message;
 
 namespace PetHome.Core.ValueObjects.MainInfo;
 public record Date
@@ -27,4 +28,6 @@ public record Date
     {
         return new Date(DateTime.UtcNow);
     }
+
+    public static implicit operator DateTime(Date date) => date.Value;
 }

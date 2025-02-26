@@ -11,6 +11,8 @@ public record SpeciesName
     {
         Value = value;
     }
+     
+    public static implicit operator string(SpeciesName name) => name.Value;
 
     public static Result<SpeciesName, Error> Create(string value)
     {

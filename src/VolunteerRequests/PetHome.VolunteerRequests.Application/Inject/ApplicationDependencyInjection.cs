@@ -21,6 +21,11 @@ public static class ApplicationDependencyInjection
  
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
+        });
+
         return services;
     }
 }

@@ -1,10 +1,11 @@
-﻿using PetHome.Core.ValueObjects.Discussion;
+﻿using PetHome.Core.Models;
+using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Core.ValueObjects.VolunteerRequest;
 
 namespace PetHome.VolunteerRequests.Domain;
-public class VolunteerRequest
+public class VolunteerRequest : DomainEntity<VolunteerRequestId>
 {
     public VolunteerRequestId Id { get; private set; }
     public UserId? AdminId { get; private set; }
@@ -15,11 +16,10 @@ public class VolunteerRequest
     public RequestComment? RejectedComment { get; private set; }
     public DiscussionId? DiscussionId { get; private set; }
 
-    public VolunteerRequest(
-        UserId userId,
-        VolunteerInfo? volunteerInfo)
+    public VolunteerRequest(VolunteerRequestId id, UserId userId, VolunteerInfo? volunteerInfo)
+        : base(id)
     {
-        Id = VolunteerRequestId.Create().Value;
+        Id = id;
         CreatedAt = Date.Create().Value;
         Status = VolunteerRequestStatus.Submitted;
         VolunteerInfo = volunteerInfo;
@@ -29,7 +29,11 @@ public class VolunteerRequest
         UserId userId,
         VolunteerInfo? volunteerInfo)
     {
-        return new VolunteerRequest(userId, volunteerInfo);
+        VolunteerRequest volunteerRequest = new VolunteerRequest(
+            VolunteerRequestId.Create().Value,
+            userId,
+            volunteerInfo);
+        return volunteerRequest;
     }
 
     public void SetOnReview(
@@ -71,5 +75,5 @@ public class VolunteerRequest
     {
         AdminId = adminId;
         Status = VolunteerRequestStatus.Submitted;
-    } 
+    }
 }

@@ -8,7 +8,7 @@ using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Application.Database.Interfaces;
-using PetHome.Discussions.Contracts;
+using PetHome.Discussions.Contracts.CreateDiscussion;
 using PetHome.Discussions.Domain;
 using PetHome.Framework.Database;
 
@@ -28,12 +28,16 @@ public class CreateDiscussionUsingContractUseCase
     }
 
     public async Task<Result<DiscussionId, ErrorList>> Execute(
-        RelationId relationId, IEnumerable<UserId> userIds, CancellationToken ct)
+        Contracts.CreateDiscussion.CreateDiscussionCommand command, CancellationToken ct)
     {
-        if (userIds.Count() > 2)
+        if (command.UsersIds.Count() > 2)
             return Errors.Validation("Пользователей не должно быть больше 2").ToErrorList();
 
-        Discussion discussion = Discussion.Create(relationId, userIds).Value;
+        RelationId relationId = RelationId.Create(command.RelationId).Value;
+        List<UserId> usersIds = command.UsersIds
+            .Select(u => UserId.Create(u).Value)
+            .ToList();
+        Discussion discussion = Discussion.Create(relationId, usersIds).Value;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddDiscussion(discussion);
@@ -58,7 +62,7 @@ public class CreateDiscussionUsingContractUseCase
 
         Discussion discussion = Discussion.Create(relationId, userIds).Value;
         await _repository.AddDiscussion(discussion);
-       
+
         transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
 

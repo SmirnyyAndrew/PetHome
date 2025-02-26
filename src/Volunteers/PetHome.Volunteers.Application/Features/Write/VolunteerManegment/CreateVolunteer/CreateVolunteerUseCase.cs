@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -9,6 +10,7 @@ using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Contracts;
@@ -24,18 +26,21 @@ public class CreateVolunteerUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICreateVolunteerAccountContract _createVolunteerAccount;
     private readonly IValidator<CreateVolunteerCommand> _validator;
 
     public CreateVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<CreateVolunteerUseCase> logger,
        [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+       ICreateVolunteerAccountContract createVolunteerAccount,
         IValidator<CreateVolunteerCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _createVolunteerAccount = createVolunteerAccount;
     }
 
     public async Task<Result<Guid, ErrorList>> Execute(
@@ -80,6 +85,16 @@ public class CreateVolunteerUseCase
             requisitesList,
             socialNetworkList)
             .Value;
+        var createUserIdResult = await _createVolunteerAccount.Execute(
+            email,
+            UserName.Create(Guid.NewGuid().ToString()).Value,
+            startVolunteeringDate,
+            requisitesList, [], ct);
+        if (createUserIdResult.IsFailure)
+            return createUserIdResult.Error.ToErrorList();
+
+        UserId userId = createUserIdResult.Value;
+        volunteer.SetUserId(userId);
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
 

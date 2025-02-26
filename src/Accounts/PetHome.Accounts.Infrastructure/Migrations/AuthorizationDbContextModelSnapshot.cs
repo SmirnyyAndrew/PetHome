@@ -182,8 +182,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("soft_deleted_date");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool>("IsDeleted")
@@ -210,8 +210,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("favorite_pets");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool>("IsDeleted")
@@ -238,8 +238,8 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("soft_deleted_date");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<bool>("IsDeleted")

@@ -10,7 +10,7 @@ public class UserScopedDataMiddleware(
 {
 
     public async Task InvokeAsync(
-        HttpContext httpContext, UserScopedData userScopedData, CancellationToken ct)
+        HttpContext httpContext, UserScopedData userScopedData)
     {
         if (httpContext.User.Identity is null || httpContext.User.Identity.IsAuthenticated is false)
         {
@@ -38,7 +38,7 @@ public class UserScopedDataMiddleware(
 
         userScopedData.UserId = userId;
         userScopedData.Email = userEmail;
-        userScopedData.Role = getRolesNamesContract.Execute(userId, ct).Result;
-        userScopedData.Permissions = getPermissionsNamesContract.Execute(userId, ct).Result;
+        userScopedData.Role = getRolesNamesContract.Execute(userId, CancellationToken.None).Result;
+        userScopedData.Permissions = getPermissionsNamesContract.Execute(userId, CancellationToken.None).Result;
     }
 }

@@ -12,10 +12,9 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 
 namespace PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
-public class Volunteer : SoftDeletableEntity
+public class Volunteer : DomainEntity<VolunteerId>, ISoftDeletableEntity
 {
-    private Volunteer() { }
-
+    private Volunteer(VolunteerId id) : base(id) { Id = id; }
     private Volunteer(
         VolunteerId id,
         FullName fullName,
@@ -24,7 +23,7 @@ public class Volunteer : SoftDeletableEntity
         Date startVolunteeringDate,
         ValueObjectList<PhoneNumber> phoneNumbers,
         ValueObjectList<SocialNetwork> socialNetworks,
-        ValueObjectList<Requisites> requisites)
+        ValueObjectList<Requisites> requisites) : base(id)
     {
         Id = id;
         FullName = fullName;
@@ -49,10 +48,12 @@ public class Volunteer : SoftDeletableEntity
     public int TreatmentPetsCount => GetPetCountByStatusAndVolunteer(PetStatusEnum.isTreatment);
     public ValueObjectList<PhoneNumber> PhoneNumbers { get; private set; }
     public ValueObjectList<Requisites> Requisites { get; private set; }
-    public ValueObjectList<SocialNetwork> SocialNetworks { get; private set; }
+    public ValueObjectList<SocialNetwork> SocialNetworks { get; private set; } 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
-
-    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) => Pets.Count(pet => pet.Status == status && pet.VolunteerId == Id);
+    private int GetPetCountByStatusAndVolunteer(PetStatusEnum status) 
+        => Pets.Count(pet => pet.Status == status && pet.VolunteerId == Id);
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
@@ -92,18 +93,17 @@ public class Volunteer : SoftDeletableEntity
         PhoneNumbers = phoneNumbers;
         Email = email;
     }
-
-
-    public override void SoftDelete()
+     
+    public void SoftDelete()
     {
-        base.SoftDelete();
-        Pets?.ForEach(pet => pet.SoftDelete());
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
     }
 
-    public override void SoftRestore()
+    public void SoftRestore()
     {
-        base.SoftRestore();
-        Pets?.ForEach(pet => pet.SoftRestore());
+        DeletionDate = default;
+        IsDeleted = false;
     }
 
     public Result<Pet, Error> CreatePet(

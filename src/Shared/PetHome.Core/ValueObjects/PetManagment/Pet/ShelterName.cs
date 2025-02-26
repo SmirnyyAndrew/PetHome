@@ -20,4 +20,6 @@ public record ShelterName
 
         return new ShelterName(value);
     }
+
+    public static implicit operator string(ShelterName name) => name.Value;
 }

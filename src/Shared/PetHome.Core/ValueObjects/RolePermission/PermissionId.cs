@@ -5,18 +5,14 @@ namespace PetHome.Core.ValueObjects.RolePermission;
 public record PermissionId
 {
     public Guid Value { get; }
-    public PermissionId(Guid value)
+    private PermissionId(Guid value)
     {
         Value = value;
     }
 
-    public static Result<PermissionId, Error> Create(Guid value)
-    {
-        return new PermissionId(value);
-    }
+    public static Result<PermissionId, Error> Create(Guid value) => new PermissionId(value);
 
-    public static Result<PermissionId, Error> Create()
-    {
-        return new PermissionId(Guid.NewGuid());
-    }
+    public static Result<PermissionId, Error> Create() => new PermissionId(Guid.NewGuid());
+
+    public static implicit operator Guid(PermissionId id) => id.Value;
 }

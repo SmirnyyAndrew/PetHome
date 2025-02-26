@@ -45,10 +45,13 @@ public class SoftDeleteRestorePetUseCase
             _logger.LogError("Волонтёр с id = {0} не найден", command.VolunteerId);
             return Errors.NotFound($"Волонтёр с id = {command.VolunteerId}").ToErrorList();
         }
+         
+        var getVolunteerResult = await _volunteerRepository
+            .GetById(command.VolunteerId, ct);
+        if (getVolunteerResult.IsFailure)
+            return getVolunteerResult.Error.ToErrorList();
 
-
-        Volunteer volunteer = _volunteerRepository
-            .GetById(command.VolunteerId, ct).Result.Value;
+        Volunteer volunteer = getVolunteerResult.Value;
         Pet? pet = volunteer.Pets
             .FirstOrDefault(p => p.Id == command.PetId);
         if (pet == null)

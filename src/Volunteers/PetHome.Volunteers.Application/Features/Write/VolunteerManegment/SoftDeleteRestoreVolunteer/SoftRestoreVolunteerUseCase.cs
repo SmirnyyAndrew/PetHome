@@ -33,8 +33,13 @@ public class SoftRestoreVolunteerUseCase
         CancellationToken ct)
     {
         var transaction = await _unitOfWork.BeginTransaction(ct);
+         
+        var getVolunteerResult = await _volunteerRepository
+            .GetById(command.VolunteerId, ct);
+        if (getVolunteerResult.IsFailure)
+            return getVolunteerResult.Error.ToErrorList();
 
-        Volunteer volunteer = _volunteerRepository.GetById(command.VolunteerId, ct).Result.Value;
+        Volunteer volunteer = getVolunteerResult.Value;
         volunteer.SoftRestore();
         await _volunteerRepository.Update(volunteer, ct);
 
