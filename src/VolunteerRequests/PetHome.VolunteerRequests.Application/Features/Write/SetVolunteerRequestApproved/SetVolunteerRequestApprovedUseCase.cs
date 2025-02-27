@@ -51,8 +51,8 @@ public class SetVolunteerRequestApprovedUseCase
             command.Certificates);
         await _publisher.Publish(createVolunteerAccountMessage);
 
-        transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
 
         return Result.Success<ErrorList>();
     }

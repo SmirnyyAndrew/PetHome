@@ -41,8 +41,8 @@ public class CreateDiscussionUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddDiscussion(discussion);
-        transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
 
         return discussion.Id;
     }
@@ -63,8 +63,8 @@ public class CreateDiscussionUseCase
         Discussion discussion = Discussion.Create(relationId, userIds).Value;
         await _repository.AddDiscussion(discussion);
 
-        transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
 
         return discussion.Id;
     }
