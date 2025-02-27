@@ -32,8 +32,7 @@ public static class ApplicationDependencyInjection
         .WithScopedLifetime());
          
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
-        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();  
-        services.AddScoped<ICreateVolunteerAccountContract, CreateVolunteerUsingContract>();
+        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();   
 
         services.AddScoped<IGetUserPermissionsCodesContact, GetUserPermissionsCodesUsingContact>();
         services.AddScoped<IGenerateAccessTokenContract, GenerateAccessTokenUsingContract>();

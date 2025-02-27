@@ -2,13 +2,10 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
-using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
@@ -21,22 +18,19 @@ public class CreateVolunteerConsumer : IConsumer<CreatedVolunteerEvent>
 
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ICreateVolunteerAccountContract _createVolunteerAccount;
+    private readonly IUnitOfWork _unitOfWork; 
     private readonly IValidator<CreatedVolunteerEvent> _validator;
     public CreateVolunteerConsumer(
         IVolunteerRepository volunteerRepository,
        ILogger<CreateVolunteerUseCase> logger,
-       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
-       ICreateVolunteerAccountContract createVolunteerAccount,
+       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork, 
         IValidator<CreatedVolunteerEvent> validator
         )
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
-        _validator = validator;
-        _createVolunteerAccount = createVolunteerAccount;
+        _validator = validator; 
     }
 
 
