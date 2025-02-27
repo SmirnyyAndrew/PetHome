@@ -28,6 +28,7 @@ public static class MassTransitExtentions
             config.AddConsumer<CreateAdminConsumer>();
             config.AddConsumer<CreateParticipantConsumer>();
             config.AddConsumer<CreateUserConsumer>();
+            config.AddConsumer<CreateVolunteerConsumer>();
 
             config.UsingRabbitMq((context, cfg) =>
             {

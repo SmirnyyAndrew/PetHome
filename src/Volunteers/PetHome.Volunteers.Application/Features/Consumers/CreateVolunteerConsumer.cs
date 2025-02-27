@@ -18,19 +18,21 @@ public class CreateVolunteerConsumer : IConsumer<CreatedVolunteerEvent>
 
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
-    private readonly IUnitOfWork _unitOfWork; 
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreatedVolunteerEvent> _validator;
+    private readonly IPublishEndpoint _publisher;
     public CreateVolunteerConsumer(
         IVolunteerRepository volunteerRepository,
-       ILogger<CreateVolunteerUseCase> logger,
-       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork, 
-        IValidator<CreatedVolunteerEvent> validator
-        )
+        ILogger<CreateVolunteerUseCase> logger,
+        IPublishEndpoint publisher,
+        [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        IValidator<CreatedVolunteerEvent> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
-        _validator = validator; 
+        _validator = validator;
+        _publisher = publisher;
     }
 
 
@@ -79,26 +81,19 @@ public class CreateVolunteerConsumer : IConsumer<CreatedVolunteerEvent>
             requisitesList,
             socialNetworkList)
             .Value;
+         
+        var createVolunteerMessage = new CreatedVolunteerEvent(
+            command.FullNameDto,
+            email,
+            description,
+            startVolunteeringDate,
+            command.PhoneNumbers,
+            command.SocialNetworks,
+            command.RequisitesesDto);
+        await _publisher.Publish(createVolunteerMessage);
 
-        //TODO: взаимодействие с модулем account
-        //var createUserIdResult = await _createVolunteerAccount.Execute(
-        //    email,
-        //    UserName.Create(Guid.NewGuid().ToString()).Value,
-        //    startVolunteeringDate,
-        //    requisitesList, [], CancellationToken.None);
-        //if (createUserIdResult.IsFailure)
-        //{
-        //    _logger.LogError("Не удалось создать volunteer account");
-        //    return;
-        //}
-
-        //UserId userId = createUserIdResult.Value;
-        //volunteer.SetUserId(userId);
-
-        var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None);
-
-        var result = await _volunteerRepository.Add(volunteer, CancellationToken.None);
-
+        var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None); 
+        var result = await _volunteerRepository.Add(volunteer, CancellationToken.None); 
         await _unitOfWork.SaveChanges(CancellationToken.None);
         transaction.Commit();
 
