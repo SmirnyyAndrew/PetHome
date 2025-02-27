@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Application.Features.Consumers.UserManagement;
 using PetHome.Discussions.Application.Features.Consumers;
 using PetHome.SharedKernel.Options.Volunteers;
 using PetHome.Species.Application.Features.Consumers;
@@ -25,6 +26,7 @@ public static class MassTransitExtentions
             config.AddConsumer<CreateSpeciesConsumer>();
             config.AddConsumer<CreateDiscussionConsumer>();
             config.AddConsumer<CreateVolunteerRequestConsumer>();
+            config.AddConsumer<CreateAdminConsumer>();
 
             config.UsingRabbitMq((context, cfg) =>
             {

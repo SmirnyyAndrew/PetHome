@@ -7,7 +7,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Application.Features.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
+namespace PetHome.Accounts.Application.Features.Contracts.TokensManagment.GenerateRefreshToken;
 public class GenerateRefreshTokenUsingContract : IGenerateRefreshTokenContract
 {
     private readonly ITokenProvider _tokenProvider;
@@ -33,20 +33,14 @@ public class GenerateRefreshTokenUsingContract : IGenerateRefreshTokenContract
 
         User user = getUserResult.Value;
         var generateAccessTokenResult = await _generateAccessTokenContract.Execute(userId, ct);
-        if(generateAccessTokenResult.IsFailure)
-            return generateAccessTokenResult.Error;  
+        if (generateAccessTokenResult.IsFailure)
+            return generateAccessTokenResult.Error;
 
-        var generateRefreshTokenResult =  _tokenProvider.GenerateRefreshToken(user, accessToken);
-        if(generateRefreshTokenResult.IsFailure)
+        var generateRefreshTokenResult = _tokenProvider.GenerateRefreshToken(user, accessToken);
+        if (generateRefreshTokenResult.IsFailure)
             return generateRefreshTokenResult.Error.Errors.First();
 
-        RefreshSession refreshSession = generateRefreshTokenResult.Value; 
+        RefreshSession refreshSession = generateRefreshTokenResult.Value;
         return refreshSession;
-    }
-
-    public Task<Result<RefreshSession, Error>> Execute(
-        UserId userId, RefreshSession oldRefreshSession, CancellationToken ct)
-    {
-        throw new NotImplementedException();
     }
 }

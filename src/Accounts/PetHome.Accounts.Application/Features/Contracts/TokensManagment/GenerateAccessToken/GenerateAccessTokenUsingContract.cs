@@ -5,7 +5,7 @@ using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Application.Features.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+namespace PetHome.Accounts.Application.Features.Contracts.TokensManagment.GenerateAccessToken;
 public class GenerateAccessTokenUsingContract : IGenerateAccessTokenContract
 {
     private readonly ITokenProvider _tokenProvider;

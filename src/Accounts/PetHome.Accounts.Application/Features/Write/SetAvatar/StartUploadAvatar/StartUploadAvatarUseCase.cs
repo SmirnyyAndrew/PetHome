@@ -7,7 +7,7 @@ using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar;
+namespace PetHome.Accounts.Application.Features.Write.SetAvatar.StartUploadAvatar;
 public class StartUploadAvatarUseCase
     : ICommandHandler<UploadPartFileResponse, StartUploadAvatarCommand>
 {

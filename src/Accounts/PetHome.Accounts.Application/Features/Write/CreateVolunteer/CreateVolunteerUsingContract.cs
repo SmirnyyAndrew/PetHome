@@ -2,21 +2,22 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 
-namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
-public class CreateUserUsingContract : ICreateUserContract
+namespace PetHome.Accounts.Application.Features.Write.CreateVolunteer;
+public class CreateVolunteerUsingContract : ICreateVolunteerAccountContract
 {
-    private readonly IAuthenticationRepository _repository; 
+    private readonly IAuthenticationRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateUserUsingContract(
+    public CreateVolunteerUsingContract(
         IAuthenticationRepository repository,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
@@ -24,24 +25,34 @@ public class CreateUserUsingContract : ICreateUserContract
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<UserId, Error>> Execute(RoleId roleId, CancellationToken ct)
+    public async Task<Result<UserId, Error>> Execute(
+        Email email,
+        UserName userName,
+        Date startVolunteeringDate,
+        IReadOnlyList<Requisites> requisites,
+        IReadOnlyList<Certificate> certificates,
+        CancellationToken ct)
     {
-        Email email = Email.Create("Emas2fgoiL123@mail.com").Value;
-        UserName userName = UserName.Create("Ivanov Ivan").Value; 
-         
-        var geRoleResult = await _repository.GetRole(roleId.Value);
+        var geRoleResult = await _repository.GetRole(VolunteerAccount.ROLE);
         if (geRoleResult.IsFailure)
             return geRoleResult.Error;
 
-        Role role = geRoleResult.Value; 
+        Role role = geRoleResult.Value;
         User user = User.Create(email, userName, role).Value;
-        UserId userId = UserId.Create(user.Id).Value;
+        VolunteerAccount volunteer = VolunteerAccount.Create(
+            user,
+            startVolunteeringDate,
+            requisites,
+            certificates).Value;
+
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddUser(user, ct);
+        await _repository.AddVolunteer(volunteer, ct);
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
+        UserId userId = UserId.Create(user.Id).Value;
         return userId;
     }
 }

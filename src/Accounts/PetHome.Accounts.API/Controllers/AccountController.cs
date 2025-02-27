@@ -5,6 +5,8 @@ using PetHome.Accounts.Application.Features.Read.GetUserInformation;
 using PetHome.Accounts.Application.Features.Write.LoginUser;
 using PetHome.Accounts.Application.Features.Write.RegisterAccount;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar;
+using PetHome.Accounts.Application.Features.Write.SetAvatar.StartUploadAvatar;
+using PetHome.Accounts.Application.Features.Write.SetAvatar.UploadPresignedUrlAvatar;
 using PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;

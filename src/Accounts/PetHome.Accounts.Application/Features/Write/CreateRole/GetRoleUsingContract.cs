@@ -5,7 +5,7 @@ using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.RolePermission;
 
-namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
+namespace PetHome.Accounts.Application.Features.Write.CreateRole;
 public class GetRoleUsingContract : IGetRoleContract
 {
     private readonly IAuthenticationRepository _repository;
@@ -15,7 +15,7 @@ public class GetRoleUsingContract : IGetRoleContract
         _repository = repository;
     }
 
-    public async Task<Result<RoleId,Error>> Execute(string name, CancellationToken ct)
+    public async Task<Result<RoleId, Error>> Execute(string name, CancellationToken ct)
     {
         RoleName roleName = RoleName.Create(name).Value;
         var roleResult = await _repository.GetRole(roleName);

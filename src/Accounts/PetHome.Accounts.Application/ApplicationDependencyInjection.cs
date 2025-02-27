@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database;
-using PetHome.Accounts.Application.Features.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Application.Features.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateAdmin;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateParticipant;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateVolunteer;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetPermissions;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetRoles;
+using PetHome.Accounts.Application.Features.Contracts.TokensManagment.GenerateAccessToken;
+using PetHome.Accounts.Application.Features.Contracts.TokensManagment.GenerateRefreshToken;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetPermissionsNames;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetRolesNames;
+using PetHome.Accounts.Application.Features.Write.CreateParticipant;
+using PetHome.Accounts.Application.Features.Write.CreateRole;
+using PetHome.Accounts.Application.Features.Write.CreateUser;
+using PetHome.Accounts.Application.Features.Write.CreateVolunteer;
 using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
 using PetHome.Accounts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
 using PetHome.Accounts.Contracts.UserManagment;
@@ -33,8 +32,7 @@ public static class ApplicationDependencyInjection
 
         services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
-        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();
-        services.AddScoped<ICreateAdminContract, CreateAdminUsingContract>();
+        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>(); 
         services.AddScoped<ICreateParticipantContract, CreateParticipantUsingContract>();
         services.AddScoped<ICreateVolunteerAccountContract, CreateVolunteerUsingContract>();
 
