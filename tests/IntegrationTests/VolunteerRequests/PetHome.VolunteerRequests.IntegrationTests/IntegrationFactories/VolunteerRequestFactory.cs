@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Contracts.AuthManagement;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.VolunteerRequests.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.Seeds;

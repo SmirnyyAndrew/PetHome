@@ -4,7 +4,7 @@ using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Contracts.UserManagment;
+namespace PetHome.Accounts.Contracts.Contracts.UserManagment;
 public interface ICreateVolunteerAccountContract
 {
     public Task<Result<UserId, Error>> Execute(

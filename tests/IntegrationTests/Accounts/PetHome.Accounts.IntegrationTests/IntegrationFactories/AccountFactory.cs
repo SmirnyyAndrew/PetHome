@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Contracts.AuthManagement;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.IntegrationTests.Seeds;

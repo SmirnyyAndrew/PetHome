@@ -1,11 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Contracts.AuthManagement;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.RolePermission;
 
-namespace PetHome.Accounts.Application.Features.Write.CreateRole;
+namespace PetHome.Accounts.Application.Features.Contracts.AuthManagement.GetRole;
 public class GetRoleUsingContract : IGetRoleContract
 {
     private readonly IAuthenticationRepository _repository;

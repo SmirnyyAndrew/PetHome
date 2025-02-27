@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Framework.Auth;
 using System.IdentityModel.Tokens.Jwt;
 

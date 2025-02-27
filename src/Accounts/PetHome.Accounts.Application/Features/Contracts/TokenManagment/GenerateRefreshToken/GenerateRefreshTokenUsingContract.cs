@@ -1,13 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Application.Features.Contracts.TokensManagment.GenerateRefreshToken;
+namespace PetHome.Accounts.Application.Features.Contracts.TokenManagment.GenerateRefreshToken;
 public class GenerateRefreshTokenUsingContract : IGenerateRefreshTokenContract
 {
     private readonly ITokenProvider _tokenProvider;

@@ -1,11 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Application.Features.Contracts.TokensManagment.GenerateAccessToken;
+namespace PetHome.Accounts.Application.Features.Contracts.TokenManagment.GenerateAccessToken;
 public class GenerateAccessTokenUsingContract : IGenerateAccessTokenContract
 {
     private readonly ITokenProvider _tokenProvider;
