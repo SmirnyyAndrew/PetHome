@@ -1,22 +1,24 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.UserManagment;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
-using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 
 namespace PetHome.Accounts.Application.Features.Write.CreateParticipant;
-public class CreateParticipantUsingContract : ICreateParticipantContract
+public class CreateParticipantUseCase
+    : ICommandHandler<UserId, CreateParticipantCommand>
 {
     private readonly IAuthenticationRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateParticipantUsingContract(
+    public CreateParticipantUseCase(
         IAuthenticationRepository repository,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
@@ -24,17 +26,18 @@ public class CreateParticipantUsingContract : ICreateParticipantContract
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<UserId, Error>> Execute(Email email, UserName userName, CancellationToken ct)
+    public async Task<Result<UserId, ErrorList>> Execute(CreateParticipantCommand command, CancellationToken ct)
     {
         var geRoleResult = await _repository.GetRole(ParticipantAccount.ROLE);
         if (geRoleResult.IsFailure)
-            return geRoleResult.Error;
+            return geRoleResult.Error.ToErrorList();
 
         Role role = geRoleResult.Value;
+        Email email = Email.Create(command.Email).Value;
+        UserName userName = UserName.Create(command.UserName).Value;
         User user = User.Create(email, userName, role).Value;
         ParticipantAccount participant = ParticipantAccount.Create(user).Value;
-
-
+         
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddUser(user, ct);
         await _repository.AddParticipant(participant, ct);
@@ -43,5 +46,5 @@ public class CreateParticipantUsingContract : ICreateParticipantContract
 
         UserId userId = UserId.Create(user.Id).Value;
         return userId;
-    }
+    } 
 }

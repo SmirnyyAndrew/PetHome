@@ -11,26 +11,28 @@ using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 
-namespace PetHome.Accounts.Application.Features.Consumers.UserManagement;
-public class CreateAdminConsumer : IConsumer<CreatedAdminEvent>
+namespace PetHome.Accounts.Application.Features.Consumers.UserManagement.CreateParticipant;
+public class CreateParticipantConsumer : IConsumer<CreatedParticipantEvent>
 {
     private readonly IAuthenticationRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<CreatedAdminEvent> _validator;
-    private readonly ILogger<CreateAdminConsumer> _logger;
+    private readonly ILogger<CreateParticipantConsumer> _logger;
+    private readonly IValidator<CreatedParticipantEvent> _validator;
 
-    public CreateAdminConsumer(
+    public CreateParticipantConsumer(
         IAuthenticationRepository repository,
-        IValidator<CreatedAdminEvent> validator,
-        ILogger<CreateAdminConsumer> logger,
+        ILogger<CreateParticipantConsumer> logger,
+        IValidator<CreatedParticipantEvent> validator,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
-        _logger = logger;
         _validator = validator;
+        _logger = logger;
     }
-    public async Task Consume(ConsumeContext<CreatedAdminEvent> context)
+
+
+    public async Task Consume(ConsumeContext<CreatedParticipantEvent> context)
     {
         var command = context.Message;
 
@@ -41,7 +43,7 @@ public class CreateAdminConsumer : IConsumer<CreatedAdminEvent>
             return;
         }
 
-        var geRoleResult = await _repository.GetRole(AdminAccount.ROLE);
+        var geRoleResult = await _repository.GetRole(ParticipantAccount.ROLE);
         if (geRoleResult.IsFailure)
         {
             _logger.LogError("Не найдена роль админа");
@@ -52,14 +54,14 @@ public class CreateAdminConsumer : IConsumer<CreatedAdminEvent>
         Email email = Email.Create(command.Email).Value;
         UserName userName = UserName.Create(command.UserName).Value;
         User user = User.Create(email, userName, role, avatar: null, id: command.Id).Value;
-        AdminAccount admin = AdminAccount.Create(user).Value;
-
+        ParticipantAccount participant = ParticipantAccount.Create(user).Value;
 
         var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None);
         await _repository.AddUser(user, CancellationToken.None);
-        await _repository.AddAdmin(admin, CancellationToken.None);
+        await _repository.AddParticipant(participant, CancellationToken.None);
         await _unitOfWork.SaveChanges(CancellationToken.None);
-        transaction.Commit(); 
+        transaction.Commit();
+
         return;
     }
 }

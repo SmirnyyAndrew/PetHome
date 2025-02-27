@@ -32,8 +32,7 @@ public static class ApplicationDependencyInjection
 
         services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
-        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>(); 
-        services.AddScoped<ICreateParticipantContract, CreateParticipantUsingContract>();
+        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();  
         services.AddScoped<ICreateVolunteerAccountContract, CreateVolunteerUsingContract>();
 
         services.AddScoped<IGetUserPermissionsCodesContact, GetUserPermissionsCodesUsingContact>();

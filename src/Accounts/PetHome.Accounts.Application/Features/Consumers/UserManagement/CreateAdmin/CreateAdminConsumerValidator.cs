@@ -4,7 +4,7 @@ using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 
-namespace PetHome.Accounts.Application.Features.Consumers.UserManagement;
+namespace PetHome.Accounts.Application.Features.Consumers.UserManagement.CreateAdmin;
 public class CreateAdminConsumerValidator : AbstractValidator<CreatedAdminEvent>
 {
     public CreateAdminConsumerValidator()

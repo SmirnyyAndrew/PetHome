@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Application.Features.Consumers.UserManagement;
+using PetHome.Accounts.Application.Features.Consumers.UserManagement.CreateAdmin;
 using PetHome.Discussions.Application.Features.Consumers;
 using PetHome.SharedKernel.Options.Volunteers;
 using PetHome.Species.Application.Features.Consumers;
