@@ -43,14 +43,14 @@ public class IntegrationTestFactory
     {
         services.RemoveAll(typeof(DiscussionDbContext));
         services.RemoveAll(typeof(IAuthenticationRepository));
-        services.RemoveAll(typeof(ICreateUserContract));
+        //services.RemoveAll(typeof(ICreateUserContract));
         services.RemoveAll(typeof(IGetRoleContract)); 
          
         _repository = new DiscussionRepository(new DiscussionDbContext(_dbContainer.GetConnectionString()));  
         services.AddScoped(_ => _repository); 
         services.AddScoped(_ => new DiscussionDbContext(_dbContainer.GetConnectionString()));
 
-        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+        //services.AddScoped<ICreateUserContract, CreateUserUseCase>();
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>(); 
     }
 

@@ -1,14 +1,12 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Features.Consumers.UserManagement.CreateAdmin;
 using PetHome.Accounts.Application.Features.Consumers.UserManagement.CreateParticipant;
+using PetHome.Accounts.Application.Features.Consumers.UserManagement.CreateUser;
 using PetHome.Discussions.Application.Features.Consumers;
 using PetHome.SharedKernel.Options.Volunteers;
 using PetHome.Species.Application.Features.Consumers;
 using PetHome.VolunteerRequests.Application.Features.Consumers;
 using PetHome.Volunteers.Application.Features.Consumers;
-using PetHome.Volunteers.Infrastructure.DI;
 
 namespace PetHome.API.DependencyInjections.AppExtentions;
 public static class MassTransitExtentions
@@ -29,6 +27,7 @@ public static class MassTransitExtentions
             config.AddConsumer<CreateVolunteerRequestConsumer>();
             config.AddConsumer<CreateAdminConsumer>();
             config.AddConsumer<CreateParticipantConsumer>();
+            config.AddConsumer<CreateUserConsumer>();
 
             config.UsingRabbitMq((context, cfg) =>
             {

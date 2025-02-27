@@ -8,15 +8,14 @@ using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 
 namespace PetHome.Accounts.Application.Features.Write.CreateAdmin;
-public class CreateAdminUseCase 
-    :ICommandHandler<UserId, CreateAdminCommand>
+public class CreateAdminUseCase
+    : ICommandHandler<UserId, CreateAdminCommand>
 {
     private readonly IAuthenticationRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
@@ -37,7 +36,7 @@ public class CreateAdminUseCase
 
     public async Task<Result<UserId, ErrorList>> Execute(CreateAdminCommand command, CancellationToken ct)
     {
-        var validationResult = _validator.Validate(command);
+        var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is not true)
             return validationResult.Errors.ToErrorList();
 
@@ -60,5 +59,5 @@ public class CreateAdminUseCase
 
         UserId userId = UserId.Create(user.Id).Value;
         return userId;
-    } 
+    }
 }

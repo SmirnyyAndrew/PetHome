@@ -30,8 +30,7 @@ public static class ApplicationDependencyInjection
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
-
-        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+         
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
         services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();  
         services.AddScoped<ICreateVolunteerAccountContract, CreateVolunteerUsingContract>();

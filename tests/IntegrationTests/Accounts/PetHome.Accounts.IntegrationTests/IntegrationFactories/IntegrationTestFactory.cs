@@ -49,7 +49,7 @@ public class IntegrationTestFactory
     {
         services.RemoveAll(typeof(AuthorizationDbContext));
         services.RemoveAll(typeof(IAuthenticationRepository));
-        services.RemoveAll(typeof(ICreateUserContract));
+        //services.RemoveAll(typeof(ICreateUserContract));
         services.RemoveAll(typeof(IGetRoleContract));
         services.RemoveAll(typeof(IGenerateAccessTokenContract));
         services.RemoveAll(typeof(IGenerateRefreshTokenContract));
@@ -62,7 +62,7 @@ public class IntegrationTestFactory
         services.AddScoped(_ => _repository);
         services.AddScoped(_ => _unitOfWork);
 
-        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+        //services.AddScoped<ICreateUserContract, CreateUserUseCase>();
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
         services.AddScoped<IGenerateAccessTokenContract, GenerateAccessTokenUsingContract>();
         services.AddScoped<IGenerateRefreshTokenContract, GenerateRefreshTokenUsingContract>();
