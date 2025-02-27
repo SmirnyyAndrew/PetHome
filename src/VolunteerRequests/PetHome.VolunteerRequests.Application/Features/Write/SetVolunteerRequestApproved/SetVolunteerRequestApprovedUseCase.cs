@@ -1,5 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -16,13 +18,16 @@ public class SetVolunteerRequestApprovedUseCase
 {
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublishEndpoint _publisher;
 
     public SetVolunteerRequestApprovedUseCase(
         IVolunteerRequestRepository repository,
+        IPublishEndpoint publisher,
         [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
 
@@ -39,6 +44,14 @@ public class SetVolunteerRequestApprovedUseCase
         _repository.Update(volunteerRequest);
         transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+
+        var createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
+            command.Email,
+            command.UserName,
+            command.StartVolunteeringDate,
+            command.Requisites,
+            command.Certificates);
+        await _publisher.Publish(createVolunteerAccountMessage);
 
         return Result.Success<ErrorList>();
     }
