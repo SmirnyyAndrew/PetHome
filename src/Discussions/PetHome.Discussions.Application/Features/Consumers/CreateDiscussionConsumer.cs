@@ -36,17 +36,17 @@ public class CreateDiscussionConsumer : IConsumer<CreatedDiscussionEvent>
             _logger.LogError("Пользователей не должно быть больше 2");
             return;
         }
-
-        RelationId relationId = RelationId.Create(
-            command.RelationId == default ? Guid.NewGuid() : command.RelationId).Value;
+        RelationName relationName = RelationName.Create(command.RelationName).Value;
+        Relation relation = Relation.Create(relationName);
 
         List<UserId> usersIds = command.UsersIds
             .Select(u => UserId.Create(u).Value)
             .ToList();
-        Discussion discussion = Discussion.Create(relationId, usersIds).Value;
+        Discussion discussion = Discussion.Create(relation.Id, usersIds).Value;
 
         var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None);
         await _repository.AddDiscussion(discussion);
+        await _repository.AddRelation(relation);
         await _unitOfWork.SaveChanges(CancellationToken.None);
         transaction.Commit();
 

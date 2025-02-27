@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
@@ -7,6 +8,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.User;
+using PetHome.Discussions.Contracts.Messaging;
 using PetHome.Framework.Database;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
@@ -17,13 +19,16 @@ public class SetVolunteerRequestOnReviewUseCase
 {
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublishEndpoint _publisher;
 
     public SetVolunteerRequestOnReviewUseCase(
         IVolunteerRequestRepository repository,
+        IPublishEndpoint publisher,
         [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
     public async Task<UnitResult<ErrorList>> Execute(
@@ -39,8 +44,14 @@ public class SetVolunteerRequestOnReviewUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         _repository.Update(volunteerRequest);
-        transaction.Commit();
+
+        var createDiscussionMessage = new CreatedDiscussionEvent(
+            [command.AdminId, command.UserId],
+            command.RelationName);
+        await _publisher.Publish(createDiscussionMessage);
+         
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
 
         return Result.Success<ErrorList>();
     }

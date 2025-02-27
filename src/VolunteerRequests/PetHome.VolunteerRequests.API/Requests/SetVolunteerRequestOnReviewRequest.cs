@@ -1,11 +1,20 @@
-﻿using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestOnReview;
+﻿using PetHome.Core.ValueObjects.Discussion;
+using PetHome.Core.ValueObjects.User;
+using PetHome.Core.ValueObjects.VolunteerRequest;
+using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestOnReview;
 
 namespace PetHome.VolunteerRequests.API.Requests;
-public record SetVolunteerRequestOnReviewRequest(
-    Guid VolunteerRequestId,
-    Guid AdminId,
-    Guid DiscussionId)
+public record SetVolunteerRequestOnReviewRequest(  
+Guid AdminId,
+string RelationName)
 {
-    public static implicit operator SetVolunteerRequestOnReviewCommand(SetVolunteerRequestOnReviewRequest request)
-        => new(request.VolunteerRequestId, request.AdminId, request.DiscussionId);
+    public SetVolunteerRequestOnReviewCommand ToCommand(Guid VolunteerRequestId, Guid DiscussionId, Guid UserId)
+    {
+        return new SetVolunteerRequestOnReviewCommand(
+            VolunteerRequestId,  
+            AdminId,
+            UserId,
+            DiscussionId, 
+            RelationName);
+    }
 }

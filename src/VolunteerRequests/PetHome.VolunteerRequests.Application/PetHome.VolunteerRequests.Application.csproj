@@ -8,6 +8,7 @@
 
 	<ItemGroup> 
 		<ProjectReference Include="..\..\Accounts\PetHome.Accounts.Contracts\PetHome.Accounts.Contracts.csproj" /> 
+		<ProjectReference Include="..\..\Discussions\PetHome.Discussions.Contracts\PetHome.Discussions.Contracts.csproj" /> 
 		<ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
 		<ProjectReference Include="..\..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
 		<ProjectReference Include="..\..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />

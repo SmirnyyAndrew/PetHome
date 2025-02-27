@@ -79,10 +79,10 @@ public class VolunteerRequestsController : ParentController
        [FromServices] SetVolunteerRequestApprovedUseCase useCase,
        [FromRoute] Guid volunteerRequestId,
        [FromRoute] Guid adminId,
+       [FromBody] SetVolunteerRequestApprovedRequest request,
        CancellationToken ct)
-    {
-        SetVolunteerRequestApprovedRequest request = new SetVolunteerRequestApprovedRequest(volunteerRequestId, adminId);
-        var result = await useCase.Execute(request, ct);
+    { 
+        var result = await useCase.Execute(request.ToCommand(volunteerRequestId,adminId), ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
@@ -90,18 +90,16 @@ public class VolunteerRequestsController : ParentController
     }
 
 
-    [HttpPost("volunteer-requests/{volunteerRequestId}/on-review/admin={adminId:guid}/discussion={discussionId}")]
+    [HttpPost("volunteer-requests/{volunteerRequestId}/on-review/discussion={discussionId:guid}/user={userId:guid}")]
     public async Task<IActionResult> SetVolunteerRequestOnReview(
        [FromServices] SetVolunteerRequestOnReviewUseCase useCase,
+       [FromBody] SetVolunteerRequestOnReviewRequest request,
        [FromRoute] Guid volunteerRequestId,
-       [FromRoute] Guid adminId,
-       [FromRoute] Guid discussionId,
+       [FromRoute] Guid discussionId, 
+       [FromRoute] Guid userId, 
        CancellationToken ct)
-    {
-        SetVolunteerRequestOnReviewRequest request = new SetVolunteerRequestOnReviewRequest(
-            volunteerRequestId, adminId, discussionId);
-
-        var result = await useCase.Execute(request, ct);
+    { 
+        var result = await useCase.Execute(request.ToCommand(volunteerRequestId, discussionId, userId), ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 

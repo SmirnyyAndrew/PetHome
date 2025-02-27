@@ -4,4 +4,6 @@ namespace PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerReque
 public record SetVolunteerRequestOnReviewCommand(
     Guid VolunteerRequestId,
     Guid AdminId,
-    Guid DiscussionId) : ICommand;
+    Guid UserId,
+    Guid DiscussionId,
+    string RelationName) : ICommand;

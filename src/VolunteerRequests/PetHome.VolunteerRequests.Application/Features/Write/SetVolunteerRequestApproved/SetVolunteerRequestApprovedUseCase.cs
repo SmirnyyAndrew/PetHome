@@ -42,8 +42,6 @@ public class SetVolunteerRequestApprovedUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         _repository.Update(volunteerRequest);
-        transaction.Commit();
-        await _unitOfWork.SaveChanges(ct);
 
         var createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
             command.Email,
@@ -52,6 +50,9 @@ public class SetVolunteerRequestApprovedUseCase
             command.Requisites,
             command.Certificates);
         await _publisher.Publish(createVolunteerAccountMessage);
+
+        transaction.Commit();
+        await _unitOfWork.SaveChanges(ct);
 
         return Result.Success<ErrorList>();
     }

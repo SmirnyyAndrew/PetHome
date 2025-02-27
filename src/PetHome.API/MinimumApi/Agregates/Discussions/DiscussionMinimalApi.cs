@@ -10,8 +10,11 @@ public static class DiscussionMinimalApi
 
         app.MapPost("discussion", async (IPublishEndpoint publisher) =>
         {
+            int randomInt = new Random().Next(100);
+
             await publisher.Publish(new CreatedDiscussionEvent(
-                [Guid.NewGuid(), Guid.NewGuid()]
+                [Guid.NewGuid(), Guid.NewGuid()],
+                $"relation name №{randomInt}"
                 ));
         });
 
