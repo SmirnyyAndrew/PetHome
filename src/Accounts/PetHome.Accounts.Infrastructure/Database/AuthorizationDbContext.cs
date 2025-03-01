@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Accounts.Domain.Others;
+using PetHome.Accounts.Infrastructure.TransactionOutbox;
 using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.ValueObjects.RolePermission;
 
@@ -18,6 +20,7 @@ public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<RolePermission> RolesPermissions => Set<RolePermission>();
     public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
 
     private readonly string _conntecitonString;
