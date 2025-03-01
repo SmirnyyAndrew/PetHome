@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NotificationService.Application.Features.Dto;
 using NotificationService.Domain;
-using NotificationService.Features.Dto;
 
 namespace NotificationService.Infrastructure.Database.Write;
 

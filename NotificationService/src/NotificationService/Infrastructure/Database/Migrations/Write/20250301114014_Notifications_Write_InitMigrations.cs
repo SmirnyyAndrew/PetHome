@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NotificationService.Database.Migrations.Write
+namespace NotificationService.Infrastructure.Database.Migrations.Write
 {
     /// <inheritdoc />
     public partial class Notifications_Write_InitMigrations : Migration

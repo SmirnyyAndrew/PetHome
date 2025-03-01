@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace NotificationService.Database.Migrations.Write
+namespace NotificationService.Infrastructure.Database.Migrations.Write
 {
     [DbContext(typeof(NotificationWriteDbContext))]
     [Migration("20250301114014_Notifications_Write_InitMigrations")]
