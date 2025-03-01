@@ -32,6 +32,6 @@ public class NotificationDbContext : DbContext
         builder.HasDefaultSchema("Notifications");
 
         builder.ApplyConfigurationsFromAssembly(typeof(NotificationDbContext).Assembly,
-            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
+            type => type.FullName?.ToLower().Contains("database.configuration") ?? false);
     }
 }

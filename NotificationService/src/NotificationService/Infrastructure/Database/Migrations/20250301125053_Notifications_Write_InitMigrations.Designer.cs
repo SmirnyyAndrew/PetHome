@@ -4,14 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NotificationService.Infrastructure.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace NotificationService.Infrastructure.Database.Migrations.Write
+namespace NotificationService.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20250301114014_Notifications_Write_InitMigrations")]
+    [Migration("20250301125053_Notifications_Write_InitMigrations")]
     partial class Notifications_Write_InitMigrations
     {
         /// <inheritdoc />
@@ -45,7 +46,7 @@ namespace NotificationService.Infrastructure.Database.Migrations.Write
                         .HasColumnName("is_web_send");
 
                     b.HasKey("UserId")
-                        .HasName("pk_user_notification_settings");
+                        .HasName("user_id");
 
                     b.ToTable("UserNotificationSettings", "Notifications");
                 });

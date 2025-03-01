@@ -11,10 +11,8 @@ public class UserNotificationSettingsConfiguration
     {
         builder.ToTable("UserNotificationSettings");
 
-        builder.HasKey(n => n.UserId);
-        builder.Property(n => n.UserId)
-            .IsRequired()
-            .HasColumnName("user_id");
+        builder.HasKey(n => n.UserId)
+            .HasName("user_id"); 
 
         builder.Property(n => n.IsEmailSend)
             .IsRequired(false)

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NotificationService.Infrastructure.Database.Migrations.Write
+namespace NotificationService.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
     public partial class Notifications_Write_InitMigrations : Migration
@@ -26,7 +26,7 @@ namespace NotificationService.Infrastructure.Database.Migrations.Write
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_notification_settings", x => x.user_id);
+                    table.PrimaryKey("user_id", x => x.user_id);
                 });
         }
 

@@ -9,6 +9,7 @@ public static class DatabaseDependencyInjections
     {
         services.AddScoped<NotificationDbContext>();
         services.AddScoped<NotificationRepository>();
+        services.AddScoped<UnitOfWork>();
 
         return services;
     }

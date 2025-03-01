@@ -8,10 +8,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace NotificationService.Database.Migrations.Write
+namespace NotificationService.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    partial class NotificationWriteDbContextModelSnapshot : ModelSnapshot
+    partial class NotificationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,7 @@ namespace NotificationService.Database.Migrations.Write
                         .HasColumnName("is_web_send");
 
                     b.HasKey("UserId")
-                        .HasName("pk_user_notification_settings");
+                        .HasName("user_id");
 
                     b.ToTable("UserNotificationSettings", "Notifications");
                 });
