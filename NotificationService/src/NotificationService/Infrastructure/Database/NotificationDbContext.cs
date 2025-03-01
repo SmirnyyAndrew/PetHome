@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NotificationService.Domain;
 
-namespace NotificationService.Infrastructure.Database.Write;
+namespace NotificationService.Infrastructure.Database;
 
-public class NotificationWriteDbContext : DbContext
+public class NotificationDbContext : DbContext
 {
     public DbSet<UserNotificationSettings> Notifications => Set<UserNotificationSettings>();
     public readonly string _connectionString;
 
-    public NotificationWriteDbContext(string connectionString
+    public NotificationDbContext(string connectionString
         = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
     {
         _connectionString = connectionString;
@@ -31,7 +31,7 @@ public class NotificationWriteDbContext : DbContext
 
         builder.HasDefaultSchema("Notifications");
 
-        builder.ApplyConfigurationsFromAssembly(typeof(NotificationWriteDbContext).Assembly,
+        builder.ApplyConfigurationsFromAssembly(typeof(NotificationDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 }

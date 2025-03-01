@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NotificationService.Infrastructure.Database.Write;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace NotificationService.Infrastructure.Database.Migrations.Write
 {
-    [DbContext(typeof(NotificationWriteDbContext))]
+    [DbContext(typeof(NotificationDbContext))]
     [Migration("20250301114014_Notifications_Write_InitMigrations")]
     partial class Notifications_Write_InitMigrations
     {

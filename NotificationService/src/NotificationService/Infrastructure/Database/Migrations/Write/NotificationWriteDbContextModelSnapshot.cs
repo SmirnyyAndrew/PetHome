@@ -3,14 +3,14 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NotificationService.Infrastructure.Database.Write;
+using NotificationService.Infrastructure.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace NotificationService.Database.Migrations.Write
 {
-    [DbContext(typeof(NotificationWriteDbContext))]
+    [DbContext(typeof(NotificationDbContext))]
     partial class NotificationWriteDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -1,4 +1,4 @@
-﻿using NotificationService.Infrastructure.Database.Write;
+﻿using NotificationService.Infrastructure.Database;
 
 namespace NotificationService.DependencyInjections.InfrastructureDependencyInjections;
 
@@ -7,7 +7,7 @@ public static class DatabaseDependencyInjections
     public static IServiceCollection AddDatabase(
         this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<NotificationWriteDbContext>();
+        services.AddScoped<NotificationDbContext>();
         services.AddScoped<NotificationRepository>();
 
         return services;
