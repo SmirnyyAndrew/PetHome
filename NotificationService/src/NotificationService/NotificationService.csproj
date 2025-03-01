@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Features\" />
     <Folder Include="DependencyInjections\ApplicationDependencyInjections\" />
     <Folder Include="Web\Controllers\" />
   </ItemGroup>
