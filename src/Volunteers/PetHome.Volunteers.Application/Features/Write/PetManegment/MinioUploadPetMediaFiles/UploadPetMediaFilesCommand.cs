@@ -2,7 +2,7 @@
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Volunteers.Application.Features.Dto.Pet;
 
-namespace PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.MinioUploadPetMediaFiles;
 public record UploadPetMediaFilesCommand(
     IEnumerable<Stream> Streams,
     IEnumerable<string> FileNames,

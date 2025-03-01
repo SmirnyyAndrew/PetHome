@@ -1,18 +1,18 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database;
-using PetHome.Accounts.Application.Features.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Application.Features.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateAdmin;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateParticipant;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateVolunteer;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetPermissions;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetRoles;
-using PetHome.Accounts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Application.Features.Contracts.AuthManagement.GetRole;
+using PetHome.Accounts.Application.Features.Contracts.TokenManagment.GenerateAccessToken;
+using PetHome.Accounts.Application.Features.Contracts.TokenManagment.GenerateRefreshToken;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetPermissionsNames;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetRolesNames;
+using PetHome.Accounts.Application.Features.Write.CreateParticipant;
+using PetHome.Accounts.Application.Features.Write.CreateUser;
+using PetHome.Accounts.Application.Features.Write.CreateVolunteer;
+using PetHome.Accounts.Contracts.Contracts.AuthManagement;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
+using PetHome.Accounts.Contracts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Framework.Auth;
@@ -30,13 +30,9 @@ public static class ApplicationDependencyInjection
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
-
-        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+         
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
-        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();
-        services.AddScoped<ICreateAdminContract, CreateAdminUsingContract>();
-        services.AddScoped<ICreateParticipantContract, CreateParticipantUsingContract>();
-        services.AddScoped<ICreateVolunteerAccountContract, CreateVolunteerUsingContract>();
+        services.AddScoped<IGetUserRoleNameContract, GetUserRoleNameUsingContract>();   
 
         services.AddScoped<IGetUserPermissionsCodesContact, GetUserPermissionsCodesUsingContact>();
         services.AddScoped<IGenerateAccessTokenContract, GenerateAccessTokenUsingContract>();

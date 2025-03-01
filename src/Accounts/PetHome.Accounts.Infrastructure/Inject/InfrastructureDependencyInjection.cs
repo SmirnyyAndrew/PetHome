@@ -7,6 +7,8 @@ using PetHome.Accounts.Infrastructure.BackgroundServices;
 using PetHome.Accounts.Infrastructure.Contracts;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Repositories;
+using PetHome.Accounts.Infrastructure.Inject.TransactionOutbox;
+using PetHome.Accounts.Infrastructure.TransactionOutbox;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Framework.Database;
@@ -26,6 +28,7 @@ public static class InfrastructureDependencyInjection
 
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<IOutboxMessageRepository, OutboxMessageRepository>();
         services.AddScoped<IRefreshSessionRepository, RefreshSessionRepository>();
         services.AddSingleton<IAuthorizationHandler, PermissionAttributeHandler>();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
@@ -33,6 +36,8 @@ public static class InfrastructureDependencyInjection
         //services.AddHostedService<SoftDeletableEntitiesMonitor>();
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>();
+
+        services.AddOutboxService();
 
         return services;
     }

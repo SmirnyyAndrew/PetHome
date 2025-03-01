@@ -59,6 +59,7 @@ public partial class Program
         //Middleware для отлова исключений (-стэк трейс)
         app.UseExceptionHandler();
 
+        //Логирование запросов
         app.UseSerilogRequestLogging();
 
         // Configure the HTTP request pipeline.
@@ -69,14 +70,12 @@ public partial class Program
             //Automigration
             //app.ApplyAutoMigrations();
         }
-
-        //Логирование запросов
-        app.UseSerilogRequestLogging();
+         
 
         app.UseHttpsRedirection();
 
-        //Добавить минимум-api
-        app.AddMinimumApi();
+        //Добавить minimal api
+        app.AddMinimalApi();
 
 
         app.UseAuthentication();

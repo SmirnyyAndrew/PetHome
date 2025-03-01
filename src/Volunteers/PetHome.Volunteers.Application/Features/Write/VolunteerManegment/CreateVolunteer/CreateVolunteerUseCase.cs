@@ -1,8 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -10,68 +11,64 @@ using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
-using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Contracts;
-using PetHome.Volunteers.Contracts.CreateVolunteerContract;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
 namespace PetHome.Volunteers.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 
 public class CreateVolunteerUseCase
-    //: ICommandHandler<Guid, CreateVolunteerCommand>
-    : ICreateVolunteerContract
+    : ICommandHandler<Guid, CreateVolunteerCommand> 
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ICreateVolunteerAccountContract _createVolunteerAccount;
+    private readonly IUnitOfWork _unitOfWork; 
+    private readonly IPublishEndpoint _publisher;
     private readonly IValidator<CreateVolunteerCommand> _validator;
 
     public CreateVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<CreateVolunteerUseCase> logger,
-       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
-       ICreateVolunteerAccountContract createVolunteerAccount,
+        IPublishEndpoint publisher,
+       [FromKeyedServices(Constants.VOLUNTEER_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork, 
         IValidator<CreateVolunteerCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
-        _validator = validator;
-        _createVolunteerAccount = createVolunteerAccount;
+        _validator = validator; 
+        _publisher = publisher;
     }
 
     public async Task<Result<Guid, ErrorList>> Execute(
-        CreateVolunteerCommand createVolunteerCommand,
+        CreateVolunteerCommand command,
         CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(createVolunteerCommand, ct);
+        var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is false)
             return validationResult.Errors.ToErrorList();
 
         VolunteerId id = VolunteerId.Create().Value;
 
         FullName fullName = FullName.Create(
-            createVolunteerCommand.FullNameDto.FirstName,
-            createVolunteerCommand.FullNameDto.LastName).Value;
+            command.FullNameDto.FirstName,
+            command.FullNameDto.LastName).Value;
 
-        Email email = Email.Create(createVolunteerCommand.Email).Value;
+        Email email = Email.Create(command.Email).Value;
 
-        Description description = Description.Create(createVolunteerCommand.Description).Value;
+        Description description = Description.Create(command.Description).Value;
 
-        Date startVolunteeringDate = Date.Create(createVolunteerCommand.StartVolunteeringDate).Value;
+        Date startVolunteeringDate = Date.Create(command.StartVolunteeringDate).Value;
 
-        List<PhoneNumber> phoneNumberList = createVolunteerCommand.PhoneNumbers
+        List<PhoneNumber> phoneNumberList = command.PhoneNumbers
                 .Select(x => PhoneNumber.Create(x).Value)
                 .ToList();
 
-        List<SocialNetwork> socialNetworkList = createVolunteerCommand.SocialNetworks
-                .Select(x => SocialNetwork.Create(x).Value)
+        List<SocialNetwork> socialNetworkList = command.SocialNetworks
+                .Select(x => SocialNetwork.Create(x.url).Value)
                 .ToList();
 
-        List<Requisites> requisitesList = createVolunteerCommand.RequisitesesDto
+        List<Requisites> requisitesList = command.Requisiteses
                  .Select(x => Requisites.Create(x.Name, x.Desc, x.PaymentMethod).Value)
                  .ToList();
 
@@ -85,21 +82,17 @@ public class CreateVolunteerUseCase
             requisitesList,
             socialNetworkList)
             .Value;
-        var createUserIdResult = await _createVolunteerAccount.Execute(
-            email,
-            UserName.Create(Guid.NewGuid().ToString()).Value,
-            startVolunteeringDate,
-            requisitesList, [], ct);
-        if (createUserIdResult.IsFailure)
-            return createUserIdResult.Error.ToErrorList();
 
-        UserId userId = createUserIdResult.Value;
-        volunteer.SetUserId(userId);
-
-        var transaction = await _unitOfWork.BeginTransaction(ct);
-
-        var result = await _volunteerRepository.Add(volunteer, ct);
-
+        var createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
+            command.Email,
+            command.UserName,
+            command.StartVolunteeringDate,
+            command.Requisiteses.ToList(),
+            command.Certificates.ToList());
+        await _publisher.Publish(createVolunteerAccountMessage);
+         
+        var transaction = await _unitOfWork.BeginTransaction(ct); 
+        var result = await _volunteerRepository.Add(volunteer, ct); 
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 

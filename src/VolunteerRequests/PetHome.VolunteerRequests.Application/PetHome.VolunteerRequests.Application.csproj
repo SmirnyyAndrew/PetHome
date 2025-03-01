@@ -8,6 +8,7 @@
 
 	<ItemGroup> 
 		<ProjectReference Include="..\..\Accounts\PetHome.Accounts.Contracts\PetHome.Accounts.Contracts.csproj" /> 
+		<ProjectReference Include="..\..\Discussions\PetHome.Discussions.Contracts\PetHome.Discussions.Contracts.csproj" /> 
 		<ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
 		<ProjectReference Include="..\..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
 		<ProjectReference Include="..\..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
@@ -19,6 +20,7 @@
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+		<PackageReference Include="MassTransit" Version="8.3.6" />
 		<PackageReference Include="Scrutor" Version="6.0.0" />
 	</ItemGroup>
 

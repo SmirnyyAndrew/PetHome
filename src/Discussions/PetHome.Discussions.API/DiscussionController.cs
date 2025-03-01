@@ -3,11 +3,11 @@ using PetHome.Core.Controllers;
 using PetHome.Discussions.API.Requests;
 using PetHome.Discussions.Application.Features.Read.GetAllDiscussionByRelationId;
 using PetHome.Discussions.Application.Features.Write.CloseDiscussion;
+using PetHome.Discussions.Application.Features.Write.CreateDiscussionUsingContract;
 using PetHome.Discussions.Application.Features.Write.EditMessageInDiscussion;
 using PetHome.Discussions.Application.Features.Write.OpenDiscussion;
 using PetHome.Discussions.Application.Features.Write.RemoveMessageInDiscussion;
 using PetHome.Discussions.Application.Features.Write.SendMessageInDiscussion;
-using PetHome.Discussions.Contracts.CreateDiscussion;
 
 namespace PetHome.Discussions.API;
 public class DiscussionController : ParentController
@@ -44,12 +44,12 @@ public class DiscussionController : ParentController
 
     [HttpPost("discussion/{relationId:guid}")]
     public async Task<IActionResult> CreateDiscussion(
-       [FromServices] ICreateDiscussionContract contract,
+       [FromServices] CreateDiscussionUseCase useCase,
        [FromRoute] Guid relationId,
        [FromBody] CreateDiscussionRequest request,
        CancellationToken ct)
     {
-        var result = await contract.Execute(request.ToCommand(relationId), ct);
+        var result = await useCase.Execute(request.ToCommand(relationId), ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 

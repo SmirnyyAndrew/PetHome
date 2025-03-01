@@ -1,8 +1,22 @@
-﻿using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestApproved;
+﻿using PetHome.Core.ValueObjects.User;
+using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestApproved;
 
 namespace PetHome.VolunteerRequests.API.Requests;
-public record SetVolunteerRequestApprovedRequest(Guid VolunteerRequestId, Guid AdminId)
+public record SetVolunteerRequestApprovedRequest(
+    string Email,
+    string UserName,
+    DateTime StartVolunteeringDate,
+    IReadOnlyList<RequisitesesDto> Requisites,
+    IReadOnlyList<CertificateDto> Certificates)
 {
-    public static implicit operator SetVolunteerRequestApprovedCommand(SetVolunteerRequestApprovedRequest request)
-        => new(request.VolunteerRequestId, request.AdminId);
+    public SetVolunteerRequestApprovedCommand ToCommand(
+        Guid volunteerRequestId,Guid adminId)
+        => new SetVolunteerRequestApprovedCommand(
+                 volunteerRequestId,
+                 adminId,
+                 Email,
+                 UserName,
+                 StartVolunteeringDate,
+                 Requisites,
+                 Certificates);
 }

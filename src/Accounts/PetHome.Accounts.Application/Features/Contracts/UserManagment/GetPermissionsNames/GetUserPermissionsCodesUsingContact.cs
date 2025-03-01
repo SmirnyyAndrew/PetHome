@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 
-namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.GetPermissions;
+namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.GetPermissionsNames;
 public class GetUserPermissionsCodesUsingContact
     (IAuthenticationRepository repository) : IGetUserPermissionsCodesContact
 {

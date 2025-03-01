@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="MassTransit" Version="8.3.6" />
+    <PackageReference Include="Quartz" Version="3.13.1" />
     <PackageReference Include="Scrutor" Version="6.0.0" />
   </ItemGroup>
 
@@ -15,6 +17,10 @@
     <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
     <ProjectReference Include="..\PetHome.Accounts.Contracts\PetHome.Accounts.Contracts.csproj" />
     <ProjectReference Include="..\PetHome.Accounts.Domain\PetHome.Accounts.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Consumers\AuthManagement\" />
   </ItemGroup>
 
 </Project>

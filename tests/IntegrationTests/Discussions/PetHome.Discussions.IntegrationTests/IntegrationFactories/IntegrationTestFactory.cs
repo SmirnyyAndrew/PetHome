@@ -5,9 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateRole;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.CreateUser;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Application.Features.Contracts.AuthManagement.GetRole;
+using PetHome.Accounts.Application.Features.Write.CreateUser;
+using PetHome.Accounts.Contracts.Contracts.AuthManagement;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Discussions.Infrastructure.Database.Write;
 using PetHome.Discussions.Infrastructure.Database.Write.Repositories;
 using Respawn;
@@ -42,14 +43,14 @@ public class IntegrationTestFactory
     {
         services.RemoveAll(typeof(DiscussionDbContext));
         services.RemoveAll(typeof(IAuthenticationRepository));
-        services.RemoveAll(typeof(ICreateUserContract));
+        //services.RemoveAll(typeof(ICreateUserContract));
         services.RemoveAll(typeof(IGetRoleContract)); 
          
         _repository = new DiscussionRepository(new DiscussionDbContext(_dbContainer.GetConnectionString()));  
         services.AddScoped(_ => _repository); 
         services.AddScoped(_ => new DiscussionDbContext(_dbContainer.GetConnectionString()));
 
-        services.AddScoped<ICreateUserContract, CreateUserUsingContract>();
+        //services.AddScoped<ICreateUserContract, CreateUserUseCase>();
         services.AddScoped<IGetRoleContract, GetRoleUsingContract>(); 
     }
 

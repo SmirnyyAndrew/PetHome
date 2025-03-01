@@ -27,15 +27,17 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public MediaFile? Avatar { get; private set; }
     public string AvatarUrl { get; set; } = string.Empty;
 
-    public User() { }
+    private User() { }
 
     private User(
             Email email,
             UserName userName,
             Role role,
-            MediaFile avatar = null)
+            MediaFile avatar = null,
+            Guid id = default)
     {
-        Id = Guid.NewGuid();
+        //Если нужно создать пользователя с определенным id
+        Id = id == default ? Guid.NewGuid() : id;
         Email = email;
         UserName = userName;
         Role = role;
@@ -47,10 +49,13 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
             Email email,
             UserName userName,
             Role role,
-            MediaFile avatar = null)
+            MediaFile avatar = null,
+            Guid id = default)
     {
-        if (role != null && email != null && role != null)
-            return new User(email, userName, role, avatar);
+        bool isCorrectUserData = role != null && email != null && role != null; 
+
+        if (isCorrectUserData)
+            return new User(email, userName, role, avatar, id);
 
         return Errors.Validation("User");
     }
@@ -106,7 +111,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
         return UnitResult.Success<Error>();
     }
 
-     
+
     public void SetAvatar(MediaFile avatar)
     {
         Avatar = avatar;
@@ -116,11 +121,11 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     //Добавить медиа
     public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
     {
-        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
+        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload);
 
         IReadOnlyList<MediaFile> oldMedias = Photos.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
-         
+
         Photos = newMediaFiles;
 
         return Result.Success<Error>();
@@ -134,7 +139,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
-         
+
         Photos = newMediaFiles;
 
         return Result.Success<Error>();

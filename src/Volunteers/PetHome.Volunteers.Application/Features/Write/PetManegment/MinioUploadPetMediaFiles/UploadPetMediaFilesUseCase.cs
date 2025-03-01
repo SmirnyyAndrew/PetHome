@@ -16,7 +16,7 @@ using PetHome.Volunteers.Application.Database;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 
-namespace PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.MinioUploadPetMediaFiles;
 public class UploadPetMediaFilesUseCase
     : ICommandHandler<string, UploadPetMediaFilesCommand>
 {

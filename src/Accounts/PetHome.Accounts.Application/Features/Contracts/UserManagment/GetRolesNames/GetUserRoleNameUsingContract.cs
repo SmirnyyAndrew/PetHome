@@ -1,7 +1,7 @@
 ﻿using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.UserManagment;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 
-namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.GetRoles;
+namespace PetHome.Accounts.Application.Features.Contracts.UserManagment.GetRolesNames;
 public class GetUserRoleNameUsingContract
     (IAuthenticationRepository repository) : IGetUserRoleNameContract
 {

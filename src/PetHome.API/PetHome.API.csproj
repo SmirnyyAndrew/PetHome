@@ -36,4 +36,8 @@
 		<ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="MinimumApi\Agregates\Accounts\" />
+	</ItemGroup>
+
 </Project>
