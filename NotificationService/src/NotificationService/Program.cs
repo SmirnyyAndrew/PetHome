@@ -1,5 +1,7 @@
 using NotificationService.DependencyInjections;
 
+DotNetEnv.Env.Load(); 
+
 var builder = WebApplication.CreateBuilder(args);
   
 builder.Services.AddControllers(); 

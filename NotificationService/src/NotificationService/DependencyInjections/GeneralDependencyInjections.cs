@@ -10,6 +10,7 @@ public static class GeneralDependencyInjections
     {
         services.AddDatabase(configuration);
         services.AddServices();
+        services.AddOptions(configuration);
 
         return services;
     }
