@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NotificationService.Domain;
 
-namespace NotificationService.Database.Write;
+namespace NotificationService.Infrastructure.Database.Write;
 
 public class NotificationWriteDbContext : DbContext
 {

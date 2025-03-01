@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NotificationService.Domain;
 
-namespace NotificationService.Database.Write.Configuration;
+namespace NotificationService.Infrastructure.Database.Write.Configuration;
 
-public class UserNotificationSettingsConfiguration 
+public class UserNotificationSettingsConfiguration
     : IEntityTypeConfiguration<UserNotificationSettings>
 {
     public void Configure(EntityTypeBuilder<UserNotificationSettings> builder)
