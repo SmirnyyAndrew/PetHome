@@ -44,6 +44,7 @@ public class SetVolunteerRequestApprovedUseCase
         _repository.Update(volunteerRequest);
 
         var createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
+            volunteerRequest.UserId,
             command.Email,
             command.UserName,
             command.StartVolunteeringDate,

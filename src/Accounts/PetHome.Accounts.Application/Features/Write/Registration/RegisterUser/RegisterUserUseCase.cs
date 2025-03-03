@@ -23,7 +23,7 @@ public class RegisterUserUseCase
     private readonly IAuthenticationRepository _repository;
     private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    //private readonly IPublishEndpoint _publusher;
+    private readonly IPublishEndpoint _publisher;
     private readonly IValidator<RegisterUserCommand> _validator;
     private readonly ILogger<RegisterUserUseCase> _logger;
 
@@ -31,14 +31,14 @@ public class RegisterUserUseCase
         IAuthenticationRepository repository,
         UserManager<User> userManager,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
-        //IPublishEndpoint publusher,
+        IPublishEndpoint publisher,
         IValidator<RegisterUserCommand> validator,
         ILogger<RegisterUserUseCase> logger)
     {
         _repository = repository;
         _userManager = userManager;
         _unitOfWork = unitOfWork;
-        //_publusher = publusher;
+        _publisher = publisher;
         _validator = validator;
         _logger = logger;
     }
@@ -72,12 +72,12 @@ public class RegisterUserUseCase
             return result.Errors.ToErrorList(); 
         await _unitOfWork.SaveChanges(ct);
 
-        //CreatedUserEvent createdUserEvent = new CreatedUserEvent(
-        //    user.Id,
-        //    user.Email,
-        //    user.UserName,
-        //    user.RoleId);
-        //await _publusher.Publish(createdUserEvent, ct);
+        CreatedUserEvent createdUserEvent = new CreatedUserEvent(
+            user.Id,
+            user.Email,
+            user.UserName,
+            user.Role?.Name);
+        await _publisher.Publish(createdUserEvent, ct);
 
         transaction.Commit();
 

@@ -7,9 +7,9 @@ using PetHome.Accounts.Contracts.Messaging.UserManagment;
 namespace NotificationService.Application.Consumers;
 
 public class CreateUserConsumer(IConfiguration configuration)
-    : IConsumer<CreatedUserEvent>
+    : IConsumer<ConfirmedUserEmailEvent>
 {
-    public async Task Consume(ConsumeContext<CreatedUserEvent> context)
+    public async Task Consume(ConsumeContext<ConfirmedUserEmailEvent> context)
     {
         var command = context.Message;
         EmailManager emailManager = YandexEmailManager.Build(configuration);

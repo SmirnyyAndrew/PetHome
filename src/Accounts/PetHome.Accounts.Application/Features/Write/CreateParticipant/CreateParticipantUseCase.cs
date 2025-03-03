@@ -1,6 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using MassTransit;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
@@ -17,13 +20,16 @@ public class CreateParticipantUseCase
 {
     private readonly IAuthenticationRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublishEndpoint _publisher;
 
     public CreateParticipantUseCase(
         IAuthenticationRepository repository,
+        IPublishEndpoint publisher,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
     public async Task<Result<UserId, ErrorList>> Execute(CreateParticipantCommand command, CancellationToken ct)
@@ -42,6 +48,9 @@ public class CreateParticipantUseCase
         await _repository.AddUser(user, ct);
         await _repository.AddParticipant(participant, ct);
         await _unitOfWork.SaveChanges(ct);
+
+        CreatedParticipantEvent createdParticipantEvent = new CreatedParticipantEvent(user.Id);
+        await _publisher.Publish(createdParticipantEvent, ct); 
         transaction.Commit();
 
         UserId userId = UserId.Create(user.Id).Value;

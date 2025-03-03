@@ -66,20 +66,23 @@ public class AccountController
        IPublishEndpoint publisher,
        CancellationToken ct)
     {
-        GenerateEmailConfirmationTokenRequest generateEmailTokenRequest = 
+        GenerateEmailConfirmationTokenRequest generateEmailTokenRequest =
             new GenerateEmailConfirmationTokenRequest(userId);
         var generateEmailTokenResult =
             await generateEmailTokenUseCase.Execute(generateEmailTokenRequest, ct);
 
-        GetUserInformationRequest getUserInformationRequest = 
+        GetUserInformationRequest getUserInformationRequest =
             new GetUserInformationRequest(userId);
-        var getUserInformationResult = 
+        var getUserInformationResult =
             await getUserInformationUseCase.Execute(getUserInformationRequest, ct);
 
-        if (generateEmailTokenResult.IsFailure || getUserInformationResult.IsFailure)
+        if (generateEmailTokenResult.IsFailure)
             return BadRequest(generateEmailTokenResult.Error);
 
-        ConfirmEmailRequest confirmRequest = 
+        if (getUserInformationResult.IsFailure)
+            return BadRequest(getUserInformationResult.Error);
+
+        ConfirmEmailRequest confirmRequest =
             new ConfirmEmailRequest(userId, generateEmailTokenResult.Value);
         var callbackUrl = Url.Action(
                       nameof(ConfirmEmail),
@@ -88,11 +91,11 @@ public class AccountController
                       protocol: HttpContext.Request.Scheme);
 
         UserDto userDto = getUserInformationResult.Value;
-        CreatedUserEvent createdUserEvent = new CreatedUserEvent(
+        ConfirmedUserEmailEvent createdUserEvent = new ConfirmedUserEmailEvent(
             userDto.Id,
             userDto.Email,
             userDto.UserName,
-            callbackUrl); 
+            callbackUrl);
         await publisher.Publish(createdUserEvent, ct);
 
         return Ok(callbackUrl);
