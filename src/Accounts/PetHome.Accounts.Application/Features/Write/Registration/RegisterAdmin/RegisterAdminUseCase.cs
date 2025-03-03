@@ -1,55 +1,29 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc;
-using PetHome.Accounts.Application.Database.Repositories;
+using MassTransit;
 using PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
-using PetHome.Accounts.Domain.Accounts;
-using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
 
 namespace PetHome.Accounts.Application.Features.Write.Registration.RegisterVolunteerAccount;
 public class RegisterAdminUseCase
-    : ICommandHandler<AdminAccount, RegisterUserCommand>
+    : ICommandHandler<RegisterUserCommand>
 {
-    private readonly RegisterUserUseCase _registerUserUseCase;
-    private readonly IAuthenticationRepository _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    public RegisterAdminUseCase(
-        [FromServices] RegisterUserUseCase registerUserUseCase,
-        IAuthenticationRepository repository,
-        IUnitOfWork unitOfWork
-        )
+    private readonly IPublishEndpoint _publisher;
+    public RegisterAdminUseCase(IPublishEndpoint publisher)
     {
-        _registerUserUseCase = registerUserUseCase;
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    } 
+        _publisher = publisher;
+    }
 
-    public async Task<Result<AdminAccount, ErrorList>> Execute(
+    public async Task<UnitResult<ErrorList>> Execute(
         RegisterUserCommand command, CancellationToken ct)
     {
-        var result = await _registerUserUseCase.Execute(command, ct);
-        if (result.IsFailure)
-            return result.Error;
+        CreatedAdminEvent createdAdminEvent = new CreatedAdminEvent(
+              Guid.NewGuid(),
+              command.Email,
+              command.UserName);
+        await _publisher.Publish(createdAdminEvent);
 
-        User user = result.Value;
-        AdminAccount admin = AdminAccount.Create(user).Value;
-        var transaction = await _unitOfWork.BeginTransaction(ct);
-        try
-        {
-            await _repository.AddAdmin(admin, ct);
-            await _unitOfWork.SaveChanges(ct);
-            transaction.Commit();
-
-            return admin;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            _repository.RemoveUser(user);
-            await _unitOfWork.SaveChanges(ct);
-            throw;
-        }
+        return Result.Success<ErrorList>();
     }
 }

@@ -84,17 +84,28 @@ public class AccountController : ParentController
     {
         return Ok("It's ok");
     }
+     
+    [HttpGet("user/{id:guid}")]
+    public async Task<IActionResult> GetUser(
+        [FromServices] GetUserUseCase useCase,
+        [FromRoute] Guid id,
+        CancellationToken ct)
+    {
+        GetUserQuery query = new(id);
+        var result = await useCase.Execute(query, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
 
+        return Ok(result.Value);
+    }
 
-    //Указал Permission-заглушку для доступа этого метода у Participant
-    [Permission(Permissions.Pet.GET)]
     [HttpGet("user-information/{id:guid}")]
-    public async Task<IActionResult> GetUserInformationWithHisAccounts(
+    public async Task<IActionResult> GetUserInformation(
         [FromServices] GetUserInformationUseCase useCase,
         [FromRoute] Guid id,
         CancellationToken ct)
     {
-        GetUserInformationQuery query = new(id);
+        GetUserQuery query = new(id);
         var result = await useCase.Execute(query, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
