@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 
@@ -33,9 +34,10 @@ public class EmailManager
         {
             Text = body
         };
+
         using (SmtpClient client = new SmtpClient())
         {
-            client.Connect(_host, _port, useSsl: true);
+            client.Connect(_host, _port, SecureSocketOptions.StartTls);
             client.Authenticate(_senderEmail, _senderPassword);
             client.Send(message);
             client.Disconnect(true);

@@ -1,4 +1,5 @@
-﻿using NotificationService.Application.Features.UsersNotificationSettings.GetAnyUsersNotificationSettings;
+﻿using NotificationService.Application.Features.Email.SendMessage;
+using NotificationService.Application.Features.UsersNotificationSettings.GetAnyUsersNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUserNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUsersEmailSendings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUsersTelegramSendings;
@@ -19,6 +20,8 @@ public static class ServicesDependencyInjections
         services.AddScoped<GetUsersWebSendingsUseCase>();
         services.AddScoped<ResetUserNotificationSettingsUseCase>();
         services.AddScoped<UpdateUserNotificationSettingsUseCase>();
+     
+        services.AddScoped<SendMessageUseCase>();
 
         return services;
     }
