@@ -1,5 +1,6 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
+using MimeKit.Text;
 
 namespace NotificationService.Infrastructure.EmailNotification;
 
@@ -18,25 +19,33 @@ public class EmailManager
         _senderPassword = senderPassword;
     }
 
-    public void SendMessage(string recipientEmail, string subject, string body)
+    public void SendMessage(
+        string recipientEmail,
+        string subject,
+        string body,
+        string _senderEmailName = "PetHome")
     {
-
-
-        SmtpClient smtpClient = new SmtpClient(_host)
+        MimeMessage message = new MimeMessage();
+        message.From.Add(new MailboxAddress(_senderEmailName, _senderEmail));
+        message.To.Add(new MailboxAddress(string.Empty, recipientEmail));
+        message.Subject = subject;
+        message.Body = new TextPart(TextFormat.Plain)
         {
-            Port = _port,
-            Credentials = new NetworkCredential(_senderEmail, _senderPassword),
-            EnableSsl = true,
-            UseDefaultCredentials = false,
+            Text = body
         };
-        MailMessage mailMessage = new MailMessage(_senderEmail, recipientEmail, subject, body);
-        smtpClient.Send(mailMessage);
+        using (SmtpClient client = new SmtpClient())
+        {
+            client.Connect(_host, _port, useSsl: true);
+            client.Authenticate(_senderEmail, _senderPassword);
+            client.Send(message);
+            client.Disconnect(true);
+        }
     }
 
     public static EmailManager Build(
-        string senderEmail, 
-        string senderPassword, 
-        string host, 
+        string senderEmail,
+        string senderPassword,
+        string host,
         int port)
     {
         EmailManager manager = new EmailManager(senderEmail, senderPassword, host, port);
