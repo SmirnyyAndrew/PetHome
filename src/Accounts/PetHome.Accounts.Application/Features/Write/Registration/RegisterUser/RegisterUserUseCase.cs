@@ -1,9 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Application.Database.Repositories;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
@@ -14,33 +16,36 @@ using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
-namespace PetHome.Accounts.Application.Features.Write.RegisterAccount;
-public class RegisterParticipantUserUseCase
-    : ICommandHandler<RegisterParticipantUserCommand>
+namespace PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
+public class RegisterUserUseCase
+    : ICommandHandler<RegisterUserCommand>
 {
     private readonly IAuthenticationRepository _repository;
     private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<RegisterParticipantUserCommand> _validator;
-    private readonly ILogger<RegisterParticipantUserUseCase> _logger;
+    private readonly IPublishEndpoint _publusher;
+    private readonly IValidator<RegisterUserCommand> _validator;
+    private readonly ILogger<RegisterUserUseCase> _logger;
 
-    public RegisterParticipantUserUseCase(
+    public RegisterUserUseCase(
         IAuthenticationRepository repository,
         UserManager<User> userManager,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
-        IValidator<RegisterParticipantUserCommand> validator,
-        ILogger<RegisterParticipantUserUseCase> logger)
+        IPublishEndpoint publusher,
+        IValidator<RegisterUserCommand> validator,
+        ILogger<RegisterUserUseCase> logger)
     {
         _repository = repository;
         _userManager = userManager;
         _unitOfWork = unitOfWork;
+        _publusher = publusher;
         _validator = validator;
         _logger = logger;
     }
 
 
     public async Task<UnitResult<ErrorList>> Execute(
-        RegisterParticipantUserCommand command,
+        RegisterUserCommand command,
         CancellationToken ct)
     {
         var validateResult = await _validator.ValidateAsync(command, ct);
@@ -56,20 +61,25 @@ public class RegisterParticipantUserUseCase
 
         var roleResult = await _repository.GetRole(ParticipantAccount.ROLE);
         if (roleResult.IsFailure)
-            return roleResult.Error.ToErrorList(); 
+            return roleResult.Error.ToErrorList();
         Role role = roleResult.Value;
 
-        UserName userName = UserName.Create(command.Name).Value;
+        UserName userName = UserName.Create(command.UserName).Value;
         User user = User.Create(email, userName, role).Value;
-         
+
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
-            return result.Errors.ToErrorList();
-         
-        ParticipantAccount participant = ParticipantAccount.Create(user).Value;
-        await _repository.AddParticipant(participant, ct);
-         
+            return result.Errors.ToErrorList(); 
+
         await _unitOfWork.SaveChanges(ct);
+
+        CreatedUserEvent createdUserEvent = new CreatedUserEvent(
+            user.Id,
+            user.Email,
+            user.UserName,
+            user.RoleId);
+        await _publusher.Publish(createdUserEvent, ct);
+
         transaction.Commit();
 
         _logger.LogInformation("Patrisipant-user с id = {0} добавлен", user.Id);

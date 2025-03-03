@@ -28,13 +28,14 @@ public class CreateUserConsumer : IConsumer<CreatedUserEvent>
         _repository = repository;
         _unitOfWork = unitOfWork;
         _logger = logger;
+        _validator = validator;
     }
 
     public async Task Consume(ConsumeContext<CreatedUserEvent> context)
     {
         var command = context.Message;
 
-        var validationResult = _validator.Validate(command);
+        var validationResult = await _validator.ValidateAsync(command);
         if (validationResult.IsValid is false)
         {
             _logger.LogError("Ошибка валидации");

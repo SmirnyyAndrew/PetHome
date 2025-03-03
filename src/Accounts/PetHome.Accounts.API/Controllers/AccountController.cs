@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests;
 using PetHome.Accounts.Application.Features.Read.GetUserInformation;
 using PetHome.Accounts.Application.Features.Write.LoginUser;
-using PetHome.Accounts.Application.Features.Write.RegisterAccount;
+using PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.StartUploadAvatar;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.UploadPresignedUrlAvatar;
@@ -17,10 +17,10 @@ using PetHome.Core.Response.Login;
 namespace PetHome.Accounts.API.Controllers;
 public class AccountController : ParentController
 {
-    [HttpPost("participant/registration")]
+    [HttpPost("user/registration")]
     public async Task<IActionResult> Register(
-        [FromServices] RegisterParticipantUserUseCase useCase,
-        [FromBody] RegisterParticipantUserRequest request,
+        [FromServices] RegisterUserUseCase useCase,
+        [FromBody] RegisterUserRequest request,
         CancellationToken ct)
     {
         var result = await useCase.Execute(request, ct);
