@@ -18,7 +18,7 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 namespace PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
 public class RegisterUserUseCase
-    : ICommandHandler<RegisterUserCommand>
+    : ICommandHandler<User, RegisterUserCommand>
 {
     private readonly IAuthenticationRepository _repository;
     private readonly UserManager<User> _userManager;
@@ -44,7 +44,7 @@ public class RegisterUserUseCase
     }
 
 
-    public async Task<UnitResult<ErrorList>> Execute(
+    public async Task<Result<User, ErrorList>> Execute(
         RegisterUserCommand command,
         CancellationToken ct)
     {
@@ -70,7 +70,6 @@ public class RegisterUserUseCase
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
             return result.Errors.ToErrorList(); 
-
         await _unitOfWork.SaveChanges(ct);
 
         CreatedUserEvent createdUserEvent = new CreatedUserEvent(
@@ -82,7 +81,7 @@ public class RegisterUserUseCase
 
         transaction.Commit();
 
-        _logger.LogInformation("Patrisipant-user с id = {0} добавлен", user.Id);
-        return Result.Success<ErrorList>();
-    }
+        _logger.LogInformation("User с id = {0} добавлен", user.Id);
+        return user;
+    } 
 }
