@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Domain.Accounts;
@@ -8,17 +9,15 @@ using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database.Repositories;
-public class AuthenticationRepository : IAuthenticationRepository
+public class AuthenticationRepository(
+    AuthorizationDbContext dbContext,
+    UserManager<User> userManager)
+    : IAuthenticationRepository
 {
-    private readonly AuthorizationDbContext _dbContext;
-    public AuthenticationRepository(AuthorizationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
 
     public async Task<Result<Role, Error>> GetRole(Guid roleId)
     {
-        var result = await _dbContext.Roles
+        var result = await dbContext.Roles
             .FirstOrDefaultAsync(r => r.Id == roleId);
         if (result is null)
             return Errors.NotFound($"role с id == {roleId}");
@@ -27,7 +26,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<Role, Error>> GetRole(RoleName roleName)
     {
-        var result = await _dbContext.Roles
+        var result = await dbContext.Roles
             .FirstOrDefaultAsync(r => r.Name.ToLower() == roleName.Value.ToLower());
         if (result is null)
             return Errors.NotFound($"role с name == {roleName}");
@@ -37,50 +36,50 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task AddUser(User user, CancellationToken ct)
     {
-        await _dbContext.Users.AddAsync(user, ct);
+        await dbContext.Users.AddAsync(user, ct);
     }
 
     public async Task AddUser(IEnumerable<User> users, CancellationToken ct)
     {
-        await _dbContext.Users.AddRangeAsync(users, ct);
+        await dbContext.Users.AddRangeAsync(users, ct);
     }
 
     public async Task AddAdmin(AdminAccount admin, CancellationToken ct)
     {
-        await _dbContext.Admins.AddAsync(admin, ct);
+        await dbContext.Admins.AddAsync(admin, ct);
     }
 
     public async Task AddVolunteer(VolunteerAccount volunteer, CancellationToken ct)
     {
-        await _dbContext.VolunteerAccounts.AddAsync(volunteer, ct);
+        await dbContext.VolunteerAccounts.AddAsync(volunteer, ct);
     }
 
     public async Task AddParticipant(ParticipantAccount participant, CancellationToken ct)
     {
-        await _dbContext.ParticipantAccounts.AddAsync(participant, ct);
+        await dbContext.ParticipantAccounts.AddAsync(participant, ct);
     }
 
     public void RemoveUser(User user)
     {
-        _dbContext.Users.Remove(user);
+        dbContext.Users.Remove(user);
     }
 
     public void RemoveUser(IEnumerable<User> users)
     {
-        _dbContext.Users.RemoveRange(users);
+        dbContext.Users.RemoveRange(users);
     }
 
     public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)
     {
-        var users = _dbContext.Users.ToList();
+        var users = dbContext.Users.ToList();
 
-        var result = await _dbContext.Users
+        var result = await dbContext.Users
             .Include(u => u.Role)
             .Include(u => u.Admin)
             .Include(u => u.Volunteer)
             .Include(u => u.Participant)
             .FirstOrDefaultAsync(v => v.Id == id);
-
+         
         if (result is null)
             return Errors.NotFound($"user с id == {id}");
 
@@ -89,7 +88,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public async Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct)
     {
-        var result = await _dbContext.Users
+        var result = await dbContext.Users
             .Include(u => u.Role)
             .Include(u => u.Admin)
             .Include(u => u.Volunteer)
@@ -104,12 +103,12 @@ public class AuthenticationRepository : IAuthenticationRepository
 
     public void UpdateUser(User user, CancellationToken ct)
     {
-        _dbContext.Users.Update(user);
+        dbContext.Users.Update(user);
     }
 
     public void UpdateUser(IEnumerable<User> users, CancellationToken ct)
     {
-        _dbContext.Users.UpdateRange(users);
+        dbContext.Users.UpdateRange(users);
     }
 
     public async Task<UnitResult<Error>> RemoveById(Guid id, CancellationToken ct)
@@ -117,7 +116,7 @@ public class AuthenticationRepository : IAuthenticationRepository
         var result = await GetUserById(id, ct);
         if (result.IsFailure)
             return result.Error;
-        _dbContext.Users.Remove(result.Value);
+        dbContext.Users.Remove(result.Value);
 
         return UnitResult.Success<Error>();
     }
@@ -132,12 +131,12 @@ public class AuthenticationRepository : IAuthenticationRepository
 
         Role userRole = userRoleResult.Value;
 
-        var permissionsIds = await _dbContext.RolesPermissions
-            .Where(r=>r.RoleId == userRole.Id)
-            .Select(p=>p.PermissionId)
+        var permissionsIds = await dbContext.RolesPermissions
+            .Where(r => r.RoleId == userRole.Id)
+            .Select(p => p.PermissionId)
             .ToListAsync(ct);
-        var permissions = await _dbContext.Permissions
-            .Where(p=>permissionsIds.Contains(p.Id))
+        var permissions = await dbContext.Permissions
+            .Where(p => permissionsIds.Contains(p.Id))
             .ToListAsync(ct);
         return permissions;
     }
@@ -146,19 +145,19 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<Result<Role?, Error>> GetUserRole(Guid userId, CancellationToken ct)
     {
         var userResult = await GetUser(userId, ct);
-        if(userResult.IsFailure)
+        if (userResult.IsFailure)
             return userResult.Error;
 
         User user = userResult.Value;
         var userRoleId = user?.RoleId;
-        var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == userRoleId, ct);
+        var role = await dbContext.Roles.FirstOrDefaultAsync(r => r.Id == userRoleId, ct);
         return role;
     }
 
 
-    private async Task<Result<User?,Error>> GetUser(Guid id, CancellationToken ct)
+    private async Task<Result<User?, Error>> GetUser(Guid id, CancellationToken ct)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
+        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
         if (user == null)
             return Errors.NotFound("user");
 

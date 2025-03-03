@@ -1,7 +1,7 @@
 ﻿using FilesService.Core.Request.AmazonS3.MultipartUpload;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar;
 
-namespace PetHome.Accounts.API.Controllers.Requests;
+namespace PetHome.Accounts.API.Controllers.Requests.Media;
 public record CompleteUploadAvatarRequest(
     Guid UserId,
     string Key,

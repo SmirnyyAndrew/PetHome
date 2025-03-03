@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
-using PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
+using PetHome.Accounts.Application.Features.Write.Registration.RegisterUser;
 using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;

@@ -1,6 +1,6 @@
 ﻿using PetHome.Accounts.Application.Features.Write.LoginUser;
 
-namespace PetHome.Accounts.API.Controllers.Requests;
+namespace PetHome.Accounts.API.Controllers.Requests.Auth;
 
 public record LoginUserRequest(string Email, string Password)
 {

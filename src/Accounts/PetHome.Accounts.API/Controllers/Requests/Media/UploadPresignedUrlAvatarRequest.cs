@@ -1,7 +1,7 @@
 ﻿using FilesService.Core.Request.AmazonS3;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.UploadPresignedUrlAvatar;
 
-namespace PetHome.Accounts.API.Controllers.Requests;
+namespace PetHome.Accounts.API.Controllers.Requests.Media;
 public record UploadPresignedUrlAvatarRequest(UploadPresignedUrlRequest UploadPresignedUrlRequest)
 {
     public static implicit operator UploadPresignedUrlAvatarCommand(UploadPresignedUrlAvatarRequest request)

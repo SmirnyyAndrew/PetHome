@@ -1,6 +1,6 @@
-﻿using PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
+﻿using PetHome.Accounts.Application.Features.Write.Registration.RegisterUser;
 
-namespace PetHome.Accounts.API.Controllers.Requests;
+namespace PetHome.Accounts.API.Controllers.Requests.Auth;
 public record RegisterUserRequest(string Email, string Name, string Password)
 {
     public static implicit operator RegisterUserCommand(RegisterUserRequest request)

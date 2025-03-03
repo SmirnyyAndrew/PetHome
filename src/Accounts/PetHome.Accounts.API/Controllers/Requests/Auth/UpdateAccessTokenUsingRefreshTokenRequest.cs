@@ -1,6 +1,6 @@
 ﻿using PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 
-namespace PetHome.Accounts.API.Controllers.Requests;
+namespace PetHome.Accounts.API.Controllers.Requests.Auth;
 public record UpdateAccessTokenUsingRefreshTokenRequest(Guid RefreshToken)
 {
     public static implicit operator UpdateAccessTokenUsingRefreshTokenCommand(

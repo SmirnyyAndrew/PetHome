@@ -8,7 +8,7 @@ using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Accounts.Application.Features.Read.GetUserInformation;
+namespace PetHome.Accounts.Application.Features.Read.GetUser;
 public class GetUserUseCase
     : IQueryHandler<User, GetUserQuery>
 {

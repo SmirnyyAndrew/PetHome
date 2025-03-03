@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Application.Features.Write.Registration.RegisterAccount;
+using PetHome.Accounts.Application.Features.Write.Registration.RegisterUser;
 using PetHome.Accounts.IntegrationTests.IntegrationFactories;
 using PetHome.Core.Interfaces.FeatureManagment;
 using Xunit;
@@ -24,7 +24,7 @@ public class RegisterParticipantUserUseCaseTest : AccountFactory
 
         string email = "email211s12@mail.com";
         string name = "Ivan312ov";
-        string password = "Iva1243novPassword1123"; 
+        string password = "Iva1243novPassword1123";
 
         RegisterUserCommand command = new RegisterUserCommand(
             email, name, password);
