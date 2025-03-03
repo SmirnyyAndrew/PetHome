@@ -1,7 +1,7 @@
 ﻿using NotificationService.Domain;
 using NotificationService.Infrastructure.Database;
 
-namespace NotificationService.Application.Features.GetUsersEmailSendings;
+namespace NotificationService.Application.Features.UsersNotificationSettings.GetUsersEmailSendings;
 
 public class GetUsersEmailSendingsUseCase(NotificationRepository repository)
 {

@@ -1,6 +1,6 @@
 ﻿using NotificationService.Infrastructure.Database;
 
-namespace NotificationService.Application.Features.ResetUserNotificationSettings;
+namespace NotificationService.Application.Features.UsersNotificationSettings.ResetUserNotificationSettings;
 
 public class ResetUserNotificationSettingsUseCase(
     NotificationRepository repository, UnitOfWork unitOfWork)

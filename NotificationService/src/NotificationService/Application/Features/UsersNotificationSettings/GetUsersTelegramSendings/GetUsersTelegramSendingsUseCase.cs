@@ -1,7 +1,7 @@
 ﻿using NotificationService.Domain;
 using NotificationService.Infrastructure.Database;
 
-namespace NotificationService.Application.Features.GetUsersTelegramSendings;
+namespace NotificationService.Application.Features.UsersNotificationSettings.GetUsersTelegramSendings;
 
 public class GetUsersTelegramSendingsUseCase(NotificationRepository repository)
 {

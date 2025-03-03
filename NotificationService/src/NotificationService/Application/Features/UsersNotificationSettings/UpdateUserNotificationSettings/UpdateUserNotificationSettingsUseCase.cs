@@ -1,7 +1,7 @@
 ﻿using NotificationService.Application.Dto;
 using NotificationService.Infrastructure.Database;
 
-namespace NotificationService.Application.Features.UpdateUserNotificationSettings;
+namespace NotificationService.Application.Features.UsersNotificationSettings.UpdateUserNotificationSettings;
 
 public class UpdateUserNotificationSettingsUseCase(
     NotificationRepository repository, UnitOfWork unitOfWork)
