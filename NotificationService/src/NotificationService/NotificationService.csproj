@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Accounts.Contracts" Version="1.0.0" />
+    <PackageReference Include="Accounts.Contracts" Version="1.0.1" />
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="EFCore.NamingConventions" Version="8.0.1" />
     <PackageReference Include="MailKit" Version="4.10.0" />

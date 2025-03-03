@@ -10,7 +10,7 @@ using PetHome.Core.Response.Validation.Validator;
 
 namespace PetHome.Accounts.Application.Features.Read.GetUserInformation;
 public class GetUserInformationUseCase
-    : IQueryHandler<UserDto, GetUserQuery>
+    : IQueryHandler<UserDto, GetUserInformationQuery>
 {
     private readonly IAuthenticationRepository _repository;
 
@@ -20,7 +20,7 @@ public class GetUserInformationUseCase
     }
 
     public async Task<Result<UserDto, ErrorList>> Execute(
-        GetUserQuery query, CancellationToken ct)
+        GetUserInformationQuery query, CancellationToken ct)
     {
         var result = await _repository.GetUserById(query.UserId, ct);
         if (result.IsFailure)
@@ -33,6 +33,7 @@ public class GetUserInformationUseCase
         UserDto userDto = new UserDto(
             user.Id,
             user.UserName,
+            user.Email,
             roleName,
             birthDate);
         return userDto;

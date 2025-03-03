@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests.Auth;
+using PetHome.Accounts.API.Controllers.Requests.Data;
 using PetHome.Accounts.API.Controllers.Requests.EmailManagement;
 using PetHome.Accounts.API.Controllers.Requests.Media;
+using PetHome.Accounts.Application.Database.Dto;
 using PetHome.Accounts.Application.Features.Read.GetUser;
 using PetHome.Accounts.Application.Features.Read.GetUserInformation;
 using PetHome.Accounts.Application.Features.Write.EmailManagement.ConfirmEmail;
@@ -14,6 +17,7 @@ using PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar
 using PetHome.Accounts.Application.Features.Write.SetAvatar.StartUploadAvatar;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.UploadPresignedUrlAvatar;
 using PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
@@ -56,32 +60,52 @@ public class AccountController
 
     [HttpGet("confimation-email/token/{userId:guid}")]
     public async Task<IActionResult> GenerateEmailConfirmation(
-       [FromServices] GenerateEmailConfirmationTokenUseCase useCase,
+       [FromServices] GenerateEmailConfirmationTokenUseCase generateEmailTokenUseCase,
+       [FromServices] GetUserInformationUseCase getUserInformationUseCase,
        [FromRoute] Guid userId,
+       IPublishEndpoint publisher,
        CancellationToken ct)
     {
-        GenerateEmailConfirmationTokenRequest generateRequest = new GenerateEmailConfirmationTokenRequest(userId);
-        var result = await useCase.Execute(generateRequest, ct);
-        if (result.IsFailure)
-            return BadRequest(result.Error);
+        GenerateEmailConfirmationTokenRequest generateEmailTokenRequest = 
+            new GenerateEmailConfirmationTokenRequest(userId);
+        var generateEmailTokenResult =
+            await generateEmailTokenUseCase.Execute(generateEmailTokenRequest, ct);
 
-        ConfirmEmailRequest confirmRequest = new ConfirmEmailRequest(userId, result.Value);
+        GetUserInformationRequest getUserInformationRequest = 
+            new GetUserInformationRequest(userId);
+        var getUserInformationResult = 
+            await getUserInformationUseCase.Execute(getUserInformationRequest, ct);
+
+        if (generateEmailTokenResult.IsFailure || getUserInformationResult.IsFailure)
+            return BadRequest(generateEmailTokenResult.Error);
+
+        ConfirmEmailRequest confirmRequest = 
+            new ConfirmEmailRequest(userId, generateEmailTokenResult.Value);
         var callbackUrl = Url.Action(
                       nameof(ConfirmEmail),
-                      nameof(AccountController),
+                      nameof(AccountController).Replace("Controller", string.Empty),
                       confirmRequest,
                       protocol: HttpContext.Request.Scheme);
-        return Ok(result.Value);
+
+        UserDto userDto = getUserInformationResult.Value;
+        CreatedUserEvent createdUserEvent = new CreatedUserEvent(
+            userDto.Id,
+            userDto.Email,
+            userDto.UserName,
+            callbackUrl); 
+        await publisher.Publish(createdUserEvent, ct);
+
+        return Ok(callbackUrl);
     }
 
 
-    [HttpPost("confimation-email")]
+    [HttpGet("confimation-email")]
     public async Task<IActionResult> ConfirmEmail(
        [FromServices] ConfirmEmailUseCase useCase,
-       [FromBody] ConfirmEmailRequest request, 
+       [FromQuery] ConfirmEmailRequest confirmRequest,
        CancellationToken ct)
     {
-        var result = await useCase.Execute(request, ct);
+        var result = await useCase.Execute(confirmRequest, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
@@ -148,7 +172,7 @@ public class AccountController
         [FromRoute] Guid id,
         CancellationToken ct)
     {
-        GetUserQuery query = new(id);
+        GetUserInformationQuery query = new(id);
         var result = await useCase.Execute(query, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
