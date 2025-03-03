@@ -2,10 +2,10 @@
 
 namespace NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 
-public class GoogleEmailManager
-{ 
+public class GoogleEmailManager : IEmailManager
+{
     private static readonly string host = "smtp.gmail.com";
-    private static readonly int port = 587;  
+    private static readonly int port = 587;
 
     public static EmailManager Build(IConfiguration configuration)
     {
