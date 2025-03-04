@@ -1,2 +1,2 @@
 ﻿namespace PetHome.Volunteers.Contracts.Messaging;
-public record HardDeletedVolunteerEvent();
+public record HardDeletedVolunteerEvent(Guid VolunteerId);

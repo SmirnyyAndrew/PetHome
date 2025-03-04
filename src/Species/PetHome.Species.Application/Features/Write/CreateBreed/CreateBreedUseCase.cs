@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Constants;
@@ -9,6 +10,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Framework.Database;
 using PetHome.Species.Application.Database;
+using PetHome.Species.Contracts.Messaging;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetHome.Species.Application.Features.Write.CreateBreed;
@@ -19,10 +21,12 @@ public class CreateBreedUseCase
     private readonly ILogger<CreateBreedUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateBreedCommand> _validator;
+    private readonly IPublishEndpoint _publisher;
 
     public CreateBreedUseCase(
         ISpeciesRepository speciesRepository,
         ILogger<CreateBreedUseCase> logger,
+        IPublishEndpoint publisher,
         [FromKeyedServices(Constants.SPECIES_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IValidator<CreateBreedCommand> validator)
     {
@@ -30,6 +34,7 @@ public class CreateBreedUseCase
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _publisher = publisher;
     }
 
     public async Task<Result<Guid, ErrorList>> Execute(
@@ -55,6 +60,12 @@ public class CreateBreedUseCase
         var updateRepositoryResult = await _speciesRepository.Update(species, ct);
 
         await _unitOfWork.SaveChanges(ct);
+      
+        CreatedBreedEvent createdBreedEvent = new CreatedBreedEvent(
+            species.Id,
+            species.Name);
+        await _publisher.Publish(createdBreedEvent, ct);
+
         transaction.Commit();
 
         string breedsInLine = string.Join(", ", createBreedCommand.Breeds);

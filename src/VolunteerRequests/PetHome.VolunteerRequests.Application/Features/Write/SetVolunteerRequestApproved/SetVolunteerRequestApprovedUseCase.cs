@@ -10,6 +10,7 @@ using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Framework.Database;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
+using PetHome.VolunteerRequests.Contracts.Messaging;
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestApproved;
@@ -18,16 +19,16 @@ public class SetVolunteerRequestApprovedUseCase
 {
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IPublishEndpoint _publisher;
+    private readonly IPublishEndpoint _publisher; 
 
     public SetVolunteerRequestApprovedUseCase(
         IVolunteerRequestRepository repository,
-        IPublishEndpoint publisher,
+        IPublishEndpoint publisher, 
         [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
-        _publisher = publisher;
+        _publisher = publisher; 
     }
 
 
@@ -53,6 +54,16 @@ public class SetVolunteerRequestApprovedUseCase
         await _publisher.Publish(createVolunteerAccountMessage);
 
         await _unitOfWork.SaveChanges(ct);
+
+        SetVolunteerRequestApprovedEvent setVolunteerRequestApprovedEvent = new SetVolunteerRequestApprovedEvent(
+            volunteerRequest.UserId,
+            adminId.Value,
+            command.UserName,
+            volunteerRequest.Id,
+            volunteerRequest.VolunteerInfo?.Value,
+            volunteerRequest.CreatedAt.Value);
+        await _publisher.Publish(setVolunteerRequestApprovedEvent, ct);
+
         transaction.Commit();
 
         return Result.Success<ErrorList>();

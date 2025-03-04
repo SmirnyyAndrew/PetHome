@@ -1,2 +1,2 @@
 ﻿namespace PetHome.Volunteers.Contracts.Messaging;
-public record UpdatedMainInfoVolunteerEvent();
+public record UpdatedMainInfoVolunteerEvent(Guid VolunteerId);

@@ -1,2 +1,2 @@
 ﻿namespace PetHome.Volunteers.Contracts.Messaging;
-public record SoftRestoredVolunteerEvent();
+public record SoftRestoredVolunteerEvent(Guid VolunteerId);

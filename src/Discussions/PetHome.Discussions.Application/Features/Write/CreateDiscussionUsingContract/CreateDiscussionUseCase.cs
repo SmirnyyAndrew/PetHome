@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Constants;
 using PetHome.Core.Extentions.ErrorExtentions;
@@ -9,6 +10,7 @@ using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Application.Database.Interfaces;
+using PetHome.Discussions.Contracts.Messaging;
 using PetHome.Discussions.Domain;
 using PetHome.Framework.Database;
 
@@ -18,13 +20,16 @@ public class CreateDiscussionUseCase
 {
     private readonly IDiscussionRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublishEndpoint _publisher;
 
     public CreateDiscussionUseCase(
         IDiscussionRepository repository,
+        IPublishEndpoint publisher,
         [FromKeyedServices(Constants.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
     public async Task<Result<DiscussionId, ErrorList>> Execute(
@@ -42,6 +47,13 @@ public class CreateDiscussionUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddDiscussion(discussion);
         await _unitOfWork.SaveChanges(ct);
+        CreatedDiscussionEvent createdDiscussionEvent = new CreatedDiscussionEvent(
+            discussion.Id,
+            discussion.RelationId,
+            discussion.Relation?.Name,
+            discussion.UserIds.Select(u => u.Value));
+        await _publisher.Publish(createdDiscussionEvent, ct);
+
         transaction.Commit();
 
         return discussion.Id;
