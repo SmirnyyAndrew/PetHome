@@ -1,23 +1,16 @@
 ﻿using MassTransit;
-using NotificationService.Core.EmailMessages.Templates;
-using NotificationService.Infrastructure.EmailNotification;
-using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
+using NotificationService.Infrastructure.Database;
 using PetHome.Accounts.Contracts.Messaging.UserManagment;
 
 namespace NotificationService.Application.Consumers;
 
-public class CreateUserConsumer(IConfiguration configuration)
-    : IConsumer<ConfirmedUserEmailEvent>
+public class CreateUserConsumer
+    (NotificationRepository repository) : IConsumer<CreatedUserEvent>
 {
-    public async Task Consume(ConsumeContext<ConfirmedUserEmailEvent> context)
+    public async Task Consume(ConsumeContext<CreatedUserEvent> context)
     {
-        var command = context.Message;
-        EmailManager emailManager = YandexEmailManager.Build(configuration);
-        emailManager.SendMessage(
-            command.Email,
-            ConfirmationEmailMessage.Subject(),
-            ConfirmationEmailMessage.Body(command.UserName, command.EmailConfirmationLink),
-            ConfirmationEmailMessage.Styles());
+        var command = context.Message; 
+        await repository.Reset(command.UserId, CancellationToken.None);
         return;
     }
 }

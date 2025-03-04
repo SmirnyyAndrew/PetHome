@@ -54,7 +54,16 @@ public class NotificationRepository(NotificationDbContext dbContext)
         var userNotification = await dbContext.Notifications
             .FirstOrDefaultAsync(n => n.UserId == userId, ct);
         if (userNotification is null)
+        {
+            UserNotificationSettings userNotificationSettings = new UserNotificationSettings(
+                userId,
+                newNotificationSettings.IsEmailSend,
+                newNotificationSettings.IsTelegramSend,
+                newNotificationSettings.IsWebSend);
+            await dbContext.Notifications.AddAsync(userNotificationSettings, ct);
+
             return;
+        }
 
         userNotification.IsEmailSend = newNotificationSettings.IsEmailSend
             ?? userNotification.IsEmailSend;

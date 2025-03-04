@@ -16,6 +16,7 @@ public static class MassTransitDependencyInjection
             config.SetKebabCaseEndpointNameFormatter();
 
             //Consumers 
+            config.AddConsumer<ConfirmUserEmailConsumer>(); 
             config.AddConsumer<CreateUserConsumer>(); 
 
             config.UsingRabbitMq((context, cfg) =>
