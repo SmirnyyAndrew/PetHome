@@ -1,8 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using MassTransit;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Application.Database.Repositories;
+using PetHome.Accounts.Contracts.Messaging.UserManagment;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
@@ -21,17 +24,20 @@ public class CreateAdminUseCase
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateAdminCommand> _validator;
     private readonly ILogger<CreateAdminUseCase> _logger;
+    private readonly IPublishEndpoint _publisher;
 
     public CreateAdminUseCase(
         IAuthenticationRepository repository,
         IValidator<CreateAdminCommand> validator,
         ILogger<CreateAdminUseCase> logger,
+        IPublishEndpoint publisher,
         [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _logger = logger;
         _validator = validator;
+        _publisher = publisher;
     }
 
     public async Task<Result<UserId, ErrorList>> Execute(CreateAdminCommand command, CancellationToken ct)
@@ -49,12 +55,15 @@ public class CreateAdminUseCase
         UserName userName = UserName.Create(command.UserName).Value;
         User user = User.Create(email, userName, role).Value;
         AdminAccount admin = AdminAccount.Create(user).Value;
-
+         
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddUser(user, ct);
         await _repository.AddAdmin(admin, ct);
         await _unitOfWork.SaveChanges(ct);
+
+        CreatedAdminEvent createdAdminEvent = new CreatedAdminEvent(user.Id);
+        await _publisher.Publish(createdAdminEvent, ct);  
         transaction.Commit();
 
         UserId userId = UserId.Create(user.Id).Value;

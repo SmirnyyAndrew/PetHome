@@ -54,7 +54,7 @@ public class CreateVolunteerAccountConsumer : IConsumer<CreatedVolunteerAccountE
         Role role = geRoleResult.Value;
         Email email = Email.Create(command.Email).Value;
         UserName userName = UserName.Create(command.UserName).Value;
-        User user = User.Create(email, userName, role, avatar: null, id: command.Id).Value;
+        User user = User.Create(email, userName, role, avatar: null, id: command.UserId).Value;
         List<Requisites> requisites = command.Requisites.Select(r => Requisites.Create(r.Name, r.Desc, r.PaymentMethod).Value).ToList();
         List<Certificate> certificates = command.Certificates.Select(r => Certificate.Create(r.Name, r.Value).Value).ToList();
         Date startVolunteeringDate = Date.Create(command.StartVolunteeringDate).Value;
@@ -64,12 +64,12 @@ public class CreateVolunteerAccountConsumer : IConsumer<CreatedVolunteerAccountE
             startVolunteeringDate,
             requisites,
             certificates).Value;
-         
+
         var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None);
         await _repository.AddUser(user, CancellationToken.None);
         await _repository.AddVolunteer(volunteer, CancellationToken.None);
         await _unitOfWork.SaveChanges(CancellationToken.None);
-        transaction.Commit(); 
+        transaction.Commit();
 
         return;
     }

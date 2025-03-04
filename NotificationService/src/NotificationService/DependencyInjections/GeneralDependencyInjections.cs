@@ -10,6 +10,8 @@ public static class GeneralDependencyInjections
     {
         services.AddDatabase(configuration);
         services.AddServices();
+        services.AddOptions(configuration);
+        services.AddMassTransitConfig(configuration);
 
         return services;
     }

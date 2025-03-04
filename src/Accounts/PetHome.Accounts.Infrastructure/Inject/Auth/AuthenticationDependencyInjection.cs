@@ -58,7 +58,7 @@ public static class AuthenticationDependencyInjection
             .AddDefaultTokenProviders();
 
         //Сидирование
-        //services.AddSeedings(configuration);
+        services.AddSeedings(configuration);
 
         return services;
     }

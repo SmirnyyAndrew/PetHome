@@ -55,7 +55,7 @@ public class IntegrationTestFactory
         services.RemoveAll(typeof(IGenerateRefreshTokenContract));
 
 
-        _repository = new AuthenticationRepository(new AuthorizationDbContext(_dbContainer.GetConnectionString()));
+        _repository = new AuthenticationRepository(new AuthorizationDbContext(_dbContainer.GetConnectionString()), default);
         _unitOfWork = new UnitOfWork(new AuthorizationDbContext(_dbContainer.GetConnectionString()));
 
         services.AddScoped(_ => new AuthorizationDbContext(_dbContainer.GetConnectionString()));

@@ -1,5 +1,7 @@
 using NotificationService.DependencyInjections;
 
+DotNetEnv.Env.Load(); 
+
 var builder = WebApplication.CreateBuilder(args);
   
 builder.Services.AddControllers(); 
@@ -14,7 +16,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseHttpsRedirection();
   

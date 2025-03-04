@@ -4,9 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <PackageId>PetHome.Core</PackageId>
+	  <Version>1.0.1</Version>
+	  <Authors>Smirnyy</Authors>
+	  <Company>SmirnyyCompany</Company>
+	  <PackageDescription>It's pet home core</PackageDescription>
+	  <RepositoryUrl>https://github.com/MironovAndrew/PetHome</RepositoryUrl>
   </PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
     <PackageReference Include="FilesService.Core" Version="1.0.9" />
     <PackageReference Include="MediatR" Version="12.4.1" /> 
