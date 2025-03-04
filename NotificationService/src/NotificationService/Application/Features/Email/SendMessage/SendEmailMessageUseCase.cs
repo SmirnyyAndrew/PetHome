@@ -4,9 +4,9 @@ using NotificationService.Infrastructure.EmailNotification.EmailManagerImplement
 
 namespace NotificationService.Application.Features.Email.SendMessage;
 
-public class SendMessageUseCase(IConfiguration configuration)
+public class SendEmailMessageUseCase(IConfiguration configuration)
 {
-    public async Task Execute(SendMessageCommand command, CancellationToken ct)
+    public async Task Execute(SendEmailMessageCommand command, CancellationToken ct)
     {
         EmailManager emailManager = (command.SenderEmailType) switch
         {

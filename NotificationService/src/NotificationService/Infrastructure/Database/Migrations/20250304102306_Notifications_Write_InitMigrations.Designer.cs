@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NotificationService.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20250301125053_Notifications_Write_InitMigrations")]
+    [Migration("20250304102306_Notifications_Write_InitMigrations")]
     partial class Notifications_Write_InitMigrations
     {
         /// <inheritdoc />
@@ -44,6 +44,10 @@ namespace NotificationService.Infrastructure.Database.Migrations
                     b.Property<bool?>("IsWebSend")
                         .HasColumnType("boolean")
                         .HasColumnName("is_web_send");
+
+                    b.Property<long?>("TelegramChatId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("telegram_chat_id");
 
                     b.HasKey("UserId")
                         .HasName("user_id");

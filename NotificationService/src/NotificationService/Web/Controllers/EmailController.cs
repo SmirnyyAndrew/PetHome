@@ -7,8 +7,8 @@ public class EmailController : ParentController
 {
     [HttpPost("email/message")]
     public async Task<IActionResult> UpdateUserNotificationSettings( 
-        [FromBody] SendMessageCommand request,
-        [FromServices] SendMessageUseCase useCase,
+        [FromBody] SendEmailMessageCommand request,
+        [FromServices] SendEmailMessageUseCase useCase,
         CancellationToken ct = default)
     {
         await useCase.Execute(request, ct);

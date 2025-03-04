@@ -42,6 +42,10 @@ namespace NotificationService.Infrastructure.Database.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_web_send");
 
+                    b.Property<long?>("TelegramChatId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("telegram_chat_id");
+
                     b.HasKey("UserId")
                         .HasName("user_id");
 

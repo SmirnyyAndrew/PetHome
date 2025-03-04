@@ -21,7 +21,7 @@ public static class ServicesDependencyInjections
         services.AddScoped<ResetUserNotificationSettingsUseCase>();
         services.AddScoped<UpdateUserNotificationSettingsUseCase>();
      
-        services.AddScoped<SendMessageUseCase>();
+        services.AddScoped<SendEmailMessageUseCase>(); 
 
         return services;
     }

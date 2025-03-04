@@ -5,7 +5,7 @@ using NotificationService.Domain;
 namespace NotificationService.Infrastructure.Database;
 
 public class NotificationRepository(NotificationDbContext dbContext)
-{
+{  
     public async Task<UserNotificationSettings?> Get(
         Guid userId, CancellationToken ct)
     {
@@ -59,6 +59,7 @@ public class NotificationRepository(NotificationDbContext dbContext)
                 userId,
                 newNotificationSettings.IsEmailSend,
                 newNotificationSettings.IsTelegramSend,
+                newNotificationSettings.TelegramChatId,
                 newNotificationSettings.IsWebSend);
             await dbContext.Notifications.AddAsync(userNotificationSettings, ct);
 
@@ -71,15 +72,45 @@ public class NotificationRepository(NotificationDbContext dbContext)
         userNotification.IsTelegramSend = newNotificationSettings.IsTelegramSend
             ?? userNotification.IsTelegramSend;
 
+        userNotification.TelegramChatId = newNotificationSettings.TelegramChatId
+            ?? userNotification.TelegramChatId;
+
         userNotification.IsWebSend = newNotificationSettings.IsWebSend
             ?? userNotification.IsWebSend;
     }
 
     public async Task Reset(Guid userId, CancellationToken ct)
     {
-        SendingNotificationSettings newNotificationSettings =
-            new SendingNotificationSettings(false, false, false);
+        UserNotificationSettings? oldNotificationSettings = await Get(userId, ct);
+
+        SendingNotificationSettings newNotificationSettings;
+        if (oldNotificationSettings is null)
+            newNotificationSettings = new SendingNotificationSettings(false, false, null, false);
+        else
+        {
+            newNotificationSettings = new SendingNotificationSettings(
+                false, false, oldNotificationSettings?.TelegramChatId, false);
+        }
 
         await Update(userId, newNotificationSettings, ct);
+    }
+
+    public async Task AddTelegramChatId(Guid userId, long telegramChatId, CancellationToken ct)
+    {
+        UserNotificationSettings? notifcationSettings = await Get(userId, ct);
+
+        SendingNotificationSettings newNotificationSettings = new(
+            notifcationSettings?.IsEmailSend,
+            IsTelegramSend: true,
+            telegramChatId,
+            notifcationSettings?.IsWebSend);
+
+        await Update(userId, newNotificationSettings, ct);
+    } 
+
+    public async Task<long?> GetTelegramChatId(Guid userId, CancellationToken ct)
+    {
+        long? chatId = dbContext.Notifications.FirstOrDefaultAsync(n => n.UserId == userId).Result?.TelegramChatId;
+        return chatId;
     }
 }

@@ -22,6 +22,10 @@ public class UserNotificationSettingsConfiguration
             .IsRequired(false)
             .HasColumnName("is_telegram_send");
 
+        builder.Property(n => n.TelegramChatId)
+            .IsRequired(false)
+            .HasColumnName("telegram_chat_id");
+
         builder.Property(n => n.IsWebSend)
             .IsRequired(false)
             .HasColumnName("is_web_send");

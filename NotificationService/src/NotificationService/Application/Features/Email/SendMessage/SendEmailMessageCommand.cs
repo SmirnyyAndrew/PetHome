@@ -2,7 +2,7 @@
 
 namespace NotificationService.Application.Features.Email.SendMessage;
 
-public record SendMessageCommand(
+public record SendEmailMessageCommand(
     Emails SenderEmailType,
     string RecipientEmail,
     string Subject,

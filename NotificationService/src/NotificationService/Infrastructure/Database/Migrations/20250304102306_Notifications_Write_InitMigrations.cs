@@ -22,6 +22,7 @@ namespace NotificationService.Infrastructure.Database.Migrations
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     is_email_send = table.Column<bool>(type: "boolean", nullable: true),
                     is_telegram_send = table.Column<bool>(type: "boolean", nullable: true),
+                    telegram_chat_id = table.Column<long>(type: "bigint", nullable: true),
                     is_web_send = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
