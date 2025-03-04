@@ -84,7 +84,8 @@ public class CreateVolunteerUseCase
             .Value;
 
         var createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
-            command.Email,
+            id,
+            email,
             command.UserName,
             command.StartVolunteeringDate,
             command.Requisiteses.ToList(),
