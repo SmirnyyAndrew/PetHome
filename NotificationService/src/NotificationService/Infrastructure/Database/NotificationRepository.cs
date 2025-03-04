@@ -9,14 +9,14 @@ public class NotificationRepository(NotificationDbContext dbContext)
     public async Task<UserNotificationSettings?> Get(
         Guid userId, CancellationToken ct)
     {
-        var getResult = await dbContext.Notifications
+        var getResult = await dbContext.Notifications 
             .FirstOrDefaultAsync(n => n.UserId == userId, ct);
         return getResult;
     }
 
     public async Task<IReadOnlyList<UserNotificationSettings>> GetAnySending(CancellationToken ct)
     {
-        var getResult = await dbContext.Notifications
+        var getResult = await dbContext.Notifications 
             .Where(n => n.IsEmailSend == true || n.IsWebSend == true || n.IsTelegramSend == true)
             .ToListAsync(ct);
         return getResult;
@@ -24,7 +24,7 @@ public class NotificationRepository(NotificationDbContext dbContext)
 
     public async Task<IReadOnlyList<UserNotificationSettings>> GetEmailSendings(CancellationToken ct)
     {
-        var getResult = await dbContext.Notifications
+        var getResult = await dbContext.Notifications 
             .Where(n => n.IsEmailSend == true)
             .ToListAsync(ct);
         return getResult;
@@ -32,7 +32,7 @@ public class NotificationRepository(NotificationDbContext dbContext)
 
     public async Task<IReadOnlyList<UserNotificationSettings>> GetTelegramSendings(CancellationToken ct)
     {
-        var getResult = await dbContext.Notifications
+        var getResult = await dbContext.Notifications 
             .Where(n => n.IsTelegramSend == true)
             .ToListAsync(ct);
         return getResult;
@@ -40,10 +40,18 @@ public class NotificationRepository(NotificationDbContext dbContext)
 
     public async Task<IReadOnlyList<UserNotificationSettings>> GetWebSendings(CancellationToken ct)
     {
-        var getResult = await dbContext.Notifications
+        var getResult = await dbContext.Notifications 
             .Where(n => n.IsWebSend == true)
             .ToListAsync(ct);
         return getResult;
+    }
+     
+    public async Task<long?> GetTelegramChatId(Guid userId, CancellationToken ct)
+    {
+        long? chatId = dbContext.Notifications 
+            .FirstOrDefaultAsync(n => n.UserId == userId)
+            .Result?.TelegramChatId;
+        return chatId;
     }
 
     public async Task Update(
@@ -107,10 +115,4 @@ public class NotificationRepository(NotificationDbContext dbContext)
 
         await Update(userId, newNotificationSettings, ct);
     } 
-
-    public async Task<long?> GetTelegramChatId(Guid userId, CancellationToken ct)
-    {
-        long? chatId = dbContext.Notifications.FirstOrDefaultAsync(n => n.UserId == userId).Result?.TelegramChatId;
-        return chatId;
-    }
 }
