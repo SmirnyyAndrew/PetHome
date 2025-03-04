@@ -4,7 +4,7 @@ namespace PetHome.Core.ValueObjects.PetManagment.Pet;
 public record SerialNumber
 {
     public int Value { get; private set; }
-    public SerialNumber(int value)
+    private SerialNumber(int value)
     {
         Value = value;
     }
@@ -13,4 +13,6 @@ public record SerialNumber
     {
         return new SerialNumber(value);
     }
+     
+    public static implicit operator int(SerialNumber number) => number.Value;
 }

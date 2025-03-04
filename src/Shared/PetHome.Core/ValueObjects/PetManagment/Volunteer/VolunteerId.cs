@@ -2,7 +2,7 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Core.ValueObjects.PetManagment.Volunteer;
-public record VolunteerId
+public class VolunteerId : ComparableValueObject
 {
     public Guid Value { get; }
 
@@ -19,11 +19,10 @@ public record VolunteerId
 
     public static Result<VolunteerId, Error> CreateEmpty() => new VolunteerId(Guid.Empty);
 
-    public static implicit operator Guid(VolunteerId volunteerId)
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {
-        if (volunteerId == null)
-            throw new ArgumentNullException();
-
-        return volunteerId.Value;
+        yield return Value;
     }
+
+    public static implicit operator Guid(VolunteerId id) => id.Value;
 }

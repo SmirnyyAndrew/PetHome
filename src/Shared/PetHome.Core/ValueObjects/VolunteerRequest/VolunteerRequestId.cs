@@ -2,21 +2,21 @@
 using PetHome.Core.Response.ErrorManagment;
 
 namespace PetHome.Core.ValueObjects.VolunteerRequest;
-public record VolunteerRequestId
+public class VolunteerRequestId : ComparableValueObject
 {
     public Guid Value { get; }
-    public VolunteerRequestId(Guid value)
+    private VolunteerRequestId(Guid value)
     {
         Value = value;
     }
 
-    public static Result<VolunteerRequestId, Error> Create(Guid value)
+    public static Result<VolunteerRequestId, Error> Create(Guid value) => new VolunteerRequestId(value);
+
+    public static Result<VolunteerRequestId, Error> Create() => new VolunteerRequestId(Guid.NewGuid());
+
+    protected override IEnumerable<IComparable> GetComparableEqualityComponents()
     {
-        return new VolunteerRequestId(value);
-    }
-    public static Result<VolunteerRequestId, Error> Create()
-    {
-        return new VolunteerRequestId(Guid.NewGuid());
+        yield return Value;
     }
 
     public static implicit operator Guid(VolunteerRequestId id) => id.Value;

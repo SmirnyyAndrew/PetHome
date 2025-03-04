@@ -35,8 +35,8 @@ public class CloseDiscussionUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.UpdateDiscussion(discussion);
-        transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
 
         return Result.Success<ErrorList>();
     }

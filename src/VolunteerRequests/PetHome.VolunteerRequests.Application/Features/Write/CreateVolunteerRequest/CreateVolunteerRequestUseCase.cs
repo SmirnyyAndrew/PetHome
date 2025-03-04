@@ -33,8 +33,8 @@ public class CreateVolunteerRequestUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.Add(request);
-        transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
         
         return Result.Success<ErrorList>();
     }

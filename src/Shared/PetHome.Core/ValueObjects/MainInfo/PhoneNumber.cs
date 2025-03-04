@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.Discussion.Message;
 using System.Text.RegularExpressions;
 
 namespace PetHome.Core.ValueObjects.MainInfo;
@@ -23,4 +24,6 @@ public record PhoneNumber
 
         return new PhoneNumber(number);
     }
+
+    public static implicit operator string(PhoneNumber phone) => phone.Value;
 }

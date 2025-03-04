@@ -2,7 +2,7 @@
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.Validation.Validator;
 
-namespace PetHome.Volunteers.Application.Features.Write.PetManegment.UploadPetMediaFiles;
+namespace PetHome.Volunteers.Application.Features.Write.PetManegment.MinioUploadPetMediaFiles;
 public class UploadPetMediaFilesCommandValidator : AbstractValidator<UploadPetMediaFilesCommand>
 {
     public UploadPetMediaFilesCommandValidator()

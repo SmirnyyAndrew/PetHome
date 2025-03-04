@@ -10,6 +10,10 @@ public interface IAuthenticationRepository
 {
     public Task<Result<Role, Error>> GetRole(Guid roleId);
 
+    public Task<Result<Role?, Error>> GetUserRole(Guid userId, CancellationToken ct); 
+
+    public Task<Result<IReadOnlyList<Permission>, Error>> GetUserPermissions(Guid userId, CancellationToken ct);
+
     public Task<Result<Role, Error>> GetRole(RoleName roleName);
 
     public Task AddUser(User user, CancellationToken ct);

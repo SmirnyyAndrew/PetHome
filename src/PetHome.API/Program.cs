@@ -4,6 +4,7 @@ using PetHome.API.DependencyInjections.AppExtentions;
 using PetHome.API.MinimumApi;
 using PetHome.Core.Response.Loggers;
 using PetHome.Core.Response.Validation;
+using PetHome.SharedKernel.Middlewares.Extentions;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -58,6 +59,7 @@ public partial class Program
         //Middleware для отлова исключений (-стэк трейс)
         app.UseExceptionHandler();
 
+        //Логирование запросов
         app.UseSerilogRequestLogging();
 
         // Configure the HTTP request pipeline.
@@ -68,17 +70,16 @@ public partial class Program
             //Automigration
             //app.ApplyAutoMigrations();
         }
-
-        //Логирование запросов
-        app.UseSerilogRequestLogging();
+         
 
         app.UseHttpsRedirection();
 
-        //Добавить минимум-api
-        app.AddMinimumApi();
+        //Добавить minimal api
+        app.AddMinimalApi();
 
 
         app.UseAuthentication();
+        app.UseUserScopedDataMiddleware();
         app.UseAuthorization();
 
         app.MapControllers();

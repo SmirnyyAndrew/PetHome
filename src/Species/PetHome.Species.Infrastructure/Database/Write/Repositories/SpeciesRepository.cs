@@ -38,7 +38,7 @@ public class SpeciesRepository : ISpeciesRepository
             .Include(x => x.Breeds)
             .FirstOrDefaultAsync(s => s.Id == speciesId, ct);
         if (species == null)
-            return Errors.NotFound($"Вид животного с id {id} не найден");
+            return Errors.NotFound($"Вид животного с id {id}");
 
         return species;
     }
@@ -46,13 +46,13 @@ public class SpeciesRepository : ISpeciesRepository
     //Получить вид животного по имени
     public async Task<Result<_Species, Error>> GetByName(string name, CancellationToken ct)
     {
-        var result = _dbContext.Species
+        var result = await _dbContext.Species
                  .Include(x => x.Breeds)
-                 .TryFirst(s => s.Name.Value.ToLower() == name.ToLower());
+                 .FirstOrDefaultAsync(s => s.Name == name, ct);
         if (result == null)
-            return Errors.NotFound($"Вид животного с именем {name} не найден");
+            return Errors.NotFound($"Вид животного с именем {name}");
 
-        return result.Value;
+        return result;
     }
 
     //Удалить один элемент
@@ -64,9 +64,12 @@ public class SpeciesRepository : ISpeciesRepository
 
     //Удалить один элемент по id
     public async Task<bool> RemoveById(Guid id, CancellationToken ct = default)
-    {
-        _Species species = GetById(id, ct).Result.Value;
-        await Remove(species, ct);
+    { 
+        var getSpeciesResult  = await GetById(id, ct);
+        if (getSpeciesResult.IsFailure)
+            return false;
+
+        await Remove(getSpeciesResult.Value, ct);
         return true;
     }
 

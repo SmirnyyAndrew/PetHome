@@ -5,7 +5,7 @@ namespace PetHome.Core.ValueObjects.User;
 public record Password
 {
     public string Value { get; }
-    public Password(string value)
+    private Password(string value)
     {
         Value = value;
     }
@@ -17,4 +17,6 @@ public record Password
 
         return new Password(value);
     }
+
+    public static implicit operator string(Password password) => password.Value;
 }

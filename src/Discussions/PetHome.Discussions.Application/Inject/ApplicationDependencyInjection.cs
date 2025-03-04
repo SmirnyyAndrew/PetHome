@@ -15,9 +15,7 @@ public static class ApplicationDependencyInjection
                 typeof(ICommandHandler<>), typeof(ICommandHandler<,>),
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
-        .WithScopedLifetime());
-
-        services.AddScoped<ICreateDiscussionContract, CreateDiscussionUsingContractUseCase>();
+        .WithScopedLifetime()); 
 
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 

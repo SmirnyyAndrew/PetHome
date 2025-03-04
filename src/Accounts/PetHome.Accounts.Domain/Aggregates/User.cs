@@ -22,18 +22,22 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     public AdminAccount? Admin { get; private set; }
     public ParticipantAccount? Participant { get; private set; }
     public VolunteerAccount? Volunteer { get; private set; }
-    public IReadOnlyList<MediaFile> Medias { get; private set; } = [];
+    public IReadOnlyList<MediaFile> Photos { get; private set; } = [];
+    public IReadOnlyList<string> PhotosUrls { get; set; } = [];
     public MediaFile? Avatar { get; private set; }
+    public string AvatarUrl { get; set; } = string.Empty;
 
-    public User() { }
+    private User() { }
 
     private User(
             Email email,
             UserName userName,
             Role role,
-            MediaFile avatar = null)
+            MediaFile avatar = null,
+            Guid id = default)
     {
-        Id = Guid.NewGuid();
+        //Если нужно создать пользователя с определенным id
+        Id = id == default ? Guid.NewGuid() : id;
         Email = email;
         UserName = userName;
         Role = role;
@@ -45,22 +49,25 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
             Email email,
             UserName userName,
             Role role,
-            MediaFile avatar = null)
+            MediaFile avatar = null,
+            Guid id = default)
     {
-        if (role != null && email != null && role != null)
-            return new User(email, userName, role, avatar);
+        bool isCorrectUserData = role != null && email != null && role != null; 
+
+        if (isCorrectUserData)
+            return new User(email, userName, role, avatar, id);
 
         return Errors.Validation("User");
     }
 
     private User(
         IReadOnlyList<SocialNetwork> socialNetworks,
-        IReadOnlyList<MediaFile> medias,
+        IReadOnlyList<MediaFile> photos,
         IReadOnlyList<PhoneNumber> phoneNumbers,
         RoleId roleId)
     {
         SocialNetworks = socialNetworks;
-        Medias = medias;
+        Photos = photos;
         PhoneNumbers = phoneNumbers;
         RoleId = roleId;
     }
@@ -94,7 +101,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
 
     public UnitResult<Error> SetMedia(IEnumerable<MediaFile> medias)
     {
-        Medias = medias.ToList();
+        Photos = medias.ToList();
         return UnitResult.Success<Error>();
     }
 
@@ -104,7 +111,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
         return UnitResult.Success<Error>();
     }
 
-     
+
     public void SetAvatar(MediaFile avatar)
     {
         Avatar = avatar;
@@ -114,12 +121,12 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     //Добавить медиа
     public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
     {
-        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
+        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload);
 
-        IReadOnlyList<MediaFile> oldMedias = Medias.ToList();
+        IReadOnlyList<MediaFile> oldMedias = Photos.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
-         
-        Medias = newMediaFiles;
+
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -128,12 +135,12 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     //Удалить медиа
     public UnitResult<Error> RemoveMedia(IEnumerable<MediaFile> mediasToDelete)
     {
-        List<MediaFile> oldMediaFiles = Medias
+        List<MediaFile> oldMediaFiles = Photos
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
-         
-        Medias = newMediaFiles;
+
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }

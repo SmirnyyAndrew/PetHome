@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Extentions.ErrorExtentions;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.Discussion;
 using PetHome.Core.ValueObjects.Discussion.Message;
@@ -7,7 +8,7 @@ using PetHome.Core.ValueObjects.Discussion.Relation;
 using PetHome.Core.ValueObjects.User;
 
 namespace PetHome.Discussions.Domain;
-public class Discussion
+public class Discussion : DomainEntity<DiscussionId>
 {
     public DiscussionId Id { get; private set; }
     public RelationId RelationId { get; private set; }
@@ -19,10 +20,12 @@ public class Discussion
     private static Error DiscussionCloseError = Errors.Validation("Дискуссия закрыта");
     private static Error UsersCountError = Errors.Validation("В дискуссии должно учавствовать от 2х участников");
     private static Error IsNotParticipantError = Errors.Validation($"User не является участником дискуссии");
-    private Discussion() { }
-    public Discussion(RelationId relationId, IEnumerable<UserId> userIds)
+
+    private Discussion(DiscussionId id) : base(id) { Id = id; }
+    private Discussion(DiscussionId id, RelationId relationId, IEnumerable<UserId> userIds)
+        : base(id)
     {
-        Id = DiscussionId.Create().Value;
+        Id = id;
         RelationId = relationId;
         UserIds = userIds.ToList();
         Status = DiscussionStatus.Open;
@@ -35,7 +38,11 @@ public class Discussion
         if (userIds.Count() < 2)
             return UsersCountError;
 
-        return new Discussion(relationId, userIds);
+        Discussion discussion = new Discussion(
+            DiscussionId.Create().Value,
+            relationId,
+            userIds);
+        return discussion;
     }
 
     public UnitResult<Error> AddMessage(Message message)

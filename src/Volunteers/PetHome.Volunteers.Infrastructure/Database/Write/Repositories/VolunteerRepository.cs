@@ -51,7 +51,7 @@ public class VolunteerRepository : IVolunteerRepository
         var volunteer = await _dBContext.Volunteers
             .Where(v => v.Id == id)
             .Include(p => p.Pets)
-            .ThenInclude(d => d.Medias)
+            .ThenInclude(d => d.Photos)
             .FirstOrDefaultAsync(ct);
         if (volunteer == null)
             return Errors.NotFound($"Волонтёр с id = {id}");
@@ -67,13 +67,13 @@ public class VolunteerRepository : IVolunteerRepository
     }
 
     //Удаление волонтера по id
-    public async Task<Result<bool, Error>> RemoveById(VolunteerId id, CancellationToken ct = default)
+    public async Task<Result<bool, Error>> RemoveById(Guid id, CancellationToken ct = default)
     {
-        var result = GetById(id, ct);
-        if (result.Result.IsFailure)
-            return result.Result.Error;
+        var result = await GetById(id, ct);
+        if (result.IsFailure)
+            return result.Error;
 
-        await Remove(result.Result.Value, ct);
+        await Remove(result.Value, ct);
         return true;
     }
 

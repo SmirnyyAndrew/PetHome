@@ -40,8 +40,8 @@ public class SetVolunteerRequestRevisionRequiredUseCase
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         _repository.Update(volunteerRequest);
-        transaction.Commit();
         await _unitOfWork.SaveChanges(ct);
+        transaction.Commit();
 
         return Result.Success<ErrorList>();
     }

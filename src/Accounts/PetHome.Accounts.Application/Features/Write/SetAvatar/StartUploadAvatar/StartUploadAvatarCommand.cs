@@ -2,4 +2,4 @@
 using PetHome.Core.Interfaces.FeatureManagment;
 
 namespace PetHome.Accounts.Application.Features.Write.SetAvatar.StartUploadAvatar;
-public record StartUploadAvatarCommand(StartMultipartUploadRequest StartMultipartUploadRequest) :ICommand;
+public record StartUploadAvatarCommand(StartMultipartUploadRequest StartMultipartUploadRequest) : ICommand;

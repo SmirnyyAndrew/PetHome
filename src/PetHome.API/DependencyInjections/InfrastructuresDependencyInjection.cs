@@ -1,9 +1,10 @@
 ﻿using FilesService.Communication;
 using PetHome.Accounts.Infrastructure.Inject;
+using PetHome.API.DependencyInjections.AppExtentions;
 using PetHome.Discussions.Infrastructure.Inject;
-using PetHome.Species.Infrastructure;
+using PetHome.Species.Infrastructure.DI;
 using PetHome.VolunteerRequests.Infrastructure.Inject;
-using PetHome.Volunteers.Infrastructure;
+using PetHome.Volunteers.Infrastructure.DI;
 
 namespace PetHome.API.DependencyInjections;
 
@@ -21,6 +22,8 @@ public static class InfrastructuresDependencyInjection
 
         services.AddAmazonHttpCommunication(configuration);
         services.AddMinioHttpCommunication(configuration);
+     
+        services.AddMassTransitConfig(configuration);
 
         return services;
     }

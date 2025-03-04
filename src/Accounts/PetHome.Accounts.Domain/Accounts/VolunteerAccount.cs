@@ -1,29 +1,29 @@
 ﻿using CSharpFunctionalExtensions;
+using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Interfaces.Database;
+using PetHome.Core.Models;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.PetManagment.Extra;
 using PetHome.Core.ValueObjects.RolePermission;
 using PetHome.Core.ValueObjects.User;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
-using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
 
 namespace PetHome.Accounts.Domain.Accounts;
-public class VolunteerAccount : SoftDeletableEntity
+public class VolunteerAccount : DomainEntity<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("volunteer").Value;
 
-    public UserId UserId { get; set; }
-    public User User{ get; set; }
+    public UserId UserId { get; private set; }
+    public User User { get; private set; }
     public Date? StartVolunteeringDate { get; private set; }
     public IReadOnlyList<Requisites>? Requisites { get; private set; }
     public IReadOnlyList<Certificate>? Certificates { get; private set; }
-    public IReadOnlyList<Pet>? Pets { get; private set; }
+    public IReadOnlyList<Pet>? Pets { get; private set; } 
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
-
-    private VolunteerAccount() { }
-
-    private VolunteerAccount(UserId id)
+    private VolunteerAccount(UserId id) : base(id)
     {
         UserId = id;
     }
@@ -32,7 +32,7 @@ public class VolunteerAccount : SoftDeletableEntity
             UserId userId,
             Date startVolunteeringDate,
             IReadOnlyList<Requisites> requisites,
-            IReadOnlyList<Certificate> certificates)
+            IReadOnlyList<Certificate> certificates) : base(userId)
     {
         UserId = userId;
         StartVolunteeringDate = startVolunteeringDate;
@@ -71,17 +71,17 @@ public class VolunteerAccount : SoftDeletableEntity
     {
         Certificates = certificates.ToList();
         return UnitResult.Success<Error>();
+    } 
+
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
     }
 
-    public override void SoftDelete()
+    public void SoftRestore()
     {
-        base.SoftDelete();
-        Pets?.ToList().ForEach(pet => pet.SoftDelete());
-    }
-
-    public override void SoftRestore()
-    {
-        base.SoftRestore();
-        Pets?.ToList().ForEach(pet => pet.SoftRestore());
+        DeletionDate = default;
+        IsDeleted = false;
     }
 }

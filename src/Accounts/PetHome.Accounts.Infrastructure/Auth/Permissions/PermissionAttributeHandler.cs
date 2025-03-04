@@ -1,46 +1,32 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using PetHome.Accounts.Domain.Aggregates;
-using PetHome.Accounts.Infrastructure.Database;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Auth;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Framework.Auth;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
-public class PermissionAttributeHandler : AuthorizationHandler<PermissionAttribute>
+public class PermissionAttributeHandler(IHttpContextAccessor httpContextAccessor)
+    : AuthorizationHandler<PermissionAttribute>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         PermissionAttribute requirement)
     {
-        AuthorizationDbContext _dbContext = new AuthorizationDbContext();
+        UserScopedData userScopedData = 
+            httpContextAccessor.HttpContext?.RequestServices.GetRequiredService<UserScopedData>()!;
 
-        string? userId = context.User.Claims.FirstOrDefault()?.Value; 
+        if (userScopedData is null)
+        {
+            context.Fail();
+            return Task.FromResult<AuthorizationPolicy>(null!);
+        }
+
+        if (userScopedData!.Permissions.Contains(requirement.Code))
+        {
+            context.Succeed(requirement); 
+            return Task.FromResult<AuthorizationPolicy>(null!);
+        }
          
-        User? user = _dbContext.Users.FirstOrDefault(u => u.Id.ToString() == userId);
-        if (user is null)
-        {
-            context.Fail();
-            return Task.FromResult<AuthorizationPolicy>(null!);
-        }
-
-        RoleId? userRoleId = user.RoleId;
-        Permission? permission = _dbContext.Permissions.ToList()
-            .FirstOrDefault(p => p.Code.Value == requirement.Code);
-        if(permission is null)
-        {
-            context.Fail();
-            return Task.FromResult<AuthorizationPolicy>(null!);
-        }
-
-        bool? hasPermission = _dbContext.RolesPermissions
-            .Any(p => p.PermissionId == permission.Id && p.RoleId == userRoleId);
-
-        if (hasPermission is not true)
-        {
-            context.Fail();
-            return Task.FromResult<AuthorizationPolicy>(null!);
-        }
-
-        context.Succeed(requirement);
         return Task.CompletedTask;
     }
 }

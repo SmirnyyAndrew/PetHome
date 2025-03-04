@@ -40,15 +40,15 @@ public class CreateSpeciesUseCase
         if (validationResult.IsValid is false)
             return validationResult.Errors.ToErrorList();
 
-        var speciesResult = _Species.Create(createSpeciesCommand.SpeciesName);
-        if (speciesResult.IsFailure)
-            return speciesResult.Error.ToErrorList();
-
-        var transaction = await _unitOfWork.BeginTransaction(ct);
-
         var getByNameResult = await _speciesRepository.GetByName(createSpeciesCommand.SpeciesName, ct);
         if (getByNameResult.IsSuccess)
             return Errors.Conflict(createSpeciesCommand.SpeciesName).ToErrorList();
+
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+
+        var speciesResult = _Species.Create(createSpeciesCommand.SpeciesName);
+        if (speciesResult.IsFailure)
+            return speciesResult.Error.ToErrorList();
 
         var addResult = await _speciesRepository.Add(speciesResult.Value, ct);
         if (addResult.IsFailure)

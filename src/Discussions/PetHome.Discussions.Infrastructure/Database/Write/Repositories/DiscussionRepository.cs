@@ -101,7 +101,7 @@ public class DiscussionRepository(DiscussionDbContext dbContext) : IDiscussionRe
         return discussions;
     }
 
-    public async Task<Relation?> GetRelationByName(RelationName relationName, CancellationToken ct)
+    public async Task<Relation?> GetRelationByName(string relationName, CancellationToken ct)
     {
         var discussions = await dbContext.Relations
             .FirstOrDefaultAsync(r => r.Name == relationName);

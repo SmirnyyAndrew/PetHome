@@ -1,11 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Core.Response.ErrorManagment;
+using PetHome.Core.ValueObjects.PetManagment.Pet;
 
 namespace PetHome.Core.ValueObjects.User;
 public record Login
 {
     public string Value { get; }
-    public Login(string value)
+    private Login(string value)
     {
         Value = value;
     }
@@ -17,4 +18,6 @@ public record Login
 
         return new Login(value);
     }
+
+    public static implicit operator string(Login login) => login.Value;
 }

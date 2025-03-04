@@ -2,10 +2,8 @@
 
 namespace PetHome.VolunteerRequests.API.Requests;
 public record SetVolunteerRequestRevisionRequiredRequest(
-    Guid VolunteerRequestId,
-    Guid AdminId,
     string RejectedComment)
 {
-    public static implicit operator SetVolunteerRequestRevisionRequiredCommand(SetVolunteerRequestRevisionRequiredRequest request)
-        => new(request.VolunteerRequestId, request.AdminId, request.RejectedComment);
+    public SetVolunteerRequestRevisionRequiredCommand ToCommand(Guid VolunteerRequestId, Guid AdminId)
+        => new(VolunteerRequestId, AdminId, RejectedComment);
 }

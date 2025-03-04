@@ -65,12 +65,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .IsRequired(false);
 
 
-        //medias 
-        builder.Property(s => s.Medias)
+        //photos 
+        builder.Property(s => s.Photos)
             .HasConversion(
                 u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
                 json => JsonSerializer.Deserialize<IReadOnlyList<MediaFile>>(json, JsonSerializerOptions.Default))
             .HasColumnName("medias");
+
+        //photos url
+        builder.Ignore(d => d.PhotosUrls);
+
 
         //avatar
         builder.OwnsOne(d => d.Avatar, db =>
@@ -94,5 +98,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false)
             .HasColumnName("file_name");
         });
+
+        //avatar url
+        builder.Ignore(d=>d.AvatarUrl);
     }
 }

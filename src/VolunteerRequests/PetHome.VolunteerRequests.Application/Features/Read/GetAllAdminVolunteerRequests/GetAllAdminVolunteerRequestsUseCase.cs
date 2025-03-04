@@ -27,8 +27,8 @@ public class GetAllAdminVolunteerRequestsUseCase
         if (query.Status is not null)
             volunteerRequests = volunteerRequests.Where(d => d.Status == query.Status).ToList();
 
-        PagedList<VolunteerRequest> volunteerRequestsPagedList = await volunteerRequests.AsQueryable()
-            .ToPagedList(query.PageNum, query.PageSize, ct);
+        PagedList<VolunteerRequest> volunteerRequestsPagedList = volunteerRequests
+            .ToPagedList(query.PageNum, query.PageSize);
 
         return volunteerRequestsPagedList;
     }

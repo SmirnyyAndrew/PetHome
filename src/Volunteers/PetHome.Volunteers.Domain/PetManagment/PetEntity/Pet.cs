@@ -11,13 +11,13 @@ using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 
 namespace PetHome.Volunteers.Domain.PetManagment.PetEntity;
-public class Pet : SoftDeletableEntity
+public class Pet : DomainEntity<PetId>, ISoftDeletableEntity
 {
     public static List<Pet> Pets { get; set; } = new List<Pet>();
-
-    private Pet() { }
-
+     
+    private Pet(PetId id) : base(id) { Id = id; }
     private Pet(
+        PetId id,
         PetName name,
         SpeciesId speciesId,
         Description description,
@@ -31,9 +31,9 @@ public class Pet : SoftDeletableEntity
         PetStatusEnum status,
         VolunteerId volunteerId,
         ValueObjectList<Requisites> requisites,
-        MediaFile avatar = null)
+        MediaFile avatar = null) : base(id)
     {
-        Id = PetId.Create().Value;
+        Id = id;
         Name = name;
         SpeciesId = speciesId;
         Description = description;
@@ -47,10 +47,9 @@ public class Pet : SoftDeletableEntity
         Requisites = requisites;
         VolunteerId = volunteerId;
         ProfileCreateDate = Date.Create(DateTime.UtcNow).Value;
-        Medias = new List<MediaFile>();
+        Photos = new List<MediaFile>();
         Avatar = avatar;
     }
-
 
     public PetId Id { get; private set; }
     public PetName Name { get; private set; }
@@ -68,8 +67,10 @@ public class Pet : SoftDeletableEntity
     public Date ProfileCreateDate { get; private set; }
     public VolunteerId VolunteerId { get; private set; }
     public SerialNumber SerialNumber { get; private set; }
-    public ValueObjectList<MediaFile> Medias { get; private set; }
+    public ValueObjectList<MediaFile> Photos { get; private set; }
     public MediaFile? Avatar { get; private set; }
+    public DateTime DeletionDate { get; set; }
+    public bool IsDeleted { get; set; }
 
     public static Result<Pet, Error> Create(
         PetName name,
@@ -91,6 +92,7 @@ public class Pet : SoftDeletableEntity
             return Errors.Validation("Вес");
 
         Pet pet = new Pet(
+            PetId.Create().Value,
             name,
             speciesId,
             description,
@@ -111,8 +113,17 @@ public class Pet : SoftDeletableEntity
         return pet;
     }
 
-    public override void SoftDelete() => base.SoftDelete();
-    public override void SoftRestore() => base.SoftRestore();
+    public void SoftDelete()
+    {
+        DeletionDate = DateTime.UtcNow;
+        IsDeleted = true;
+    }
+
+    public void SoftRestore()
+    {
+        DeletionDate = default;
+        IsDeleted = false;
+    }
 
     // Присвоить serial number = max + 1
     public UnitResult<Error> InitSerialNumber()
@@ -171,12 +182,12 @@ public class Pet : SoftDeletableEntity
     //Добавить медиа
     public UnitResult<Error> UploadMedia(IEnumerable<MediaFile> mediasToUpload)
     {
-        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload); 
+        List<MediaFile> newMediaFiles = new List<MediaFile>(mediasToUpload);
 
-        IReadOnlyList<MediaFile> oldMedias = Medias.Values.ToList();
+        IReadOnlyList<MediaFile> oldMedias = Photos.Values.ToList();
         oldMedias.ToList().ForEach(x => newMediaFiles.Add(MediaFile.Create(x.BucketName, x.FileName).Value));
-         
-        Medias = newMediaFiles;
+
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -184,12 +195,12 @@ public class Pet : SoftDeletableEntity
     //Удалить медиа
     public UnitResult<Error> RemoveMedia(IEnumerable<MediaFile> mediasToDelete)
     {
-        List<MediaFile> oldMediaFiles = Medias.Values
+        List<MediaFile> oldMediaFiles = Photos.Values
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value).ToList();
 
         List<MediaFile> newMediaFiles = oldMediaFiles.Except(mediasToDelete).ToList();
-         
-        Medias = newMediaFiles;
+
+        Photos = newMediaFiles;
 
         return Result.Success<Error>();
     }
@@ -236,11 +247,11 @@ public class Pet : SoftDeletableEntity
     public void SetMainPhoto(MediaFile media)
     {
         List<MediaFile> medias = new List<MediaFile>() { media };
-        medias.AddRange(Medias
+        medias.AddRange(Photos
             .Select(m => MediaFile.Create(m.BucketName, m.FileName).Value)
             .Except([media])
             .ToList());
-        Medias = new ValueObjectList<MediaFile>(medias);
+        Photos = new ValueObjectList<MediaFile>(medias);
     }
 
     public void SetAvatar(MediaFile avatar)
