@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Database\Dto\" />
     <Folder Include="Features\Consumers\AuthManagement\" />
   </ItemGroup>
 

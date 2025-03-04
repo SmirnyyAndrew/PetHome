@@ -1,4 +1,4 @@
-﻿namespace PetHome.Volunteers.Application.Features.Dto.Pet;
+﻿namespace PetHome.Volunteers.Application.Dto.Pet;
 
 public record ChangePetSerialNumberDto(
     Guid PetId,

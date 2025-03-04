@@ -11,6 +11,7 @@ using PetHome.Core.ValueObjects.User;
 using PetHome.Discussions.Contracts.Messaging;
 using PetHome.Framework.Database;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
+using PetHome.VolunteerRequests.Contracts.Messaging;
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestOnReview;
@@ -45,8 +46,11 @@ public class SetVolunteerRequestOnReviewUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
         _repository.Update(volunteerRequest);
 
-        var createDiscussionMessage = new CreatedDiscussionEvent(
-            [command.AdminId, command.UserId],
+        var createDiscussionMessage = new SetVolunteerRequestOnReviewEvent(
+            volunteerRequest.Id,
+            volunteerRequest.AdminId,
+            volunteerRequest.UserId,
+            volunteerRequest.DiscussionId,
             command.RelationName);
         await _publisher.Publish(createDiscussionMessage);
          

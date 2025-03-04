@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Core.Controllers;
 using PetHome.Volunteers.API.Controllers.PetManagment.Requests;
-using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetById;
 using PetHome.Volunteers.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.ChangePetInfo;

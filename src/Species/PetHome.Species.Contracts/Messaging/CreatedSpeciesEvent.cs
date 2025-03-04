@@ -1,2 +1,2 @@
 ﻿namespace PetHome.Species.Contracts.Messaging;
-public record CreatedSpeciesEvent(string SpeciesName);
+public record CreatedSpeciesEvent(Guid Id, string Name);

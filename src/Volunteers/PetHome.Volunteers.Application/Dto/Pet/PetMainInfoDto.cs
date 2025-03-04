@@ -1,6 +1,6 @@
 ﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
 
-namespace PetHome.Volunteers.Application.Features.Dto.Pet;
+namespace PetHome.Volunteers.Application.Dto.Pet;
 public record PetMainInfoDto(
             string Name,
             Guid SpeciesId,

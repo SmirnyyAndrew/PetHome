@@ -5,11 +5,10 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Framework.Database;
 using PetHome.Species.Application.Database;
-using PetHome.Species.Contracts;
 using _Species = PetHome.Species.Domain.SpeciesManagment.SpeciesEntity.Species;
 
-namespace PetHome.Species.Application.Features.Contracts;
-public class CreateSpeciesUseCase  
+namespace PetHome.Species.Application.Features.Contracts.Species;
+public class CreateSpeciesUseCase
 {
     private readonly ISpeciesRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
