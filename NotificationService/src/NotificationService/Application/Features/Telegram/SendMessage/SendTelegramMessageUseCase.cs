@@ -5,15 +5,11 @@ namespace NotificationService.Application.Features.Telegram.SendMessage;
 
 public class SendTelegramMessageUseCase
 {
-    private readonly TelegramManager _telegramManager;
-    private readonly NotificationRepository _repository;
+    private readonly TelegramManager _telegramManager; 
 
-    public SendTelegramMessageUseCase(
-        TelegramManager telegramManager,
-        NotificationRepository repository)
+    public SendTelegramMessageUseCase(TelegramManager telegramManager)
     {
-        _telegramManager = telegramManager;
-        _repository = repository;
+        _telegramManager = telegramManager; 
     }
 
     public async Task Execute(SendTelegramMessageCommand command, CancellationToken ct)

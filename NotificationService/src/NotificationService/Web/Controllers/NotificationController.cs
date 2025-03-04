@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotificationService.Application.Dto;
+using NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 using NotificationService.Application.Features.UsersNotificationSettings.GetAnyUsersNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUserNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUsersEmailSendings;
@@ -84,6 +85,17 @@ public class NotificationController : ParentController
         CancellationToken ct = default)
     {
         await useCase.Execute(userId, newNotificationSettings, ct);
+        return Ok();
+    }
+
+
+    [HttpPost("notification-everywhere")]
+    public async Task<IActionResult> SendMessageEverywhere( 
+        [FromServices] SendMessageEverywhereUseCase useCase,
+        [FromBody] SendMessageEverywhereCommand command,
+        CancellationToken ct = default)
+    {
+        await useCase.Execute(command, ct);
         return Ok();
     }
 }

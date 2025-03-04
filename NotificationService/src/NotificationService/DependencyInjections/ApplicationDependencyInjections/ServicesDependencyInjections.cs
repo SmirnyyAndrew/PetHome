@@ -1,4 +1,5 @@
 ﻿using NotificationService.Application.Features.Email.SendMessage;
+using NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 using NotificationService.Application.Features.Telegram.SendMessage;
 using NotificationService.Application.Features.UsersNotificationSettings.GetAnyUsersNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUserNotificationSettings;
@@ -24,6 +25,7 @@ public static class ServicesDependencyInjections
      
         services.AddScoped<SendEmailMessageUseCase>(); 
         services.AddScoped<SendTelegramMessageUseCase>(); 
+        services.AddScoped<SendMessageEverywhereUseCase>(); 
 
         return services;
     }
