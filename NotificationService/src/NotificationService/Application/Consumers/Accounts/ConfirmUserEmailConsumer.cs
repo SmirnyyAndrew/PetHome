@@ -4,7 +4,7 @@ using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 using PetHome.Accounts.Contracts.Messaging.UserManagment;
 
-namespace NotificationService.Application.Consumers;
+namespace NotificationService.Application.Consumers.Accounts;
 
 public class ConfirmUserEmailConsumer(IConfiguration configuration)
     : IConsumer<ConfirmedUserEmailEvent>

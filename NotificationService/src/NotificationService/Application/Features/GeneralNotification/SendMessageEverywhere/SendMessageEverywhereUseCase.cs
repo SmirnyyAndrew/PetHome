@@ -2,6 +2,7 @@
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 using NotificationService.Infrastructure.TelegramNotification;
+using PetHome.Volunteers.Contracts.Contracts;
 
 namespace NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 
@@ -11,17 +12,20 @@ public class SendMessageEverywhereUseCase
     private readonly TelegramManager _telegramManager;
     private readonly UnitOfWork _unitOfWork;
     private readonly IConfiguration _configuration;
+    //private readonly IGetVolunteerInformationContract _getVolunteerInformationContract;
 
     public SendMessageEverywhereUseCase(
         NotificationRepository repository,
         TelegramManager telegramManager,
         IConfiguration configuration,
+        //IGetVolunteerInformationContract getVolunteerInformationContract,
         UnitOfWork unitOfWork)
     {
         _repository = repository;
         _telegramManager = telegramManager;
         _configuration = configuration;
         _unitOfWork = unitOfWork;
+        //_getVolunteerInformationContract = getVolunteerInformationContract;
     }
 
     public async Task Execute(SendMessageEverywhereCommand command, CancellationToken ct)
@@ -44,10 +48,14 @@ public class SendMessageEverywhereUseCase
 
         if (userNotificationSettings?.IsEmailSend == true)
         {
-            //TODO: добавить контракт в Accounts на получение почты
-            string recipientEmail = "smirnay2001@mail.ru";
+            //TODO
+            string email = "smirnay2001@mail.ru";
+            //var userDto = await _getVolunteerInformationContract.Execute(command.UserId, ct);
+            //if (userDto is null) 
+            //    return;
+
             EmailManager emailManager = YandexEmailManager.Build(_configuration);
-            emailManager.SendMessage(recipientEmail, command.Subject, command.Body);
+            emailManager.SendMessage(email, command.Subject, command.Body);
         }
 
         if (userNotificationSettings?.IsTelegramSend == true)

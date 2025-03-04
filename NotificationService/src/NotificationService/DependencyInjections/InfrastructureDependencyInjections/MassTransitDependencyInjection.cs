@@ -1,5 +1,6 @@
 ﻿using MassTransit;
-using NotificationService.Application.Consumers;
+using NotificationService.Application.Consumers.Accounts;
+using NotificationService.Application.Consumers.Discussions;
 using PetHome.SharedKernel.Options.Volunteers;
 
 namespace NotificationService.DependencyInjections.InfrastructureDependencyInjections;
@@ -18,6 +19,12 @@ public static class MassTransitDependencyInjection
             //Consumers 
             config.AddConsumer<ConfirmUserEmailConsumer>(); 
             config.AddConsumer<CreateUserConsumer>(); 
+            config.AddConsumer<OpenDiscussionConsumer>(); 
+            //config.AddConsumer<CloseDiscussionConsumer>(); 
+            //config.AddConsumer<CreateDiscussionConsumer>(); 
+            //config.AddConsumer<SetVolunteerRequestApprovedConsumer>(); 
+            //config.AddConsumer<SetVolunteerRequestRejectedConsumer>(); 
+            //config.AddConsumer<SetVolunteerRequestSubmittedConsumer>(); 
 
             config.UsingRabbitMq((context, cfg) =>
             {
