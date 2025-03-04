@@ -4,12 +4,16 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <PackageId>VolunteerRequests.Contracts</PackageId>
+	  <Version>1.0.0</Version>
+	  <Authors>Smirnyy</Authors>
+	  <Company>SmirnyyCompany</Company>
+	  <PackageDescription>It's volunteer requests contracts</PackageDescription>
+	  <RepositoryUrl>https://github.com/MironovAndrew/PetHome</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
-    <ProjectReference Include="..\..\Species\PetHome.Species.Contracts\PetHome.Species.Contracts.csproj" />
-    <ProjectReference Include="..\..\Volunteers\PetHome.Volunteers.Contracts\PetHome.Volunteers.Contracts.csproj" />
+    <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" /> 
   </ItemGroup>
 
 </Project>
