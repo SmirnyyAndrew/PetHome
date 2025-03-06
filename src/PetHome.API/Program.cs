@@ -20,7 +20,7 @@ public partial class Program
         //Включить логгер от Serilog
         builder.Services.AddSerilog();
         //Логирование через Seq 
-        Log.Logger = SeqLogger.InitDefaultSeqConfiguration(builder.Configuration);
+        Log.Logger = LoggerManager.InitConfiguration(builder.Configuration);
 
 
         // Add services to the container.
