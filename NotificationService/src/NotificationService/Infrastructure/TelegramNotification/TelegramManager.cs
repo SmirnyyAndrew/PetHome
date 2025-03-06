@@ -69,7 +69,7 @@ public class TelegramManager
     private async Task AddUserChatIdToDB(
         Message message, UpdateType type)
     {
-        if (message.Chat.Username?.ToLower() != _telegramUserId)
+        if (message.Chat.Username?.ToLower() != _telegramUserId?.ToLower())
             return;
 
         StopRegisterChatId();
