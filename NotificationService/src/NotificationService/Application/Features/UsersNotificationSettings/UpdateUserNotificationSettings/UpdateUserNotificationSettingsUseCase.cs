@@ -7,7 +7,7 @@ public class UpdateUserNotificationSettingsUseCase(
     NotificationRepository repository, UnitOfWork unitOfWork)
 {
     public async Task Execute(
-        Guid userId, SendingNotificationSettings newNotificationSettings, CancellationToken ct)
+        Guid userId, SendingNotificationSettingsDto newNotificationSettings, CancellationToken ct)
     {
         await repository.Update(userId, newNotificationSettings, ct);
         await unitOfWork.SaveChanges(ct);

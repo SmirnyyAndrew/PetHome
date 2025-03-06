@@ -1,11 +1,10 @@
-﻿using NotificationService.Infrastructure.Database;
-using NotificationService.Infrastructure.TelegramNotification;
+﻿using NotificationService.Infrastructure.TelegramNotification;
 
 namespace NotificationService.Application.Features.Telegram.SendMessage;
 
 public class SendTelegramMessageUseCase
 {
-    private readonly TelegramManager _telegramManager; 
+    private readonly TelegramManager _telegramManager;
 
     public SendTelegramMessageUseCase(TelegramManager telegramManager)
     {
@@ -13,8 +12,7 @@ public class SendTelegramMessageUseCase
     }
 
     public async Task Execute(SendTelegramMessageCommand command, CancellationToken ct)
-    {
-        await _telegramManager.StartRegisterChatId(command.UserId); 
+    { 
         await _telegramManager.SendMessage(command.UserId, command.Message);
         return;
     }

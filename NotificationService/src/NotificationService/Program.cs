@@ -1,5 +1,4 @@
 using NotificationService.DependencyInjections;
-using NotificationService.Infrastructure.Database;
 using NotificationService.Infrastructure.TelegramNotification;
 
 DotNetEnv.Env.Load();
@@ -20,11 +19,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapPost("test", async (
+app.MapPost("test-telegram", async (
     TelegramManager telegramManager) =>
 {
     Guid userId = Guid.Parse("51c5a16c-3bb2-476a-a89a-aaf1a8724482");
-    await telegramManager.StartRegisterChatId(userId); 
+    await telegramManager.StartRegisterChatId(userId, "andrey_5701 wrong"); 
     await telegramManager.SendMessage(userId, "wasssup"); 
 });
 

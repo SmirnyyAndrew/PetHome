@@ -19,15 +19,14 @@ namespace NotificationService.Infrastructure.Database.Migrations
                 schema: "Notifications",
                 columns: table => new
                 {
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_notification_settings_user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     is_email_send = table.Column<bool>(type: "boolean", nullable: true),
-                    is_telegram_send = table.Column<bool>(type: "boolean", nullable: true),
-                    telegram_chat_id = table.Column<long>(type: "bigint", nullable: true),
-                    is_web_send = table.Column<bool>(type: "boolean", nullable: true)
+                    is_web_send = table.Column<bool>(type: "boolean", nullable: true),
+                    telegram_settings = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("user_id", x => x.user_id);
+                    table.PrimaryKey("user_id", x => x.user_notification_settings_user_id);
                 });
         }
 

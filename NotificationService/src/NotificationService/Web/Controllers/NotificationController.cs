@@ -80,7 +80,7 @@ public class NotificationController : ParentController
     [HttpPost("notification-settings/new/{userId:guid}")]
     public async Task<IActionResult> UpdateUserNotificationSettings(
         [FromRoute] Guid userId,
-        [FromBody] SendingNotificationSettings newNotificationSettings,
+        [FromBody] SendingNotificationSettingsDto newNotificationSettings,
         [FromServices] UpdateUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {

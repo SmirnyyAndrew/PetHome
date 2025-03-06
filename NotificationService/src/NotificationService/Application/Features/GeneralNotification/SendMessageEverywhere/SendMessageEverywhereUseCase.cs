@@ -58,11 +58,13 @@ public class SendMessageEverywhereUseCase
             emailManager.SendMessage(email, command.Subject, command.Body);
         }
 
-        if (userNotificationSettings?.IsTelegramSend == true)
+        if (userNotificationSettings?.TelegramSettings != null)
         {
-            if (userNotificationSettings.TelegramChatId is null)
-                await _telegramManager.StartRegisterChatId(command.UserId);
-
+            await _telegramManager.SendMessage(command.UserId, command.Body);
+        }
+        else if (command.TelegramUserId != null)
+        {
+            await _telegramManager.StartRegisterChatId(command.UserId, command.TelegramUserId);
             await _telegramManager.SendMessage(command.UserId, command.Body);
         }
     }
