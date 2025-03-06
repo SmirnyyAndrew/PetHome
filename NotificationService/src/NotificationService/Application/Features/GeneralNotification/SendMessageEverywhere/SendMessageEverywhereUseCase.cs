@@ -1,12 +1,15 @@
-﻿using NotificationService.Infrastructure.Database;
+﻿using CSharpFunctionalExtensions;
+using NotificationService.Infrastructure.Database;
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 using NotificationService.Infrastructure.TelegramNotification;
-using PetHome.Volunteers.Contracts.Contracts;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.Validation.Validator;
 
 namespace NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 
 public class SendMessageEverywhereUseCase
+    :ICommandHandler<SendMessageEverywhereCommand>
 {
     private readonly NotificationRepository _repository;
     private readonly TelegramManager _telegramManager;
@@ -28,7 +31,7 @@ public class SendMessageEverywhereUseCase
         //_getVolunteerInformationContract = getVolunteerInformationContract;
     }
 
-    public async Task Execute(SendMessageEverywhereCommand command, CancellationToken ct)
+    public async Task<UnitResult<ErrorList>> Execute(SendMessageEverywhereCommand command, CancellationToken ct)
     {
         var userNotificationSettings = await _repository.Get(command.UserId, ct);
         if (userNotificationSettings is null)
@@ -67,5 +70,7 @@ public class SendMessageEverywhereUseCase
             await _telegramManager.StartRegisterChatId(command.UserId, command.TelegramUserId);
             await _telegramManager.SendMessage(command.UserId, command.Body);
         }
-    }
+
+        return Result.Success<ErrorList>();
+    } 
 }

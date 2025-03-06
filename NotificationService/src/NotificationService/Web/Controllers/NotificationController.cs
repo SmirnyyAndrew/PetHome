@@ -31,7 +31,8 @@ public class NotificationController : ParentController
         [FromServices] GetUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {
-        var result = await useCase.Execute(userId, ct);
+        GetUserNotificationSettingsQuery query = new(userId);
+        var result = await useCase.Execute(query, ct);
         return Ok(result);
     }
 
@@ -72,7 +73,8 @@ public class NotificationController : ParentController
         [FromServices] ResetUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {
-        await useCase.Execute(userId, ct);
+        ResetUserNotificationSettingsCommand command = new(userId);
+        await useCase.Execute(command, ct);
         return Ok();
     }
 
@@ -84,7 +86,8 @@ public class NotificationController : ParentController
         [FromServices] UpdateUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {
-        await useCase.Execute(userId, newNotificationSettings, ct);
+        UpdateUserNotificationSettingsCommand command = new(userId, newNotificationSettings);
+        await useCase.Execute(command, ct);
         return Ok();
     }
 

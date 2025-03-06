@@ -1,4 +1,6 @@
-﻿namespace NotificationService.Application.Features.Telegram.SendMessage;
-public record SendTelegramMessageCommand( 
+﻿using PetHome.Core.Interfaces.FeatureManagment;
+
+namespace NotificationService.Application.Features.Telegram.SendMessage;
+public record SendTelegramMessageCommand(
     Guid UserId,
-    string Message);
+    string Message) : ICommand;

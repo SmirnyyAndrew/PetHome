@@ -23,7 +23,7 @@ app.MapPost("test-telegram", async (
     TelegramManager telegramManager) =>
 {
     Guid userId = Guid.Parse("51c5a16c-3bb2-476a-a89a-aaf1a8724482");
-    await telegramManager.StartRegisterChatId(userId, "andrey_5701 wrong"); 
+    await telegramManager.StartRegisterChatId(userId, "andrey_5701"); 
     await telegramManager.SendMessage(userId, "wasssup"); 
 });
 

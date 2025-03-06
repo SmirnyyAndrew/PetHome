@@ -1,12 +1,16 @@
-﻿using NotificationService.Domain;
+﻿using CSharpFunctionalExtensions;
+using NotificationService.Domain;
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
+using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Response.Validation.Validator;
 
 namespace NotificationService.Application.Features.Email.SendMessage;
 
 public class SendEmailMessageUseCase(IConfiguration configuration)
+    : ICommandHandler<SendEmailMessageCommand>
 {
-    public async Task Execute(SendEmailMessageCommand command, CancellationToken ct)
+    public async Task<UnitResult<ErrorList>> Execute(SendEmailMessageCommand command, CancellationToken ct)
     {
         EmailManager emailManager = (command.SenderEmailType) switch
         {
@@ -19,5 +23,7 @@ public class SendEmailMessageUseCase(IConfiguration configuration)
             command.RecipientEmail,
             command.Subject,
             command.Body);
-    }
+
+        return Result.Success<ErrorList>();
+    } 
 }
