@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace PetHome.Accounts.Infrastructure.Migrations
+namespace PetHome.Accounts.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Accounts_Add_MediasUrls : Migration
+    public partial class Accounts_Add_InitMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,23 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_admin_accounts", x => x.user_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "outbox_messages",
+                schema: "Account",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "text", nullable: false),
+                    payload = table.Column<string>(type: "jsonb", nullable: false),
+                    occurred_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    processed_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    error = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_outbox_messages", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -330,6 +347,14 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "idx_outbox_messages_unprocessed",
+                schema: "Account",
+                table: "outbox_messages",
+                columns: new[] { "occurred_on", "processed_on" },
+                filter: "processed_on IS NULL")
+                .Annotation("Npgsql:IndexInclude", new[] { "id", "type", "payload" });
+
+            migrationBuilder.CreateIndex(
                 name: "ix_permission_role_role_id",
                 schema: "Account",
                 table: "permission_role",
@@ -410,6 +435,10 @@ namespace PetHome.Accounts.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "outbox_messages",
+                schema: "Account");
+
             migrationBuilder.DropTable(
                 name: "permission_role",
                 schema: "Account");

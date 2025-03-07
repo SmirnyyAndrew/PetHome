@@ -8,7 +8,7 @@ using PetHome.Accounts.Infrastructure.Database;
 
 #nullable disable
 
-namespace PetHome.Accounts.Infrastructure.Migrations
+namespace PetHome.Accounts.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
     partial class AuthorizationDbContextModelSnapshot : ModelSnapshot
@@ -456,6 +456,47 @@ namespace PetHome.Accounts.Infrastructure.Migrations
                             t.Property("PhoneNumber")
                                 .HasColumnName("phone_number1");
                         });
+                });
+
+            modelBuilder.Entity("PetHome.Accounts.Domain.Others.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text")
+                        .HasColumnName("error");
+
+                    b.Property<DateTime>("OccurredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("payload");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_on");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_outbox_messages");
+
+                    b.HasIndex("OccurredOn", "ProcessedOn")
+                        .HasDatabaseName("idx_outbox_messages_unprocessed")
+                        .HasFilter("processed_on IS NULL");
+
+                    NpgsqlIndexBuilderExtensions.IncludeProperties(b.HasIndex("OccurredOn", "ProcessedOn"), new[] { "Id", "Type", "Payload" });
+
+                    b.ToTable("outbox_messages", "Account");
                 });
 
             modelBuilder.Entity("PetHome.Core.Response.RefreshToken.RefreshSession", b =>
