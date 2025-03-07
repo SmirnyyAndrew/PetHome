@@ -22,6 +22,7 @@ public partial class Program
         //Логирование через Seq 
         Log.Logger = LoggerManager.InitConfiguration(builder.Configuration);
 
+        builder.Services.AddOpenTelemetryMetrics();
 
         // Add services to the container.
         builder.Services.AddControllers();
@@ -67,6 +68,9 @@ public partial class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
             //Automigration
             //app.ApplyAutoMigrations();
         }
