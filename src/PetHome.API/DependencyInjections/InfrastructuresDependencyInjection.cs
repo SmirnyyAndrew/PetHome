@@ -22,9 +22,9 @@ public static class InfrastructuresDependencyInjection
 
         services.AddAmazonHttpCommunication(configuration);
         services.AddMinioHttpCommunication(configuration);
-     
         services.AddMassTransitConfig(configuration);
-
+        services.AddRedis(configuration);
+        
         return services;
     }
 }
