@@ -20,10 +20,7 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
             .IsRequired()
             .HasColumnName("jti");
 
-        builder.Property(u => u.UserId)
-            .HasConversion(
-                id => id.Value,
-                value => UserId.Create(value).Value)
+        builder.Property(u => u.UserId) 
             .IsRequired()
             .HasColumnName("user_id"); 
 
