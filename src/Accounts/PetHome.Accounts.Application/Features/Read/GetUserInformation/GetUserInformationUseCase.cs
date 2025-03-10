@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Interfaces;
-using PetHome.Accounts.Application.Database.Dto;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Application.Features.Read.GetUser;
+using PetHome.Accounts.Contracts.Dto;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Extentions.ErrorExtentions;
 using PetHome.Core.Interfaces.FeatureManagment;
@@ -29,7 +29,7 @@ public class GetUserInformationUseCase
         User user = result.Value;
 
         string roleName = user.Role is null ? string.Empty: user.Role.Name;
-        DateTime birthDate = user.BirthDate is null ? default: user.BirthDate.Value; 
+        DateTime birthDate = user.BirthDate is null ? default: user.BirthDate.Value;
         UserDto userDto = new UserDto(
             user.Id,
             user.UserName,

@@ -1,2 +1,6 @@
 ﻿namespace PetHome.VolunteerRequests.Contracts.Messaging;
-public record CreatedVolunteerRequestEvent(Guid UserId, Guid VolunteerRequestId, string VolunteerInfo);
+public record CreatedVolunteerRequestEvent(
+    Guid VolunteerRequestId, 
+    Guid UserId,  
+    string VolunteerInfo,
+    DateTime CreatedAt);

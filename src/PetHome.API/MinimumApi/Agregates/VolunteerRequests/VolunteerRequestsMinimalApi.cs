@@ -13,7 +13,8 @@ public static class VolunteerRequestsMinimalApi
             await publisher.Publish(new CreatedVolunteerRequestEvent(
                Guid.NewGuid(),
                Guid.NewGuid(),
-               "Some info"
+               "Some info",
+               DateTime.Now
                 ));
         });
 

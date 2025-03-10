@@ -48,7 +48,8 @@ public class RegisterAdminUseCase
         await _repository.AddAdmin(admin, ct);
         await _unitOfWork.SaveChanges(ct);
          
-        CreatedAdminEvent createdAdminEvent = new CreatedAdminEvent(command.UserId);
+        CreatedAdminEvent createdAdminEvent = new CreatedAdminEvent(
+            user.Id, user.Email, user.UserName);
         await _publisher.Publish(createdAdminEvent);
         transaction.Commit(); 
 

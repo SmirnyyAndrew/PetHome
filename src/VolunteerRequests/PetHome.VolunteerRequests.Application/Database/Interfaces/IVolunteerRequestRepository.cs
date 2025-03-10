@@ -15,7 +15,7 @@ public interface IVolunteerRequestRepository
 
     public void Update(IEnumerable<VolunteerRequest> volunteerRequest);
 
-    public Task<VolunteerRequest> GetById(Guid volunteerRequestId, CancellationToken ct);
+    public Task<VolunteerRequest?> GetById(Guid volunteerRequestId, CancellationToken ct);
 
     public Task<IReadOnlyList<VolunteerRequest>> GetByUserId(Guid userId, CancellationToken ct);
 

@@ -100,21 +100,7 @@ public class VolunteerController : ParentController
             result.Error.GetStatusCode();
 
         return Ok(result.Value);
-    }
-
-
-    [Authorize]
-    [HttpDelete("backround")]
-    public async Task<IActionResult> HardDeleteSoftDeleted(
-        [FromServices] SoftDeletedEntitiesToHardDeleteUseCase useCase,
-        CancellationToken ct = default)
-    {
-        var result = useCase.Execute(ct);
-        if (result.IsFailure)
-            result.Error.GetStatusCode();
-
-        return Ok(result.Value);
-    }
+    } 
 
 
     [HttpGet("paged/volunteers")]

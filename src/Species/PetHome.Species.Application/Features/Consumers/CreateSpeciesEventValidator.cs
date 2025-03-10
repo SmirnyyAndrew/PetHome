@@ -8,6 +8,6 @@ public class CreateSpeciesEventValidator : AbstractValidator<CreatedSpeciesEvent
 {
     public CreateSpeciesEventValidator()
     {
-        RuleFor(c => c.SpeciesName).MustBeValueObject(SpeciesName.Create);
+        RuleFor(c => c.Name).MustBeValueObject(SpeciesName.Create);
     }
 }

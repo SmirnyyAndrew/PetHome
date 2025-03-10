@@ -21,15 +21,18 @@ public class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage
         builder.Property(o => o.OccurredOn)
             .HasConversion(v => v.ToUniversalTime(),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc))
-            .IsRequired();
+            .IsRequired()
+            .HasColumnName("occurred_on");
 
         builder.Property(o => o.ProcessedOn)
             .HasConversion(v => v.Value.ToUniversalTime(),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc))
-            .IsRequired(false);
+            .IsRequired(false)
+            .HasColumnName("processed_on");
 
         builder.Property(o => o.Error)
-            .IsRequired(false);
+            .IsRequired(false)
+            .HasColumnName("error");
 
         builder.HasIndex(e => new
         {
@@ -43,6 +46,6 @@ public class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage
                 p.Type,
                 p.Payload,
             })
-            .HasFilter("processed_on_utc IS NULL");
+            .HasFilter("processed_on IS NULL");
     }
 }

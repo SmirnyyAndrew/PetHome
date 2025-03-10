@@ -1,5 +1,5 @@
 ﻿using FilesService.Core.Interfaces;
-using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.MinioUploadPetMediaFiles;
 
 public record UploadPetMediaFilesRequest(
