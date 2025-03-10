@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
+    <PackageReference Include="Elastic.Serilog.Sinks" Version="8.12.3" />
     <PackageReference Include="FilesService.Core" Version="1.0.9" />
     <PackageReference Include="MediatR" Version="12.4.1" /> 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />

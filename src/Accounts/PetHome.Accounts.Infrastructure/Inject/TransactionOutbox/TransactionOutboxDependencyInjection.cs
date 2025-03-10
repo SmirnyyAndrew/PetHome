@@ -17,7 +17,7 @@ public static class TransactionOutboxDependencyInjection
             .AddTrigger(trigger =>
             {
                 trigger.ForJob(jobKey)
-                .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(1)
+                .WithSimpleSchedule(schedule => schedule.WithIntervalInMinutes(1)
                 .RepeatForever());
             });
         });
