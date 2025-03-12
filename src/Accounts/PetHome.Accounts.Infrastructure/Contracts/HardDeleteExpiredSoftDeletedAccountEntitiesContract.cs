@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.SharedKernel.Options.Backgroundd;
+using PetHome.SharedKernel.Options.Background;
 
 namespace PetHome.Accounts.Infrastructure.Contracts;
 public class HardDeleteExpiredSoftDeletedAccountEntitiesContract

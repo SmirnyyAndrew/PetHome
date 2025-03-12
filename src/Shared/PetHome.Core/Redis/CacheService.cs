@@ -66,7 +66,7 @@ public class CacheService(IDistributedCache _cache) : ICacheService
     {
         var removeTasks = _cacheKeys.Keys
             .Where(k => k.StartsWith(prefix))
-            .Select(key => RemoveAsync(key, ct)); 
+            .Select(key => RemoveAsync(key, ct));
         await Task.WhenAll(removeTasks);
     }
 }

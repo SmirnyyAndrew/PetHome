@@ -10,7 +10,7 @@ using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database.Repositories;
 public class AuthenticationRepository(
-    AuthorizationDbContext dbContext,
+    AuthorizationDbContext dbContext, 
     UserManager<User> userManager)
     : IAuthenticationRepository
 {
@@ -67,6 +67,11 @@ public class AuthenticationRepository(
     public void RemoveUser(IEnumerable<User> users)
     {
         dbContext.Users.RemoveRange(users);
+    }
+
+    public async Task<IReadOnlyList<User>> GetUsers(CancellationToken ct)
+    {
+        return await dbContext.Users.ToListAsync(ct);
     }
 
     public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)

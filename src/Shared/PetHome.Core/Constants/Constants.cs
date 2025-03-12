@@ -15,6 +15,7 @@ public static class Constants
     public static class Redis
     {
         public static string USER(Guid id) => $"user_{id}";
+        public const string USERS = "users";
 
         public static string DISCUSSION(Guid id) => $"discussion_{id}";
         public static string MESSAGE(Guid id) => $"message_{id}";

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.SharedKernel.Options.Backgroundd;
+using PetHome.SharedKernel.Options.Background;
 
 namespace PetHome.Accounts.Infrastructure.BackgroundServices;
 internal class SoftDeletableEntitiesMonitor : BackgroundService

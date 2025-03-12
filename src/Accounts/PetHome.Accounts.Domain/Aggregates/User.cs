@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
 using Microsoft.AspNetCore.Identity;
+using PetHome.Accounts.Contracts.Dto;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;
@@ -52,7 +53,7 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
             MediaFile avatar = null,
             Guid id = default)
     {
-        bool isCorrectUserData = role != null && email != null && role != null; 
+        bool isCorrectUserData = role != null && email != null && role != null;
 
         if (isCorrectUserData)
             return new User(email, userName, role, avatar, id);
@@ -158,5 +159,20 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     {
         DeletionDate = default;
         IsDeleted = false;
+    }
+
+    public static implicit operator UserDto(User user)
+    {
+        DateTime birthDate = user.BirthDate is null
+            ? default
+            : user.BirthDate.Value;
+
+        return new UserDto(
+             user.Id,
+             user.UserName,
+             user.Email,
+             user.Role?.Name,
+             birthDate
+            );
     }
 }

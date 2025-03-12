@@ -32,6 +32,8 @@ public interface IAuthenticationRepository
 
     public Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct);
 
+    public Task<IReadOnlyList<User>> GetUsers(CancellationToken ct);
+
     public Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct);
 
     public void UpdateUser(User user, CancellationToken ct);

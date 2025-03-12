@@ -4,4 +4,4 @@ public record UserDto(
     string UserName, 
     string Email, 
     string RoleName,
-    DateTime DateTime);
+    DateTime BirthDate);
