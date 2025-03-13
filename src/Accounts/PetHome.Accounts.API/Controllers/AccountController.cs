@@ -184,12 +184,15 @@ public class AccountController
 
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers(
-        [FromServices] GetUsersUseCase useCase, 
+        [FromServices] GetUsersInformationUseCase useCase,
+        [FromQuery] GetUsersInformationRequest request,
         CancellationToken ct)
-    { 
-        var result = await useCase.Execute(ct); 
-
-        return Ok(result);
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+       
+        return Ok(result.Value);
     }
 
 

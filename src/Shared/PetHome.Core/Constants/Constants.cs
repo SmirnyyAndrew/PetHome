@@ -16,6 +16,7 @@ public static class Constants
     {
         public static string USER(Guid id) => $"user_{id}";
         public const string USERS = "users";
+        public static string PAGED_USERS(int pageSize, int pageNum) => $"paged_users_size_{pageSize}_num_{pageNum}";
 
         public static string DISCUSSION(Guid id) => $"discussion_{id}";
         public static string MESSAGE(Guid id) => $"message_{id}";
