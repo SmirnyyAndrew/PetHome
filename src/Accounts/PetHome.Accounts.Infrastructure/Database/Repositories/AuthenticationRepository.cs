@@ -4,13 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Core.Enums;
+using PetHome.Core.Models;
+using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
 
 namespace PetHome.Accounts.Infrastructure.Database.Repositories;
 public class AuthenticationRepository(
-    AuthorizationDbContext dbContext, 
+    AuthorizationDbContext dbContext,
     UserManager<User> userManager)
     : IAuthenticationRepository
 {
@@ -74,6 +77,33 @@ public class AuthenticationRepository(
         return await dbContext.Users.ToListAsync(ct);
     }
 
+    public async Task<IReadOnlyList<User>?> GetPagedUsersWithFilter(
+        PagedListDto paginationSettings, UserFilterDto userFilter, CancellationToken ct)
+    {
+        IQueryable<User> users = dbContext.Users.AsQueryable();
+
+        switch (userFilter.FilterType)
+        {
+            case UserFilter.NON:
+                break;
+            case UserFilter.email:
+                users = users.Where(u => u.Email.Contains(userFilter.Filter));
+                break;
+            case UserFilter.username:
+                users = users.Where(u => u.UserName.Contains(userFilter.Filter));
+                break;
+            case UserFilter.role_name:
+                users = users.Where(u => u.Role.Name.Contains(userFilter.Filter));
+                break;
+            case UserFilter.phone_number:
+                users = users.Where(u => u.PhoneNumbers.Any(p => p.Value.Contains(userFilter.Filter)));
+                break;
+            default:
+                break;
+        }
+        return await users.ToListAsync(ct);
+    }
+
     public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)
     {
         var users = dbContext.Users.ToList();
@@ -84,7 +114,7 @@ public class AuthenticationRepository(
             .Include(u => u.Volunteer)
             .Include(u => u.Participant)
             .FirstOrDefaultAsync(v => v.Id == id);
-         
+
         if (result is null)
             return Errors.NotFound($"user с id == {id}");
 

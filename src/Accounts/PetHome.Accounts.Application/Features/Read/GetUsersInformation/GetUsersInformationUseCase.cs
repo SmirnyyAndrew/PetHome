@@ -3,7 +3,6 @@ using MassTransit.Initializers;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Contracts.Dto;
 using PetHome.Core.Constants;
-using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Redis;
 using PetHome.Core.Response.Validation.Validator;
@@ -28,33 +27,13 @@ public class GetUsersInformationUseCase
             Constants.Redis.PAGED_USERS(query.PaginationSettings.PageSize, query.PaginationSettings.PageNum),
             async () =>
             {
-                var users = _repository.GetUsers(ct).Result
-                .AsQueryable();
+                var pagedFiltredUsers = await _repository.GetPagedUsersWithFilter(
+                    query.PaginationSettings, query.UserFilter, ct);
 
-                switch (query.FilterType)
-                {
-                    case Core.Enums.UserFilter.email:
-                        users = users.Where(u => u.Email.Contains(query.Filter));
-                        break;
-                    case Core.Enums.UserFilter.username:
-                        users = users.Where(u => u.UserName.Contains(query.Filter));
-                        break;
-                    case Core.Enums.UserFilter.role_name:
-                        users = users.Where(u => u.Role.Name.Contains(query.Filter));
-                        break;
-                    case Core.Enums.UserFilter.phone_number:
-                        users = users.Where(u => u.PhoneNumbers.Any(p => p.Value.Contains(query.Filter)));
-                        break;
-                    default:
-                        break;
-                }
-
-                return users
-                .ToPagedList(query.PaginationSettings.PageNum, query.PaginationSettings.PageSize)
-                .Select(u => (UserDto)u)
-                .ToList();
+                var pagedFiltredUsersDto = pagedFiltredUsers.Select(u => (UserDto)u).ToList();
+                return pagedFiltredUsersDto;
             });
 
-        return cachedUsersDto;
+        return cachedUsersDto ?? [];
     }
 }
