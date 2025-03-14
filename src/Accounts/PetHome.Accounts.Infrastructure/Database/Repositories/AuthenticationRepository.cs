@@ -5,11 +5,13 @@ using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Enums;
+using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Models;
 using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
+using System.Collections.Generic;
 
 namespace PetHome.Accounts.Infrastructure.Database.Repositories;
 public class AuthenticationRepository(
@@ -77,7 +79,7 @@ public class AuthenticationRepository(
         return await dbContext.Users.ToListAsync(ct);
     }
 
-    public async Task<IReadOnlyList<User>?> GetPagedUsersWithFilter(
+    public async Task<PagedList<User>> GetPagedUsersWithFilter(
         PagedListDto paginationSettings, UserFilterDto userFilter, CancellationToken ct)
     {
         IQueryable<User> users = dbContext.Users.AsQueryable();
@@ -101,7 +103,8 @@ public class AuthenticationRepository(
             default:
                 break;
         }
-        return await users.ToListAsync(ct);
+        var result = await users.ToPagedList(paginationSettings.PageNum, paginationSettings.PageSize, ct); 
+        return result;
     }
 
     public async Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct)
@@ -114,7 +117,6 @@ public class AuthenticationRepository(
             .Include(u => u.Volunteer)
             .Include(u => u.Participant)
             .FirstOrDefaultAsync(v => v.Id == id);
-
         if (result is null)
             return Errors.NotFound($"user с id == {id}");
 

@@ -37,7 +37,7 @@ public interface IAuthenticationRepository
 
     public Task<IReadOnlyList<User>> GetUsers(CancellationToken ct);
 
-    public Task<IReadOnlyList<User>> GetPagedUsersWithFilter(
+    public Task<PagedList<User>> GetPagedUsersWithFilter(
         PagedListDto paginationSettings, UserFilterDto userFilter, CancellationToken ct);
 
     public Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct);
