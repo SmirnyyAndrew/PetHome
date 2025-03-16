@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Accounts.Contracts" Version="1.0.3" />
+    <PackageReference Include="Accounts.Contracts" Version="1.0.4" />
     <PackageReference Include="Discussions.Contracts" Version="1.0.0" />
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="EFCore.NamingConventions" Version="8.0.1" />
@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-    <PackageReference Include="PetHome.SharedKernel" Version="1.0.0" />
+    <PackageReference Include="PetHome.SharedKernel" Version="3.0.0" />
     <PackageReference Include="Scrutor" Version="6.0.1" />
     <PackageReference Include="Species.Contracts" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
