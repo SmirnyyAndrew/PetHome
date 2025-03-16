@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
-public static class OptionsAuth
+public static class AuthOption
 {
     public static IdentityOptions GetAuthenticationOptions(this IdentityOptions options)
     {

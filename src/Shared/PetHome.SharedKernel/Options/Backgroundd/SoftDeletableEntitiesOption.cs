@@ -1,4 +1,4 @@
-﻿namespace PetHome.SharedKernel.Options.Backgroundd;
+﻿namespace PetHome.SharedKernel.Options.Background;
 public class SoftDeletableEntitiesOption
 {
     public const string SECTION_NAME = "Background";

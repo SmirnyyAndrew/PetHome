@@ -27,6 +27,8 @@ public static class ApplicationDependencyInjection
             config.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
         });
 
+        services.AddMemoryCache();
+
         return services;
     }
 }

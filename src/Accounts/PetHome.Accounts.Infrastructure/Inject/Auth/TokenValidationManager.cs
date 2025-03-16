@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PetHome.Accounts.Infrastructure.Auth.Jwt;
+using PetHome.SharedKernel.Options.Accounts;
 using System.Text;
 
 namespace PetHome.Accounts.Infrastructure.Inject.Auth;
@@ -8,7 +9,7 @@ public static class TokenValidationManager
 {
     public static TokenValidationParameters GetTokenValidationParameters(IConfiguration configuration)
     {
-        JwtOptions _options = GetJwtOptions(configuration);
+        JwtOption _options = GetJwtOptions(configuration);
 
         TokenValidationParameters tokenValidationParameters = new TokenValidationParameters()
         {
@@ -25,9 +26,9 @@ public static class TokenValidationManager
         return tokenValidationParameters;
     } 
 
-    public static JwtOptions GetJwtOptions(IConfiguration configuration)
+    public static JwtOption GetJwtOptions(IConfiguration configuration)
     {
-        return configuration.GetSection(JwtOptions.NAME).Get<JwtOptions>()
+        return configuration.GetSection(JwtOption.SECTION_NAME).Get<JwtOption>()
              ?? throw new ApplicationException("Missing JWT configuration");
     }
 }
