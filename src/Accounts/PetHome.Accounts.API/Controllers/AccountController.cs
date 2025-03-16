@@ -1,14 +1,13 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PetHome.Accounts.API.Controllers.Requests.Auth;
 using PetHome.Accounts.API.Controllers.Requests.Data;
 using PetHome.Accounts.API.Controllers.Requests.EmailManagement;
 using PetHome.Accounts.API.Controllers.Requests.Media;
-using PetHome.Accounts.Application.Database.Dto;
 using PetHome.Accounts.Application.Features.Read.GetUser;
 using PetHome.Accounts.Application.Features.Read.GetUserInformation;
+using PetHome.Accounts.Application.Features.Read.GetUsersInformation;
 using PetHome.Accounts.Application.Features.Write.EmailManagement.ConfirmEmail;
 using PetHome.Accounts.Application.Features.Write.EmailManagement.GenerateEmailConfirmationToken;
 using PetHome.Accounts.Application.Features.Write.LoginUser;
@@ -17,8 +16,8 @@ using PetHome.Accounts.Application.Features.Write.SetAvatar.CompleteUploadAvatar
 using PetHome.Accounts.Application.Features.Write.SetAvatar.StartUploadAvatar;
 using PetHome.Accounts.Application.Features.Write.SetAvatar.UploadPresignedUrlAvatar;
 using PetHome.Accounts.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
+using PetHome.Accounts.Contracts.Dto;
 using PetHome.Accounts.Contracts.Messaging.UserManagment;
-using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Accounts.Domain.Constants;
 using PetHome.Core.Auth;
 using PetHome.Core.Auth.Cookies;
@@ -180,6 +179,19 @@ public class AccountController
         if (result.IsFailure)
             return BadRequest(result.Error);
 
+        return Ok(result.Value);
+    }
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetUsers(
+        [FromServices] GetUsersInformationUseCase useCase,
+        [FromQuery] GetUsersInformationRequest request,
+        CancellationToken ct)
+    {
+        var result = await useCase.Execute(request, ct);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+       
         return Ok(result.Value);
     }
 

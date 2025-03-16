@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Constants;
 using PetHome.Framework.Database;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
+using PetHome.VolunteerRequests.Application.Features.Contracts;
+using PetHome.VolunteerRequests.Contracts.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Read.DBContext;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write.Repositories;
@@ -19,6 +21,8 @@ public static class InfrastructureDependencyInjection
             new VolunteerRequestReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<IVolunteerRequestRepository, VolunteerRequestRepository>();
+       
+        services.AddScoped<IGetVolunteerRequestContract, GetVolunteerRequestUsingContract>();
 
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY);
 

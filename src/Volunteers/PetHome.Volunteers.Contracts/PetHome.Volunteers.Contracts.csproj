@@ -4,7 +4,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
+	  <PackageId>Volunteers.Contracts</PackageId>
+	  <Version>1.0.0</Version>
+	  <Authors>Smirnyy</Authors>
+	  <Company>SmirnyyCompany</Company>
+	  <PackageDescription>It's volunteers contracts</PackageDescription>
+	  <RepositoryUrl>https://github.com/MironovAndrew/PetHome</RepositoryUrl>
+  </PropertyGroup> 
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />

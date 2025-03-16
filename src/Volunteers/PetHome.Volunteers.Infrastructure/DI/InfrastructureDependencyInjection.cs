@@ -7,7 +7,8 @@ using PetHome.Core.Response.Messaging;
 using PetHome.Framework.Database;
 using PetHome.SharedKernel.Options.Volunteers;
 using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Infrastructure.Background;
+using PetHome.Volunteers.Application.Features.Contracts;
+using PetHome.Volunteers.Contracts.Contracts;
 using PetHome.Volunteers.Infrastructure.Contracts;
 using PetHome.Volunteers.Infrastructure.Database.Read.DBContext;
 using PetHome.Volunteers.Infrastructure.Database.Write;
@@ -26,6 +27,8 @@ public static class InfrastructureDependencyInjection
               new VolunteerReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedPetManagmentEntitiesContract>();
+        services.AddScoped<IGetVolunteerInformationContract, GetVolunteerInformationUsingContract>();
+        services.AddScoped<IGetPetInformationContract,GetPetInformationUsingContract>();
 
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.VOLUNTEER_UNIT_OF_WORK_KEY);

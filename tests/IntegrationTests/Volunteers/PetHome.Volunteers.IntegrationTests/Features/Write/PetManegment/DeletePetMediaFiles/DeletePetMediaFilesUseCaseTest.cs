@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using PetHome.Volunteers.IntegrationTests.IntegrationFactories;
 using Xunit;

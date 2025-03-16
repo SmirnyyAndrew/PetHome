@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.ValueObjects.PetManagment.Pet;
-using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Dto.Pet;
 using PetHome.Volunteers.Application.Features.Write.PetManegment.CreatePet;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.IntegrationTests.IntegrationFactories;

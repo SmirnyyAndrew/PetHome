@@ -1,6 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
+using PetHome.Core.Enums;
+using PetHome.Core.Models;
+using PetHome.Core.Response.Dto;
 using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
@@ -31,6 +34,11 @@ public interface IAuthenticationRepository
     public void RemoveUser(IEnumerable<User> users);
 
     public Task<Result<User, Error>> GetUserById(Guid id, CancellationToken ct);
+
+    public Task<IReadOnlyList<User>> GetUsers(CancellationToken ct);
+
+    public Task<PagedList<User>> GetPagedUsersWithFilter(
+        PagedListDto paginationSettings, UserFilterDto userFilter, CancellationToken ct);
 
     public Task<Result<User, Error>> GetUserByEmail(Email email, CancellationToken ct);
 

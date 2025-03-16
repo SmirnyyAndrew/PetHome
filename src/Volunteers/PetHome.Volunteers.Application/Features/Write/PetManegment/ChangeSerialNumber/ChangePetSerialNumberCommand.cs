@@ -1,5 +1,5 @@
 ﻿using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Dto.Pet;
 
 namespace PetHome.Volunteers.Application.Features.Write.PetManegment.ChangeSerialNumber;
 public record ChangePetSerialNumberCommand(

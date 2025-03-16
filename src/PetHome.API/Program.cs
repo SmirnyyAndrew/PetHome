@@ -20,8 +20,9 @@ public partial class Program
         //Включить логгер от Serilog
         builder.Services.AddSerilog();
         //Логирование через Seq 
-        Log.Logger = SeqLogger.InitDefaultSeqConfiguration(builder.Configuration);
+        Log.Logger = LoggerManager.InitConfiguration(builder.Configuration);
 
+        builder.Services.AddOpenTelemetryMetrics();
 
         // Add services to the container.
         builder.Services.AddControllers();
@@ -67,6 +68,9 @@ public partial class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
             //Automigration
             //app.ApplyAutoMigrations();
         }

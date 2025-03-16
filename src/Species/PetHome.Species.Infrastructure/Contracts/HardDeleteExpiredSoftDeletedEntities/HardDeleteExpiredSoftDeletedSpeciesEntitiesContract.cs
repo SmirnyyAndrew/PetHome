@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Extentions.Collection;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.SharedKernel.Options.Backgroundd;
+using PetHome.SharedKernel.Options.Background;
 using PetHome.Species.Infrastructure.Database.Write.DBContext;
 
 namespace PetHome.Species.Infrastructure.Contracts.HardDeleteExpiredSoftDeletedEntities;

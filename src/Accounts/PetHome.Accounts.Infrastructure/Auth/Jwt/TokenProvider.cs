@@ -9,6 +9,7 @@ using PetHome.Core.Response.ErrorManagment;
 using PetHome.Core.Response.RefreshToken;
 using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.User;
+using PetHome.SharedKernel.Options.Accounts;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,7 +17,7 @@ using System.Text;
 namespace PetHome.Accounts.Infrastructure.Auth.Jwt;
 public class TokenProvider : ITokenProvider
 {
-    private readonly JwtOptions _options;
+    private readonly JwtOption _options;
     private readonly IConfiguration _configuration;
 
     public TokenProvider(IConfiguration configuration)
@@ -95,7 +96,7 @@ public class TokenProvider : ITokenProvider
             audience: _options.Audience,
             claims: claims,
             signingCredentials: creds,
-            expires: DateTime.UtcNow.AddMinutes(_options.ExpiredMinute));
+            expires: DateTime.UtcNow.AddMinutes(_options.ExpiredMinutes));
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
         return tokenString;

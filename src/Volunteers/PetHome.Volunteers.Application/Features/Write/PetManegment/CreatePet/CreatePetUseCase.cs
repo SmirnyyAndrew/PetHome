@@ -16,7 +16,7 @@ using PetHome.Core.ValueObjects.PetManagment.Species;
 using PetHome.Core.ValueObjects.PetManagment.Volunteer;
 using PetHome.Framework.Database;
 using PetHome.Volunteers.Application.Database;
-using PetHome.Volunteers.Application.Features.Dto.Pet;
+using PetHome.Volunteers.Application.Dto.Pet;
 using PetHome.Volunteers.Domain.PetManagment.PetEntity;
 using PetHome.Volunteers.Domain.PetManagment.VolunteerEntity;
 

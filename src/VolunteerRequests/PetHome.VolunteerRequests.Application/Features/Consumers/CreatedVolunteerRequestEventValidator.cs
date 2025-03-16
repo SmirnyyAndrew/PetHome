@@ -3,7 +3,7 @@ using PetHome.Core.Response.Validation.Validator;
 using PetHome.Core.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Contracts.Messaging;
 
-namespace PetHome.VolunteerRequests.Application.Features.Write.CreateVolunteerRequest;
+namespace PetHome.VolunteerRequests.Application.Features.Consumers;
 public class CreatedVolunteerRequestEventValidator
     : AbstractValidator<CreatedVolunteerRequestEvent>
 {

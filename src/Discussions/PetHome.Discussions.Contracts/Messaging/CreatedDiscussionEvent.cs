@@ -1,2 +1,6 @@
 ﻿namespace PetHome.Discussions.Contracts.Messaging;
-public record CreatedDiscussionEvent(IEnumerable<Guid> UsersIds, string RelationName);
+public record CreatedDiscussionEvent(
+    Guid DiscussionId,
+    Guid RelationId,
+    string RelationName,
+    IEnumerable<Guid> UsersIds);

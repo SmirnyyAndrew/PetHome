@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Species.Application.Features.Contracts;
-using PetHome.Species.Contracts;
+using PetHome.Species.Application.Features.Contracts.Species;
+using PetHome.Species.Contracts.Contracts.Species;
 
 namespace PetHome.Species.Application;
 
@@ -26,6 +26,8 @@ public static class ApplicationDependencyInjection
         {
             config.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
         });
+
+        services.AddMemoryCache();
 
         return services;
     }

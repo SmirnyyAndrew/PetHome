@@ -12,6 +12,7 @@ public static class SpeciesMinimalApi
         {
             int randomInt = new Random().Next(1000);
             await publisher.Publish(new CreatedSpeciesEvent(
+                Guid.NewGuid(),
                 $"species №{randomInt}"
                 ));
         });

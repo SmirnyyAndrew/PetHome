@@ -13,9 +13,10 @@ public static class DiscussionMinimalApi
             int randomInt = new Random().Next(100);
 
             await publisher.Publish(new CreatedDiscussionEvent(
-                [Guid.NewGuid(), Guid.NewGuid()],
-                $"relation name №{randomInt}"
-                ));
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                $"relation name №{randomInt}",
+                [Guid.NewGuid(), Guid.NewGuid()]));
         });
 
         return app;

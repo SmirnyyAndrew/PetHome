@@ -24,7 +24,7 @@ public class CreateSpeciesConsumer : IConsumer<CreatedSpeciesEvent>
         var command = context.Message;
 
         Domain.SpeciesManagment.SpeciesEntity.Species species = 
-            Domain.SpeciesManagment.SpeciesEntity.Species.Create(command.SpeciesName).Value;
+            Domain.SpeciesManagment.SpeciesEntity.Species.Create(command.Name).Value;
 
         var transaction = await _unitOfWork.BeginTransaction();
         await _repository.Add(species, CancellationToken.None);

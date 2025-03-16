@@ -53,7 +53,8 @@ public class RegisterParticipantUseCase
         await _repository.AddParticipant(participant, ct);
         await _unitOfWork.SaveChanges(ct);
 
-        CreatedParticipantEvent createdParticipantEvent = new CreatedParticipantEvent(command.UserId);
+        CreatedParticipantEvent createdParticipantEvent = new CreatedParticipantEvent(
+            user.Id, user.Email, user.UserName);
         await _publisher.Publish(createdParticipantEvent);
         transaction.Commit();
 

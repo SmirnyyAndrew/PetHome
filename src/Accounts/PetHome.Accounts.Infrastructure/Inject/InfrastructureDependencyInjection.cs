@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
+using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetUserMainInformation;
+using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
 using PetHome.Accounts.Infrastructure.BackgroundServices;
 using PetHome.Accounts.Infrastructure.Contracts;
@@ -13,7 +15,7 @@ using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Framework.Database;
 using PetHome.SharedKernel.Options.Accounts;
-using PetHome.SharedKernel.Options.Backgroundd;
+using PetHome.SharedKernel.Options.Background;
 
 namespace PetHome.Accounts.Infrastructure.Inject;
 public static class InfrastructureDependencyInjection
@@ -24,6 +26,8 @@ public static class InfrastructureDependencyInjection
             new AuthorizationDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
 
         services.Configure<AdminOption>(configuration.GetSection(AdminOption.SECTION_NAME));
+        services.Configure<RefreshTokenOption>(configuration.GetSection(RefreshTokenOption.SECTION_NAME));
+        services.Configure<JwtOption>(configuration.GetSection(JwtOption.SECTION_NAME));
         services.Configure<SoftDeletableEntitiesOption>(configuration.GetSection(SoftDeletableEntitiesOption.SECTION_NAME));
 
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.ACCOUNT_UNIT_OF_WORK_KEY);
@@ -36,6 +40,7 @@ public static class InfrastructureDependencyInjection
         //services.AddHostedService<SoftDeletableEntitiesMonitor>();
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>();
+        services.AddScoped<IGetUserMainInformationContract, GetUserMainInformationUsingContract>();
 
         services.AddOutboxService();
 

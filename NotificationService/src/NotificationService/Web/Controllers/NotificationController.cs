@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotificationService.Application.Dto;
+using NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 using NotificationService.Application.Features.UsersNotificationSettings.GetAnyUsersNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUserNotificationSettings;
 using NotificationService.Application.Features.UsersNotificationSettings.GetUsersEmailSendings;
@@ -30,7 +31,8 @@ public class NotificationController : ParentController
         [FromServices] GetUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {
-        var result = await useCase.Execute(userId, ct);
+        GetUserNotificationSettingsQuery query = new(userId);
+        var result = await useCase.Execute(query, ct);
         return Ok(result);
     }
 
@@ -71,7 +73,8 @@ public class NotificationController : ParentController
         [FromServices] ResetUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {
-        await useCase.Execute(userId, ct);
+        ResetUserNotificationSettingsCommand command = new(userId);
+        await useCase.Execute(command, ct);
         return Ok();
     }
 
@@ -79,11 +82,23 @@ public class NotificationController : ParentController
     [HttpPost("notification-settings/new/{userId:guid}")]
     public async Task<IActionResult> UpdateUserNotificationSettings(
         [FromRoute] Guid userId,
-        [FromBody] SendingNotificationSettings newNotificationSettings,
+        [FromBody] SendingNotificationSettingsDto newNotificationSettings,
         [FromServices] UpdateUserNotificationSettingsUseCase useCase,
         CancellationToken ct = default)
     {
-        await useCase.Execute(userId, newNotificationSettings, ct);
+        UpdateUserNotificationSettingsCommand command = new(userId, newNotificationSettings);
+        await useCase.Execute(command, ct);
+        return Ok();
+    }
+
+
+    [HttpPost("notification-everywhere")]
+    public async Task<IActionResult> SendMessageEverywhere( 
+        [FromServices] SendMessageEverywhereUseCase useCase,
+        [FromBody] SendMessageEverywhereCommand command,
+        CancellationToken ct = default)
+    {
+        await useCase.Execute(command, ct);
         return Ok();
     }
 }
