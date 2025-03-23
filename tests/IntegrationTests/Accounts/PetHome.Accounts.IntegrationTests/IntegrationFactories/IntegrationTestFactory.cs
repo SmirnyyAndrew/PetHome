@@ -5,14 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Application.Features.Contracts.AuthManagement.GetRole;
-using PetHome.Accounts.Application.Features.Contracts.TokenManagment.GenerateAccessToken;
-using PetHome.Accounts.Application.Features.Contracts.TokenManagment.GenerateRefreshToken;
-using PetHome.Accounts.Application.Features.Write.CreateUser;
-using PetHome.Accounts.Contracts.Contracts.AuthManagement;
-using PetHome.Accounts.Contracts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Contracts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Repositories;
 using PetHome.Framework.Database;
@@ -50,9 +42,9 @@ public class IntegrationTestFactory
         services.RemoveAll(typeof(AuthorizationDbContext));
         services.RemoveAll(typeof(IAuthenticationRepository));
         //services.RemoveAll(typeof(ICreateUserContract));
-        services.RemoveAll(typeof(IGetRoleContract));
-        services.RemoveAll(typeof(IGenerateAccessTokenContract));
-        services.RemoveAll(typeof(IGenerateRefreshTokenContract));
+        //services.RemoveAll(typeof(IGetRoleContract));
+        //services.RemoveAll(typeof(IGenerateAccessTokenContract));
+        //services.RemoveAll(typeof(IGenerateRefreshTokenContract));
 
 
         _repository = new AuthenticationRepository(new AuthorizationDbContext(_dbContainer.GetConnectionString()), default);
@@ -63,9 +55,9 @@ public class IntegrationTestFactory
         services.AddScoped(_ => _unitOfWork);
 
         //services.AddScoped<ICreateUserContract, CreateUserUseCase>();
-        services.AddScoped<IGetRoleContract, GetRoleUsingContract>();
-        services.AddScoped<IGenerateAccessTokenContract, GenerateAccessTokenUsingContract>();
-        services.AddScoped<IGenerateRefreshTokenContract, GenerateRefreshTokenUsingContract>();
+        //services.AddScoped<IGetRoleContract, GetRoleIdByNameUseCase>();
+        //services.AddScoped<IGenerateAccessTokenContract, GenerateAccessTokenUseCase>();
+        //services.AddScoped<IGenerateRefreshTokenContract, GenerateRefreshTokenUseCase>();
     }
 
     public async Task InitializeAsync()

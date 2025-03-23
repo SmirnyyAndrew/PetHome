@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.Dto;
+using PetHome.Accounts.Contracts.HttpCommunication.Dto;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
