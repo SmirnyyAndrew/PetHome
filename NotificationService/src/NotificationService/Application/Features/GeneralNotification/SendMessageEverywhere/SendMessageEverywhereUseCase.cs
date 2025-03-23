@@ -4,7 +4,7 @@ using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 using NotificationService.Infrastructure.TelegramNotification;
 using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Response.Validation.Validator; 
 
 namespace NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 
@@ -15,20 +15,20 @@ public class SendMessageEverywhereUseCase
     private readonly TelegramManager _telegramManager;
     private readonly UnitOfWork _unitOfWork;
     private readonly IConfiguration _configuration;
-    //private readonly IGetVolunteerInformationContract _getVolunteerInformationContract;
+    private readonly HttpClient _httpClient;         
 
     public SendMessageEverywhereUseCase(
         NotificationRepository repository,
         TelegramManager telegramManager,
         IConfiguration configuration,
-        //IGetVolunteerInformationContract getVolunteerInformationContract,
+        HttpClient httpClient, 
         UnitOfWork unitOfWork)
     {
         _repository = repository;
         _telegramManager = telegramManager;
         _configuration = configuration;
         _unitOfWork = unitOfWork;
-        //_getVolunteerInformationContract = getVolunteerInformationContract;
+        _httpClient = httpClient; 
     }
 
     public async Task<UnitResult<ErrorList>> Execute(SendMessageEverywhereCommand command, CancellationToken ct)
@@ -50,15 +50,12 @@ public class SendMessageEverywhereUseCase
         }
 
         if (userNotificationSettings?.IsEmailSend == true)
-        {
-            //TODO
-            string email = "smirnay2001@mail.ru";
-            //var userDto = await _getVolunteerInformationContract.Execute(command.UserId, ct);
-            //if (userDto is null) 
-            //    return;
+        {  
+            var getUserResponse = await _httpClient.GetAsync($"http://localhost:5258/contract/user-by-email/{command.UserId}", ct);
+            string? user = await getUserResponse.Content?.ReadAsStringAsync(ct);
 
             EmailManager emailManager = YandexEmailManager.Build(_configuration);
-            emailManager.SendMessage(email, command.Subject, command.Body);
+            emailManager.SendMessage(user, command.Subject, command.Body);
         }
 
         if (userNotificationSettings?.TelegramSettings != null)
