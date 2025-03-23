@@ -83,7 +83,8 @@ services:
     - mongo_data:/data/db
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+    # image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+    image: elasticsearch:8.7.1
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
