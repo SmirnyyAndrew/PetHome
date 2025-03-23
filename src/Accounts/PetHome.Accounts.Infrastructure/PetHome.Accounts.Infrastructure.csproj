@@ -34,4 +34,14 @@
     <ProjectReference Include="..\PetHome.Accounts.Domain\PetHome.Accounts.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="FilesService">
+      <HintPath>..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.dll</HintPath>
+    </Reference>
+    <Reference Include="FilesService.Core">
+      <HintPath>..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+ 
+
 </Project>

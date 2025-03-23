@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
     <PackageReference Include="Elastic.Serilog.Sinks" Version="8.12.3" />
-    <PackageReference Include="FilesService.Core" Version="1.0.9" />
     <PackageReference Include="MediatR" Version="12.4.1" /> 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" /> 
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" /> 
@@ -35,6 +35,15 @@
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
     <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FilesService.Communication">
+      <HintPath>..\..\..\FilesService\src\FilesService.Communication\bin\Debug\net8.0\FilesService.Communication.dll</HintPath>
+    </Reference>
+    <Reference Include="FilesService.Core">
+      <HintPath>..\..\..\FilesService\src\FilesService.Core\obj\Debug\net8.0\ref\FilesService.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

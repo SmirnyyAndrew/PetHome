@@ -12,4 +12,10 @@
     <ProjectReference Include="..\PetHome.Accounts.Infrastructure\PetHome.Accounts.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="FilesService.Core">
+      <HintPath>..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
