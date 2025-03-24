@@ -1,8 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
+using Grpc.Core;
+using NotificationService.Application.gRPC;
 using NotificationService.Infrastructure.Database;
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 using NotificationService.Infrastructure.TelegramNotification;
+using PetHome.Accounts.Contracts;
 using PetHome.Accounts.Contracts.HttpCommunication;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Response.Validation.Validator;
@@ -15,14 +18,16 @@ public class SendMessageEverywhereUseCase
     private readonly NotificationRepository _repository;
     private readonly TelegramManager _telegramManager;
     private readonly UnitOfWork _unitOfWork;
-    private readonly IConfiguration _configuration; 
+    private readonly IConfiguration _configuration;
     private readonly AccountHttpClient _httpClient;
+    private readonly AccountGRPCService _accountGRPC;
 
     public SendMessageEverywhereUseCase(
         NotificationRepository repository,
         TelegramManager telegramManager,
-        IConfiguration configuration, 
+        IConfiguration configuration,
         AccountHttpClient httpClient,
+        AccountGRPCService accountGRPC,
         UnitOfWork unitOfWork)
     {
         _repository = repository;
@@ -30,6 +35,7 @@ public class SendMessageEverywhereUseCase
         _configuration = configuration;
         _unitOfWork = unitOfWork;
         _httpClient = httpClient;
+        _accountGRPC = accountGRPC;
     }
 
     public async Task<UnitResult<ErrorList>> Execute(SendMessageEverywhereCommand command, CancellationToken ct)
@@ -51,8 +57,12 @@ public class SendMessageEverywhereUseCase
         }
 
         if (userNotificationSettings?.IsEmailSend == true)
-        {  
-            string? email = await _httpClient.GetUserEmailByUserId(command.UserId, ct); 
+        {
+            GetUserEmailByIdRequest request = new() { Id = command.UserId.ToString() };
+            var result = await _accountGRPC.GetUserEmailById(request);
+            string emailByGRPC = result?.Email;
+
+            string? email = await _httpClient.GetUserEmailByUserId(command.UserId, ct);
             EmailManager emailManager = YandexEmailManager.Build(_configuration);
             emailManager.SendMessage(email, command.Subject, command.Body);
         }

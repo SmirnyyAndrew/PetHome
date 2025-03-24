@@ -1,57 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>00dfa738-ac55-46d2-aa88-0091aea7830b</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>00dfa738-ac55-46d2-aa88-0091aea7830b</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
-    <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <PackageReference Include="EFCore.NamingConventions" Version="8.0.1" />
-    <PackageReference Include="FilesService.Core" Version="1.0.9" />
-    <PackageReference Include="MailKit" Version="4.10.0" />
-    <PackageReference Include="MassTransit" Version="8.3.6" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
-    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" /> 
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-    <PackageReference Include="Scrutor" Version="6.0.1" />
-    <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.5.0" /> 
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-    <PackageReference Include="Telegram.Bot" Version="22.4.4" />
-  </ItemGroup>
-  
+	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
+		<PackageReference Include="DotNetEnv" Version="3.1.1" />
+		<PackageReference Include="EFCore.NamingConventions" Version="8.0.1" />
+		<PackageReference Include="FilesService.Core" Version="1.0.9" />
+		<PackageReference Include="Google.Protobuf" Version="3.30.1" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.70.0" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.70.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.71.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="MailKit" Version="4.10.0" />
+		<PackageReference Include="MassTransit" Version="8.3.6" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
+		<PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+		<PackageReference Include="Scrutor" Version="6.0.1" />
+		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Telegram.Bot" Version="22.4.4" />
+	</ItemGroup>
+ 
+	<ItemGroup>
+		<Protobuf Include="Application/gRPC/Protos/account.proto" GrpcServices="Client" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Reference Include="PetHome.Accounts.Contracts">
+			<HintPath>..\..\..\src\Accounts\PetHome.Accounts.Contracts\bin\Debug\net8.0\PetHome.Accounts.Contracts.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
 
-  <ItemGroup>
-    <Reference Include="PetHome.Accounts.Contracts">
-      <HintPath>..\..\..\src\Accounts\PetHome.Accounts.Contracts\bin\Debug\net8.0\PetHome.Accounts.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="PetHome.Core">
-      <HintPath>..\..\..\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
-    </Reference>
-	  
-    <Reference Include="PetHome.Discussions.Contracts">
-      <HintPath>..\..\..\src\Discussions\PetHome.Discussions.Contracts\bin\Debug\net8.0\PetHome.Discussions.Contracts.dll</HintPath>
-    </Reference>
-	  
-    <Reference Include="PetHome.SharedKernel">
-      <HintPath>..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-    </Reference>
-	  
-    <Reference Include="PetHome.VolunteerRequests.Contracts">
-      <HintPath>..\..\..\src\VolunteerRequests\PetHome.VolunteerRequests.Contracts\bin\Debug\net8.0\PetHome.VolunteerRequests.Contracts.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+		<Reference Include="PetHome.Discussions.Contracts">
+			<HintPath>..\..\..\src\Discussions\PetHome.Discussions.Contracts\bin\Debug\net8.0\PetHome.Discussions.Contracts.dll</HintPath>
+		</Reference>
+
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
+
+		<Reference Include="PetHome.VolunteerRequests.Contracts">
+			<HintPath>..\..\..\src\VolunteerRequests\PetHome.VolunteerRequests.Contracts\bin\Debug\net8.0\PetHome.VolunteerRequests.Contracts.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

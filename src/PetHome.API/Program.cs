@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using PetHome.Accounts.Infrastructure.Inject.Auth;
 using PetHome.API.DependencyInjections;
 using PetHome.API.DependencyInjections.AppExtentions;
@@ -7,6 +8,7 @@ using PetHome.Core.Response.Validation;
 using PetHome.SharedKernel.Middlewares.Extentions;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using System.Net;
 
 namespace PetHome.API;
 public partial class Program
@@ -57,6 +59,9 @@ public partial class Program
         //Добавить CORS
         app.AddCORS("http://localhost:5173");
 
+        //Добавить gprc
+        app.AddGRPCServices();
+
         //Middleware для отлова исключений (-стэк трейс)
         app.UseExceptionHandler();
 
@@ -74,7 +79,7 @@ public partial class Program
             //Automigration
             //app.ApplyAutoMigrations();
         }
-         
+
 
         app.UseHttpsRedirection();
 
