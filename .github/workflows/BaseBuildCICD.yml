@@ -25,8 +25,8 @@ jobs:
           dotnet-version: '8.0.x'
       
       - name: 📦 Restore dependencies
-        run: dotnet restore NotificationService/src/NotificationService/NotificationService.csproj
+        run: dotnet restore src/Accounts/PetHome.Accounts.Domain/PetHome.Accounts.Domain.csproj
 
       - name: 🏗 Build
-        run: dotnet build NotificationService/src/NotificationService/NotificationService.csproj --configuration Release --no-restore 
-         
+        run: dotnet build src/Accounts/PetHome.Accounts.Domain/PetHome.Accounts.Domain.csproj --configuration Release --no-restore 
+       
