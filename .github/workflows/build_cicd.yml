@@ -1,0 +1,43 @@
+﻿name: Base Build and Deploy
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches:
+      - dev
+      - main
+   
+jobs:
+  build:
+    name: 🏗 Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛠 Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'  # Укажите вашу версию .NET
+
+      - name: 📦 Restore dependencies
+        run: dotnet restore
+
+      - name: 🏗 Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: ✅ Run tests
+        run: dotnet test --configuration Release --no-restore --verbosity normal
+
+      - name: 📦 Publish
+        run: dotnet publish -c Release -o ./publish
+
+      - name: 📤 Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-app
+          path: ./publish
