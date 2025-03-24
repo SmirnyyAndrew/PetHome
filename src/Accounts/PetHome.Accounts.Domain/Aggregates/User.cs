@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
 using Microsoft.AspNetCore.Identity;
-using PetHome.Accounts.Contracts.Dto;
+using PetHome.Accounts.Contracts.HttpCommunication.Dto;
 using PetHome.Accounts.Domain.Accounts;
 using PetHome.Core.Interfaces.Database;
 using PetHome.Core.Response.ErrorManagment;

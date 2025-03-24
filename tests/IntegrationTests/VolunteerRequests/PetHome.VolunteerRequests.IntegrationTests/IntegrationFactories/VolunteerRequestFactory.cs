@@ -1,8 +1,5 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.Contracts.AuthManagement;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
-using PetHome.VolunteerRequests.Contracts;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.IntegrationTests.Seeds;
 using Xunit;
@@ -17,7 +14,7 @@ public class VolunteerRequestFactory
     protected readonly VolunteerRequestDbContext _writeDbContext;
     //TODO
     //protected readonly ICreateUserContract _createUserContract;
-    protected readonly IGetRoleContract _getRoleContract;
+    //protected readonly IGetRoleContract _getRoleContract;
     //TODO: контракт
     //protected readonly ICreateVolunteerRequestContract _createVolunteerRequestContract;
     protected readonly IPublishEndpoint publisher;
@@ -29,7 +26,7 @@ public class VolunteerRequestFactory
 
         _writeDbContext = _scope.ServiceProvider.GetRequiredService<VolunteerRequestDbContext>();
         //_createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
-        _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
+        //_getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
         //_createVolunteerRequestContract = _scope.ServiceProvider.GetRequiredService<ICreateVolunteerRequestContract>();
         publisher = _scope.ServiceProvider.GetRequiredService<IPublishEndpoint>(); 
 

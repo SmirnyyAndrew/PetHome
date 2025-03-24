@@ -5,7 +5,7 @@ using PetHome.Accounts.Domain.Accounts;
 using PetHome.Accounts.Domain.Aggregates;
 using PetHome.Core.ValueObjects.MainInfo;
 using PetHome.Core.ValueObjects.RolePermission;
-using System.Text.Json;
+using System.Text.Json; 
 
 namespace PetHome.Accounts.Infrastructure.Database.Configuration.Users;
 public class UserConfiguration : IEntityTypeConfiguration<User>

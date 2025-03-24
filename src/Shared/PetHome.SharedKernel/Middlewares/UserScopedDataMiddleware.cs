@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Framework.Auth;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -33,12 +32,13 @@ public class UserScopedDataMiddleware(
             return;
         }
 
-        var getRolesNamesContract = factory.CreateScope().ServiceProvider.GetService<IGetUserRoleNameContract>();
-        var getPermissionsNamesContract = factory.CreateScope().ServiceProvider.GetService<IGetUserPermissionsCodesContact>();
+        //TODO
+        //var getRolesNamesContract = factory.CreateScope().ServiceProvider.GetService<IGetUserRoleNameContract>();
+        //var getPermissionsNamesContract = factory.CreateScope().ServiceProvider.GetService<IGetUserPermissionsCodesContact>();
 
         userScopedData.UserId = userId;
         userScopedData.Email = userEmail;
-        userScopedData.Role = getRolesNamesContract.Execute(userId, CancellationToken.None).Result;
-        userScopedData.Permissions = getPermissionsNamesContract.Execute(userId, CancellationToken.None).Result;
+        //userScopedData.Role = getRolesNamesContract.Execute(userId, CancellationToken.None).Result;
+        //userScopedData.Permissions = getPermissionsNamesContract.Execute(userId, CancellationToken.None).Result;
     }
 }

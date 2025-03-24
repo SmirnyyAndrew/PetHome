@@ -6,9 +6,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using PetHome.Accounts.Application.Database.Repositories;
 using PetHome.Accounts.Application.Features.Contracts.AuthManagement.GetRole;
-using PetHome.Accounts.Application.Features.Write.CreateUser;
-using PetHome.Accounts.Contracts.Contracts.AuthManagement;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write.Repositories;
 using Respawn;
@@ -51,7 +48,7 @@ public class IntegrationTestFactory
         services.AddScoped(_ => new VolunteerRequestDbContext(_dbContainer.GetConnectionString()));
 
         //services.AddScoped<ICreateUserContract, CreateUserUseCase>();
-        services.AddScoped<IGetRoleContract, GetRoleUsingContract>(); 
+        services.AddScoped<IGetRoleContract, GetRoleIdByNameUseCase>(); 
     }
 
     public async Task InitializeAsync()

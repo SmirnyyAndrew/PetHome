@@ -1,4 +1,4 @@
-﻿namespace PetHome.Accounts.Contracts.Dto;
+﻿namespace PetHome.Accounts.Contracts.HttpCommunication.Dto;
 public record UserDto(
     Guid Id, 
     string UserName, 

@@ -24,4 +24,10 @@
     <Folder Include="Features\Consumers\AuthManagement\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="FilesService.Core">
+      <HintPath>..\..\..\FilesService\src\FilesService.Core\obj\Debug\net8.0\ref\FilesService.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.Contracts.AuthManagement;
-using PetHome.Accounts.Contracts.Contracts.TokensManagment.AccessToken.GenerateAccessToken;
-using PetHome.Accounts.Contracts.Contracts.TokensManagment.RefreshToken.GenerateRefreshToken;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Discussions.Domain;
 using PetHome.Discussions.Infrastructure.Database.Write;
 using PetHome.Discussions.IntegrationTests.Seeds;
@@ -19,9 +15,9 @@ public class DiscussionFactory
 
     //TODO
     //protected readonly ICreateUserContract _createUserContract;
-    protected readonly IGetRoleContract _getRoleContract;
-    protected readonly IGenerateAccessTokenContract _generateAccessTokenContract;
-    protected readonly IGenerateRefreshTokenContract _generateRefreshTokenContract;
+    //protected readonly IGetRoleContract _getRoleContract;
+    //protected readonly IGenerateAccessTokenContract _generateAccessTokenContract;
+    //protected readonly IGenerateRefreshTokenContract _generateRefreshTokenContract;
     public DiscussionFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
@@ -29,10 +25,10 @@ public class DiscussionFactory
         _dbContext = _scope.ServiceProvider.GetRequiredService<DiscussionDbContext>();
         _seedManager = new SeedManager(factory);
 
-        _getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
-        //_createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
-        _generateAccessTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateAccessTokenContract>();
-        _generateRefreshTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateRefreshTokenContract>();
+        //_getRoleContract = _scope.ServiceProvider.GetRequiredService<IGetRoleContract>();
+        ////_createUserContract = _scope.ServiceProvider.GetRequiredService<ICreateUserContract>();
+        //_generateAccessTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateAccessTokenContract>();
+        //_generateRefreshTokenContract = _scope.ServiceProvider.GetRequiredService<IGenerateRefreshTokenContract>();
     }
 
 

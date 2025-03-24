@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <PackageId>PetHome.Framework</PackageId>
-	  <Version>1.0.0</Version>
+	  <Version>2.0.0</Version>
 	  <Authors>Smirnyy</Authors>
 	  <Company>SmirnyyCompany</Company>
 	  <PackageDescription>It's pet home framework</PackageDescription>

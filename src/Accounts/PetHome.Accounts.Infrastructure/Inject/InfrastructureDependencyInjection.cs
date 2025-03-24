@@ -2,10 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Application.Features.Contracts.UserManagment.GetUserMainInformation;
-using PetHome.Accounts.Contracts.Contracts.UserManagment;
 using PetHome.Accounts.Infrastructure.Auth.Permissions;
-using PetHome.Accounts.Infrastructure.BackgroundServices;
 using PetHome.Accounts.Infrastructure.Contracts;
 using PetHome.Accounts.Infrastructure.Database;
 using PetHome.Accounts.Infrastructure.Database.Repositories;
@@ -39,8 +36,7 @@ public static class InfrastructureDependencyInjection
 
         //services.AddHostedService<SoftDeletableEntitiesMonitor>();
 
-        services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>();
-        services.AddScoped<IGetUserMainInformationContract, GetUserMainInformationUsingContract>();
+        services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedAccountEntitiesContract>(); 
 
         services.AddOutboxService();
 

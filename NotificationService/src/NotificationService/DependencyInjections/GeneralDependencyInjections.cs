@@ -12,7 +12,8 @@ public static class GeneralDependencyInjections
         services.AddServices();
         services.AddOptions(configuration);
         services.AddInfrastructureTools(configuration);
-        services.AddMassTransitConfig(configuration);
+        services.AddMassTransitConfig(configuration); 
+        services.AddGRPCClients();
 
         return services;
     }

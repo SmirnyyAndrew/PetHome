@@ -18,6 +18,8 @@ public static class ServicesDependencyInjection
             .AddDiscussionServices()
             .AddVolunteerRequestsServices();
 
+        services.AddGrpc();
+
         return services;
     }
 }

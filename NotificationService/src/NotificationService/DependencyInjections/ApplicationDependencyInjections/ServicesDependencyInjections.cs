@@ -1,14 +1,4 @@
-﻿using NotificationService.Application.Features.Email.SendMessage;
-using NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
-using NotificationService.Application.Features.Telegram.RegisterUserTelegramAccount;
-using NotificationService.Application.Features.Telegram.SendMessage;
-using NotificationService.Application.Features.UsersNotificationSettings.GetAnyUsersNotificationSettings;
-using NotificationService.Application.Features.UsersNotificationSettings.GetUserNotificationSettings;
-using NotificationService.Application.Features.UsersNotificationSettings.GetUsersEmailSendings;
-using NotificationService.Application.Features.UsersNotificationSettings.GetUsersTelegramSendings;
-using NotificationService.Application.Features.UsersNotificationSettings.GetUsersWebSendings;
-using NotificationService.Application.Features.UsersNotificationSettings.ResetUserNotificationSettings;
-using NotificationService.Application.Features.UsersNotificationSettings.UpdateUserNotificationSettings;
+﻿using PetHome.Accounts.Contracts.HttpCommunication;
 using PetHome.Core.Interfaces.FeatureManagment;
 
 namespace NotificationService.DependencyInjections.ApplicationDependencyInjections;
@@ -24,6 +14,8 @@ public static class ServicesDependencyInjections
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
+
+        services.AddAccountHttpClient();
 
         return services;
     }

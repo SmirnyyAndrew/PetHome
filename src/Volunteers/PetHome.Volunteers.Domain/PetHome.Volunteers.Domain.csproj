@@ -7,14 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FilesService.Core" Version="1.0.9" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Shared\PetHome.Core\PetHome.Core.csproj" />
     <ProjectReference Include="..\..\Shared\PetHome.Framework\PetHome.Framework.csproj" />
     <ProjectReference Include="..\..\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
     <ProjectReference Include="..\..\Species\PetHome.Species.Domain\PetHome.Species.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FilesService.Core">
+      <HintPath>..\..\..\FilesService\src\FilesService.Core\obj\Debug\net8.0\ref\FilesService.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit.Initializers;
 using PetHome.Accounts.Application.Database.Repositories;
-using PetHome.Accounts.Contracts.Dto;
+using PetHome.Accounts.Contracts.HttpCommunication.Dto;
 using PetHome.Core.Constants;
 using PetHome.Core.Interfaces.FeatureManagment;
 using PetHome.Core.Redis;

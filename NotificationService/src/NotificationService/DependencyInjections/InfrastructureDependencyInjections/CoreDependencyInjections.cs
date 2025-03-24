@@ -19,7 +19,8 @@ public static class CoreDependencyInjections
     public static IServiceCollection AddInfrastructureTools(
         this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<TelegramManager>();  
+        services.AddScoped<TelegramManager>();
+        services.AddHttpClient();
 
         return services;
     }
