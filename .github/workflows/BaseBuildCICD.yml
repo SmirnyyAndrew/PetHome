@@ -25,4 +25,4 @@ jobs:
           dotnet-version: '8.0.x'
       
       - name: 🏗 Build
-        run: dotnet build src\PetHome.API\PetHome.API.csproj --configuration Release --no-restore 
+        run: dotnet build src/PetHome.API/PetHome.API.csproj --configuration Release --no-restore 
