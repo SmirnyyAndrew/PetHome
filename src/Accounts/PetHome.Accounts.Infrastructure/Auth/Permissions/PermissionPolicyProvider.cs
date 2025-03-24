@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using PetHome.Core.Auth;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
+
+/// <summary>
+/// Provider для проверки, есть ли у пользователя необходимые разрешения
+/// </summary>
 public class PermissionPolicyProvider : IAuthorizationPolicyProvider
 {
     public Task<AuthorizationPolicy> GetDefaultPolicyAsync()

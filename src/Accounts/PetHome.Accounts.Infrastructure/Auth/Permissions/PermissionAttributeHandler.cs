@@ -5,6 +5,11 @@ using PetHome.Core.Auth;
 using PetHome.Framework.Auth;
 
 namespace PetHome.Accounts.Infrastructure.Auth.Permissions;
+
+/// <summary>
+/// Обработчик для получения разрешений пользователя
+/// </summary>
+/// <param name="httpContextAccessor">Получить доступ к текущему http-запросу и его сервисам</param>
 public class PermissionAttributeHandler(IHttpContextAccessor httpContextAccessor)
     : AuthorizationHandler<PermissionAttribute>
 {
