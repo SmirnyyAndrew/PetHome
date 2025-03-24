@@ -48,4 +48,8 @@
 	  <Folder Include="MinimumApi\Agregates\Accounts\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Include=".gitignore\workflows\BuildCICD.yml" />
+	</ItemGroup>
+
 </Project>
