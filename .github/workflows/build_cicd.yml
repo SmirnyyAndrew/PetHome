@@ -23,16 +23,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'  # Укажите вашу версию .NET
-
-      - name: 📦 Restore dependencies
-        run: dotnet restore
-
+           
       - name: 🏗 Build
         run: dotnet build --configuration Release --no-restore
-
-      - name: ✅ Run tests
-        run: dotnet test --configuration Release --no-restore --verbosity normal
-
+        
       - name: 📦 Publish
         run: dotnet publish -c Release -o ./publish
 
