@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: 🏗 Build & Test
+    name: 🏗 Build
     runs-on: ubuntu-latest
 
     steps:
@@ -24,5 +24,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       
+      - name: 📦 Restore dependencies
+        run: dotnet restore src/PetHome.API/PetHome.API.csproj
+
       - name: 🏗 Build
         run: dotnet build src/PetHome.API/PetHome.API.csproj --configuration Release --no-restore 
