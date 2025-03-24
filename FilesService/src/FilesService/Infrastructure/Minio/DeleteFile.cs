@@ -7,7 +7,12 @@ using Minio.DataModel.Args;
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
-    //Удалить файлы
+    /// <summary>
+    /// Удалить файлы из minio
+    /// </summary>
+    /// <param name="fileInfoDto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<UnitResult<string>> DeleteFile(
          MinioFilesInfoDto fileInfoDto, CancellationToken ct)
     {

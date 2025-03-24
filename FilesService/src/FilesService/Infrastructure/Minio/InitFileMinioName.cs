@@ -4,6 +4,11 @@ using FilesService.Core.Interfaces;
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
+    /// <summary>
+    /// Проинициализировать имена
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
     public async Task<MinioFileName> InitName(string filePath)
     {
         //Расширение файла

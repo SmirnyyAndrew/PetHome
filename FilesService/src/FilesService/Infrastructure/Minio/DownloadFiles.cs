@@ -8,7 +8,12 @@ using Minio.DataModel.Args;
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
-    //Скачать файл
+    /// <summary>
+    /// Скачать файл из minio
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<UnitResult<string>> DownloadFiles(
          DownloadFilesRequest request, CancellationToken ct)
     {

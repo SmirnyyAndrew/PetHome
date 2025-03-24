@@ -8,7 +8,12 @@ using Minio.DataModel.Args;
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
-    //Загрузить файл
+    /// <summary>
+    /// Загрузить файл в minio
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<Result<MediaFile, string>> UploadFile( 
        UploadFileRequest request,
        CancellationToken ct)

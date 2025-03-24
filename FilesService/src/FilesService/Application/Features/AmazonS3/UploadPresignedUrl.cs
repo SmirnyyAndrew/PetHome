@@ -16,6 +16,14 @@ public static class UploadPresignedUrl
             app.MapPost("amazon/files/presigned", Handler);
         }
     }
+
+    /// <summary>
+    /// Генерация url ссылки для загрузки файла с названием (key) файла
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="s3Client"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private static async Task<IResult> Handler(
            [FromBody] UploadPresignedUrlRequest request,
            IAmazonS3 s3Client,

@@ -7,7 +7,13 @@ using Minio.DataModel.Args;
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 
-{ //Получить ссылку на файл
+{ 
+    /// <summary>
+    /// Получить ссылки для загрузки файлов в minio
+    /// </summary>
+    /// <param name="fileInfoDto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<Result<List<string>, string>> GetFilePresignedPath(
         MinioFilesInfoDto fileInfoDto, CancellationToken ct)
     {

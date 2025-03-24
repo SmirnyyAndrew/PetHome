@@ -1,4 +1,4 @@
-﻿using FilesService.Core.Middlewares;
+﻿using PetHome.SharedKernel.Middlewares;
 
 namespace FilesService.Extentions.AppExtentions;
 

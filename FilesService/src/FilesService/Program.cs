@@ -1,15 +1,14 @@
-using FilesService.Core.Loggers;
-using FilesService.Core.Validation;
 using FilesService.Extentions.AppExtentions;
 using FilesService.Extentions.BuilderExtentions;
-using Microsoft.AspNetCore.Builder;
+using PetHome.Core.Response.Loggers;
+using PetHome.Core.Response.Validation;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);  
 
 builder.Services.AddSerilog();
-Log.Logger = SeqLogger.InitDefaultSeqConfiguration(builder.Configuration);
+Log.Logger = LoggerManager.InitConfiguration(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

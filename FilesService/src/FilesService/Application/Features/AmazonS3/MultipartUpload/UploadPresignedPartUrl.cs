@@ -16,6 +16,15 @@ public static class UploadPresignedPartUrl
             app.MapPost("amazon/files/{key}/part-presigned", Handler);
         }
     }
+
+    /// <summary>
+    /// Получить ссылку для загрузки части файла
+    /// </summary>
+    /// <param name="key">Название файла в Amazon s3</param>
+    /// <param name="request"></param>
+    /// <param name="s3Client"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private static async Task<IResult> Handler(
            [FromRoute] string key,
            [FromBody] UploadPresignedPartUrlRequest request,
