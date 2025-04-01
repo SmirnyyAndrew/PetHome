@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Read
+namespace VolunteerRequestService.Infrastructure.Database.Migrations.Write
 {
     /// <inheritdoc />
-    public partial class VolunteerRequests_Read_InitMigrations : Migration
+    public partial class VolunteerRequests_Write_InitMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

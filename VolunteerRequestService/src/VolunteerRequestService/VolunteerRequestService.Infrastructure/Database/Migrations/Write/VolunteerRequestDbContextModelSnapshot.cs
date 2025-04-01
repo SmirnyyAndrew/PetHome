@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 
 #nullable disable
 
-namespace PetHome.VolunteerRequests.Infrastructure.Migrations.Write
+namespace VolunteerRequestService.Infrastructure.Database.Migrations.Write
 {
     [DbContext(typeof(VolunteerRequestDbContext))]
-    [Migration("20250226161130_VolunteerRequests_Write_InitMigrations")]
-    partial class VolunteerRequests_Write_InitMigrations
+    partial class VolunteerRequestDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

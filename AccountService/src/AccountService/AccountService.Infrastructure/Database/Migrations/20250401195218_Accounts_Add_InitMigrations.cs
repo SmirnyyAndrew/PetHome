@@ -53,7 +53,6 @@ namespace AccountService.Infrastructure.Database.Migrations
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    favorite_pets = table.Column<string>(type: "text", nullable: true),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     id = table.Column<Guid>(type: "uuid", nullable: false)
@@ -130,7 +129,6 @@ namespace AccountService.Infrastructure.Database.Migrations
                     start_volunteering_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     requisites = table.Column<string>(type: "text", nullable: true),
                     certificates = table.Column<string>(type: "text", nullable: true),
-                    pets = table.Column<string>(type: "text", nullable: true),
                     soft_deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     id = table.Column<Guid>(type: "uuid", nullable: false)

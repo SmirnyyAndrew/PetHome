@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\AccountService.Contracts\AccountService.Contracts.csproj" />
-    <ProjectReference Include="..\AccountService.Domain\AccountService.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\AccountService.Contracts\AccountService.Contracts.csproj" />
+		<ProjectReference Include="..\AccountService.Domain\AccountService.Domain.csproj" />
+	</ItemGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
@@ -17,23 +17,26 @@
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="MassTransit" Version="8.3.6" />
 		<PackageReference Include="MediatR" Version="12.5.0" />
-		<PackageReference Include="Scrutor" Version="6.0.0" />  
-		<PackageReference Include="Quartz" Version="3.13.1" /> 
+		<PackageReference Include="Scrutor" Version="6.0.0" />
+		<PackageReference Include="Quartz" Version="3.13.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="FilesService.Core">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.Core">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.Framework">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.SharedKernel">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-	  </Reference>
+		<Reference Include="FilesService">
+			<HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Core">
+			<HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Framework">
+			<HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 </Project>

@@ -17,10 +17,13 @@
     <ProjectReference Include="..\AccountService.Contracts\AccountService.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup> 
+    <Reference Include="FilesService">
+      <HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.dll</HintPath>
+    </Reference> 
     <Reference Include="FilesService.Core">
-      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
-    </Reference>
+      <HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+    </Reference> 
     <Reference Include="PetHome.Core">
       <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
     </Reference>
