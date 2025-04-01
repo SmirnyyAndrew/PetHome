@@ -7,7 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Events\" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="3.4.3" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FilesService.Core">
+      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PetHome.Core">
+      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
