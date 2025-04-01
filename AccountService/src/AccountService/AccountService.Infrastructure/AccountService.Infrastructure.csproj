@@ -21,17 +21,38 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.0" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+		<PackageReference Include="Polly" Version="8.5.2" />
+		<PackageReference Include="Quartz" Version="3.13.1" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.1" />
+		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.13.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Database\Migrations\" />
 	  <Folder Include="Database\Read\DBContext\" />
 	  <Folder Include="Database\Read\Configurations\" />
 	  <Folder Include="Database\Read\Repositories\" />
 	  <Folder Include="Database\Write\DBContext\" />
 	  <Folder Include="Database\Write\Configurations\" />
 	  <Folder Include="Database\Write\Repositories\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="FilesService.Core">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Core">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Framework">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

@@ -6,16 +6,19 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
 		<PackageReference Include="DotNetEnv" Version="3.1.1" />
 		<PackageReference Include="FilesService.Communication" Version="1.0.9" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="MassTransit" Version="8.3.6" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.14" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 		<PackageReference Include="Npgsql" Version="8.0.7" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
@@ -38,6 +41,18 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\AccountService.API\AccountService.API.csproj" />
 	  <ProjectReference Include="..\AccountService.Application\AccountService.Application.csproj" />
+	  <ProjectReference Include="..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="PetHome.Core">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Framework">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,15 @@
+﻿using FluentValidation;
+using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.ValueObjects.MainInfo;
+using PetHome.Core.ValueObjects.User;
+
+namespace AccountService.Application.Features.Write.Registration.RegisterUser;
+public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
+{
+    public RegisterUserValidator()
+    {
+        RuleFor(r => r.Email).MustBeValueObject(Email.Create);
+        RuleFor(r => r.UserName).MustBeValueObject(UserName.Create);
+        RuleFor(r => r.Password).MustBeValueObject(Password.Create);
+    }
+}

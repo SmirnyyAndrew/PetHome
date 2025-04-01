@@ -3,6 +3,7 @@ using OpenTelemetry.Resources;
 using MassTransit.Monitoring;
 using OpenTelemetry.Trace;
 using MassTransit.Logging;
+using Npgsql;
 
 namespace AccountService.WEB.DI.ApplicationDI;
 
@@ -29,7 +30,7 @@ public static class MetricsExtentions
                     .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(nameof(WEB)))
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    //.AddNpgsql()
+                    .AddNpgsql()
                     .AddSource(DiagnosticHeaders.DefaultListenerName)
                     .AddOtlpExporter(c => c.Endpoint = new Uri("http://localhost:4317"));
             });
