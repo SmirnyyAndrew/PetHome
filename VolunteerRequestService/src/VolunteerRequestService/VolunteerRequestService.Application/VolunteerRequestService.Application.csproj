@@ -15,14 +15,26 @@
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="MassTransit" Version="8.3.6" />
+		<PackageReference Include="MediatR" Version="12.5.0" />
 		<PackageReference Include="Scrutor" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Database\" />
-	  <Folder Include="Features\Consumers\" />
-	  <Folder Include="Features\Write\" />
-	  <Folder Include="Features\Read\" />
+	  <Reference Include="PetHome.Accounts.Contracts">
+	    <HintPath>..\..\..\..\src\Accounts\PetHome.Accounts.Contracts\bin\Debug\net8.0\PetHome.Accounts.Contracts.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Core">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Framework">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
+	  <Reference Include="VolunteerRequestService.Contracts">
+	    <HintPath>..\VolunteerRequestService.Contracts\bin\Debug\net8.0\VolunteerRequestService.Contracts.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

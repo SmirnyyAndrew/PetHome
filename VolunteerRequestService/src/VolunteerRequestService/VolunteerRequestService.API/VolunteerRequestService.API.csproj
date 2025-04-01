@@ -7,12 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Requests\" />
+    <ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
+    <ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
-    <ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
+    <Reference Include="PetHome.Core">
+      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PetHome.Framework">
+      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PetHome.SharedKernel">
+      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

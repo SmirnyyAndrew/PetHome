@@ -2,6 +2,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
+		<ProjectReference Include="..\VolunteerRequestService.Contracts\VolunteerRequestService.Contracts.csproj" />
 		<ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
 	</ItemGroup>
 
@@ -25,13 +26,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Database\Migrations\" />
-	  <Folder Include="Database\Read\DBContext\" />
-	  <Folder Include="Database\Read\Configurations\" />
-	  <Folder Include="Database\Read\Repositories\" />
-	  <Folder Include="Database\Write\DBContext\" />
-	  <Folder Include="Database\Write\Configurations\" />
-	  <Folder Include="Database\Write\Repositories\" />
+	  <Reference Include="PetHome.Core">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Framework">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>
