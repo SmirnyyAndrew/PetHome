@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
+		<ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
+		<PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Database\Migrations\" />
+	  <Folder Include="Database\Read\DBContext\" />
+	  <Folder Include="Database\Read\Configurations\" />
+	  <Folder Include="Database\Read\Repositories\" />
+	  <Folder Include="Database\Write\DBContext\" />
+	  <Folder Include="Database\Write\Configurations\" />
+	  <Folder Include="Database\Write\Repositories\" />
+	</ItemGroup>
+
+</Project>

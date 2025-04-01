@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Requests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
+    <ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
