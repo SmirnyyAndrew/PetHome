@@ -1,0 +1,6 @@
+@PetManagementService.WEB_HostAddress = http://localhost:5141
+
+GET {{PetManagementService.WEB_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
