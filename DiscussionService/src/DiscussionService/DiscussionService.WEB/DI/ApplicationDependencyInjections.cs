@@ -1,6 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using DiscussionService.Application.Inject;
 using DiscussionService.WEB.DI.ApplicationDI;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace DiscussionService.WEB.DI;
 
@@ -9,6 +8,7 @@ public static class ApplicationDependencyInjections
     public static IServiceCollection AddApplicationDependencyInjection(
         this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddDiscussionServices();
         services.AddRedis(configuration);
         services.AddMassTransitConfig(configuration);
         services.AddOpenTelemetryMetrics();

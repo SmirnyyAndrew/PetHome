@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Requests\" />
+    <ProjectReference Include="..\DiscussionService.Application\DiscussionService.Application.csproj" />
+    <ProjectReference Include="..\DiscussionService.Domain\DiscussionService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DiscussionService.Application\DiscussionService.Application.csproj" />
-    <ProjectReference Include="..\DiscussionService.Domain\DiscussionService.Domain.csproj" />
+    <Reference Include="PetHome.Core">
+      <HintPath>..\..\..\..\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\DiscussionService.Contracts\DiscussionService.Contracts.csproj" />
     <ProjectReference Include="..\DiscussionService.Domain\DiscussionService.Domain.csproj" />
   </ItemGroup>
 
@@ -15,14 +16,20 @@
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="MassTransit" Version="8.3.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
 		<PackageReference Include="Scrutor" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Database\" />
-	  <Folder Include="Features\Consumers\" />
-	  <Folder Include="Features\Write\" />
-	  <Folder Include="Features\Read\" />
+	  <Reference Include="PetHome.Core">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Framework">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

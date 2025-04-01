@@ -6,12 +6,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
 		<PackageReference Include="DotNetEnv" Version="3.1.1" />
 		<PackageReference Include="FilesService.Communication" Version="1.0.9" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
 		<PackageReference Include="MassTransit" Version="8.3.6" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.3.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -38,6 +40,12 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\DiscussionService.API\DiscussionService.API.csproj" />
 	  <ProjectReference Include="..\DiscussionService.Application\DiscussionService.Application.csproj" />
+	  <ProjectReference Include="..\DiscussionService.Infrastructure\DiscussionService.Infrastructure.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

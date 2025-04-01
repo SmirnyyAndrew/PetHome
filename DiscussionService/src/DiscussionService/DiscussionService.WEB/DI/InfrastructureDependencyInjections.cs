@@ -1,4 +1,5 @@
 ﻿using DiscussionService.WEB.DI.InfrastructureDI;
+using DiscussionService.Infrastructure.DI;
 
 namespace DiscussionService.WEB.DI;
 
@@ -9,6 +10,7 @@ public static class InfrastructureDependencyInjections
     {
         services.AddDatabases(configuration);
         services.AddMessageBus(configuration);
+        services.AddDiscussionInfrastructure(configuration);
 
         return services;
     }
