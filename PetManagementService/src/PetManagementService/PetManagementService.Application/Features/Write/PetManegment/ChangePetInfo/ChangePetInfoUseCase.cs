@@ -1,23 +1,19 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Breed;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
-using PetHome.Core.ValueObjects.PetManagment.Species;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Domain.Models;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
 using PetManagementService.Application.Database;
 using PetManagementService.Application.Database.Dto;
 using PetManagementService.Domain.PetManagment.PetEntity;
 using PetManagementService.Domain.PetManagment.VolunteerEntity;
+using PetManagementService.Domain.SpeciesManagment.BreedEntity;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Application.Features.Write.PetManegment.ChangePetInfo;
 public class ChangePetInfoUseCase

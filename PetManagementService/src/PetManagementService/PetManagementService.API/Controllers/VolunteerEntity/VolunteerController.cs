@@ -1,10 +1,10 @@
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Controllers;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.Core.API.Controllers;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetManagementService.Domain.PetManagment.VolunteerEntity;
 using PetManagementService.API.Controllers.VolunteerEntity.Request;
 using PetManagementService.Application.Features.Read.VolunteerManegment.GetAllVolunteersWithPagination;
 using PetManagementService.Application.Features.Read.VolunteerManegment.GetVolunteerById;

@@ -1,4 +1,4 @@
-﻿namespace PetHome.SharedKernel.ValueObjects.PetManagment.Pet;
+﻿namespace PetManagementService.Domain.PetManagment.PetEntity;
 public enum PetStatusEnum
 {
     isFree,

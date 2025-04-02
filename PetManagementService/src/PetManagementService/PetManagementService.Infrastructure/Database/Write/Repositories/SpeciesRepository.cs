@@ -1,7 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.PetManagment.Species;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
 using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 using PetManagementService.Infrastructure.Database.Write.DBContext;

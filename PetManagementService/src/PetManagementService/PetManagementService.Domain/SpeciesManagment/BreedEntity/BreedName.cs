@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 
-namespace PetHome.SharedKernel.ValueObjects.PetManagment.Breed;
+namespace PetManagementService.Domain.SpeciesManagment.BreedEntity;
 public record BreedName
 {
     public string Value { get; }

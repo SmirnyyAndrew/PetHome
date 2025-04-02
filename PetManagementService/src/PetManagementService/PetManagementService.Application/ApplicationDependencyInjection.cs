@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetManagementService.Application.Features.Contracts.SpeciesEntity;
 using PetManagementService.Contracts.Contracts.Species;
 

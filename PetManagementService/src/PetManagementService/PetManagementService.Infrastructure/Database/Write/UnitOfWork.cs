@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
 using PetManagementService.Infrastructure.Database.Write.DBContext;
 using System.Data;
 

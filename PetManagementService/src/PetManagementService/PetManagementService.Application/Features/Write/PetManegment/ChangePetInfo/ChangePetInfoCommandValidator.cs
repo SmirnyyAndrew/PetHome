@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Breed;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
-using PetHome.Core.ValueObjects.PetManagment.Species;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.Core.Application.Validation.Validator;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetManagementService.Domain.PetManagment.PetEntity;
+using PetManagementService.Domain.PetManagment.VolunteerEntity;
+using PetManagementService.Domain.SpeciesManagment.BreedEntity;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Application.Features.Write.PetManegment.ChangePetInfo;
 public class ChangePetInfoCommandValidator : AbstractValidator<ChangePetInfoCommand>

@@ -1,6 +1,6 @@
-﻿using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Dto;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
+﻿using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.Dto;
+using PetManagementService.Domain.PetManagment.PetEntity;
 
 namespace PetManagementService.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
 public record GetPetsWithPaginationAndFiltersQuery(

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Controllers;
+using PetHome.Core.API.Controllers;
 using PetManagementService.Application.Features.Write.FilesService.GetFilesDataByIds;
 
 namespace PetManagementService.API.Controllers.Media;

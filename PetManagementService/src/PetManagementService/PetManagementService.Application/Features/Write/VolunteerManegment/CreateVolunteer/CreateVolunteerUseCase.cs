@@ -1,17 +1,14 @@
-﻿using CSharpFunctionalExtensions;
+﻿using AccountService.Contracts.Messaging.UserManagment;
+using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Accounts.Contracts.Messaging.UserManagment;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
 using PetManagementService.Application.Database;
 using PetManagementService.Domain.PetManagment.VolunteerEntity;
 
@@ -83,14 +80,15 @@ public class CreateVolunteerUseCase
             socialNetworkList)
             .Value;
 
-        CreatedVolunteerAccountEvent createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
-            id,
-            email,
-            command.UserName,
-            command.StartVolunteeringDate,
-            command.Requisiteses.ToList(),
-            command.Certificates.ToList());
-        await _publisher.Publish(createVolunteerAccountMessage);
+        //TODO: применить event из нового shared
+        //CreatedVolunteerAccountEvent createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
+        //    id,
+        //    email,
+        //    command.UserName,
+        //    command.StartVolunteeringDate,
+        //    command.Requisiteses.ToList(),
+        //    command.Certificates.ToList());
+        //await _publisher.Publish(createVolunteerAccountMessage);
          
         var transaction = await _unitOfWork.BeginTransaction(ct); 
         var result = await _volunteerRepository.Add(volunteer, ct); 

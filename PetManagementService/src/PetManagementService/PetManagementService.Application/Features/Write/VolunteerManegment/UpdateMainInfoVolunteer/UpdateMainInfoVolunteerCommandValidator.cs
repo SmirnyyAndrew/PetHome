@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
+using PetHome.Core.Application.Validation.Validator;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
 
 namespace PetManagementService.Application.Features.Write.VolunteerManegment.UpdateMainInfoVolunteer;
 public class UpdateMainInfoVolunteerCommandValidator

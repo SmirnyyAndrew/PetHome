@@ -1,12 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Extentions.Collection;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Domain.Models;
+using PetHome.Core.Web.Extentions.Collection;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
 using PetManagementService.Application.Database.Dto;
 

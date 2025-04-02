@@ -1,7 +1,5 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
 using PetManagementService.Application.Database;
 using PetManagementService.Contracts.Messaging.Species;
 

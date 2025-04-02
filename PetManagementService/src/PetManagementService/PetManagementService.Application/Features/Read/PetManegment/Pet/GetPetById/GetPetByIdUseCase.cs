@@ -3,12 +3,10 @@ using FilesService.Core.Dto.File;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Request.AmazonS3;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Redis;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Redis;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
 using PetManagementService.Application.Database.Dto;
 

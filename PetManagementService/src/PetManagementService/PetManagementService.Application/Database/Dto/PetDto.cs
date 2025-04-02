@@ -1,5 +1,5 @@
 ﻿using FilesService.Core.Dto.File;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
+using PetManagementService.Domain.PetManagment.PetEntity;
 
 namespace PetManagementService.Application.Database.Dto;
 public class PetDto

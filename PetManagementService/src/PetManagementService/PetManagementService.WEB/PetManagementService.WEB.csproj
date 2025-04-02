@@ -47,14 +47,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Include="PetHome.Core">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	    <HintPath>..\PetManagementService.API\PetHome.Core.dll</HintPath>
 	  </Reference>
-	  <Reference Include="PetHome.Framework">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.SharedKernel">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
+	</ItemGroup> 
 
 </Project>

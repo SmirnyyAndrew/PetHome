@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
 using PetManagementService.Application.Database;
 using PetManagementService.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 using PetManagementService.Contracts.Messaging.Volunteer;

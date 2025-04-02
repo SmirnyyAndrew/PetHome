@@ -1,12 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
 using FilesService.Core.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
 using PetManagementService.Domain.PetManagment.PetEntity;
 using PetManagementService.Domain.PetManagment.VolunteerEntity;

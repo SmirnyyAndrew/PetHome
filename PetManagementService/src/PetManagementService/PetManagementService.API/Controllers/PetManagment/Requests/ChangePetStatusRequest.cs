@@ -1,4 +1,4 @@
-﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
+﻿using PetManagementService.Domain.PetManagment.PetEntity;
 using PetManagementService.Application.Features.Write.PetManegment.ChangePetStatus;
 
 namespace PetManagementService.API.Controllers.PetManagment.Requests;

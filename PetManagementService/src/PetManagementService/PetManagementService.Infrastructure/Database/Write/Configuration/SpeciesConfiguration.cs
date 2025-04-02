@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.PetManagment.Species;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 using Species = PetManagementService.Domain.SpeciesManagment.SpeciesEntity.Species;
 
 namespace PetManagementService.Infrastructure.Database.Write.Configuration;

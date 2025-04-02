@@ -1,6 +1,6 @@
-﻿using PetHome.Core.Response.Dto;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
+﻿using PetHome.SharedKernel.Responses.Dto;
 using PetManagementService.Application.Features.Read.PetManegment.Pet.GetPetsWithPaginationAndFilters;
+using PetManagementService.Domain.PetManagment.PetEntity;
 
 namespace PetManagementService.API.Controllers.PetManagment.Requests;
 

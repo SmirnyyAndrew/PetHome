@@ -1,5 +1,5 @@
-﻿using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
+﻿using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
 using PetManagementService.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 
 namespace PetManagementService.API.Controllers.VolunteerEntity.Request;

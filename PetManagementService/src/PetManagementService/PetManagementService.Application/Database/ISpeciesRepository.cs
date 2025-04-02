@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Response.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Application.Database;

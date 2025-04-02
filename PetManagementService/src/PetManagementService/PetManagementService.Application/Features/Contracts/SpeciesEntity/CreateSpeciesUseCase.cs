@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.PetManagment.Species;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
-using _Species = PetManagementService.Domain.SpeciesManagment.SpeciesEntity.Species;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity; 
 
 namespace PetManagementService.Application.Features.Contracts.SpeciesEntity;
 public class CreateSpeciesUseCase
@@ -15,7 +14,7 @@ public class CreateSpeciesUseCase
 
     public CreateSpeciesUseCase(
         ISpeciesRepository repository,
-        [FromKeyedServices(Constants.SPECIES_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.SPECIES_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
@@ -23,7 +22,7 @@ public class CreateSpeciesUseCase
 
     public async Task<Result<SpeciesId, Error>> Execute(string name, CancellationToken ct)
     {
-        _Species species = _Species.Create(name).Value;
+        Species species = Species.Create(name).Value;
 
         var transaction = await _unitOfWork.BeginTransaction();
         await _repository.Add(species, ct);

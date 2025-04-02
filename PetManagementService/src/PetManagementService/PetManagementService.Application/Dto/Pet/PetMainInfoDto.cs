@@ -1,4 +1,4 @@
-﻿using PetHome.Core.ValueObjects.PetManagment.Pet;
+﻿using PetManagementService.Domain.PetManagment.PetEntity;
 
 namespace PetManagementService.Application.Dto.Pet;
 public record PetMainInfoDto(

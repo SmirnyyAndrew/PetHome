@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.SharedKernel.Middlewares;
+using PetHome.Core.Web.Middlewares; 
 using PetManagementService.Infrastructure.Database.Write.DBContext;
 
 namespace PetManagementService.Infrastructure.Database.Extention;

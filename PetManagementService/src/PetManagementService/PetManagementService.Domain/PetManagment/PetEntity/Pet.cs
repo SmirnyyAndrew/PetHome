@@ -1,14 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
-using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Breed;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
-using PetHome.Core.ValueObjects.PetManagment.Species;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.Core.Application.Interfaces.Database;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetManagementService.Domain.PetManagment.VolunteerEntity;
+using PetManagementService.Domain.SpeciesManagment.BreedEntity;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Domain.PetManagment.PetEntity;
 public class Pet : DomainEntity<PetId>, ISoftDeletableEntity

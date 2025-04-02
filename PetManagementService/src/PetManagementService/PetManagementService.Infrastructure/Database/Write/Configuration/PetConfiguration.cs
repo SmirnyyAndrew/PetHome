@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.Constants;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Breed;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.PetManagment.Pet;
-using PetHome.Core.ValueObjects.PetManagment.Species;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
 using PetManagementService.Domain.PetManagment.PetEntity;
+using PetManagementService.Domain.PetManagment.VolunteerEntity;
+using PetManagementService.Domain.SpeciesManagment.BreedEntity;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Infrastructure.Database.Write.Configuration;
 
@@ -76,7 +75,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
         //weight
         builder.Property(w => w.Weight)
-            .HasMaxLength(Constants.MAX_WEIGHT)
+            .HasMaxLength(Constants.ValidationSettings.MAX_WEIGHT)
             .IsRequired()
             .HasColumnName("weight");
 

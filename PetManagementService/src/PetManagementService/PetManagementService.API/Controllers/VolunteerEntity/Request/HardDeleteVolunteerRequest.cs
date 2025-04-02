@@ -1,4 +1,4 @@
-﻿using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+﻿using PetManagementService.Domain.PetManagment.VolunteerEntity;
 using PetManagementService.Application.Features.Write.VolunteerManegment.HardDeleteVolunteer;
 
 namespace PetManagementService.API.Controllers.VolunteerEntity.Request;

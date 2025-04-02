@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Extentions.Collection;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.SharedKernel.Options.Background;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.Collection;
+using PetHome.Core.Web.Options.Background;
 using PetManagementService.Infrastructure.Database.Write.DBContext;
 
 namespace PetManagementService.Infrastructure.Contracts.HardDeleteExpiredSoftDeletedEntities;

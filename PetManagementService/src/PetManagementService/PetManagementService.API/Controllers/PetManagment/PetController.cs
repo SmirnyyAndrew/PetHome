@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Controllers;
+using PetHome.Core.API.Controllers;
 using PetManagementService.API.Controllers.PetManagment.Requests;
 using PetManagementService.Application.Dto.Pet;
 using PetManagementService.Application.Features.Read.PetManegment.Pet.GetPetById;

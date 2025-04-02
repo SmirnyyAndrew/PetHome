@@ -1,10 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using FilesService.Core.ErrorManagment;
 using MassTransit;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
 using PetManagementService.Application.Database;
 using PetManagementService.Domain.PetManagment.VolunteerEntity;
 

@@ -1,10 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Response;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace PetManagementService.Application.Features.Write.PetManegment.SetAvatar.StartUploadAvatar;
 public class StartUploadAvatarUseCase

@@ -1,17 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
 using PetManagementService.Contracts.Messaging.Species;
-using Species = PetManagementService.Domain.SpeciesManagment.SpeciesEntity.Species;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Application.Features.Write.SpeciesManagement.CreateBreed;
 public class CreateBreedUseCase
@@ -60,7 +57,7 @@ public class CreateBreedUseCase
         var updateRepositoryResult = await SpeciesRepository.Update(species, ct);
 
         await _unitOfWork.SaveChanges(ct);
-      
+
         CreatedBreedEvent createdBreedEvent = new CreatedBreedEvent(
             species.Id,
             species.Name);

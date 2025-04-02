@@ -1,7 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.PetManagment.Volunteer;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Domain.PetManagment.VolunteerEntity;
 
 namespace PetManagementService.Application.Database;

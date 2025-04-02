@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Response;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace PetManagementService.Application.Features.Write.PetManegment.AmazonUploadPetMediaFiles.UploadPartPresignedUrlAvatar;
 public class UploadPresignedUrlAvatarUseCase

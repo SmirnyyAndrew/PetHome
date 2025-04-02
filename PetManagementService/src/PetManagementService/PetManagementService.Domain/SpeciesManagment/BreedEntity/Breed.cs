@@ -1,9 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.PetManagment.Breed;
-using PetHome.Core.ValueObjects.PetManagment.Species;
+using PetHome.Core.Application.Interfaces.Database;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
 
 namespace PetManagementService.Domain.SpeciesManagment.BreedEntity;
 public class Breed : DomainEntity<BreedId>, ISoftDeletableEntity

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Controllers;
+using PetHome.Core.API.Controllers;
 using PetManagementService.API.Controllers.Species.Requests;
 using PetManagementService.Application.Features.Read.Species.GetAllSpecies;
 using PetManagementService.Application.Features.Write.SpeciesManagement.CreateSpecies;

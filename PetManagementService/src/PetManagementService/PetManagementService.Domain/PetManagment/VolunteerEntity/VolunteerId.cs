@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 
-namespace PetHome.SharedKernel.ValueObjects.PetManagment.Volunteer;
+namespace PetManagementService.Domain.PetManagment.VolunteerEntity;
 public class VolunteerId : ComparableValueObject
 {
     public Guid Value { get; }

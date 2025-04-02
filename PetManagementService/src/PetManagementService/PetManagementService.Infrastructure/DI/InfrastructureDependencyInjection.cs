@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.MessageQueues;
-using PetHome.Core.Response.Messaging;
-using PetHome.Framework.Database;
-using PetHome.SharedKernel.Options.Volunteers;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Infrastructure.MessageBus;
+using PetHome.Core.Infrastructure.MessageBus.MessageQueues;
+using PetHome.Core.Web.Options.MessageBus;
+using PetHome.SharedKernel.Constants;
 using PetManagementService.Application.Database;
 using PetManagementService.Application.Features.Contracts.PetEntity;
 using PetManagementService.Application.Features.Contracts.VolunteerEntity;
@@ -26,9 +26,9 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
         
         services.AddScoped(_ =>
-              new PetManagementWriteDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
+              new PetManagementWriteDBContext(configuration.GetConnectionString(Constants.Database.DATABASE)!));
         services.AddScoped<IPetManagementReadDbContext, PetManagementReadDBContext>(_ =>
-              new PetManagementReadDBContext(configuration.GetConnectionString(Constants.DATABASE)!));
+              new PetManagementReadDBContext(configuration.GetConnectionString(Constants.Database.DATABASE)!));
 
         services.AddScoped<IHardDeleteSoftDeletedEntitiesContract, HardDeleteExpiredSoftDeletedSpeciesEntitiesContract>();
         services.AddScoped<IGetVolunteerInformationContract, GetVolunteerInformationUsingContract>();
