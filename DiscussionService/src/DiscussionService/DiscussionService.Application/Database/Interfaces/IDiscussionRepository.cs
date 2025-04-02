@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetHome.Core.ValueObjects.Discussion.Relation;
+using PetHome.SharedKernel.ValueObjects.Discussion.Relation;
 using PetHome.Discussions.Domain;
 
 namespace DiscussionService.Application.Database.Interfaces;

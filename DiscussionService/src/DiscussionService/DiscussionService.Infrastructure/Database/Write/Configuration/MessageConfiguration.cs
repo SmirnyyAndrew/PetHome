@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.Discussion;
-using PetHome.Core.ValueObjects.Discussion.Message;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
+using PetHome.SharedKernel.ValueObjects.Discussion;
+using PetHome.SharedKernel.ValueObjects.Discussion.Message;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
 using PetHome.Discussions.Domain;
 
 namespace DiscussionService.Infrastructure.Database.Write.Configuration;

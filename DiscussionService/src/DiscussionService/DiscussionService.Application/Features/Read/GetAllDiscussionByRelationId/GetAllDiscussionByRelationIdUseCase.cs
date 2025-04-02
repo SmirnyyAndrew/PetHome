@@ -2,10 +2,11 @@
 using DiscussionService.Application.Database.Dto;
 using DiscussionService.Application.Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Extentions.Collection;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Models;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Domain.Models;
+using PetHome.Core.Web.Extentions.Collection;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+
 
 namespace DiscussionService.Application.Features.Read.GetAllDiscussionByRelationId;
 public class GetAllDiscussionByRelationIdUseCase

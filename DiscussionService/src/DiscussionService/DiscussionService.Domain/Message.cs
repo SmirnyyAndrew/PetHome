@@ -1,8 +1,8 @@
-﻿using PetHome.Core.Models;
-using PetHome.Core.ValueObjects.Discussion;
-using PetHome.Core.ValueObjects.Discussion.Message;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
+﻿using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.ValueObjects.Discussion;
+using PetHome.SharedKernel.ValueObjects.Discussion.Message;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace PetHome.Discussions.Domain;
 public class Message : DomainEntity<MessageId>

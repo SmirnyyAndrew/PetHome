@@ -7,7 +7,7 @@ using DiscussionService.Application.Features.Write.OpenDiscussion;
 using DiscussionService.Application.Features.Write.RemoveMessageInDiscussion;
 using DiscussionService.Application.Features.Write.SendMessageInDiscussion;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Controllers;
+using PetHome.Core.API.Controllers;
 
 namespace DiscussionService.API;
 public class DiscussionController : ParentController

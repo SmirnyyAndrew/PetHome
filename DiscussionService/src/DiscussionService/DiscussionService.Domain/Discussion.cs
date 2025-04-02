@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.Discussion;
-using PetHome.Core.ValueObjects.Discussion.Message;
-using PetHome.Core.ValueObjects.Discussion.Relation;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.Discussion;
+using PetHome.SharedKernel.ValueObjects.Discussion.Message;
+using PetHome.SharedKernel.ValueObjects.Discussion.Relation;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace PetHome.Discussions.Domain;
 public class Discussion : DomainEntity<DiscussionId>

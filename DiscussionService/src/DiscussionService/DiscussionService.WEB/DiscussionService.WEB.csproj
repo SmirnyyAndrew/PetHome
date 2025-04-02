@@ -5,8 +5,8 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-	<ItemGroup> 
-		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" /> 
+	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
 		<PackageReference Include="DotNetEnv" Version="3.1.1" />
 		<PackageReference Include="FilesService.Communication" Version="1.0.9" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
@@ -40,14 +40,18 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\DiscussionService.API\DiscussionService.API.csproj" />
-	  <ProjectReference Include="..\DiscussionService.Application\DiscussionService.Application.csproj" />
-	  <ProjectReference Include="..\DiscussionService.Infrastructure\DiscussionService.Infrastructure.csproj" />
+		<ProjectReference Include="..\DiscussionService.API\DiscussionService.API.csproj" />
+		<ProjectReference Include="..\DiscussionService.Application\DiscussionService.Application.csproj" />
+		<ProjectReference Include="..\DiscussionService.Infrastructure\DiscussionService.Infrastructure.csproj" />
 	</ItemGroup>
+
 	<ItemGroup>
-	  <Reference Include="PetHome.SharedKernel">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-	  </Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 </Project>

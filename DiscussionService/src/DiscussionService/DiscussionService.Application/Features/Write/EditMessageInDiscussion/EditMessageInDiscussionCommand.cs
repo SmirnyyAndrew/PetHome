@@ -1,4 +1,4 @@
-﻿using PetHome.Core.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Application.Interfaces.FeatureManagement;
 
 namespace DiscussionService.Application.Features.Write.EditMessageInDiscussion;
 public record EditMessageInDiscussionCommand(

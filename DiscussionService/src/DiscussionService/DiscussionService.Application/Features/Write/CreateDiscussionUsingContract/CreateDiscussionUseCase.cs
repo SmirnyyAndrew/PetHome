@@ -3,16 +3,16 @@ using DiscussionService.Application.Database.Interfaces;
 using DiscussionService.Contracts.Messaging;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.Discussion;
-using PetHome.Core.ValueObjects.Discussion.Relation;
-using PetHome.Core.ValueObjects.User;
+using PetHome.SharedKernel.Constants;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.Discussion;
+using PetHome.SharedKernel.ValueObjects.Discussion.Relation;
+using PetHome.SharedKernel.ValueObjects.User;
 using PetHome.Discussions.Domain;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
 
 namespace DiscussionService.Application.Features.Write.CreateDiscussionUsingContract;
 public class CreateDiscussionUseCase
@@ -25,7 +25,7 @@ public class CreateDiscussionUseCase
     public CreateDiscussionUseCase(
         IDiscussionRepository repository,
         IPublishEndpoint publisher,
-        [FromKeyedServices(Constants.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;

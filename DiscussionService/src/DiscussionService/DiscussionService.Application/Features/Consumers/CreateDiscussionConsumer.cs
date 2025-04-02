@@ -3,11 +3,11 @@ using DiscussionService.Contracts.Messaging;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.ValueObjects.Discussion.Relation;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Infrastructure.Database;
 using PetHome.Discussions.Domain;
-using PetHome.Framework.Database;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.ValueObjects.Discussion.Relation;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace DiscussionService.Application.Features.Consumers;
 public class CreateDiscussionConsumer : IConsumer<CreatedDiscussionEvent>
@@ -19,7 +19,7 @@ public class CreateDiscussionConsumer : IConsumer<CreatedDiscussionEvent>
     public CreateDiscussionConsumer(
         IDiscussionRepository repository,
         ILogger<CreateDiscussionConsumer> logger,
-        [FromKeyedServices(Constants.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _logger = logger;

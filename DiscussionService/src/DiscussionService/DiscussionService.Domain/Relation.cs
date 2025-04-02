@@ -1,5 +1,5 @@
-﻿using PetHome.Core.Models;
-using PetHome.Core.ValueObjects.Discussion.Relation;
+﻿using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.ValueObjects.Discussion.Relation;
 
 namespace PetHome.Discussions.Domain;
 public class Relation : DomainEntity<RelationId>

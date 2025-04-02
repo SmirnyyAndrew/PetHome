@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using PetHome.SharedKernel.Options.Volunteers;
+using PetHome.Core.Web.Options.MessageBus;
 
 namespace DiscussionService.WEB.DI.InfrastructureDI;
 
