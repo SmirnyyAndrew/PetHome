@@ -37,20 +37,17 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\VolunteerRequestService.API\VolunteerRequestService.API.csproj" />
-	  <ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
-	  <ProjectReference Include="..\VolunteerRequestService.Infrastructure\VolunteerRequestService.Infrastructure.csproj" />
+		<ProjectReference Include="..\VolunteerRequestService.API\VolunteerRequestService.API.csproj" />
+		<ProjectReference Include="..\VolunteerRequestService.Application\VolunteerRequestService.Application.csproj" />
+		<ProjectReference Include="..\VolunteerRequestService.Infrastructure\VolunteerRequestService.Infrastructure.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Reference Include="PetHome.Core">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.Framework">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.SharedKernel">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-	  </Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 </Project>

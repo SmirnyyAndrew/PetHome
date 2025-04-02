@@ -1,31 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Events\**" />
-    <EmbeddedResource Remove="Events\**" />
-    <None Remove="Events\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Events\**" />
+		<EmbeddedResource Remove="Events\**" />
+		<None Remove="Events\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="PetHome.Core">
-      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="PetHome.Framework">
-      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="PetHome.SharedKernel">
-      <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

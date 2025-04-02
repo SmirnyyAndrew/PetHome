@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Core.ValueObjects.VolunteerRequest;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.ValueObjects.User;
+using PetHome.SharedKernel.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Contracts.Messaging;
 using PetHome.VolunteerRequests.Domain;
@@ -19,7 +19,7 @@ public class CreateVolunteerRequestConsumer : IConsumer<CreatedVolunteerRequestE
     public CreateVolunteerRequestConsumer(
         IVolunteerRequestRepository repository, 
         ILogger<CreateVolunteerRequestConsumer> logger,
-        [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;

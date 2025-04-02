@@ -1,5 +1,5 @@
-﻿using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.ValueObjects.User;
+﻿using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestApproved;
 public record SetVolunteerRequestApprovedCommand(

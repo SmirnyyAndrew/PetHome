@@ -1,8 +1,8 @@
-﻿using PetHome.Core.Models;
-using PetHome.Core.ValueObjects.Discussion;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Core.ValueObjects.VolunteerRequest;
+﻿using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.ValueObjects.Discussion;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
+using PetHome.SharedKernel.ValueObjects.VolunteerRequest;
 
 namespace PetHome.VolunteerRequests.Domain;
 public class VolunteerRequest : DomainEntity<VolunteerRequestId>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Controllers;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Core.ValueObjects.VolunteerRequest;
+using PetHome.Core.API.Controllers;
 using PetHome.VolunteerRequests.API.Requests;
 using PetHome.VolunteerRequests.Application.Features.Read.GetAllAdminVolunteerRequests;
 using PetHome.VolunteerRequests.Application.Features.Read.GetAllSubmittedVolunteerRequests;

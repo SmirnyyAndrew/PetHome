@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.Discussion;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Core.ValueObjects.VolunteerRequest;
+using PetHome.SharedKernel.ValueObjects.Discussion;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
+using PetHome.SharedKernel.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Infrastructure.Database.Write.Configuration;

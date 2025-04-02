@@ -1,12 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Core.ValueObjects.VolunteerRequest;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.User;
+using PetHome.SharedKernel.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Contracts.Messaging;
 using PetHome.VolunteerRequests.Domain;
@@ -22,7 +22,7 @@ public class CreateVolunteerRequestUseCase
     public CreateVolunteerRequestUseCase(
         IVolunteerRequestRepository repository,
         IPublishEndpoint publisher,
-        [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _publisher = publisher;

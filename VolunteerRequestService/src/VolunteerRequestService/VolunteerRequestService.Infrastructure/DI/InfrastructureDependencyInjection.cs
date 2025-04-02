@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.SharedKernel.Constants;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Application.Features.Contracts;
 using PetHome.VolunteerRequests.Contracts.Contracts;
@@ -16,15 +16,15 @@ public static class InfrastructureDependencyInjection
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<VolunteerRequestDbContext>(_ =>
-            new VolunteerRequestDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+            new VolunteerRequestDbContext(configuration.GetConnectionString(Constants.Database.DATABASE)!));
         services.AddScoped<IVolunteerRequestReadDbContext, VolunteerRequestReadDbContext>(_ =>
-            new VolunteerRequestReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+            new VolunteerRequestReadDbContext(configuration.GetConnectionString(Constants.Database.DATABASE)!));
 
         services.AddScoped<IVolunteerRequestRepository, VolunteerRequestRepository>();
        
         services.AddScoped<IGetVolunteerRequestContract, GetVolunteerRequestUsingContract>();
 
-        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY);
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.Database.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY);
 
         return services;
     }

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using PetHome.Core.Extentions.Collection;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.Collection;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.VolunteerRequests.Application.Database.Dto;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 

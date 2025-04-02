@@ -1,4 +1,4 @@
-﻿using PetHome.Core.Interfaces.FeatureManagment;
+﻿using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.VolunteerRequests.Domain;
 
 namespace PetHome.VolunteerRequests.Application.Features.Read.GetAllAdminVolunteerRequests;

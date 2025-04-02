@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\VolunteerRequestService.Domain\VolunteerRequestService.Domain.csproj" />
+	</ItemGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
@@ -20,21 +20,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="PetHome.Accounts.Contracts">
-	    <HintPath>..\..\..\..\src\Accounts\PetHome.Accounts.Contracts\bin\Debug\net8.0\PetHome.Accounts.Contracts.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.Core">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.Framework">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.SharedKernel">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-	  </Reference>
-	  <Reference Include="VolunteerRequestService.Contracts">
-	    <HintPath>..\VolunteerRequestService.Contracts\bin\Debug\net8.0\VolunteerRequestService.Contracts.dll</HintPath>
-	  </Reference>
+		<Reference Include="PetHome.Accounts.Contracts">
+			<HintPath>..\..\..\..\src\Accounts\PetHome.Accounts.Contracts\bin\Debug\net8.0\PetHome.Accounts.Contracts.dll</HintPath>
+		</Reference>
+		<Reference Include="VolunteerRequestService.Contracts">
+			<HintPath>..\VolunteerRequestService.Contracts\bin\Debug\net8.0\VolunteerRequestService.Contracts.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using PetHome.Core.ValueObjects.User;
+﻿using PetHome.SharedKernel.ValueObjects.User;
 using PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestApproved;
 
 namespace PetHome.VolunteerRequests.API.Requests;

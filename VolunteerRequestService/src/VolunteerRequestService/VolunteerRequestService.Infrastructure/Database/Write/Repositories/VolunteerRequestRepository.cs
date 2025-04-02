@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PetHome.Core.ValueObjects.VolunteerRequest;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using PetHome.SharedKernel.ValueObjects.VolunteerRequest;
 using PetHome.VolunteerRequests.Application.Database.Interfaces;
 using PetHome.VolunteerRequests.Domain;
 
