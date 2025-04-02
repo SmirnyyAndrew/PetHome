@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 using Minio.DataModel.Args;

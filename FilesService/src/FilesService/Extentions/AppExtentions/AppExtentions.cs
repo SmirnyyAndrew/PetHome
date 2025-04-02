@@ -14,7 +14,7 @@ public static class AppExtentions
         app.UseExceptionHandler();
          
         app.MapEndpoints();
-
+        
         app.UseHangfireServer();
         app.UseHangfireDashboard();
 

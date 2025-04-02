@@ -15,7 +15,7 @@ public static class ServiceExtentions
         services.AddCors();
 
         services.AddAmazonS3(configuration);
-
+         
         services.AddHangFire(configuration);
 
 

@@ -1,7 +1,7 @@
 using FilesService.Extentions.AppExtentions;
 using FilesService.Extentions.BuilderExtentions;
-using PetHome.Core.Response.Loggers;
-using PetHome.Core.Response.Validation;
+using PetHome.Core.Application.Validation;
+using PetHome.Core.Web.Loggers;
 using Serilog;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 

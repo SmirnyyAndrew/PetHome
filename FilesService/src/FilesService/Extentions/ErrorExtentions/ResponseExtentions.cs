@@ -1,6 +1,6 @@
-﻿using FilesService.Core.ErrorManagment;
-using FilesService.Core.ErrorManagment.Envelopes;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement.Envelopes;
 
 namespace FilesService.Extentions.ErrorExtentions;
 // Позволяет автоматически опредлетить status code ошибки в контроллерах

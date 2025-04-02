@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace FilesService.Core.Dto.File;
 public record MediaFile

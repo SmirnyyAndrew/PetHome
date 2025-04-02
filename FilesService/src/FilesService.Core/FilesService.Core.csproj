@@ -21,4 +21,10 @@
 		<PackageReference Include="MongoDB.Bson" Version="3.1.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>

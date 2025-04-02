@@ -1,7 +1,7 @@
 ﻿namespace FilesService.Core.Dto.File;
 
 using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 public record MinioFileName
 {

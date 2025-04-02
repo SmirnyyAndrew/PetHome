@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using FilesService.Core.Interfaces;
 
 namespace FilesService.Infrastructure.Minio;

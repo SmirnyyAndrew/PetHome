@@ -1,4 +1,4 @@
-﻿namespace FilesService.Core.Options;
+﻿namespace PetHome.Core.Web.Options.FileService;
 public class MinioOptions
 {
     public const string MINIO_NAME = "Minio";
