@@ -1,8 +1,8 @@
-﻿using MassTransit;
+﻿using AccountService.Contracts.Messaging.UserManagment;
+using MassTransit;
 using NotificationService.Core.EmailMessages.Templates;
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
-using PetHome.Accounts.Contracts.Messaging.UserManagment;
 
 namespace NotificationService.Application.Consumers.Accounts;
 

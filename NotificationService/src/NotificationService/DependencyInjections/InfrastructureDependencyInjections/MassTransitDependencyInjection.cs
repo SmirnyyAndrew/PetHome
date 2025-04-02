@@ -2,7 +2,7 @@
 using NotificationService.Application.Consumers.Accounts;
 using NotificationService.Application.Consumers.Discussions;
 using NotificationService.Application.Consumers.VolunteerRequests;
-using PetHome.SharedKernel.Options.Volunteers;
+using PetHome.Core.Web.Options.MessageBus;
 
 namespace NotificationService.DependencyInjections.InfrastructureDependencyInjections;
 

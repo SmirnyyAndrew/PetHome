@@ -1,4 +1,4 @@
-﻿using PetHome.Accounts.Contracts.HttpCommunication;
+﻿using AccountService.Contracts.HttpCommunication;
 
 namespace NotificationService.DependencyInjections.InfrastructureDependencyInjections;
 

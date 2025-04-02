@@ -1,14 +1,13 @@
-﻿using CSharpFunctionalExtensions;
-using Grpc.Core;
+﻿using AccountService.Contracts.HttpCommunication;
+using CSharpFunctionalExtensions;
 using NotificationService.Application.gRPC;
 using NotificationService.Infrastructure.Database;
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
 using NotificationService.Infrastructure.TelegramNotification;
 using PetHome.Accounts.Contracts;
-using PetHome.Accounts.Contracts.HttpCommunication;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
 

@@ -1,5 +1,5 @@
 ﻿using NotificationService.Domain;
-using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
 
 namespace NotificationService.Application.Features.Email.SendMessage;
 

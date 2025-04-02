@@ -1,6 +1,7 @@
 ﻿using NotificationService.Core.Options;
 using NotificationService.Infrastructure.TelegramNotification;
-using PetHome.SharedKernel.Options.Volunteers;
+using PetHome.Core.Web.Options.MessageBus;
+using PetHome.Core.Web.Options.MessageBus;
 
 namespace NotificationService.DependencyInjections.InfrastructureDependencyInjections;
 
