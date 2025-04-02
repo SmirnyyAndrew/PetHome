@@ -4,9 +4,9 @@ using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Request.AmazonS3;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Read.GetUser;
 public class GetUserUseCase
@@ -34,7 +34,7 @@ public class GetUserUseCase
         MediaFile? avatar = user.Avatar;
         GetPresignedUrlRequest getPresignedAvatarUrl = new GetPresignedUrlRequest(avatar.BucketName);
         var getAvatarUrl = await _httpClient.GetPresignedUrl(avatar.Key.ToString(), getPresignedAvatarUrl, ct);
-        if(getAvatarUrl.IsSuccess) 
+        if (getAvatarUrl.IsSuccess)
             user.AvatarUrl = getAvatarUrl.Value.Url;
 
         List<string> photosUrls = new List<string>();

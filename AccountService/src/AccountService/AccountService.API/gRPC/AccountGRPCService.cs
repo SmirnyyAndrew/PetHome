@@ -12,9 +12,9 @@ public class AccountGRPCService(IAuthenticationRepository repository)
         var parseResult = Guid.TryParse(request.Id, out Guid userId);
         if (parseResult is false)
             return new() { Email = string.Empty };
-        
+
         var getUserResult = await repository.GetUserById(userId, CancellationToken.None);
-        if(getUserResult.IsFailure)
+        if (getUserResult.IsFailure)
             return new() { Email = string.Empty };
 
         GetUserEmailByIdResponse response = new()

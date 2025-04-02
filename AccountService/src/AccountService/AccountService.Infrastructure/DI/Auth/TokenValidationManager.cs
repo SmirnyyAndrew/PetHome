@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using PetHome.SharedKernel.Options.Accounts;
+using PetHome.Core.Web.Options.Accounts;
 using System.Text;
 
 namespace AccountService.Infrastructure.DI.Auth;
@@ -23,7 +23,7 @@ public static class TokenValidationManager
         };
 
         return tokenValidationParameters;
-    } 
+    }
 
     public static JwtOption GetJwtOptions(IConfiguration configuration)
     {

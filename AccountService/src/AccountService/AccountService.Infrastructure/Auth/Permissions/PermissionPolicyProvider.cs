@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using PetHome.Core.Auth;
+using PetHome.Core.Infrastructure.Auth;
 
 namespace AccountService.Infrastructure.Auth.Permissions;
 

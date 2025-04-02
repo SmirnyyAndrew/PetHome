@@ -3,11 +3,11 @@ using AccountService.Domain.Accounts;
 using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
 using Microsoft.AspNetCore.Identity;
-using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.RolePermission;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Application.Interfaces.Database;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Domain.Aggregates;
 public class User : IdentityUser<Guid>, ISoftDeletableEntity

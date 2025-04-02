@@ -1,18 +1,15 @@
 ﻿using AccountService.Application.Database.Repositories;
-using AccountService.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagement;
 using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using FluentValidation;
 using MassTransit;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Write.Registration.RegisterAdmin;
 public class RegisterAdminUseCase
@@ -20,11 +17,11 @@ public class RegisterAdminUseCase
 {
     private readonly IPublishEndpoint _publisher;
     private readonly IAuthenticationRepository _repository;
-    private readonly IUnitOfWork _unitOfWork; 
+    private readonly IUnitOfWork _unitOfWork;
 
     public RegisterAdminUseCase(
         IAuthenticationRepository repository,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)]
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)]
         IUnitOfWork unitOfWork,
         IPublishEndpoint publisher)
     {
@@ -50,7 +47,7 @@ public class RegisterAdminUseCase
         CreatedAdminEvent createdAdminEvent = new CreatedAdminEvent(
             user.Id, user.Email, user.UserName);
         await _publisher.Publish(createdAdminEvent);
-        transaction.Commit(); 
+        transaction.Commit();
 
         return Result.Success<ErrorList>();
     }

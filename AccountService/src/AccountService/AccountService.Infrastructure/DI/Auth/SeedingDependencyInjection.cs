@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AccountService.Infrastructure.Database.Seedings;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AccountService.Infrastructure.Database.Seedings;
 
 namespace AccountService.Infrastructure.DI.Auth;
 public static class SeedingDependencyInjection

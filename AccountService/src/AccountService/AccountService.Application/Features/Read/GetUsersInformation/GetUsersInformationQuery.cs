@@ -1,6 +1,7 @@
-﻿using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Models;
-using PetHome.Core.Response.Dto;
+﻿using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.Dto;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Read.GetUsersInformation;
 public record GetUsersInformationQuery(PagedListDto PaginationSettings, UserFilterDto UserFilter) : IQuery;

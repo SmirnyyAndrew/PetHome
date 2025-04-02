@@ -3,9 +3,8 @@ using AccountService.Contracts.HttpCommunication.Dto;
 using AccountService.Contracts.HttpCommunication.Requests.UserManagement;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Contracts.UserManagment.GetUserMainInformation;
 public class GetUserMainInformationUseCase(IAuthenticationRepository repository)
@@ -28,5 +27,5 @@ public class GetUserMainInformationUseCase(IAuthenticationRepository repository)
             user.Role?.Name,
             birhDate);
         return userDto;
-    } 
+    }
 }

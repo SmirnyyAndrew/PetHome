@@ -1,4 +1,4 @@
-﻿using PetHome.Core.Redis;
+﻿using PetHome.Core.Infrastructure.Redis;
 
 namespace AccountService.WEB.DI.ApplicationDI;
 

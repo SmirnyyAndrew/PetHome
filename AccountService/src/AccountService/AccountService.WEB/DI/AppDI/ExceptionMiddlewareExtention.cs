@@ -1,4 +1,4 @@
-﻿using PetHome.SharedKernel.Middlewares;
+﻿using PetHome.Core.Web.Middlewares;
 
 namespace AccountService.WEB.DI.AppDI;
 

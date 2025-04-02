@@ -1,10 +1,9 @@
 ﻿using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.RolePermission;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Application.Interfaces.Database;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Domain.Accounts;
 public class ParticipantAccount : DomainEntity<Guid>, ISoftDeletableEntity
@@ -32,7 +31,7 @@ public class ParticipantAccount : DomainEntity<Guid>, ISoftDeletableEntity
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
     }
-     
+
     public void SoftDelete()
     {
         DeletionDate = DateTime.UtcNow;

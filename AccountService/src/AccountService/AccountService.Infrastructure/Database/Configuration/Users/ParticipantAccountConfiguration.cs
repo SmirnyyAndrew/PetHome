@@ -1,8 +1,7 @@
 ﻿using AccountService.Domain.Accounts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.User;
-using System.Text.Json;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Infrastructure.Database.Configuration.Users;
 public class ParticipantAccountConfiguration : IEntityTypeConfiguration<ParticipantAccount>

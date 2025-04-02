@@ -1,9 +1,9 @@
 ﻿using AccountService.Domain.Accounts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.User;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetHome.SharedKernel.ValueObjects.User;
 using System.Text.Json;
 
 namespace AccountService.Infrastructure.Database.Configuration.Users;

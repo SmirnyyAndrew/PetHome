@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.Response.RefreshToken;
-using PetHome.Core.ValueObjects.User;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Infrastructure.Database.Configuration.Tokens;
 public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSession>
@@ -20,9 +19,9 @@ public class RefreshSessionConfiguration : IEntityTypeConfiguration<RefreshSessi
             .IsRequired()
             .HasColumnName("jti");
 
-        builder.Property(u => u.UserId) 
+        builder.Property(u => u.UserId)
             .IsRequired()
-            .HasColumnName("user_id"); 
+            .HasColumnName("user_id");
 
         builder.Property(e => e.ExpiredIn)
             .IsRequired()

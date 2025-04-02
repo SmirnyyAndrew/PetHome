@@ -1,24 +1,23 @@
 ﻿using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.RolePermission;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Application.Interfaces.Database;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Domain.Accounts;
 public class AdminAccount : DomainEntity<Guid>, ISoftDeletableEntity
 {
     public static RoleName ROLE = RoleName.Create("admin").Value;
-     
+
     public UserId UserId { get; private set; }
-    public User User { get; private set; } 
+    public User User { get; private set; }
     public DateTime DeletionDate { get; set; }
     public bool IsDeleted { get; set; }
 
     private AdminAccount(UserId userId) : base(userId)
     {
-        UserId = userId; 
+        UserId = userId;
     }
 
     public static Result<AdminAccount, Error> Create(User user)
@@ -31,7 +30,7 @@ public class AdminAccount : DomainEntity<Guid>, ISoftDeletableEntity
         }
         return Errors.Conflict($"пользователь с id = {user.Id}");
     }
-     
+
     public void SoftDelete()
     {
         DeletionDate = DateTime.UtcNow;

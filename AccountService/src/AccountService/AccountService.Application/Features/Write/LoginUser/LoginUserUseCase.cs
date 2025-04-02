@@ -3,15 +3,14 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Redis;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Login;
-using PetHome.Core.Response.RefreshToken;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.SharedKernel.Options.Accounts;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Redis;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.Core.Web.Options.Accounts;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.Login;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Application.Features.Write.LoginUser;
 public class LoginUserUseCase

@@ -1,19 +1,17 @@
 ﻿using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Enums;
-using PetHome.Core.Models;
-using PetHome.Core.Response.Dto;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.Dto;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
 
 namespace AccountService.Application.Database.Repositories;
 public interface IAuthenticationRepository
 {
     public Task<Result<Role, Error>> GetRole(Guid roleId);
 
-    public Task<Result<Role?, Error>> GetUserRole(Guid userId, CancellationToken ct); 
+    public Task<Result<Role?, Error>> GetUserRole(Guid userId, CancellationToken ct);
 
     public Task<Result<IReadOnlyList<Permission>, Error>> GetUserPermissions(Guid userId, CancellationToken ct);
 

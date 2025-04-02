@@ -1,6 +1,6 @@
 ﻿using AccountService.Application.Features.Read.GetUsersInformation;
-using PetHome.Core.Models;
-using PetHome.Core.Response.Dto;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.Dto;
 
 namespace AccountService.API.Controllers.Requests.Data;
 public record GetUsersInformationRequest(PagedListDto PaginationSettings, UserFilterDto UserFilter)

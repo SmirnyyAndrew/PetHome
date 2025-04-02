@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -39,20 +39,26 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\AccountService.API\AccountService.API.csproj" />
-	  <ProjectReference Include="..\AccountService.Application\AccountService.Application.csproj" />
-	  <ProjectReference Include="..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="PetHome.Core">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.Framework">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.Framework.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PetHome.SharedKernel">
-	    <HintPath>..\..\..\..\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
-	  </Reference>
+		<ProjectReference Include="..\AccountService.API\AccountService.API.csproj" />
+		<ProjectReference Include="..\AccountService.Application\AccountService.Application.csproj" />
+		<ProjectReference Include="..\AccountService.Infrastructure\AccountService.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Reference Include="FilesService">
+			<HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Communication">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Communication\bin\Debug\net8.0\FilesService.Communication.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Core">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 </Project>

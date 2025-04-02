@@ -2,7 +2,6 @@
 using AccountService.Domain.Aggregates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.ValueObjects.RolePermission;
 using System.Data;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -61,7 +60,7 @@ public static class RolesWithPermissionsSeeding
         string permissionJsonPath = JSON_FOLDER_PATH + PERMISSIONS_JSON_FILE_NAME;
         string jsonPermissionString = File.ReadAllText(permissionJsonPath);
         var jsonPermissionObject = JsonNode.Parse(jsonPermissionString);
-         
+
         var permissionStrings = jsonPermissionObject?[PERMISSION_GROUP_NAME]?[AdminAccount.ROLE]?
                     .AsArray()?.Deserialize<string[]>().ToList();
         _permissions = permissionStrings?
@@ -80,7 +79,7 @@ public static class RolesWithPermissionsSeeding
 
             if (rolePermissions is not null && rolePermissions.Count > 0)
             {
-                role.SetPermissions(rolePermissions); 
+                role.SetPermissions(rolePermissions);
             }
         }
 

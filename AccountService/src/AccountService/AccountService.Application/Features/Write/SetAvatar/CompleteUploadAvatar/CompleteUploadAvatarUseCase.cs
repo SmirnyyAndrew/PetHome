@@ -4,19 +4,17 @@ using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Response;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Write.SetAvatar.CompleteUploadAvatar;
 public class CompleteUploadAvatarUseCase
     : ICommandHandler<FileLocationResponse, CompleteUploadAvatarCommand>
-{ 
+{
     private readonly IAuthenticationRepository _repository;
     private readonly IAmazonFilesHttpClient _httpClient;
     private readonly IUnitOfWork _unitOfWork;
@@ -24,8 +22,8 @@ public class CompleteUploadAvatarUseCase
     public CompleteUploadAvatarUseCase(
         IAuthenticationRepository repository,
         IAmazonFilesHttpClient httpClient,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
-    { 
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+    {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _httpClient = httpClient;
@@ -49,14 +47,14 @@ public class CompleteUploadAvatarUseCase
         if (completeMultipartUploadResult.IsFailure)
             return Errors.Failure(completeMultipartUploadResult.Error).ToErrorList();
 
-        FileLocationResponse location = completeMultipartUploadResult.Value; 
+        FileLocationResponse location = completeMultipartUploadResult.Value;
         MediaFile mediaFile = MediaFile.Create(command.CompleteMultipartRequest.BucketName, location.Key, FileType.image).Value;
-        
+
         var transaction = await _unitOfWork.BeginTransaction(ct);
         user.SetAvatar(mediaFile);
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
-         
+
         return location;
     }
 }

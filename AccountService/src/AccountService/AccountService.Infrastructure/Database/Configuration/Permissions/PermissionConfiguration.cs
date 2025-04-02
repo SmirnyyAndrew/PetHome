@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AccountService.Domain.Aggregates;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 
 namespace AccountService.Infrastructure.Database.Configuration.Permissions;
 public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
@@ -20,6 +21,6 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
                 name => name.Value,
                 value => PermissionCode.Create(value).Value)
             .IsRequired()
-            .HasColumnName("code"); 
+            .HasColumnName("code");
     }
 }

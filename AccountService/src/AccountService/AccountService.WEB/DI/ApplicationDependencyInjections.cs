@@ -1,7 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using AccountService.Application;
 using AccountService.WEB.DI.ApplicationDI;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using AccountService.Application;
 
 namespace AccountService.WEB.DI;
 
@@ -15,7 +13,7 @@ public static class ApplicationDependencyInjections
         services.AddMassTransitConfig(configuration);
         services.AddOpenTelemetryMetrics();
         services.AddControllers();
-        services.AddCors(); 
+        services.AddCors();
         services.AddSwaggerGetWithAuthentication();
         //services.AddFluentValidationAutoValidation(configuration =>
         //{

@@ -4,12 +4,11 @@ using AccountService.Infrastructure.DI.Auth;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.RefreshToken;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.User;
-using PetHome.SharedKernel.Options.Accounts;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.Core.Web.Options.Accounts;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.RefreshToken;
+using PetHome.SharedKernel.ValueObjects.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -54,7 +53,7 @@ public class TokenProvider : ITokenProvider
         User user, string accessToken)
     {
         var getUserIdResult = GetUserId(accessToken);
-        var getJtiResult = GetJti(accessToken); 
+        var getJtiResult = GetJti(accessToken);
         if (getUserIdResult.IsFailure || getJtiResult.IsFailure)
             return new ErrorList([getJtiResult.Error, getJtiResult.Error]);
 

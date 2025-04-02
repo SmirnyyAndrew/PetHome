@@ -8,7 +8,6 @@ using AccountService.Contracts.HttpCommunication.Requests.TokenManagement;
 using AccountService.Contracts.HttpCommunication.Requests.UserManagement;
 using AccountService.Contracts.HttpCommunication.Requests.UserManagement.RolePermissionsManagement;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace AccountService.API.Controllers;
 

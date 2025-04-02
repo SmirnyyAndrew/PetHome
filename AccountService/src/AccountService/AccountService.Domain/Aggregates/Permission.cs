@@ -1,7 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 
-namespace PetHome.SharedKernel.ValueObjects.RolePermission;
+namespace AccountService.Domain.Aggregates;
 public class Permission
 {
     public PermissionId Id { get; private set; }

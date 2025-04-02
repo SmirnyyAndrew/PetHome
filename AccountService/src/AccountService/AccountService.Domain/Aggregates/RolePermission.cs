@@ -1,4 +1,4 @@
-﻿using PetHome.Core.ValueObjects.RolePermission;
+﻿using PetHome.SharedKernel.ValueObjects.RolePermission;
 
 namespace AccountService.Domain.Aggregates;
 public class RolePermission

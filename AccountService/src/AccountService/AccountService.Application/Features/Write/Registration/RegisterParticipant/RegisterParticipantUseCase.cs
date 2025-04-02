@@ -1,6 +1,6 @@
 ﻿using AccountService.Application.Database.Repositories;
 using AccountService.Application.Features.Write.Registration.RegisterUser;
-using AccountService.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagement;
 using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
@@ -9,11 +9,11 @@ using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Write.Registration.RegisterParticipant;
 public class RegisterParticipantUseCase
@@ -22,12 +22,12 @@ public class RegisterParticipantUseCase
     private readonly IAuthenticationRepository _repository;
     private readonly UserManager<User> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IPublishEndpoint _publisher; 
+    private readonly IPublishEndpoint _publisher;
 
     public RegisterParticipantUseCase(
         IAuthenticationRepository repository,
         UserManager<User> userManager,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IPublishEndpoint publisher,
         IValidator<RegisterUserCommand> validator,
         ILogger<RegisterUserUseCase> logger)
@@ -35,7 +35,7 @@ public class RegisterParticipantUseCase
         _repository = repository;
         _userManager = userManager;
         _unitOfWork = unitOfWork;
-        _publisher = publisher; 
+        _publisher = publisher;
     }
 
     public async Task<UnitResult<ErrorList>> Execute(

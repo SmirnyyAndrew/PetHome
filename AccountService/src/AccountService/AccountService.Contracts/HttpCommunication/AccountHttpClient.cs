@@ -1,8 +1,6 @@
 ﻿using AccountService.Contracts.HttpCommunication.Dto;
-using PetHome.Core.Response.RefreshToken;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace AccountService.Contracts.HttpCommunication;
 public class AccountHttpClient(HttpClient httpClient)
@@ -62,7 +60,7 @@ public class AccountHttpClient(HttpClient httpClient)
         if (response.StatusCode != HttpStatusCode.OK)
             return [];
 
-        IReadOnlyList<string> userPermissions = await response.Content.ReadFromJsonAsync<IReadOnlyList<string>>(ct); 
+        IReadOnlyList<string> userPermissions = await response.Content.ReadFromJsonAsync<IReadOnlyList<string>>(ct);
         return userPermissions;
     }
 

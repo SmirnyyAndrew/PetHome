@@ -1,10 +1,9 @@
 ﻿using AccountService.Domain.Aggregates;
-using CSharpFunctionalExtensions;  
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Write.EmailManagement.ConfirmEmail;
 public class ConfirmEmailUseCase
@@ -23,7 +22,7 @@ public class ConfirmEmailUseCase
         var user = await _userManager.FindByIdAsync(command.UserId.ToString());
         if (user is null)
             return Errors.NotFound("user").ToErrorList();
-        
+
         var result = await _userManager.ConfirmEmailAsync(user, command.Token);
         if (result.Succeeded is false)
             return Errors.Failure("Не удалось подтвердить почту").ToErrorList();

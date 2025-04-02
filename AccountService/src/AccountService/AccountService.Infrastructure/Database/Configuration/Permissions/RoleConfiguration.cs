@@ -10,7 +10,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.ToTable("roles");
 
         builder.HasKey(i => i.Id);
-         
+
         builder.Property(i => i.Name)
             .IsRequired()
             .HasColumnName("name");

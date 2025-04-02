@@ -1,9 +1,9 @@
-﻿using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
+﻿using MassTransit.Logging;
 using MassTransit.Monitoring;
-using OpenTelemetry.Trace;
-using MassTransit.Logging;
 using Npgsql;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace AccountService.WEB.DI.ApplicationDI;
 

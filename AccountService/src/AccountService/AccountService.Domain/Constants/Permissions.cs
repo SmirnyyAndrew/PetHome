@@ -51,7 +51,7 @@ public static class Permissions
 
 
     public static class MinioFiles
-    { 
+    {
         public const string GET = "get.miniofiles";
         public const string CREATE = "create.miniofiles";
         public const string UDPATE = "update.miniofiles";

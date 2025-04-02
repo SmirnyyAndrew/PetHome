@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
 using System.Data;
 
 namespace AccountService.Infrastructure.Database.Repositories;

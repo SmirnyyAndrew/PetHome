@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.SharedKernel.Options.Background;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Options.Background;
 
 namespace AccountService.Infrastructure.BackgroundServices;
 internal class SoftDeletableEntitiesMonitor : BackgroundService
@@ -41,7 +41,7 @@ internal class SoftDeletableEntitiesMonitor : BackgroundService
             var hardDeleteSoftDeletedEntitiesServices = scope.ServiceProvider.GetServices<IHardDeleteSoftDeletedEntitiesContract>();
             var hardDeleteTasks = hardDeleteSoftDeletedEntitiesServices.Select(task => task.HardDeleteExpiredSoftDeletedEntities(ct));
 
-            await Task.WhenAll(hardDeleteTasks); 
+            await Task.WhenAll(hardDeleteTasks);
         }
     }
 }

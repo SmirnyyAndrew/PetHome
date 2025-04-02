@@ -1,8 +1,8 @@
 ﻿using AccountService.Application.Database.Repositories;
 using AccountService.Contracts.HttpCommunication.Requests.UserManagement.RolePermissionsManagement;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Contracts.UserManagment.GetRolesNames;
 public class GetUserRoleNameUseCase(IAuthenticationRepository repository)

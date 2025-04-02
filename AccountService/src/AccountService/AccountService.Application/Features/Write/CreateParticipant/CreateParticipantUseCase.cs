@@ -1,17 +1,17 @@
 ﻿using AccountService.Application.Database.Repositories;
-using AccountService.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagement;
 using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Write.CreateParticipant;
 public class CreateParticipantUseCase
@@ -24,7 +24,7 @@ public class CreateParticipantUseCase
     public CreateParticipantUseCase(
         IAuthenticationRepository repository,
         IPublishEndpoint publisher,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
@@ -42,7 +42,7 @@ public class CreateParticipantUseCase
         UserName userName = UserName.Create(command.UserName).Value;
         User user = User.Create(email, userName, role).Value;
         ParticipantAccount participant = ParticipantAccount.Create(user).Value;
-         
+
         var transaction = await _unitOfWork.BeginTransaction(ct);
         await _repository.AddUser(user, ct);
         await _repository.AddParticipant(participant, ct);
@@ -50,10 +50,10 @@ public class CreateParticipantUseCase
 
         CreatedParticipantEvent createdParticipantEvent = new CreatedParticipantEvent(
             user.Id, user.Email, user.UserName);
-        await _publisher.Publish(createdParticipantEvent, ct); 
+        await _publisher.Publish(createdParticipantEvent, ct);
         transaction.Commit();
 
         UserId userId = UserId.Create(user.Id).Value;
         return userId;
-    } 
+    }
 }

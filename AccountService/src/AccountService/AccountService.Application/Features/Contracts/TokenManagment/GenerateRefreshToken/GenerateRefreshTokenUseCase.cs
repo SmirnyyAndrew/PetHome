@@ -2,11 +2,10 @@
 using AccountService.Contracts.HttpCommunication.Requests.TokenManagement;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.RefreshToken;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Application.Features.Contracts.TokenManagment.GenerateRefreshToken;
 public class GenerateRefreshTokenUseCase

@@ -2,24 +2,23 @@
 using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
+using FluentValidation;
+using MassTransit.Initializers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Enums;
-using PetHome.Core.Extentions.Collection;
-using PetHome.Core.Models;
-using PetHome.Core.Response.Dto;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.RolePermission;
-using System.Collections.Generic;
+using PetHome.Core.Domain.Models;
+using PetHome.Core.Web.Extentions.Collection;
+using PetHome.SharedKernel.Enums;
+using PetHome.SharedKernel.Responses.Dto;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
 
 namespace AccountService.Infrastructure.Database.Repositories;
 public class AuthenticationRepository(
     AuthorizationDbContext dbContext,
     UserManager<User> userManager)
     : IAuthenticationRepository
-{
-
+{ 
     public async Task<Result<Role, Error>> GetRole(Guid roleId)
     {
         var result = await dbContext.Roles
@@ -103,7 +102,7 @@ public class AuthenticationRepository(
             default:
                 break;
         }
-        var result = await users.ToPagedList(paginationSettings.PageNum, paginationSettings.PageSize, ct); 
+        var result = await users.ToPagedList(paginationSettings.PageNum, paginationSettings.PageSize, ct);
         return result;
     }
 

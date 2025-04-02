@@ -1,5 +1,5 @@
 ﻿using AccountService.Application.Database.Repositories;
-using AccountService.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagement;
 using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
@@ -8,14 +8,13 @@ using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
 namespace AccountService.Application.Features.Write.Registration.RegisterUser;
 public class RegisterUserUseCase
     : ICommandHandler<User, RegisterUserCommand>
@@ -30,7 +29,7 @@ public class RegisterUserUseCase
     public RegisterUserUseCase(
         IAuthenticationRepository repository,
         UserManager<User> userManager,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IPublishEndpoint publisher,
         IValidator<RegisterUserCommand> validator,
         ILogger<RegisterUserUseCase> logger)
@@ -69,7 +68,7 @@ public class RegisterUserUseCase
 
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
-            return result.Errors.ToErrorList(); 
+            return result.Errors.ToErrorList();
         await _unitOfWork.SaveChanges(ct);
 
         CreatedUserEvent createdUserEvent = new CreatedUserEvent(
@@ -83,5 +82,5 @@ public class RegisterUserUseCase
 
         _logger.LogInformation("User с id = {0} добавлен", user.Id);
         return user;
-    } 
+    }
 }

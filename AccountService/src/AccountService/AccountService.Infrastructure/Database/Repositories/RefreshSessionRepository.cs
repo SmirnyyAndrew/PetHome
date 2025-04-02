@@ -1,9 +1,10 @@
 ﻿using AccountService.Application.Database.Repositories;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.RefreshToken;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Infrastructure.Database.Repositories;
 public class RefreshSessionRepository

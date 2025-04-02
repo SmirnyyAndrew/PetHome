@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Auth;
-using PetHome.Framework.Auth;
+using PetHome.Core.Infrastructure.Auth;
 
 namespace AccountService.Infrastructure.Auth.Permissions;
 
@@ -17,7 +17,7 @@ public class PermissionAttributeHandler(IHttpContextAccessor httpContextAccessor
         AuthorizationHandlerContext context,
         PermissionAttribute requirement)
     {
-        UserScopedData userScopedData = 
+        UserScopedData userScopedData =
             httpContextAccessor.HttpContext?.RequestServices.GetRequiredService<UserScopedData>()!;
 
         if (userScopedData is null)
@@ -28,10 +28,10 @@ public class PermissionAttributeHandler(IHttpContextAccessor httpContextAccessor
 
         if (userScopedData!.Permissions.Contains(requirement.Code))
         {
-            context.Succeed(requirement); 
+            context.Succeed(requirement);
             return Task.FromResult<AuthorizationPolicy>(null!);
         }
-         
+
         return Task.CompletedTask;
     }
 }

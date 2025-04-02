@@ -4,15 +4,14 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Redis;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.Login;
-using PetHome.Core.Response.RefreshToken;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.SharedKernel.Options.Accounts;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Redis;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.Core.Web.Options.Accounts;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.Login;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 public class UpdateAccessTokenUsingRefreshTokenUseCase
@@ -27,10 +26,10 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
     public UpdateAccessTokenUsingRefreshTokenUseCase(
         IAuthenticationRepository authenticationRepository,
         ITokenProvider tokenProvider,
-        ICacheService cache, 
+        ICacheService cache,
         IConfiguration configuration,
         IValidator<UpdateAccessTokenUsingRefreshTokenCommand> validator)
-    { 
+    {
         _authenticationRepository = authenticationRepository;
         _validator = validator;
         _tokenProvider = tokenProvider;
@@ -48,7 +47,7 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
 
         var cachedRefreshSession = await _cache.GetAsync<RefreshSession>(Constants.Redis.REFRESH_TOKEN, ct);
         if (cachedRefreshSession is null)
-            return Errors.Failure($"Refresh token is expired").ToErrorList(); 
+            return Errors.Failure($"Refresh token is expired").ToErrorList();
 
         RefreshSession oldRefreshSession = cachedRefreshSession;
         if (oldRefreshSession.ExpiredIn < DateTime.UtcNow)
@@ -60,18 +59,18 @@ public class UpdateAccessTokenUsingRefreshTokenUseCase
             return getUserFromDbResult.Error.ToErrorList();
 
         User user = getUserFromDbResult.Value;
-        await _cache.RemoveAsync(Constants.Redis.REFRESH_TOKEN, ct); 
+        await _cache.RemoveAsync(Constants.Redis.REFRESH_TOKEN, ct);
 
         var generateRefreshTokenResul = _tokenProvider.GenerateRefreshToken(user, oldRefreshSession);
         if (generateRefreshTokenResul.IsFailure)
             return generateRefreshTokenResul.Error;
-      
+
         DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
         {
             SlidingExpiration = TimeSpan.FromDays(_refreshTokenOption.ExpiredDays)
         };
         RefreshSession newRefreshSession = generateRefreshTokenResul.Value;
-        await _cache.SetAsync<RefreshSession>(Constants.Redis.REFRESH_TOKEN, newRefreshSession, cacheOptions, ct); 
+        await _cache.SetAsync<RefreshSession>(Constants.Redis.REFRESH_TOKEN, newRefreshSession, cacheOptions, ct);
 
         string newJwtTokenString = _tokenProvider.GenerateAccessToken(user);
         string newRefreshToken = newRefreshSession.RefreshToken.ToString();

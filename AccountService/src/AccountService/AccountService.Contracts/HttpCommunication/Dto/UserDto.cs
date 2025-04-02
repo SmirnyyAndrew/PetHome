@@ -1,7 +1,7 @@
 ﻿namespace AccountService.Contracts.HttpCommunication.Dto;
 public record UserDto(
-    Guid Id, 
-    string UserName, 
-    string Email, 
+    Guid Id,
+    string UserName,
+    string Email,
     string RoleName,
     DateTime BirthDate);

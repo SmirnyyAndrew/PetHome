@@ -3,8 +3,8 @@ using AccountService.Domain.Aggregates;
 using FilesService.Core.Dto.File;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 using System.Text.Json;
 
 namespace AccountService.Infrastructure.Database.Configuration.Users;
@@ -100,6 +100,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         });
 
         //avatar url
-        builder.Ignore(d=>d.AvatarUrl);
+        builder.Ignore(d => d.AvatarUrl);
     }
 }

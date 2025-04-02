@@ -1,6 +1,6 @@
 ﻿using AccountService.WEB.DI;
 
-var builder = WebApplication.CreateBuilder(args); 
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,7 +20,7 @@ if (app.Environment.IsDevelopment())
 app.AddAppDependencyInjection();
 
 app.UseHttpsRedirection();
-app.UseAuthentication();  
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

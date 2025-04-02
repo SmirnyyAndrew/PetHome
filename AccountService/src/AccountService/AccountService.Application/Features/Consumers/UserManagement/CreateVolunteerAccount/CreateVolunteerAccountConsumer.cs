@@ -1,17 +1,18 @@
 ﻿using AccountService.Application.Database.Repositories;
-using AccountService.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagement;
 using AccountService.Domain.Accounts;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
+using MassTransit.Initializers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Constants;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Framework.Database;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Consumers.UserManagement.CreateVolunteerAccount;
 public class CreateVolunteerAccountConsumer : IConsumer<CreatedVolunteerAccountEvent>
@@ -25,7 +26,7 @@ public class CreateVolunteerAccountConsumer : IConsumer<CreatedVolunteerAccountE
         IAuthenticationRepository repository,
         ILogger<CreatedVolunteerAccountEvent> logger,
         IValidator<CreatedVolunteerAccountEvent> validator,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;

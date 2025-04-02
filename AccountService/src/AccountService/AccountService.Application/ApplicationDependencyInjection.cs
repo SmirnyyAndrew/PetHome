@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Framework.Auth;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Auth;
 
 namespace AccountService.Application;
 public static class ApplicationDependencyInjection
@@ -15,8 +15,8 @@ public static class ApplicationDependencyInjection
                 typeof(IQueryHandler<>), typeof(IQueryHandler<,>)))
         .AsSelfWithInterfaces()
         .WithScopedLifetime());
-         
-       
+
+
         services.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
 
         services.AddHttpContextAccessor()

@@ -2,10 +2,10 @@
 using AccountService.Contracts.HttpCommunication.Dto;
 using CSharpFunctionalExtensions;
 using MassTransit.Initializers;
-using PetHome.Core.Constants;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Redis;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Redis;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Read.GetUsersInformation;
 public class GetUsersInformationUseCase

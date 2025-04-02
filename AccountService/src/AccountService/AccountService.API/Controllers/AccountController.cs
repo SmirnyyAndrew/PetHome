@@ -14,15 +14,16 @@ using AccountService.Application.Features.Write.SetAvatar.StartUploadAvatar;
 using AccountService.Application.Features.Write.SetAvatar.UploadPresignedUrlAvatar;
 using AccountService.Application.Features.Write.UpdateAccessTokenUsingRefreshToken;
 using AccountService.Contracts.HttpCommunication.Dto;
-using AccountService.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagement;
+using AccountService.Domain.Aggregates;
 using AccountService.Domain.Constants;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PetHome.Core.Auth;
-using PetHome.Core.Auth.Cookies;
-using PetHome.Core.Controllers;
-using PetHome.Core.Response.Login;
+using PetHome.Core.API.Controllers;
+using PetHome.Core.Infrastructure.Auth;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.Login;
 
 namespace AccountService.API.Controllers;
 public class AccountController
@@ -52,7 +53,7 @@ public class AccountController
             return BadRequest(result.Error);
 
         LoginResponse response = result.Value;
-        HttpContext.Response.Cookies.Append(Cookies.RefreshToken.ToString(), response.RefreshToken);
+        HttpContext.Response.Cookies.Append(Constants.Cookies.REFRESH_TOKEN, response.RefreshToken);
 
         return Ok(response);
     }
@@ -120,7 +121,7 @@ public class AccountController
         [FromServices] UpdateAccessTokenUsingRefreshTokenUseCase useCase,
         CancellationToken ct)
     {
-        HttpContext.Request.Cookies.TryGetValue(Cookies.RefreshToken.ToString(), out string? refreshTokenString);
+        HttpContext.Request.Cookies.TryGetValue(Constants.Cookies.REFRESH_TOKEN, out string? refreshTokenString);
         if (refreshTokenString is null)
             return BadRequest("Refresh token is invalid");
 
@@ -132,8 +133,8 @@ public class AccountController
         if (result.IsFailure)
             return BadRequest(result.Error);
 
-        HttpContext.Response.Cookies.Delete(Cookies.RefreshToken.ToString());
-        HttpContext.Response.Cookies.Append(Cookies.RefreshToken.ToString(), result.Value.RefreshToken);
+        HttpContext.Response.Cookies.Delete(Constants.Cookies.REFRESH_TOKEN);
+        HttpContext.Response.Cookies.Append(Constants.Cookies.REFRESH_TOKEN, result.Value.RefreshToken);
 
         return Ok(result.Value);
     }
@@ -143,7 +144,7 @@ public class AccountController
     [HttpPost("logout")]
     public async Task<IActionResult> Logout(CancellationToken ct)
     {
-        HttpContext.Response.Cookies.Delete(Cookies.RefreshToken.ToString());
+        HttpContext.Response.Cookies.Delete(Constants.Cookies.REFRESH_TOKEN);
         return Ok();
     }
 
@@ -191,7 +192,7 @@ public class AccountController
         var result = await useCase.Execute(request, ct);
         if (result.IsFailure)
             return BadRequest(result.Error);
-       
+
         return Ok(result.Value);
     }
 

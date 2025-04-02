@@ -1,9 +1,9 @@
 ﻿using AccountService.Infrastructure.Database;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Extentions.Collection;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.SharedKernel.Options.Background;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.Collection;
+using PetHome.Core.Web.Options.Background;
 
 namespace AccountService.Infrastructure.Contracts;
 public class HardDeleteExpiredSoftDeletedAccountEntitiesContract
@@ -29,7 +29,7 @@ public class HardDeleteExpiredSoftDeletedAccountEntitiesContract
             HardDeleteUsers(ct),
             HardDeleteAdmins(ct),
             HardDeleteParticipants(ct),
-            HardDeleteVolunteers(ct)); 
+            HardDeleteVolunteers(ct));
     }
 
     private async Task HardDeleteUsers(CancellationToken ct)

@@ -2,9 +2,9 @@
 using AccountService.Contracts.HttpCommunication.Requests.UserManagement.RolePermissionsManagement;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 
 namespace AccountService.Application.Features.Contracts.AuthManagement.GetRole;
 public class GetRoleIdByNameUseCase
@@ -28,5 +28,5 @@ public class GetRoleIdByNameUseCase
         RoleId roleId = RoleId.Create(roleResult.Value.Id).Value;
 
         return roleId.Value;
-    } 
+    }
 }

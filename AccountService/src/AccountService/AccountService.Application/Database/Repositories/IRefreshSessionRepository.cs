@@ -1,7 +1,7 @@
 ﻿using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.Response.RefreshToken;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Application.Database.Repositories;
 public interface IRefreshSessionRepository

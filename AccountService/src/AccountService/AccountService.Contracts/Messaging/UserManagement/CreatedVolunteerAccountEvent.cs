@@ -1,6 +1,6 @@
-﻿using PetHome.Core.ValueObjects.User;
+﻿using PetHome.SharedKernel.ValueObjects.User;
 
-namespace AccountService.Contracts.Messaging.UserManagment;
+namespace AccountService.Contracts.Messaging.UserManagement;
 public record CreatedVolunteerAccountEvent(
         Guid UserId,
         string Email,

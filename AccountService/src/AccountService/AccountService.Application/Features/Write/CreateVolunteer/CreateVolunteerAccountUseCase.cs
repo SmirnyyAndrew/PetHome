@@ -4,14 +4,14 @@ using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Core.Constants;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.User;
-using PetHome.Framework.Database;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Constants;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Write.CreateVolunteer;
 public class CreateVolunteerAccountUseCase
@@ -24,7 +24,7 @@ public class CreateVolunteerAccountUseCase
     public CreateVolunteerAccountUseCase(
         IAuthenticationRepository repository,
         IValidator<CreateVolunteerAccountCommand> validator,
-        [FromKeyedServices(Constants.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
+        [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
@@ -35,7 +35,7 @@ public class CreateVolunteerAccountUseCase
         CreateVolunteerAccountCommand command,
         CancellationToken ct)
     {
-        var validationResult =await _validator.ValidateAsync(command, ct);
+        var validationResult = await _validator.ValidateAsync(command, ct);
         if (validationResult.IsValid is not true)
             return validationResult.Errors.ToErrorList();
 

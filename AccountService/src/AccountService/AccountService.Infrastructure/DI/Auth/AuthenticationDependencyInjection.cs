@@ -13,7 +13,7 @@ public static class AuthenticationDependencyInjection
     public static IServiceCollection ApplyAuthenticationAuthorizeConfiguration(
         this IServiceCollection services,
         IConfiguration configuration)
-    { 
+    {
         //Аутентификация
         services
             .AddAuthentication(options =>

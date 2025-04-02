@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHome.Core.Response.RefreshToken;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.SharedKernel.Responses.RefreshToken;
 
 namespace AccountService.Infrastructure.Database;
 public class AuthorizationDbContext : IdentityDbContext<User, Role, Guid>

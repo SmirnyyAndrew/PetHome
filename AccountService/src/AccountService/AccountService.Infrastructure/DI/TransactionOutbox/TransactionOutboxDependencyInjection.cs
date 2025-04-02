@@ -25,5 +25,5 @@ public static class TransactionOutboxDependencyInjection
         services.AddQuartzHostedService(option => { option.WaitForJobsToComplete = true; });
 
         return services;
-    } 
+    }
 }

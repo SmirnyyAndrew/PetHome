@@ -1,6 +1,5 @@
 ﻿using AccountService.Infrastructure.DI;
 using AccountService.Infrastructure.DI.Auth;
-using AccountService.WEB.DI.ApplicationDI;
 using AccountService.WEB.DI.InfrastructureDI;
 using FilesService.Communication;
 
@@ -12,7 +11,7 @@ public static class InfrastructureDependencyInjections
         this IServiceCollection services, IConfiguration configuration)
     {
         services.ApplyAuthenticationAuthorizeConfiguration(configuration);
-        services.AddAccountsInfrastructure(configuration);  
+        services.AddAccountsInfrastructure(configuration);
         services.AddDatabases(configuration);
         services.AddMessageBus(configuration);
         services.AddAmazonHttpCommunication(configuration);

@@ -2,12 +2,12 @@
 using AccountService.Contracts.HttpCommunication.Requests.TokenManagement;
 using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Extentions.ErrorExtentions;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Application.Features.Contracts.TokenManagment.GenerateAccessToken;
-public class GenerateAccessTokenUseCase 
+public class GenerateAccessTokenUseCase
     : ICommandHandler<string, GenerateAccessTokenCommand>
 {
     private readonly ITokenProvider _tokenProvider;

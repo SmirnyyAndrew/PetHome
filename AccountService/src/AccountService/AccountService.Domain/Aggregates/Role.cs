@@ -1,7 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.RolePermission;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace AccountService.Domain.Aggregates;
 public class Role : IdentityRole<Guid>

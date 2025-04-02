@@ -1,5 +1,6 @@
 ﻿using MassTransit;
-using PetHome.SharedKernel.Options.Volunteers;
+using Microsoft.EntityFrameworkCore;
+using PetHome.Core.Web.Options.MessageBus;
 
 namespace AccountService.WEB.DI.ApplicationDI;
 public static class MassTransitExtentions

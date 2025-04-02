@@ -58,8 +58,8 @@ public class ProcessedOutboxMessagesService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Transaction outbox: failed to save data into the database"); 
-        }  
+            _logger.LogError(ex, "Transaction outbox: failed to save data into the database");
+        }
     }
 
 

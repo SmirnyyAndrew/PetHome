@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PetHome.Core.Response.Validation.Validator;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Application.Validation.Validator;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Write.CreateParticipant;
 public class CreateParticipantCommandValidator : AbstractValidator<CreateParticipantCommand>

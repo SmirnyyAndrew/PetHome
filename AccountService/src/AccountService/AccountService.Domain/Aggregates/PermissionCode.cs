@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 
-namespace PetHome.SharedKernel.ValueObjects.RolePermission;
+namespace AccountService.Domain.Aggregates;
 public record PermissionCode
 {
     public string Value { get; }

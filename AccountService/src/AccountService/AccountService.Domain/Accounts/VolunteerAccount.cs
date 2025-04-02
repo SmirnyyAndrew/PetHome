@@ -1,12 +1,11 @@
 ﻿using AccountService.Domain.Aggregates;
 using CSharpFunctionalExtensions;
-using PetHome.Core.Interfaces.Database;
-using PetHome.Core.Models;
-using PetHome.Core.Response.ErrorManagment;
-using PetHome.Core.ValueObjects.MainInfo;
-using PetHome.Core.ValueObjects.PetManagment.Extra;
-using PetHome.Core.ValueObjects.RolePermission;
-using PetHome.Core.ValueObjects.User;
+using PetHome.Core.Application.Interfaces.Database;
+using PetHome.Core.Domain.Models;
+using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Domain.Accounts;
 public class VolunteerAccount : DomainEntity<Guid>, ISoftDeletableEntity
@@ -70,7 +69,7 @@ public class VolunteerAccount : DomainEntity<Guid>, ISoftDeletableEntity
     {
         Certificates = certificates.ToList();
         return UnitResult.Success<Error>();
-    } 
+    }
 
     public void SoftDelete()
     {
