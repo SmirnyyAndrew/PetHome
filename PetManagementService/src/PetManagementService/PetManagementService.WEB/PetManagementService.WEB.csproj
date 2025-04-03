@@ -45,10 +45,17 @@
 	  <ProjectReference Include="..\PetManagementService.Application\PetManagementService.Application.csproj" />
 	  <ProjectReference Include="..\PetManagementService.Infrastructure\PetManagementService.Infrastructure.csproj" />
 	</ItemGroup>
+	
 	<ItemGroup>
-	  <Reference Include="PetHome.Core">
-	    <HintPath>..\PetManagementService.API\PetHome.Core.dll</HintPath>
-	  </Reference>
-	</ItemGroup> 
+		<Reference Include="FilesService.Core">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

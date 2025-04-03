@@ -1,5 +1,4 @@
-﻿using AccountService.Contracts.Messaging.UserManagment;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -15,11 +14,11 @@ using PetManagementService.Domain.PetManagment.VolunteerEntity;
 namespace PetManagementService.Application.Features.Write.VolunteerManegment.CreateVolunteer;
 
 public class CreateVolunteerUseCase
-    : ICommandHandler<Guid, CreateVolunteerCommand> 
+    : ICommandHandler<Guid, CreateVolunteerCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerUseCase> _logger;
-    private readonly IUnitOfWork _unitOfWork; 
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publisher;
     private readonly IValidator<CreateVolunteerCommand> _validator;
 
@@ -27,13 +26,13 @@ public class CreateVolunteerUseCase
         IVolunteerRepository volunteerRepository,
         ILogger<CreateVolunteerUseCase> logger,
         IPublishEndpoint publisher,
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IValidator<CreateVolunteerCommand> validator)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
-        _validator = validator; 
+        _validator = validator;
         _publisher = publisher;
     }
 
@@ -89,9 +88,9 @@ public class CreateVolunteerUseCase
         //    command.Requisiteses.ToList(),
         //    command.Certificates.ToList());
         //await _publisher.Publish(createVolunteerAccountMessage);
-         
-        var transaction = await _unitOfWork.BeginTransaction(ct); 
-        var result = await _volunteerRepository.Add(volunteer, ct); 
+
+        var transaction = await _unitOfWork.BeginTransaction(ct);
+        var result = await _volunteerRepository.Add(volunteer, ct);
         await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
 
