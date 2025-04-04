@@ -4,7 +4,8 @@ using PetManagementService.Domain.PetManagment.PetEntity;
 
 namespace PetManagementService.API.Controllers.PetManagment.Requests;
 
-public record GetPetsWithPaginationAndFiltersRequest(Guid? VolunteerId,
+public record GetPetsWithPaginationAndFiltersRequest(
+    Guid? VolunteerId,
     string? Name,
     int? Age,
     Guid? SpeciesId,
