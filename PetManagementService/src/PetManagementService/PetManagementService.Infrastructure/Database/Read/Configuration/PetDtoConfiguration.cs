@@ -22,37 +22,41 @@ public class PetDtoConfiguration : IEntityTypeConfiguration<PetDto>
         builder.Ignore(x => x.AvatarUrl);
 
         //avatar
-        builder.OwnsOne(d => d.Avatar, db =>
-        {
-            db.ToJson("avatar");
+        builder.Ignore(r => r.Avatar);
+        //builder.OwnsOne(d => d.Avatar, db =>
+        //{
+        //    db.ToJson("avatar");
 
-            db.Property(p => p.Key)
-            .IsRequired(false)
-            .HasColumnName("key");
+        //    db.Property(p => p.Key)
+        //    .IsRequired(false)
+        //    .HasColumnName("key");
 
-            db.Property(p => p.BucketName)
-                .IsRequired(false)
-            .HasColumnName("bucket_name");
+        //    db.Property(p => p.BucketName)
+        //        .IsRequired(false)
+        //    .HasColumnName("bucket_name");
 
-            db.Property(p => p.Type)
-            .HasConversion<string>()
-             .IsRequired(false)
-            .HasColumnName("type");
+        //    db.Property(p => p.Type)
+        //    .HasConversion<string>()
+        //     .IsRequired(false)
+        //    .HasColumnName("type");
 
-            db.Property(p => p.FileName)
-            .IsRequired(false)
-            .HasColumnName("file_name");
-        });
+        //    db.Property(p => p.FileName)
+        //    .IsRequired(false)
+        //    .HasColumnName("file_name");
+        //});
 
         //photos urls
+        //TODO:
         builder.Ignore(p=>p.PhotosUrls);
 
         //photos
-        builder.Property(s => s.Photos)
-          .HasConversion(
-               u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
-               json => JsonSerializer.Deserialize<IReadOnlyList<MediaFile>>(json, JsonSerializerOptions.Default))
-          .HasColumnName("photos");
+        //TODO:
+        builder.Ignore(p => p.Photos);
+        //builder.Property(s => s.Photos)
+        //  .HasConversion(
+        //       u => JsonSerializer.Serialize(u, JsonSerializerOptions.Default),
+        //       json => JsonSerializer.Deserialize<IReadOnlyList<MediaFile>>(json, JsonSerializerOptions.Default))
+        //  .HasColumnName("photos");
          
         //speacies 
         builder.Property(i => i.SpeciesId)
