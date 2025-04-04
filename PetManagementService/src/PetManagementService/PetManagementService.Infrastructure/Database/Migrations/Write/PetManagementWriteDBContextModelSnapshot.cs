@@ -23,28 +23,6 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PetHome.Core.ValueObjects.PetManagment.Pet.PetShelter", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.ComplexProperty<Dictionary<string, object>>("Name", "PetHome.Core.ValueObjects.PetManagment.Pet.PetShelter.Name#ShelterName", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("name");
-                        });
-
-                    b.HasKey("Id")
-                        .HasName("pk_shelters");
-
-                    b.ToTable("shelters", (string)null);
-                });
-
             modelBuilder.Entity("PetManagementService.Domain.PetManagment.PetEntity.Pet", b =>
                 {
                     b.Property<Guid>("Id")
@@ -135,6 +113,28 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                             t.Property("volunteer_id")
                                 .HasColumnName("volunteer_id1");
                         });
+                });
+
+            modelBuilder.Entity("PetManagementService.Domain.PetManagment.PetEntity.PetShelter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Name", "PetManagementService.Domain.PetManagment.PetEntity.PetShelter.Name#ShelterName", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("name");
+                        });
+
+                    b.HasKey("Id")
+                        .HasName("pk_shelters");
+
+                    b.ToTable("shelters", (string)null);
                 });
 
             modelBuilder.Entity("PetManagementService.Domain.PetManagment.VolunteerEntity.Volunteer", b =>
@@ -254,7 +254,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<FilesService.Core.Dto.File.MediaFile>", "Photos", b1 =>
+                    b.OwnsOne("PetHome.Core.Domain.Models.ValueObjectList<FilesService.Core.Dto.File.MediaFile>", "Photos", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -368,7 +368,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_pet_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.MainInfo.Requisites", "Values", b2 =>
+                            b1.OwnsMany("PetHome.SharedKernel.ValueObjects.MainInfo.Requisites", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectListPetId")
                                         .HasColumnType("uuid");
@@ -413,7 +413,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
 
             modelBuilder.Entity("PetManagementService.Domain.PetManagment.VolunteerEntity.Volunteer", b =>
                 {
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.MainInfo.PhoneNumber>", "PhoneNumbers", b1 =>
+                    b.OwnsOne("PetHome.Core.Domain.Models.ValueObjectList<PetHome.SharedKernel.ValueObjects.MainInfo.PhoneNumber>", "PhoneNumbers", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
                                 .HasColumnType("uuid");
@@ -428,7 +428,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                                 .HasForeignKey("VolunteerId")
                                 .HasConstraintName("fk_volunteers_volunteers_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.MainInfo.PhoneNumber", "Values", b2 =>
+                            b1.OwnsMany("PetHome.SharedKernel.ValueObjects.MainInfo.PhoneNumber", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectListVolunteerId")
                                         .HasColumnType("uuid");
@@ -455,7 +455,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                             b1.Navigation("Values");
                         });
 
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.MainInfo.SocialNetwork>", "SocialNetworks", b1 =>
+                    b.OwnsOne("PetHome.Core.Domain.Models.ValueObjectList<PetHome.SharedKernel.ValueObjects.MainInfo.SocialNetwork>", "SocialNetworks", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
                                 .HasColumnType("uuid");
@@ -470,7 +470,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                                 .HasForeignKey("VolunteerId")
                                 .HasConstraintName("fk_volunteers_volunteers_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.MainInfo.SocialNetwork", "Values", b2 =>
+                            b1.OwnsMany("PetHome.SharedKernel.ValueObjects.MainInfo.SocialNetwork", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectListVolunteerId")
                                         .HasColumnType("uuid");
@@ -497,7 +497,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                             b1.Navigation("Values");
                         });
 
-                    b.OwnsOne("PetHome.Core.Models.ValueObjectList<PetHome.Core.ValueObjects.MainInfo.Requisites>", "Requisites", b1 =>
+                    b.OwnsOne("PetHome.Core.Domain.Models.ValueObjectList<PetHome.SharedKernel.ValueObjects.MainInfo.Requisites>", "Requisites", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
                                 .HasColumnType("uuid");
@@ -512,7 +512,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                                 .HasForeignKey("VolunteerId")
                                 .HasConstraintName("fk_volunteers_volunteers_id");
 
-                            b1.OwnsMany("PetHome.Core.ValueObjects.MainInfo.Requisites", "Values", b2 =>
+                            b1.OwnsMany("PetHome.SharedKernel.ValueObjects.MainInfo.Requisites", "Values", b2 =>
                                 {
                                     b2.Property<Guid>("ValueObjectList<Requisites>VolunteerId")
                                         .HasColumnType("uuid");

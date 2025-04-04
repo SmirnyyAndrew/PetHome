@@ -23,22 +23,19 @@ public class CreatePetUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreatePetUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IPublisher _publisher;
     private readonly IValidator<CreatePetCommand> _validator;
 
     public CreatePetUseCase(
         IPetManagementReadDbContext volunteerReadDBContext,
         IVolunteerRepository volunteerRepository,
         ILogger<CreatePetUseCase> logger,
-         IUnitOfWork unitOfWork,
-        IPublisher publisher,
+        IUnitOfWork unitOfWork, 
         IValidator<CreatePetCommand> validator)
     {
         _volunteerReadDBContext = volunteerReadDBContext;
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
-        _publisher = publisher;
         _validator = validator;
     }
 
@@ -121,7 +118,6 @@ public class CreatePetUseCase
         await _volunteerRepository.Update(volunteer, ct);
 
         await _unitOfWork.SaveChanges(ct);
-        await _publisher.Publish(pet, ct);
         transaction.Commit();
 
         _logger.LogInformation("Pet с id = {0} и volunteer_id = {1} создан", pet.Id.Value, pet.VolunteerId.Value);

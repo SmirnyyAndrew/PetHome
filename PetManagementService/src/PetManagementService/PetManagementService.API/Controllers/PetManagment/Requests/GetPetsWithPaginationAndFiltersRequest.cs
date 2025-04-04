@@ -15,7 +15,8 @@ public record GetPetsWithPaginationAndFiltersRequest(Guid? VolunteerId,
     bool? IsVaccinated,
     bool? IsCastrated,
     PetStatusEnum? Status,
-    PagedListDto PagedListDto)
+    int PageSize, 
+    int PageNum)
 {
     public static implicit operator GetPetsWithPaginationAndFiltersQuery(GetPetsWithPaginationAndFiltersRequest request)
     {
@@ -31,6 +32,6 @@ public record GetPetsWithPaginationAndFiltersRequest(Guid? VolunteerId,
             request.IsVaccinated,
             request.IsCastrated,
             request.Status,
-            request.PagedListDto);
+            new PagedListDto(request.PageSize, request.PageNum));
     }
 }
