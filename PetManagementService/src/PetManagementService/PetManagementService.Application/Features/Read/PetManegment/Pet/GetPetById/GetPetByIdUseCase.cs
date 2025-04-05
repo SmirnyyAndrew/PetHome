@@ -44,27 +44,34 @@ public class GetPetByIdUseCase
                 return null;
             }
 
-            MediaFile? avatar = petDto.Avatar;
-            GetPresignedUrlRequest getPresignedAvatarUrlRequest = new GetPresignedUrlRequest(avatar.BucketName);
-            var getAvatarUrlResult = await _httpClient.GetPresignedUrl(avatar.Key.ToString(), getPresignedAvatarUrlRequest, ct);
-            if (getAvatarUrlResult.IsSuccess)
+            try
             {
-                petDto.AvatarUrl = getAvatarUrlResult.Value.Url;
-            }
+                MediaFile? avatar = petDto.Avatar;
+                GetPresignedUrlRequest getPresignedAvatarUrlRequest = new GetPresignedUrlRequest(avatar.BucketName);
+                var getAvatarUrlResult = await _httpClient.GetPresignedUrl(avatar.Key.ToString(), getPresignedAvatarUrlRequest, ct);
+                if (getAvatarUrlResult.IsSuccess)
+                {
+                    petDto.AvatarUrl = getAvatarUrlResult.Value.Url;
+                }
 
-            List<string> photosUrls = new List<string>();
-            foreach (var photo in petDto.Photos)
-            {
-                GetPresignedUrlRequest getPresignedPhotoUrlRequest = new GetPresignedUrlRequest(avatar.BucketName);
-                var getPhotoUrlResult = await _httpClient.GetPresignedUrl(photo.Key.ToString(), getPresignedPhotoUrlRequest, ct);
-                if (getPhotoUrlResult.IsSuccess)
-                    photosUrls.Add(getPhotoUrlResult.Value.Url);
+                List<string> photosUrls = new List<string>();
+                foreach (var photo in petDto.Photos)
+                {
+                    GetPresignedUrlRequest getPresignedPhotoUrlRequest = new GetPresignedUrlRequest(avatar.BucketName);
+                    var getPhotoUrlResult = await _httpClient.GetPresignedUrl(photo.Key.ToString(), getPresignedPhotoUrlRequest, ct);
+                    if (getPhotoUrlResult.IsSuccess)
+                        photosUrls.Add(getPhotoUrlResult.Value.Url);
+                }
+                petDto.PhotosUrls = photosUrls;
             }
-            petDto.PhotosUrls = photosUrls;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
 
             return petDto;
         }, options: null, ct);
-         
+
         return cachedPetDto;
     }
 }

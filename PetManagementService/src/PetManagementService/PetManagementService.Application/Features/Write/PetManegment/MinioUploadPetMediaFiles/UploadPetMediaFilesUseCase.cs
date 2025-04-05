@@ -68,23 +68,24 @@ public class UploadPetMediaFilesUseCase
             minioFilesInfoDto,
             command.UploadPetMediaDto.CreateBucketIfNotExist);
 
-        var uploadResult = await command.FilesHttpClient.UploadFiles(
-            uploadFileRequest,
-            ct);
+        try
+        {
+            var uploadResult = await command.FilesHttpClient.UploadFiles(
+                uploadFileRequest,
+                ct);
 
-        if (uploadResult.IsFailure)
+            IReadOnlyList<MediaFile> uploadPetMedias = uploadResult.Value;
+            pet.UploadMedia(uploadPetMedias);
+        }
+        catch (Exception ex)
         {
             MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(
-                command.UploadPetMediaDto.BucketName,
-                initedMinioFileNames);
+                   command.UploadPetMediaDto.BucketName,
+                   initedMinioFileNames);
             await _messageQueue.WriteAsync(minioFileInfoDto, ct);
-            //TODO: вынести error в nuget
-            return Errors.Conflict(uploadResult.Error).ToErrorList();
+
+            return Errors.Conflict(ex.Message).ToErrorList();
         }
-
-        IReadOnlyList<MediaFile> uploadPetMedias = uploadResult.Value;
-
-        pet.UploadMedia(uploadPetMedias);
 
         await _volunteerRepository.Update(volunteer, ct);
         await _unitOfWork.SaveChanges(ct);
@@ -92,7 +93,7 @@ public class UploadPetMediaFilesUseCase
 
         string message = $"В bucket {command.UploadPetMediaDto.BucketName} для pet {pet.Id} " +
             $"у volunteer {volunteer.Id} добавлены следующие файлы:\n " +
-            $"{string.Join("\n", uploadResult.Value.Select(x => x.FileName))}";
+            $"{string.Join("\n", command.FileNames)}";
         _logger.LogInformation(message);
         return message;
     }
