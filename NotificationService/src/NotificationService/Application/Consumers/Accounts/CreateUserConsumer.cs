@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using NotificationService.Infrastructure.Database;
-using PetHome.Accounts.Contracts.Messaging.UserManagment;
+using AccountService.Contracts.Messaging.UserManagment;
 
 namespace NotificationService.Application.Consumers.Accounts;
 

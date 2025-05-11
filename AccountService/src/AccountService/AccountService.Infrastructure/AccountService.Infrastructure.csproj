@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<Compile Remove="Database\Read\**" />
+		<Compile Remove="Database\Write\**" />
+		<EmbeddedResource Remove="Database\Read\**" />
+		<EmbeddedResource Remove="Database\Write\**" />
+		<None Remove="Database\Read\**" />
+		<None Remove="Database\Write\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AccountService.Application\AccountService.Application.csproj" />
+		<ProjectReference Include="..\AccountService.Domain\AccountService.Domain.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
+		<PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.38" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.0" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+		<PackageReference Include="Polly" Version="8.5.2" />
+		<PackageReference Include="Quartz" Version="3.13.1" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.1" />
+		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.13.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="FilesService">
+			<HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Communication">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Communication\bin\Debug\net8.0\FilesService.Communication.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Core">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+</Project>

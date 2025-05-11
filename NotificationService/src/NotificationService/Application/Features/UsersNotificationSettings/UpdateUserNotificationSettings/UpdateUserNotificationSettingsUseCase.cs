@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using NotificationService.Infrastructure.Database;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace NotificationService.Application.Features.UsersNotificationSettings.UpdateUserNotificationSettings;
 

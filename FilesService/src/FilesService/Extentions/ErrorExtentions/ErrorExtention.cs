@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
 using Microsoft.AspNetCore.Identity;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace FilesService.Extentions.ErrorExtentions;
 public static class ErrorExtention

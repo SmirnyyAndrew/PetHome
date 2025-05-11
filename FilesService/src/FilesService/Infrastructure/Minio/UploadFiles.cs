@@ -1,13 +1,18 @@
 ﻿using CSharpFunctionalExtensions;
 using FilesService.Core.Dto.File;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
-    //Загрузить несколько файлов
+    /// <summary>
+    /// Загрузить несколько файлов в minio
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<Result<IReadOnlyList<MediaFile>, string>> UploadFiles(
         UploadFilesRequest request,
         CancellationToken ct)

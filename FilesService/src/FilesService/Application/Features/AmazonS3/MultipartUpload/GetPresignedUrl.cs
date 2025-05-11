@@ -18,7 +18,14 @@ public static class GetPresignedUrl
         }
     }
 
-
+    /// <summary>
+    /// Получить ссылку для загрузки файла
+    /// </summary>
+    /// <param name="key">Название файла в Amazon s3</param>
+    /// <param name="request"></param>
+    /// <param name="s3Client"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private static async Task<IResult> Handler(
             [FromRoute] string key,
             [FromBody] GetPresignedUrlRequest request,

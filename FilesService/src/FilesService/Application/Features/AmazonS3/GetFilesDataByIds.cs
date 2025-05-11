@@ -16,6 +16,14 @@ public static class GetFilesDataByIds
             app.MapPost("amazon/files", Handler);
         }
     }
+
+    /// <summary>
+    /// Получить данные файлов через коллекцию id
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="repository"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private static async Task<IResult> Handler(
            [FromBody] GetFilesDataByIdsRequest request,
            MongoDbRepository repository,

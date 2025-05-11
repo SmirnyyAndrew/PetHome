@@ -1,11 +1,16 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using FilesService.Core.Interfaces;
 
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
-    // Проверить, существует ли bucket
+    /// <summary>
+    /// Проверить, существует ли bucket в minio
+    /// </summary>
+    /// <param name="bucketName"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private async Task<Result<string, Error>> CheckIsExistBucket(string bucketName, CancellationToken ct)
     {
         //Получить бакеты

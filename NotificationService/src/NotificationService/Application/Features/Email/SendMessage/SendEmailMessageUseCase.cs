@@ -2,8 +2,8 @@
 using NotificationService.Domain;
 using NotificationService.Infrastructure.EmailNotification;
 using NotificationService.Infrastructure.EmailNotification.EmailManagerImplementations;
-using PetHome.Core.Interfaces.FeatureManagment;
-using PetHome.Core.Response.Validation.Validator;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 
 namespace NotificationService.Application.Features.Email.SendMessage;
 

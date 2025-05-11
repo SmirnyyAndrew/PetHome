@@ -1,0 +1,6 @@
+﻿namespace DiscussionService.Contracts.Messaging;
+public record RemovedMessageInDiscussionEvent(
+    Guid DiscussionId, 
+    Guid UserId, 
+    Guid MessageId,
+    string Message);

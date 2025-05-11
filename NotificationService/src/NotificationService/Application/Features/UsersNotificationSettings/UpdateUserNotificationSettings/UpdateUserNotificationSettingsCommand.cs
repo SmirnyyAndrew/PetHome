@@ -1,5 +1,5 @@
 ﻿using NotificationService.Application.Dto;
-using PetHome.Core.Interfaces.FeatureManagment;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
 
 namespace NotificationService.Application.Features.UsersNotificationSettings.UpdateUserNotificationSettings;
 

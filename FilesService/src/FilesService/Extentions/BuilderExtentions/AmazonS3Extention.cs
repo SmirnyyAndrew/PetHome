@@ -1,5 +1,5 @@
 ﻿using Amazon.S3;
-using FilesService.Core.Options;
+using PetHome.Core.Web.Options.FileService;
 
 namespace FilesService.Extentions.BuilderExtentions;
 

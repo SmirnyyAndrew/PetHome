@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using FilesService.Core.ErrorManagment;
+using PetHome.SharedKernel.Responses.ErrorManagement;
 using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 using Minio.DataModel.Args;
@@ -7,7 +7,12 @@ using Minio.DataModel.Args;
 namespace FilesService.Infrastructure.Minio;
 public partial class MinioProvider : IMinioFilesHttpClient
 {
-    //Загрузить файл
+    /// <summary>
+    /// Загрузить файл в minio с проверкой существования bucket
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<UnitResult<string>> UploadFileWithDataChecking( 
        UploadFileRequest request,
        CancellationToken ct)

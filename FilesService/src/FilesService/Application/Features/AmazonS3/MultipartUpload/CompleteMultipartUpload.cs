@@ -20,6 +20,16 @@ public static class CompleteMultipartUpload
             app.MapPost("amazon/files/{key}/complete-multipart/presigned", Handler);
         }
     }
+
+    /// <summary>
+    /// Завершить multipart загрузку
+    /// </summary>
+    /// <param name="key">Название файла в Amazon s3</param>
+    /// <param name="request"></param>
+    /// <param name="s3Client"></param>
+    /// <param name="repository"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private static async Task<IResult> Handler(
           [FromRoute] string key,
           [FromBody] CompleteMultipartRequest request,

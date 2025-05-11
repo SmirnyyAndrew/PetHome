@@ -16,6 +16,14 @@ public static class StartMultipartUpload
             app.MapPost("amazon/files/multipart/presigned", Handler);
         }
     }
+
+    /// <summary>
+    /// Начать multipart загрузку
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="s3Client"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     private static async Task<IResult> Handler(
            [FromBody] StartMultipartUploadRequest request,
            IAmazonS3 s3Client,
