@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Requests\**" />
+		<EmbeddedResource Remove="Requests\**" />
+		<None Remove="Requests\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PetManagementService.Application\PetManagementService.Application.csproj" />
+		<ProjectReference Include="..\PetManagementService.Domain\PetManagementService.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="FilesService.Core">
+	    <HintPath>..\..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.Core">
+	    <HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PetHome.SharedKernel">
+	    <HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+	  </Reference> 
+	</ItemGroup>
+ 
+
+</Project>

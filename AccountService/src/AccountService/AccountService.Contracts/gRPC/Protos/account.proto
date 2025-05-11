@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "PetHome.Accounts.Contracts";
+
+service AccountGRPC {
+  rpc GetUserEmailById (GetUserEmailByIdRequest) returns (GetUserEmailByIdResponse);
+}
+
+message GetUserEmailByIdRequest {
+  string id = 1;
+}
+
+message GetUserEmailByIdResponse {
+  string email = 1;
+}

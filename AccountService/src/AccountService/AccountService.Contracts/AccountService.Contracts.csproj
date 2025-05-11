@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Dto\**" />
+		<EmbeddedResource Remove="Dto\**" />
+		<None Remove="Dto\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.30.1" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.70.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.71.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="FilesService">
+			<HintPath>..\..\..\..\FilesService\src\FilesService\bin\Debug\net8.0\FilesService.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Communication">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Communication\bin\Debug\net8.0\FilesService.Communication.dll</HintPath>
+		</Reference>
+		<Reference Include="FilesService.Core">
+			<HintPath>..\..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.Core">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.Core\bin\Debug\net8.0\PetHome.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="PetHome.SharedKernel">
+			<HintPath>..\..\..\..\Shared\src\Shared\PetHome.SharedKernel\bin\Debug\net8.0\PetHome.SharedKernel.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Protobuf Include="gRPC/Protos/account.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+
+</Project>

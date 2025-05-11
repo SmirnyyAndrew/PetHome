@@ -1,5 +1,5 @@
-﻿using PetHome.Accounts.Contracts.HttpCommunication;
-using PetHome.Core.Interfaces.FeatureManagment;
+﻿using AccountService.Contracts.HttpCommunication;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
 
 namespace NotificationService.DependencyInjections.ApplicationDependencyInjections;
 

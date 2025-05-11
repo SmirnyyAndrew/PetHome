@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using NotificationService.Application.Features.GeneralNotification.SendMessageEverywhere;
-using PetHome.Discussions.Contracts.Messaging;
+using DiscussionService.Contracts.Messaging;
 
 namespace NotificationService.Application.Consumers.Discussions;
 

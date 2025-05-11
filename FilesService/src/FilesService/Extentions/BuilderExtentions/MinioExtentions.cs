@@ -1,4 +1,4 @@
-﻿using FilesService.Core.Options;
+﻿using PetHome.Core.Web.Options.FileService;
 using Minio;
 
 namespace FilesService.Extentions.BuilderExtentions;
