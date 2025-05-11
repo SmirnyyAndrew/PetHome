@@ -1,6 +1,6 @@
-﻿using MassTransit;
-using NotificationService.Infrastructure.Database;
-using AccountService.Contracts.Messaging.UserManagment;
+﻿using AccountService.Contracts.Messaging.UserManagement;
+using MassTransit;
+using NotificationService.Infrastructure.Database; 
 
 namespace NotificationService.Application.Consumers.Accounts;
 

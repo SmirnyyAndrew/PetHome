@@ -1,4 +1,4 @@
-﻿using AccountService.Contracts.Messaging.UserManagment;
+﻿using AccountService.Contracts.Messaging.UserManagement; 
 using MassTransit;
 using NotificationService.Core.EmailMessages.Templates;
 using NotificationService.Infrastructure.EmailNotification;
