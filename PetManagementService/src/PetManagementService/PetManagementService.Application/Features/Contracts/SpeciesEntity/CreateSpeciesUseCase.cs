@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Infrastructure.Database;
 using PetHome.SharedKernel.Constants;
-using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
-using PetManagementService.Domain.SpeciesManagment.SpeciesEntity; 
+using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
+using Error = PetHome.SharedKernel.Responses.ErrorManagement.Error;
 
 namespace PetManagementService.Application.Features.Contracts.SpeciesEntity;
 public class CreateSpeciesUseCase
@@ -26,8 +26,8 @@ public class CreateSpeciesUseCase
 
         var transaction = await _unitOfWork.BeginTransaction();
         await _repository.Add(species, ct);
-        await _unitOfWork.SaveChanges(ct);
         transaction.Commit();
+        await _unitOfWork.SaveChanges(ct);
 
         return species.Id;
     }

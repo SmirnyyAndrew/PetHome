@@ -16,6 +16,7 @@ public static class ApplicationDependencyInjections
         services.AddCors();
         services.ApplyAuthenticationAuthorizeConfiguration(configuration);
         services.AddSwaggerGetWithAuthentication();
+        services.AddGraphQLDependencyInjection(); 
         //services.AddFluentValidationAutoValidation(configuration =>
         //{
         //    configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();

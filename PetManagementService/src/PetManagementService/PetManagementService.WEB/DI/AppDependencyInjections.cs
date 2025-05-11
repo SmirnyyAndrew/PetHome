@@ -10,7 +10,8 @@ public static class AppDependencyInjections
         app.AddCORS("http://localhost:5173");
         app.UseExceptionHandler();
         app.AddGRPCServices(); 
-        app.UseOpenTelemetryPrometheusScrapingEndpoint(); 
+        app.UseOpenTelemetryPrometheusScrapingEndpoint();
+        app.MapGraphQL();
         return app;
     }
 }

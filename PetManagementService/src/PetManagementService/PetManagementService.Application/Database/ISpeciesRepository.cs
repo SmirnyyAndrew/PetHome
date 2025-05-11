@@ -1,6 +1,6 @@
-﻿using CSharpFunctionalExtensions;
-using PetHome.SharedKernel.Responses.ErrorManagement;
+﻿using CSharpFunctionalExtensions; 
 using PetManagementService.Domain.SpeciesManagment.SpeciesEntity;
+using Error = PetHome.SharedKernel.Responses.ErrorManagement.Error;
 
 namespace PetManagementService.Application.Database;
 public interface ISpeciesRepository

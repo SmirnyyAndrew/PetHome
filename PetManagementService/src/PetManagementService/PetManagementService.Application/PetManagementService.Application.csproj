@@ -12,6 +12,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="HotChocolate" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.Abstractions" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.5" />
+		<PackageReference Include="HotChocolate.Data" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.Language" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.Types" Version="15.1.3" />
+		<PackageReference Include="HotChocolate.Types.Filters" Version="13.9.14" />
 		<PackageReference Include="System.Text.Json" Version="9.0.0" /> 
 		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
 		<PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
