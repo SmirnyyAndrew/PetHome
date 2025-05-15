@@ -46,3 +46,23 @@ EXPOSE 8080</pre>
     serialNumber  
   }  
 } </pre>
+
+<br> 
+
+<pre>{
+  pets(where:  {
+      or: [
+      { color: { eq: "Pink" } },
+      { serialNumber: { gt: 30 } }
+    ],
+      and: [ {name:  {contains: "b"}}
+    ]
+  }){
+    color
+    name
+    birthDate
+    serialNumber
+  }
+} </pre>
+
+
