@@ -12,6 +12,13 @@ services:
     environment:
         - ASPNETCORE_ENVIRONMENT=Docker
 
+  frontend:
+    container_name: front
+    image: pethome.frontend:latest
+    ports:
+        - "8888:33445"
+    restart: always 
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq_main
