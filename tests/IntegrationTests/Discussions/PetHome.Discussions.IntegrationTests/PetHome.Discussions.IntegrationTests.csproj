@@ -32,15 +32,4 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\src\Discussions\PetHome.Discussions.Application\PetHome.Discussions.Application.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Discussions\PetHome.Discussions.Contracts\PetHome.Discussions.Contracts.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Discussions\PetHome.Discussions.Domain\PetHome.Discussions.Domain.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Discussions\PetHome.Discussions.Infrastructure\PetHome.Discussions.Infrastructure.csproj" />
-		<ProjectReference Include="..\..\..\..\src\PetHome.API\PetHome.API.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Shared\PetHome.Core\PetHome.Core.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Shared\PetHome.Framework\PetHome.Framework.csproj" />
-		<ProjectReference Include="..\..\..\..\src\Shared\PetHome.SharedKernel\PetHome.SharedKernel.csproj" />
-	</ItemGroup>
-
 </Project>

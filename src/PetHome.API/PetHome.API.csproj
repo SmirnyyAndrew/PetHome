@@ -31,19 +31,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" /> 
   </ItemGroup>
 
-	<ItemGroup> 
-		<ProjectReference Include="..\Accounts\PetHome.Accounts.API\PetHome.Accounts.API.csproj" /> 
-		<ProjectReference Include="..\Accounts\PetHome.Accounts.Infrastructure\PetHome.Accounts.Infrastructure.csproj" /> 
-		<ProjectReference Include="..\Discussions\PetHome.Discussions.API\PetHome.Discussions.API.csproj" /> 
-		<ProjectReference Include="..\Discussions\PetHome.Discussions.Contracts\PetHome.Discussions.Contracts.csproj" /> 
-		<ProjectReference Include="..\Discussions\PetHome.Discussions.Infrastructure\PetHome.Discussions.Infrastructure.csproj" />    
-		<ProjectReference Include="..\Species\PetHome.Species.API\PetHome.Species.API.csproj" />    
-		<ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.API\PetHome.VolunteerRequests.API.csproj" />    
-		<ProjectReference Include="..\VolunteerRequests\PetHome.VolunteerRequests.Infrastructure\PetHome.VolunteerRequests.Infrastructure.csproj" /> 
-		<ProjectReference Include="..\Volunteers\PetHome.Volunteers.API\PetHome.Volunteers.API.csproj" />
-		<ProjectReference Include="..\Volunteers\PetHome.Volunteers.Infrastructure\PetHome.Volunteers.Infrastructure.csproj" />
-	</ItemGroup>
-
 	<ItemGroup>
 	  <Folder Include="MinimumApi\Agregates\Accounts\" />
 	</ItemGroup>
