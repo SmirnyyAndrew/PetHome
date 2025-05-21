@@ -5,20 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{93FD1EE1-20EB-42CE-BCB1-0B3BEC26F4AB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E134002C-2D5C-4EA8-A925-A4D138293D4A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountService", "AccountService", "{8CF84D71-1943-4582-B48D-1C6BB95490B3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{A1885A1A-85A6-4EC5-A1EF-22E9752CC551}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Volunteers", "Volunteers", "{12C4FE6C-2617-4DF0-922B-4EF949B6936D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Volunteers.UnitTests", "tests\UnitTests\Volunteers\PetHome.Volunteers.UnitTests\PetHome.Volunteers.UnitTests.csproj", "{22BE6767-743B-4E37-AD76-D8890BFB6D17}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{DB246CD4-6CFB-4CD3-8824-5089C4635CB6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHome.Accounts.IntegrationTests", "tests\IntegrationTests\Accounts\PetHome.Accounts.IntegrationTests\PetHome.Accounts.IntegrationTests.csproj", "{6641295F-B4F5-4547-8393-634D11A21A2C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesService", "FilesService\src\FilesService\FilesService.csproj", "{D2749D74-C70D-4D5D-8E2E-0270AE036272}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\src\NotificationService\NotificationService.csproj", "{91D32D4D-906E-483D-ACD8-EC8EC186501C}"
@@ -33,14 +19,6 @@ Global
 		{93FD1EE1-20EB-42CE-BCB1-0B3BEC26F4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93FD1EE1-20EB-42CE-BCB1-0B3BEC26F4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93FD1EE1-20EB-42CE-BCB1-0B3BEC26F4AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22BE6767-743B-4E37-AD76-D8890BFB6D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22BE6767-743B-4E37-AD76-D8890BFB6D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22BE6767-743B-4E37-AD76-D8890BFB6D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22BE6767-743B-4E37-AD76-D8890BFB6D17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6641295F-B4F5-4547-8393-634D11A21A2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6641295F-B4F5-4547-8393-634D11A21A2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6641295F-B4F5-4547-8393-634D11A21A2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6641295F-B4F5-4547-8393-634D11A21A2C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2749D74-C70D-4D5D-8E2E-0270AE036272}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,14 +30,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8CF84D71-1943-4582-B48D-1C6BB95490B3} = {E134002C-2D5C-4EA8-A925-A4D138293D4A}
-		{A1885A1A-85A6-4EC5-A1EF-22E9752CC551} = {E134002C-2D5C-4EA8-A925-A4D138293D4A}
-		{12C4FE6C-2617-4DF0-922B-4EF949B6936D} = {A1885A1A-85A6-4EC5-A1EF-22E9752CC551}
-		{22BE6767-743B-4E37-AD76-D8890BFB6D17} = {12C4FE6C-2617-4DF0-922B-4EF949B6936D}
-		{DB246CD4-6CFB-4CD3-8824-5089C4635CB6} = {8CF84D71-1943-4582-B48D-1C6BB95490B3}
-		{6641295F-B4F5-4547-8393-634D11A21A2C} = {DB246CD4-6CFB-4CD3-8824-5089C4635CB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F9854031-7707-4BE6-A92C-67D9DA83E819}
