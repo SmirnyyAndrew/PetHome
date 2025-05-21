@@ -39,7 +39,10 @@ public class ChangePetSerialNumberUseCase
 
         Volunteer volunteer = volunteerResult.Value;
 
-        Pet? pet = volunteer.Pets.Where(x => x.Id == command.ChangeNumberDto.PetId).FirstOrDefault();
+        Pet? pet = volunteer.Pets
+            .ToList()
+            .Where(x => x.Id == command.ChangeNumberDto.PetId)
+            .FirstOrDefault();
         if (pet == null)
             return Errors.NotFound($"Питомец {command.ChangeNumberDto.PetId} у волонтёра {command.VolunteerId}")
                 .ToErrorList();

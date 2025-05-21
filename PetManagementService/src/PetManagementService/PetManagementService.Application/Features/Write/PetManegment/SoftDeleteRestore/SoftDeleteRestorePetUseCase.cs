@@ -49,6 +49,7 @@ public class SoftDeleteRestorePetUseCase
 
         Volunteer volunteer = getVolunteerResult.Value;
         Pet? pet = volunteer.Pets
+            .ToList()
             .FirstOrDefault(p => p.Id == command.PetId);
         if (pet == null)
         {

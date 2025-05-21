@@ -58,6 +58,7 @@ public class ChangePetInfoUseCase
 
         var isBreedExist = speciesResult
             .SelectMany(b => b.Breeds)
+            .ToList()
             .Any(x => x.Id == command.BreedId);
         if (isBreedExist == false)
         {
@@ -72,6 +73,7 @@ public class ChangePetInfoUseCase
 
         Volunteer volunteer = getVolunteerResult.Value;
         Pet? pet = volunteer.Pets
+            .ToList()
             .FirstOrDefault(p => p.Id == command.PetId);
         if (pet is null)
         {

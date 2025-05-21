@@ -45,7 +45,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Read
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_specieses", x => x.Id);
+                    table.PrimaryKey("pkSpecieses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +77,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Read
                 {
                     table.PrimaryKey("pk_breeds", x => x.id);
                     table.ForeignKey(
-                        name: "fk_breeds_specieses_species_id",
+                        name: "fk_breedsSpeciesesSpecies_id",
                         column: x => x.species_id,
                         principalTable: "specieses",
                         principalColumn: "Id",
@@ -85,7 +85,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Read
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_breeds_species_id",
+                name: "ix_breedsSpecies_id",
                 table: "breeds",
                 column: "species_id");
         }

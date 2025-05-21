@@ -13,7 +13,8 @@ public record CreateVolunteerRequest(
         IEnumerable<string> PhoneNumbers,
         IEnumerable<SocialNetworkDto> SocialNetworks,
         IEnumerable<CertificateDto> Certificates,
-        IEnumerable<RequisitesesDto> RequisitesesDto)
+        IEnumerable<RequisitesesDto> RequisitesesDto,
+        Guid UserId)
 {
     public static implicit operator CreateVolunteerCommand(CreateVolunteerRequest request)
     {
@@ -26,7 +27,8 @@ public record CreateVolunteerRequest(
             request.PhoneNumbers,
             request.SocialNetworks,
             request.Certificates,
-            request.RequisitesesDto);
+            request.RequisitesesDto,
+            request.UserId);
     }
 }
 

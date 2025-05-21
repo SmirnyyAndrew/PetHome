@@ -12,4 +12,5 @@ public record CreateVolunteerCommand(
         IEnumerable<string> PhoneNumbers,
         IEnumerable<SocialNetworkDto> SocialNetworks,
         IEnumerable<CertificateDto> Certificates,
-        IEnumerable<RequisitesesDto> Requisiteses) : ICommand;
+        IEnumerable<RequisitesesDto> Requisiteses,
+        Guid UserId) : ICommand;

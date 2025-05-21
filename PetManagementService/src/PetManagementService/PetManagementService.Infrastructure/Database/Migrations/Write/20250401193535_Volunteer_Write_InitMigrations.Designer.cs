@@ -219,7 +219,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                         .HasName("pk_breeds");
 
                     b.HasIndex("SpeciesId")
-                        .HasDatabaseName("ix_breeds_species_id");
+                        .HasDatabaseName("ix_breedsSpecies_id");
 
                     b.ToTable("breeds", (string)null);
                 });
@@ -244,7 +244,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                         .HasColumnName("name");
 
                     b.HasKey("Id")
-                        .HasName("pk_specieses");
+                        .HasName("pkSpecieses");
 
                     b.ToTable("specieses", (string)null);
                 });
@@ -565,7 +565,7 @@ namespace PetManagementService.Infrastructure.Database.Migrations.Write
                         .WithMany("Breeds")
                         .HasForeignKey("SpeciesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_breeds_specieses_species_id");
+                        .HasConstraintName("fk_breedsSpeciesesSpecies_id");
                 });
 
             modelBuilder.Entity("PetManagementService.Domain.PetManagment.VolunteerEntity.Volunteer", b =>

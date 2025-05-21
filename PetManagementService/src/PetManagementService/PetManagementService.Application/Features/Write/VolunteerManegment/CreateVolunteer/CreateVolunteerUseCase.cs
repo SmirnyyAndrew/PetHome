@@ -8,6 +8,7 @@ using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
 using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
+using PetHome.SharedKernel.ValueObjects.User;
 using PetManagementService.Application.Database;
 using PetManagementService.Domain.PetManagment.VolunteerEntity;
 
@@ -76,8 +77,10 @@ public class CreateVolunteerUseCase
             startVolunteeringDate,
             phoneNumberList,
             requisitesList,
-            socialNetworkList)
-            .Value;
+            socialNetworkList).Value;
+
+        UserId userId = UserId.Create(command.UserId).Value;
+        volunteer.SetUserId(userId);
 
         //TODO: применить event из нового shared
         //CreatedVolunteerAccountEvent createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(

@@ -46,7 +46,9 @@ public class DeletePetMediaFilesUseCase
             return Errors.NotFound($"Волонтёр с id {command.VolunteerId}").ToErrorList();
 
         Volunteer volunteer = getVolunteerResult.Value;
-        Pet? pet = volunteer.Pets.Where(x => x.Id == command.DeletePetMediaFilesDto.PetId)
+        Pet? pet = volunteer.Pets
+            .ToList()
+            .Where(x => x.Id == command.DeletePetMediaFilesDto.PetId)
             .FirstOrDefault();
         if (pet == null)
             return Errors.NotFound($"Питомец с id {command.DeletePetMediaFilesDto.PetId}").ToErrorList();
