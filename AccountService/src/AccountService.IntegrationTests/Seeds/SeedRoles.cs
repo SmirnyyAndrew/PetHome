@@ -1,4 +1,5 @@
-﻿using AccountService.Domain.Aggregates;
+﻿using AccountService.Domain.Accounts;
+using AccountService.Domain.Aggregates;
 namespace AccountService.IntegrationTests.Seeds;
 public partial class SeedManager
 {
@@ -10,9 +11,9 @@ public partial class SeedManager
         {
             result = new List<Role>()
                 {
-                    Role.Create("admin").Value,
-                    Role.Create("participant").Value,
-                    Role.Create("volunteer").Value,
+                    Role.Create(AdminAccount.ROLE).Value,
+                    Role.Create(ParticipantAccount.ROLE).Value,
+                    Role.Create(VolunteerAccount.ROLE).Value,
                     Role.Create("visitor").Value,
                 };
 

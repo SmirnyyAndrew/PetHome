@@ -11,6 +11,7 @@ using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Write.CreateUser;
@@ -46,9 +47,9 @@ public class CreateUserUseCase
         var geRoleResult = await _repository.GetRole(command.RoleId);
         if (geRoleResult.IsFailure)
             return geRoleResult.Error.ToErrorList();
-
-        Role role = geRoleResult.Value;
-        User user = User.Create(email, userName, role).Value;
+         
+        RoleId roleId = RoleId.Create(geRoleResult.Value.Id).Value;
+        User user = User.Create(email, userName, roleId).Value;
         UserId userId = UserId.Create(user.Id).Value;
 
         var transaction = await _unitOfWork.BeginTransaction(ct);

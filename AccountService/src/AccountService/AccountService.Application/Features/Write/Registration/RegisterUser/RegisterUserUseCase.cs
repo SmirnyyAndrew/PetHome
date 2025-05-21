@@ -14,6 +14,7 @@ using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 using PetHome.SharedKernel.ValueObjects.User;
 namespace AccountService.Application.Features.Write.Registration.RegisterUser;
 public class RegisterUserUseCase
@@ -61,22 +62,23 @@ public class RegisterUserUseCase
         var roleResult = await _repository.GetRole(ParticipantAccount.ROLE);
         if (roleResult.IsFailure)
             return roleResult.Error.ToErrorList();
-        Role role = roleResult.Value;
 
+        RoleId roleId = RoleId.Create(roleResult.Value.Id).Value;
         UserName userName = UserName.Create(command.UserName).Value;
-        User user = User.Create(email, userName, role).Value;
+        User user = User.Create(email, userName, roleId).Value;
 
         var result = await _userManager.CreateAsync(user, command.Password);
         if (result.Succeeded is false)
             return result.Errors.ToErrorList();
         await _unitOfWork.SaveChanges(ct);
 
-        CreatedUserEvent createdUserEvent = new CreatedUserEvent(
-            user.Id,
-            user.Email,
-            user.UserName,
-            user.Role?.Name);
-        await _publisher.Publish(createdUserEvent, ct);
+        //TODO: раскомментировать
+        //CreatedUserEvent createdUserEvent = new CreatedUserEvent(
+        //    user.Id,
+        //    user.Email,
+        //    user.UserName,
+        //    user.Role?.Name);
+        //await _publisher.Publish(createdUserEvent, ct);
 
         transaction.Commit();
 

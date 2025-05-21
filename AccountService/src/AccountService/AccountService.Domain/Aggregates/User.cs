@@ -33,30 +33,29 @@ public class User : IdentityUser<Guid>, ISoftDeletableEntity
     private User(
             Email email,
             UserName userName,
-            Role role,
+            RoleId roleId,
             MediaFile avatar = null,
             Guid id = default)
     {
         //Если нужно создать пользователя с определенным id
         Id = id == default ? Guid.NewGuid() : id;
         Email = email;
-        UserName = userName;
-        Role = role;
-        RoleId = RoleId.Create(role.Id).Value;
+        UserName = userName; 
+        RoleId = RoleId.Create(roleId).Value;
         Avatar = avatar;
     }
 
     public static Result<User, Error> Create(
             Email email,
             UserName userName,
-            Role role,
+            RoleId roleId,
             MediaFile avatar = null,
             Guid id = default)
     {
-        bool isCorrectUserData = role != null && email != null && role != null;
+        bool isCorrectUserData = roleId != null && email != null;
 
         if (isCorrectUserData)
-            return new User(email, userName, role, avatar, id);
+            return new User(email, userName, roleId, avatar, id);
 
         return Errors.Validation("User");
     }

@@ -13,6 +13,7 @@ using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
+using PetHome.SharedKernel.ValueObjects.RolePermission;
 using PetHome.SharedKernel.ValueObjects.User;
 
 namespace AccountService.Application.Features.Write.CreateAdmin;
@@ -49,10 +50,10 @@ public class CreateAdminUseCase
         if (geRoleResult.IsFailure)
             return geRoleResult.Error.ToErrorList();
 
-        Role role = geRoleResult.Value;
+        RoleId roleId =RoleId.Create(geRoleResult.Value.Id).Value;
         Email email = Email.Create(command.Email).Value;
         UserName userName = UserName.Create(command.UserName).Value;
-        User user = User.Create(email, userName, role).Value;
+        User user = User.Create(email, userName, roleId).Value;
         AdminAccount admin = AdminAccount.Create(user).Value;
 
 
