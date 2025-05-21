@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionService.WEB", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionService.API", "src\DiscussionService\DiscussionService.API\DiscussionService.API.csproj", "{11B6B590-E3D2-4CB3-B61F-03C64A31CC51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionService.IntegrationTests", "src\DiscussionService.IntegrationTests\DiscussionService.IntegrationTests.csproj", "{D1657550-B817-4BCE-8F4E-F63375C1976C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2CFD3BC5-D35A-4D8F-B295-F9C43D0C6BAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,10 @@ Global
 		{11B6B590-E3D2-4CB3-B61F-03C64A31CC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11B6B590-E3D2-4CB3-B61F-03C64A31CC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11B6B590-E3D2-4CB3-B61F-03C64A31CC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1657550-B817-4BCE-8F4E-F63375C1976C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1657550-B817-4BCE-8F4E-F63375C1976C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1657550-B817-4BCE-8F4E-F63375C1976C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1657550-B817-4BCE-8F4E-F63375C1976C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +66,7 @@ Global
 		{B6E6CC84-560C-400C-96E5-D9E23FFEF539} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
 		{526A9CC2-587D-4B59-A957-F41F867BE1DA} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
 		{11B6B590-E3D2-4CB3-B61F-03C64A31CC51} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
+		{D1657550-B817-4BCE-8F4E-F63375C1976C} = {2CFD3BC5-D35A-4D8F-B295-F9C43D0C6BAD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {163D73E0-78F6-4FDD-9D13-6E5A51FC07BB}

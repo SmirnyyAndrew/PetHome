@@ -12,7 +12,7 @@ public class Discussion : DomainEntity<DiscussionId>
     public DiscussionId Id { get; private set; }
     public RelationId RelationId { get; private set; }
     public Relation Relation { get; private set; }
-    public List<UserId> UserIds { get; private set; } = [];
+    public List<UserId> UserIds { get; set; } = [];
     public List<Message> Messages { get; private set; } = [];
     public DiscussionStatus Status { get; private set; }
 
@@ -34,8 +34,8 @@ public class Discussion : DomainEntity<DiscussionId>
     public static Result<Discussion, Error> Create(
         RelationId relationId, IEnumerable<UserId> userIds)
     {
-        if (userIds.Count() < 2)
-            return UsersCountError;
+        //if (userIds.Count() < 2)
+        //    return UsersCountError;
 
         Discussion discussion = new Discussion(
             DiscussionId.Create().Value,

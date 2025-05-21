@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHome.SharedKernel.ValueObjects.Discussion;
 using PetHome.SharedKernel.ValueObjects.Discussion.Relation;
 using PetHome.Discussions.Domain;
+using PetHome.SharedKernel.ValueObjects.User;
 
 namespace DiscussionService.Infrastructure.Database.Write.Configuration;
 public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
@@ -45,5 +46,6 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
             tb.Property(d => d.Value)
               .HasColumnName("user_id");
         });
+
     }
 }

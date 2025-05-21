@@ -3,6 +3,7 @@ using System;
 using DiscussionService.Infrastructure.Database.Write;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DiscussionService.Infrastructure.Database.Migrations.Write
 {
     [DbContext(typeof(DiscussionDbContext))]
-    partial class DiscussionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250521140314_Discussions_Write_InitMigrations")]
+    partial class Discussions_Write_InitMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
