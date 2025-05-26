@@ -7,9 +7,11 @@ using FluentValidation;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
@@ -26,6 +28,7 @@ public class RegisterUserUseCase
     private readonly IPublishEndpoint _publisher;
     private readonly IValidator<RegisterUserCommand> _validator;
     private readonly ILogger<RegisterUserUseCase> _logger;
+    private readonly IHostEnvironment _env;
 
     public RegisterUserUseCase(
         IAuthenticationRepository repository,
@@ -33,7 +36,8 @@ public class RegisterUserUseCase
         [FromKeyedServices(Constants.Database.ACCOUNT_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         IPublishEndpoint publisher,
         IValidator<RegisterUserCommand> validator,
-        ILogger<RegisterUserUseCase> logger)
+        ILogger<RegisterUserUseCase> logger,
+        IHostEnvironment env)
     {
         _repository = repository;
         _userManager = userManager;
@@ -41,6 +45,7 @@ public class RegisterUserUseCase
         _publisher = publisher;
         _validator = validator;
         _logger = logger;
+        _env = env;
     }
 
 
@@ -72,13 +77,15 @@ public class RegisterUserUseCase
             return result.Errors.ToErrorList();
         await _unitOfWork.SaveChanges(ct);
 
-        //TODO: раскомментировать
-        //CreatedUserEvent createdUserEvent = new CreatedUserEvent(
-        //    user.Id,
-        //    user.Email,
-        //    user.UserName,
-        //    user.Role?.Name);
-        //await _publisher.Publish(createdUserEvent, ct);
+        if (_env.IsTestEnvironment() is false) 
+        {
+            CreatedUserEvent createdUserEvent = new CreatedUserEvent(
+                user.Id,
+                user.Email,
+                user.UserName,
+                user.Role?.Name);
+            await _publisher.Publish(createdUserEvent, ct);
+        }
 
         transaction.Commit();
 

@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.Constants;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -32,14 +34,16 @@ public class IntegrationTestFactory
     private IUnitOfWork _unitOfWork;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
-    { 
+    {
         builder.ConfigureTestServices(ConfigureDefault);
+        builder.AddEnvironment(Environments.Test);
     }
+
 
     private void ConfigureDefault(IServiceCollection services)
     {
         services.RemoveAll(typeof(AuthorizationDbContext));
-        services.RemoveAll(typeof(IAuthenticationRepository)); 
+        services.RemoveAll(typeof(IAuthenticationRepository));
 
 
         _repository = new AuthenticationRepository(new AuthorizationDbContext(_dbContainer.GetConnectionString()), default);
@@ -47,7 +51,7 @@ public class IntegrationTestFactory
 
         services.AddScoped(_ => new AuthorizationDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped(_ => _repository);
-        services.AddScoped(_ => _unitOfWork); 
+        services.AddScoped(_ => _unitOfWork);
     }
 
     public async Task InitializeAsync()

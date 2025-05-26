@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using Xunit;
 
-namespace AccountService.IntegrationTests.Features.Write.RegisterAccount;
-public class RegisterParticipantUserUseCaseTest : AccountFactory
+namespace AccountService.IntegrationTests.Features.Write.RegisterUser;
+public class RegisterUserUseCaseTest : AccountFactory
 {
     private readonly ICommandHandler<User, RegisterUserCommand> _sut;
 
-    public RegisterParticipantUserUseCaseTest(IntegrationTestFactory factory) : base(factory)
+    public RegisterUserUseCaseTest(IntegrationTestFactory factory) : base(factory)
     {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<User, RegisterUserCommand>>();
     }
