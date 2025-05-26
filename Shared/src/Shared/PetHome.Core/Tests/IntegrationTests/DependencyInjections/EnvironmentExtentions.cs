@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Environments = PetHome.Core.Tests.IntegrationTests.Constants.Environments;
+using Environments = PetHome.Core.Tests.Constants.Environments;
 
 namespace PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 public static class EnvironmentExtentions

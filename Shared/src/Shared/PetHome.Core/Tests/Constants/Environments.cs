@@ -1,4 +1,4 @@
-﻿namespace PetHome.Core.Tests.IntegrationTests.Constants;
+﻿namespace PetHome.Core.Tests.Constants;
 public enum Environments
 {
     Dev,
