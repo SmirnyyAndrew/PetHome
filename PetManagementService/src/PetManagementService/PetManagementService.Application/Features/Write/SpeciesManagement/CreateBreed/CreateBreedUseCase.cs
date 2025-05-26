@@ -1,9 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
@@ -18,6 +20,7 @@ public class CreateBreedUseCase
     private readonly ILogger<CreateBreedUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateBreedCommand> _validator;
+    private readonly IHostEnvironment _env;
     private readonly IPublishEndpoint _publisher;
 
     public CreateBreedUseCase(
@@ -25,12 +28,14 @@ public class CreateBreedUseCase
         ILogger<CreateBreedUseCase> logger,
         IPublishEndpoint publisher,
          IUnitOfWork unitOfWork,
-        IValidator<CreateBreedCommand> validator)
+        IValidator<CreateBreedCommand> validator,
+        IHostEnvironment env)
     {
         SpeciesRepository = speciesRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _env = env;
         _publisher = publisher;
     }
 
@@ -58,10 +63,13 @@ public class CreateBreedUseCase
 
         await _unitOfWork.SaveChanges(ct);
 
-        CreatedBreedEvent createdBreedEvent = new CreatedBreedEvent(
+        if (!_env.IsTestEnvironment())
+        {
+            CreatedBreedEvent createdBreedEvent = new CreatedBreedEvent(
             species.Id,
             species.Name);
-        await _publisher.Publish(createdBreedEvent, ct);
+            await _publisher.Publish(createdBreedEvent, ct);
+        }
 
         transaction.Commit();
 

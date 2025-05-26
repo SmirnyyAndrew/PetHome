@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using FilesService.Communication.HttpClients;
+using FilesService.Core.Interfaces;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetManagementService.Application.Features.Contracts.SpeciesEntity;
@@ -29,6 +31,7 @@ public static class ApplicationDependencyInjection
 
         services.AddMemoryCache();
 
+        services.AddScoped<IMinioFilesHttpClient, MinioFilesHttpClient>();
         return services;
     }
 }

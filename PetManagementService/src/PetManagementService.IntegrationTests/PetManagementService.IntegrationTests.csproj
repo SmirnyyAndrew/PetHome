@@ -40,6 +40,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="FilesService.Communication">
+	    <HintPath>..\..\..\FilesService\src\FilesService.Communication\bin\Debug\net8.0\FilesService.Communication.dll</HintPath>
+	  </Reference>
 	  <Reference Include="FilesService.Core">
 	    <HintPath>..\..\..\FilesService\src\FilesService.Core\bin\Debug\net8.0\FilesService.Core.dll</HintPath>
 	  </Reference>

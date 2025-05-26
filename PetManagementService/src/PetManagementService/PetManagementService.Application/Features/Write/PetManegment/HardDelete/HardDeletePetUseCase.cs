@@ -76,7 +76,11 @@ public class HardDeletePetUseCase
                 .ToList();
             string bucketName = pet.Photos.Select(f => f.BucketName).First();
             MinioFilesInfoDto minioFileInfoDto = new MinioFilesInfoDto(bucketName, minioFileNames);
-            await _filesProvider.DeleteFile(minioFileInfoDto, ct);
+            try
+            {
+                await _filesProvider.DeleteFile(minioFileInfoDto, ct);
+            }
+            catch (Exception ex) { }
         }
         string message = $"Питомец = {command.PetId} успешно hard deleted!";
         _logger.LogInformation(message);

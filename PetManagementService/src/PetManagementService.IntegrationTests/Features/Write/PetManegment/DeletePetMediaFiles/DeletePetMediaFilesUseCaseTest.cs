@@ -1,10 +1,10 @@
 ﻿using FilesService.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
+using PetHome.Core.Tests.IntegrationTests.Mocks.FileManagement;
 using PetManagementService.Application.Dto.Pet;
 using PetManagementService.Application.Features.Write.PetManegment.DeletePetMediaFiles;
 using PetManagementService.IntegrationTests.IntegrationFactories;
-using PetManagementService.IntegrationTests.Mocks;
 using Xunit;
 namespace PetManagementService.IntegrationTests.Features.Write.PetManegment.DeletePetMediaFiles;
 

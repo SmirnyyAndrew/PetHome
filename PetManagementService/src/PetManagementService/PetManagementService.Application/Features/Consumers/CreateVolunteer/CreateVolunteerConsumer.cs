@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
 using PetHome.SharedKernel.ValueObjects.PetManagment.Extra;
 using PetManagementService.Application.Database;
@@ -17,18 +19,21 @@ public class CreateVolunteerConsumer : IConsumer<CreatedVolunteerEvent>
     private readonly ILogger<CreateVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreatedVolunteerEvent> _validator;
+    private readonly IHostEnvironment _env;
     private readonly IPublishEndpoint _publisher;
     public CreateVolunteerConsumer(
         IVolunteerRepository volunteerRepository,
         ILogger<CreateVolunteerUseCase> logger,
         IPublishEndpoint publisher,
         IUnitOfWork unitOfWork,
-        IValidator<CreatedVolunteerEvent> validator)
+        IValidator<CreatedVolunteerEvent> validator,
+        IHostEnvironment env)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _env = env;
         _publisher = publisher;
     }
 
@@ -78,19 +83,22 @@ public class CreateVolunteerConsumer : IConsumer<CreatedVolunteerEvent>
             requisitesList,
             socialNetworkList)
             .Value;
-         
-        var createVolunteerMessage = new CreatedVolunteerEvent(
-            command.FullNameDto,
-            email,
-            description,
-            startVolunteeringDate,
-            command.PhoneNumbers,
-            command.SocialNetworks,
-            command.RequisitesesDto);
-        await _publisher.Publish(createVolunteerMessage);
 
-        var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None); 
-        var result = await _volunteerRepository.Add(volunteer, CancellationToken.None); 
+        if (!_env.IsTestEnvironment())
+        {
+            var createVolunteerMessage = new CreatedVolunteerEvent(
+                command.FullNameDto,
+                email,
+                description,
+                startVolunteeringDate,
+                command.PhoneNumbers,
+                command.SocialNetworks,
+                command.RequisitesesDto);
+            await _publisher.Publish(createVolunteerMessage);
+        }
+
+        var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None);
+        var result = await _volunteerRepository.Add(volunteer, CancellationToken.None);
         await _unitOfWork.SaveChanges(CancellationToken.None);
         transaction.Commit();
 

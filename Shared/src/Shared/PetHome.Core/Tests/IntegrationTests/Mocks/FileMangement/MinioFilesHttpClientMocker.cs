@@ -4,7 +4,7 @@ using FilesService.Core.Interfaces;
 using FilesService.Core.Request.Minio;
 using Moq;
 
-namespace PetManagementService.IntegrationTests.Mocks;
+namespace PetHome.Core.Tests.IntegrationTests.Mocks.FileManagement;
 public static class MinioFilesHttpClientMocker
 {
     public static IMinioFilesHttpClient MockMethods()

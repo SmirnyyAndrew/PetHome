@@ -1,9 +1,12 @@
-﻿using CSharpFunctionalExtensions;
+﻿using AccountService.Contracts.Messaging.UserManagement;
+using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
@@ -22,18 +25,21 @@ public class CreateVolunteerUseCase
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publisher;
     private readonly IValidator<CreateVolunteerCommand> _validator;
+    private readonly IHostEnvironment _env;
 
     public CreateVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<CreateVolunteerUseCase> logger,
         IPublishEndpoint publisher,
         IUnitOfWork unitOfWork,
-        IValidator<CreateVolunteerCommand> validator)
+        IValidator<CreateVolunteerCommand> validator,
+        IHostEnvironment env)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _env = env;
         _publisher = publisher;
     }
 
@@ -82,15 +88,17 @@ public class CreateVolunteerUseCase
         UserId userId = UserId.Create(command.UserId).Value;
         volunteer.SetUserId(userId);
 
-        //TODO: применить event из нового shared
-        //CreatedVolunteerAccountEvent createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
-        //    id,
-        //    email,
-        //    command.UserName,
-        //    command.StartVolunteeringDate,
-        //    command.Requisiteses.ToList(),
-        //    command.Certificates.ToList());
-        //await _publisher.Publish(createVolunteerAccountMessage);
+        if (!_env.IsTestEnvironment())
+        {
+            CreatedVolunteerAccountEvent createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
+            id,
+            email,
+            command.UserName,
+            command.StartVolunteeringDate,
+            command.Requisiteses.ToList(),
+            command.Certificates.ToList());
+            await _publisher.Publish(createVolunteerAccountMessage);
+        }
 
         var transaction = await _unitOfWork.BeginTransaction(ct);
         var result = await _volunteerRepository.Add(volunteer, ct);

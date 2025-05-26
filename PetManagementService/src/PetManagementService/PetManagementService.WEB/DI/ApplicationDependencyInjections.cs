@@ -1,4 +1,6 @@
-﻿using PetManagementService.Application;
+﻿using FilesService.Communication.HttpClients;
+using FilesService.Core.Interfaces;
+using PetManagementService.Application;
 using PetManagementService.WEB.DI.ApplicationDI;
 
 namespace PetManagementService.WEB.DI;
@@ -17,6 +19,7 @@ public static class ApplicationDependencyInjections
         services.ApplyAuthenticationAuthorizeConfiguration(configuration);
         services.AddSwaggerGetWithAuthentication();
         services.AddGraphQLDependencyInjection(); 
+
         //services.AddFluentValidationAutoValidation(configuration =>
         //{
         //    configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();

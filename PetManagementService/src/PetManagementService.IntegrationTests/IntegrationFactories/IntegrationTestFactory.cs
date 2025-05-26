@@ -1,14 +1,16 @@
-﻿using FilesService.Core.Interfaces;
+﻿using FilesService.Communication.HttpClients;
+using FilesService.Core.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using PetHome.Core.Tests.Constants;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetManagementService.Application.Database;
 using PetManagementService.Infrastructure.Database.Read.DBContext;
 using PetManagementService.Infrastructure.Database.Write.DBContext;
-using PetManagementService.IntegrationTests.Mocks;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -27,13 +29,13 @@ public class IntegrationTestFactory
         .Build();
 
     private Respawner _respawner;
-    private DbConnection _dbConnection;
-    private IMinioFilesHttpClient _fileServiceMock;
+    private DbConnection _dbConnection; 
     private PetManagementWriteDBContext _volunteerWriteDbContext;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(ConfigureDefault);
+        builder.AddEnvironment(Environments.Test);
     }
 
     private void ConfigureDefault(IServiceCollection services)
@@ -47,8 +49,7 @@ public class IntegrationTestFactory
         services.AddScoped<IPetManagementReadDbContext, PetManagementReadDBContext>(_ =>
               new PetManagementReadDBContext(_dbContainer.GetConnectionString()));
 
-        IMinioFilesHttpClient minioClientMock = MinioFilesHttpClientMocker.MockMethods();
-        services.AddTransient(_ => minioClientMock);
+        services.AddScoped<IMinioFilesHttpClient, MinioFilesHttpClient>();
     }
 
     public async Task InitializeAsync()

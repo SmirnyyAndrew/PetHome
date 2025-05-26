@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
@@ -16,17 +18,20 @@ public class SoftDeleteVolunteerUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<SoftDeleteVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHostEnvironment _env;
     private readonly IPublishEndpoint _publisher;
 
     public SoftDeleteVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         ILogger<SoftDeleteVolunteerUseCase> logger,
         IPublishEndpoint publisher,
-       IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IHostEnvironment env)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _env = env;
         _publisher = publisher;
     }
 
@@ -47,8 +52,11 @@ public class SoftDeleteVolunteerUseCase
 
         await _unitOfWork.SaveChanges(ct);
 
-        SoftDeletedVolunteerEvent softDeletedVolunteerEvent = new SoftDeletedVolunteerEvent(volunteer.Id);
-        await _publisher.Publish(softDeletedVolunteerEvent, ct);
+        if (!_env.IsTestEnvironment())
+        {
+            SoftDeletedVolunteerEvent softDeletedVolunteerEvent = new SoftDeletedVolunteerEvent(volunteer.Id);
+            await _publisher.Publish(softDeletedVolunteerEvent, ct);
+        }
 
         transaction.Commit();
 

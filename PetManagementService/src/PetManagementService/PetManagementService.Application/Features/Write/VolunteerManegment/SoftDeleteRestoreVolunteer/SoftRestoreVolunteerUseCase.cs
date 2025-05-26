@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetManagementService.Application.Database;
@@ -16,17 +18,20 @@ public class SoftRestoreVolunteerUseCase
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<SoftRestoreVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHostEnvironment _env;
     private readonly IPublishEndpoint _publisher;
 
     public SoftRestoreVolunteerUseCase(
         IVolunteerRepository volunteerRepository,
         IPublishEndpoint publisher,
         ILogger<SoftRestoreVolunteerUseCase> logger,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IHostEnvironment env)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _env = env;
         _publisher = publisher;
     }
 
@@ -46,9 +51,12 @@ public class SoftRestoreVolunteerUseCase
         await _volunteerRepository.Update(volunteer, ct);
         await _unitOfWork.SaveChanges(ct);
 
-        SoftRestoredVolunteerEvent softRestoredVolunteerEvent = new SoftRestoredVolunteerEvent(volunteer.Id);
-        await _publisher.Publish(softRestoredVolunteerEvent, ct); 
-        
+        if (!_env.IsTestEnvironment())
+        {
+            SoftRestoredVolunteerEvent softRestoredVolunteerEvent = new SoftRestoredVolunteerEvent(volunteer.Id);
+            await _publisher.Publish(softRestoredVolunteerEvent, ct);
+        }
+
         transaction.Commit();
 
         _logger.LogInformation("Волонтёр с id = {0} и его сущности soft restored", command.VolunteerId);

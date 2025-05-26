@@ -1,9 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.MainInfo;
@@ -20,6 +22,7 @@ public class UpdateMainInfoVolunteerUseCase
     private readonly ILogger<UpdateMainInfoVolunteerUseCase> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateMainInfoVolunteerCommand> _validator;
+    private readonly IHostEnvironment _env;
     private readonly IPublishEndpoint _publisher;
 
     public UpdateMainInfoVolunteerUseCase(
@@ -27,12 +30,14 @@ public class UpdateMainInfoVolunteerUseCase
         ILogger<UpdateMainInfoVolunteerUseCase> logger,
         IPublishEndpoint publisher,
         IUnitOfWork unitOfWork,
-        IValidator<UpdateMainInfoVolunteerCommand> validator)
+        IValidator<UpdateMainInfoVolunteerCommand> validator,
+        IHostEnvironment env)
     {
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _env = env;
         _publisher = publisher;
     }
 
@@ -75,10 +80,13 @@ public class UpdateMainInfoVolunteerUseCase
         await _volunteerRepository.Update(volunteer, ct); 
         await _unitOfWork.SaveChanges(ct);
 
-        UpdatedMainInfoVolunteerEvent createdSpeciesEvent = new UpdatedMainInfoVolunteerEvent(
+        if (!_env.IsTestEnvironment())
+        {
+            UpdatedMainInfoVolunteerEvent createdSpeciesEvent = new UpdatedMainInfoVolunteerEvent(
             volunteer.Id);
-        await _publisher.Publish(createdSpeciesEvent, ct);
-        
+            await _publisher.Publish(createdSpeciesEvent, ct);
+        }
+
         transaction.Commit();
 
         _logger.LogInformation("Обновлена информация волонтёра с id = {0}", command.Id);

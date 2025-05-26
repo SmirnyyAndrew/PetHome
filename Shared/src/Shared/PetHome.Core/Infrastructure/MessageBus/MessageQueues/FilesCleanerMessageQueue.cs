@@ -1,5 +1,4 @@
 ﻿using FilesService.Core.Dto.File;
-using PetHome.Core.Infrastructure.MessageBus;
 using System.Threading.Channels;
 
 namespace PetHome.Core.Infrastructure.MessageBus.MessageQueues;
