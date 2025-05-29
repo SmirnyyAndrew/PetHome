@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DiscussionService.Infrastructure.Database.Migrations.Write
 {
     [DbContext(typeof(DiscussionDbContext))]
-    [Migration("20250521140314_Discussions_Write_InitMigrations")]
+    [Migration("20250529154245_Discussions_Write_InitMigrations")]
     partial class Discussions_Write_InitMigrations
     {
         /// <inheritdoc />

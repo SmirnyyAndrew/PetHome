@@ -6,7 +6,7 @@ public class Relation : DomainEntity<RelationId>
 {
     public RelationId Id { get; private set; }
     public RelationName Name { get; private set; }
-    public IReadOnlyList<Discussion> Discussions { get; private set; } = [];
+    public List<Discussion> Discussions { get; private set; } = new List<Discussion>();
 
     private Relation(RelationId id, RelationName name) : base(id)
     {
