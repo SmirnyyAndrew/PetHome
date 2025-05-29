@@ -3,15 +3,16 @@ using DiscussionService.Application.Database.Interfaces;
 using DiscussionService.Contracts.Messaging;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.SharedKernel.Constants;
-using PetHome.Core.Web.Extentions.ErrorExtentions;
+using Microsoft.Extensions.Hosting;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
-using PetHome.SharedKernel.Responses.ErrorManagement;
+using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
+using PetHome.Core.Web.Extentions.ErrorExtentions;
+using PetHome.Discussions.Domain;
+using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.Discussion.Message;
 using PetHome.SharedKernel.ValueObjects.User;
-using PetHome.Discussions.Domain;
-using PetHome.Core.Infrastructure.Database;
 
 namespace DiscussionService.Application.Features.Write.SendMessageInDiscussion;
 public class SendMessageInDiscussionUseCase
@@ -20,15 +21,18 @@ public class SendMessageInDiscussionUseCase
     private readonly IDiscussionRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publisher;
+    private readonly IHostEnvironment _env;
 
     public SendMessageInDiscussionUseCase(
         IDiscussionRepository repository,
         IPublishEndpoint publisher,
+        IHostEnvironment env,
         [FromKeyedServices(Constants.Database.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _publisher = publisher;
+        _env = env;
     }
 
     public async Task<UnitResult<ErrorList>> Execute(
@@ -51,12 +55,15 @@ public class SendMessageInDiscussionUseCase
         await _repository.UpdateDiscussion(discussion);
         await _unitOfWork.SaveChanges(ct);
 
-        SentMessageInDiscussionEvent sentMessageInDiscussionEvent = new SentMessageInDiscussionEvent(
+        if (!_env.IsTestEnvironment())
+        {
+            SentMessageInDiscussionEvent sentMessageInDiscussionEvent = new SentMessageInDiscussionEvent(
             discussion.Id,
             userId,
             message?.Text);
-        await _publisher.Publish(sentMessageInDiscussionEvent, ct);
-       
+            await _publisher.Publish(sentMessageInDiscussionEvent, ct);
+        }
+
         transaction.Commit();
 
         return Result.Success<ErrorList>();

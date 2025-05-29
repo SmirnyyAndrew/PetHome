@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using PetHome.Core.Tests.Constants;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
@@ -31,6 +33,7 @@ public class IntegrationTestFactory
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     { 
         builder.ConfigureTestServices(ConfigureDefault);
+        builder.AddEnvironment(Environments.Test);
     }
 
     private void ConfigureDefault(IServiceCollection services)

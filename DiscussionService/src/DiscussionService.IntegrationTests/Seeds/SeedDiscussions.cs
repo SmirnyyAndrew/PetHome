@@ -15,14 +15,14 @@ public partial class SeedManager
 
         for (int i = 0; i < discussionsCountToSeed; i++)
         {
-            List<UserId> users = new List<UserId>()
+            List<UserId> usersIds = new List<UserId>()
             { 
                 //TODO:
                  UserId.Create(Guid.NewGuid()).Value,
                  UserId.Create(Guid.NewGuid()).Value
             };
 
-            Discussion discussion = Discussion.Create(relation.Id, []).Value;
+            Discussion discussion = Discussion.Create(relation.Id, usersIds).Value;
 
             discussions.Add(discussion);
         }

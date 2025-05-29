@@ -12,23 +12,28 @@ using PetHome.SharedKernel.ValueObjects.Discussion.Message;
 using PetHome.SharedKernel.ValueObjects.User;
 using PetHome.Discussions.Domain;
 using PetHome.Core.Infrastructure.Database;
+using Microsoft.Extensions.Hosting;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 
 namespace DiscussionService.Application.Features.Write.EditMessageInDiscussion;
 public class EditMessageInDiscussionUseCase
     : ICommandHandler<EditMessageInDiscussionCommand>
-{ 
+{
     private readonly IDiscussionRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publisher;
+    private readonly IHostEnvironment _env;
 
     public EditMessageInDiscussionUseCase(
         IDiscussionRepository repository,
         IPublishEndpoint publisher,
+        IHostEnvironment env,
         [FromKeyedServices(Constants.Database.DISCUSSION_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _publisher = publisher;
+        _env = env; 
     }
 
     public async Task<UnitResult<ErrorList>> Execute(
@@ -55,14 +60,17 @@ public class EditMessageInDiscussionUseCase
         await _repository.UpdateDiscussion(discussion);
         await _unitOfWork.SaveChanges(ct);
 
-        EditedMessageInDiscussionEvent editedMessageInDiscussionEvent = new EditedMessageInDiscussionEvent(
+        if (!_env.IsTestEnvironment())
+        {
+            EditedMessageInDiscussionEvent editedMessageInDiscussionEvent = new EditedMessageInDiscussionEvent(
             discussion.Id,
             userId,
             messageId,
             message?.Text,
             command?.NewMessageText);
-        await _publisher.Publish(editedMessageInDiscussionEvent, ct); 
-        
+            await _publisher.Publish(editedMessageInDiscussionEvent, ct);
+        }
+
         transaction.Commit();
 
         return Result.Success<ErrorList>();
