@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using DiscussionService.Application.Features.Write.EditMessageInDiscussion;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
  using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Discussions.IntegrationTests.IntegrationFactories;
+using PetHome.Discussions.IntegrationTests.Seeds;
 using Xunit;
 
 namespace PetHome.Discussions.Application.Features.Write.EditMessageInDiscussion;
@@ -19,12 +21,18 @@ public class EditMessageInDiscussionUseCaseTest : DiscussionFactory
     {
         //array
         await SeedDiscussions(5);
-        var discussion = _dbContext.Discussions.First();
+         
+        var discussion = _dbContext.Discussions
+            .Include(d=>d.Messages)
+            .First();
+
         Guid discussionid = discussion.Id;
         Guid userId = discussion.UserIds.First();
         Guid messageId = discussion.Messages
             .Where(u => u.UserId == userId)
-            .FirstOrDefault().Id;
+            .FirstOrDefault()
+            .Id;
+
         string newMessage = "It's new message";
 
         EditMessageInDiscussionCommand command = new EditMessageInDiscussionCommand(

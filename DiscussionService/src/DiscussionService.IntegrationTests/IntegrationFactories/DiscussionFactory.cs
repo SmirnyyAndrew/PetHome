@@ -24,8 +24,7 @@ public class DiscussionFactory
 
     protected async Task<IReadOnlyList<Discussion>> SeedDiscussions(int discussionsCountToSeed = 3)
         => await _seedManager.SeedDiscussions(discussionsCountToSeed);
-
-
+     
     public async Task DisposeAsync()
     {
         await _factory.ResetDatabaseAsync();

@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using DiscussionService.Application.Features.Write.RemoveMessageInDiscussion;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
  using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Discussions.IntegrationTests.IntegrationFactories;
@@ -20,7 +21,10 @@ public class RemoveMessageInDiscussionUseCaseTest : DiscussionFactory
         //array
         await SeedDiscussions(5);
 
-        var discussion = _dbContext.Discussions.First();
+        var discussion = _dbContext.Discussions
+            .Include(d=>d.Messages)
+            .First();
+
         Guid discussionid = discussion.Id;
         Guid userId = discussion.UserIds.First();
         Guid messageId = discussion.Messages
