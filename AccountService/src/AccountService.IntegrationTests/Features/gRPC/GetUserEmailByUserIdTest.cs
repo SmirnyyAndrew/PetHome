@@ -9,13 +9,11 @@ using Xunit;
 
 namespace AccountService.IntegrationTests.Features.gRPC;
 public class GetUserEmailByUserIdTest : AccountFactory
-{
-    private readonly ICommandHandler<User, RegisterUserCommand> _sut;
+{ 
     private readonly AccountGRPCService _accountGRPCService;
 
     public GetUserEmailByUserIdTest(IntegrationTestFactory factory) : base(factory)
-    {
-        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<User, RegisterUserCommand>>();
+    { 
         _accountGRPCService = _scope.ServiceProvider.GetRequiredService<AccountGRPCService>();
     }
 
