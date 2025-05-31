@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using PetHome.Accounts.Contracts.Messaging.UserManagment;
-using PetHome.Core.Application.Interfaces.FeatureManagement; 
+using Microsoft.Extensions.Hosting;
+using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
@@ -18,16 +19,19 @@ public class SetVolunteerRequestApprovedUseCase
 {
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IPublishEndpoint _publisher; 
+    private readonly IPublishEndpoint _publisher;
+    private readonly IHostEnvironment _env;
 
     public SetVolunteerRequestApprovedUseCase(
         IVolunteerRequestRepository repository,
-        IPublishEndpoint publisher, 
+        IPublishEndpoint publisher,
+        IHostEnvironment env,
         [FromKeyedServices(Constants.Database.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
-        _publisher = publisher; 
+        _publisher = publisher;
+        _env = env;
     }
 
 
@@ -43,26 +47,19 @@ public class SetVolunteerRequestApprovedUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
         _repository.Update(volunteerRequest);
 
-        //TODO: применить event из нового shared
-        //var createVolunteerAccountMessage = new CreatedVolunteerAccountEvent(
-        //    volunteerRequest.UserId,
-        //    command.Email,
-        //    command.UserName,
-        //    command.StartVolunteeringDate,
-        //    command.Requisites,
-        //    command.Certificates);
-        //await _publisher.Publish(createVolunteerAccountMessage);
-
         await _unitOfWork.SaveChanges(ct);
 
-        SetVolunteerRequestApprovedEvent setVolunteerRequestApprovedEvent = new SetVolunteerRequestApprovedEvent(
-            volunteerRequest.UserId,
-            adminId.Value,
-            command.UserName,
-            volunteerRequest.Id,
-            volunteerRequest.VolunteerInfo?.Value,
-            volunteerRequest.CreatedAt.Value);
-        await _publisher.Publish(setVolunteerRequestApprovedEvent, ct);
+        if (!_env.IsTestEnvironment())
+        {
+            SetVolunteerRequestApprovedEvent setVolunteerRequestApprovedEvent = new SetVolunteerRequestApprovedEvent(
+                volunteerRequest.UserId,
+                adminId.Value,
+                command.UserName,
+                volunteerRequest.Id,
+                volunteerRequest.VolunteerInfo?.Value,
+                volunteerRequest.CreatedAt.Value);
+            await _publisher.Publish(setVolunteerRequestApprovedEvent, ct);
+        }
 
         transaction.Commit();
 

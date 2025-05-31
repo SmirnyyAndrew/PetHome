@@ -19,15 +19,14 @@ public class SetVolunteerRequestRevisionRequiredUseCaseTest : VolunteerRequestFa
     public async void Set_volunteer_request_revision_required()
     {
         //array 
-        var createVolunteerRequestIdResult = await _createVolunteerRequestContract.Execute(CancellationToken.None);
-        RoleId roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        var createAdminId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        string message = "message";
+        await SeedVolunteerRequests(1);
+        var volunteerRequest = _writeDbContext.VolunteerRequests.First();
 
         SetVolunteerRequestRevisionRequiredCommand command = new SetVolunteerRequestRevisionRequiredCommand(
-            createVolunteerRequestIdResult.Value,
-            createAdminId.Value,
-            message);
+            VolunteerRequestId: volunteerRequest.Id,
+            AdminId: Guid.NewGuid(),
+            RejectedComment: "Unfortunately, your application does not meet our current requirements."
+        );
 
         //act
         var result = await _sut.Execute(command, CancellationToken.None);

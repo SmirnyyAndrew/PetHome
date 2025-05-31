@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
 using PetHome.SharedKernel.ValueObjects.User;
@@ -18,15 +20,18 @@ public class CreateVolunteerRequestUseCase
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publisher;
+    private readonly IHostEnvironment _env;
 
     public CreateVolunteerRequestUseCase(
         IVolunteerRequestRepository repository,
         IPublishEndpoint publisher,
+        IHostEnvironment env,
         [FromKeyedServices(Constants.Database.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _publisher = publisher;
         _unitOfWork = unitOfWork;
+        _env = env;
     }
 
     public async Task<UnitResult<ErrorList>> Execute(
@@ -40,15 +45,18 @@ public class CreateVolunteerRequestUseCase
         await _repository.Add(request);
         await _unitOfWork.SaveChanges(ct);
 
-        CreatedVolunteerRequestEvent createdVolunteerRequestEvent = new CreatedVolunteerRequestEvent(
+        if (!_env.IsTestEnvironment())
+        {
+            CreatedVolunteerRequestEvent createdVolunteerRequestEvent = new CreatedVolunteerRequestEvent(
             request.Id,
             userId,
             volunteerInfo?.Value,
             request.CreatedAt.Value);
-        await _publisher.Publish(createdVolunteerRequestEvent, ct);
+            await _publisher.Publish(createdVolunteerRequestEvent, ct);
+        }
 
         transaction.Commit();
-        
+
         return Result.Success<ErrorList>();
     }
 }

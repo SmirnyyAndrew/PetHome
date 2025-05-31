@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using PetHome.Core.Tests.Constants;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write;
 using PetHome.VolunteerRequests.Infrastructure.Database.Write.Repositories;
 using Respawn;
@@ -30,8 +32,8 @@ public class IntegrationTestFactory
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("VolunteerRequestTesting");
         builder.ConfigureTestServices(ConfigureDefault);
+        builder.AddEnvironment(Environments.Test);
     }
 
     private void ConfigureDefault(IServiceCollection services)

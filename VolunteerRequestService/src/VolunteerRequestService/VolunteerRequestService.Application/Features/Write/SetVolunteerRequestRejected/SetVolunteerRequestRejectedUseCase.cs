@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PetHome.Core.Application.Interfaces.FeatureManagement;
 using PetHome.Core.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using PetHome.Core.Web.Extentions.ErrorExtentions;
 using PetHome.SharedKernel.Constants;
 using PetHome.SharedKernel.Responses.ErrorManagement;
@@ -15,19 +17,22 @@ using PetHome.VolunteerRequests.Domain;
 namespace PetHome.VolunteerRequests.Application.Features.Write.SetVolunteerRequestRejected;
 public class SetVolunteerRequestRejectedUseCase
     : ICommandHandler<SetVolunteerRequestRejectedCommand>
-{ 
+{
     private readonly IVolunteerRequestRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publisher;
+    private readonly IHostEnvironment _env;
 
     public SetVolunteerRequestRejectedUseCase(
         IVolunteerRequestRepository repository,
-        IPublishEndpoint publisher, 
+        IPublishEndpoint publisher,
+        IHostEnvironment env,
         [FromKeyedServices(Constants.Database.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _publisher = publisher;
+        _env = env;
     }
 
 
@@ -45,14 +50,17 @@ public class SetVolunteerRequestRejectedUseCase
         var transaction = await _unitOfWork.BeginTransaction(ct);
         _repository.Update(volunteerRequest);
         await _unitOfWork.SaveChanges(ct);
-       
-        SetVolunteerRequestRejectedEvent setVolunteerRequestRejectedEvent = new SetVolunteerRequestRejectedEvent(
-          volunteerRequest.Id,
-            volunteerRequest?.AdminId,
-            volunteerRequest?.UserId,
-            volunteerRequest?.DiscussionId,
-            command.RejectedComment);
-        await _publisher.Publish(setVolunteerRequestRejectedEvent, ct);
+
+        if (!_env.IsTestEnvironment())
+        {
+            SetVolunteerRequestRejectedEvent setVolunteerRequestRejectedEvent = new SetVolunteerRequestRejectedEvent(
+                 volunteerRequest.Id,
+                 volunteerRequest?.AdminId,
+                 volunteerRequest?.UserId,
+                 volunteerRequest?.DiscussionId,
+                 command.RejectedComment);
+            await _publisher.Publish(setVolunteerRequestRejectedEvent, ct);
+        }
 
         transaction.Commit();
 

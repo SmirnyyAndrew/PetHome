@@ -17,7 +17,8 @@ public partial class SeedManager
             VolunteerRequest request = new VolunteerRequest(
                 VolunteerRequestId.Create().Value,
                 userId,
-                volunteerInfo);
+                volunteerInfo); 
+
             result.Add(request);
         }
 

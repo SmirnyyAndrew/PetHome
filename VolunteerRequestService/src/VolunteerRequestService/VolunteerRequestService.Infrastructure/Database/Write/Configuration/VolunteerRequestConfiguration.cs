@@ -58,14 +58,14 @@ public class VolunteerRequestConfiguration : IEntityTypeConfiguration<VolunteerR
             .HasConversion(
                 c => c.Value,
                 value => RequestComment.Create(value).Value)
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnName("rejected_comment");
 
         builder.Property(v => v.DiscussionId)
             .HasConversion(
                 id => id.Value,
                 value => DiscussionId.Create(value).Value)
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnName("discussion_id");
     }
 }
