@@ -1,4 +1,5 @@
-﻿using AccountService.Domain.Aggregates;
+﻿using AccountService.API.gRPC;
+using AccountService.Domain.Aggregates;
 using AccountService.Infrastructure.Database;
 using AccountService.IntegrationTests.Seeds;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +13,14 @@ public class AccountFactory
     protected readonly IServiceScope _scope;
     private readonly SeedManager _seedManager; 
     protected readonly AuthorizationDbContext _dbContext; 
+    protected readonly AccountGRPCService _accountGRPCService; 
     
     public AccountFactory(IntegrationTestFactory factory)
     {
         _factory = factory;
         _scope = factory.Services.CreateScope(); 
-        _dbContext = _scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>(); 
+        _dbContext = _scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
+        _accountGRPCService = _scope.ServiceProvider.GetRequiredService<AccountGRPCService>(); 
         _seedManager = new SeedManager(factory);
     }
 

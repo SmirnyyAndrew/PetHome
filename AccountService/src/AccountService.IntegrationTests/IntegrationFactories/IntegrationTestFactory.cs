@@ -1,4 +1,5 @@
-﻿using AccountService.Application.Database.Repositories;
+﻿using AccountService.API.gRPC;
+using AccountService.Application.Database.Repositories;
 using AccountService.Infrastructure.Database;
 using AccountService.Infrastructure.Database.Repositories;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ public class IntegrationTestFactory
     private Respawner _respawner;
     private DbConnection _dbConnection;
     private AuthorizationDbContext _dbContext;
+    private AccountGRPCService _accountGRPCService;
     private IAuthenticationRepository _repository;
     private IUnitOfWork _unitOfWork;
 
@@ -44,14 +46,17 @@ public class IntegrationTestFactory
     {
         services.RemoveAll(typeof(AuthorizationDbContext));
         services.RemoveAll(typeof(IAuthenticationRepository));
+        services.RemoveAll(typeof(AccountGRPCService));
 
 
         _repository = new AuthenticationRepository(new AuthorizationDbContext(_dbContainer.GetConnectionString()), default);
         _unitOfWork = new UnitOfWork(new AuthorizationDbContext(_dbContainer.GetConnectionString()));
+        _accountGRPCService = new AccountGRPCService(_repository);
 
         services.AddScoped(_ => new AuthorizationDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped(_ => _repository);
         services.AddScoped(_ => _unitOfWork);
+        services.AddScoped<AccountGRPCService>(_ => _accountGRPCService);
     }
 
     public async Task InitializeAsync()
@@ -60,6 +65,7 @@ public class IntegrationTestFactory
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
         _dbContext = Services.CreateScope().ServiceProvider.GetRequiredService<AuthorizationDbContext>();
+        _accountGRPCService = Services.CreateScope().ServiceProvider.GetRequiredService<AccountGRPCService>();
 
         await _dbContext.Database.EnsureCreatedAsync();
         await InilizeRespawner();
