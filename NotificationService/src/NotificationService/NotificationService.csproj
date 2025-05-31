@@ -3,6 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
+		<!--Для .deps.json и правильной работы WebApplicationFactory
+		 deps.json (Dependency Context JSON file) - файл, в котором хранится
+		 список всех библиотек и пакетов, которые нужны приложению, включая версии и пути.-->
+		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>00dfa738-ac55-46d2-aa88-0091aea7830b</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -37,7 +41,14 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 		<PackageReference Include="Telegram.Bot" Version="22.4.4" />
 	</ItemGroup>
-
+	
+	<ItemGroup> 
+		<!--Чтобы найти .env-->
+		<None Update=".env">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+ 
 	<ItemGroup>
 		<Protobuf Include="Application/gRPC/Protos/account.proto" GrpcServices="Client" />
 	</ItemGroup>

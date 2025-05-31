@@ -1,6 +1,7 @@
 ﻿using NotificationService.Core.Options;
 using NotificationService.Domain;
 using NotificationService.Infrastructure.Database;
+using PetHome.Core.Tests.IntegrationTests.DependencyInjections;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -12,6 +13,7 @@ public class TelegramManager
     private readonly TelegramBotClient _botClient;
     private readonly NotificationRepository _repository;
     private readonly UnitOfWork _unitOfWork;
+    private readonly IHostEnvironment _env;
     private long? _telegramChatId;
     private string? _telegramUserId;
     private int? MAX_SECONDS_TO_INITIALIZE = 100;
@@ -19,10 +21,12 @@ public class TelegramManager
     public TelegramManager(
         IConfiguration configuration,
         UnitOfWork unitOfWork,
+        IHostEnvironment env,
         NotificationRepository repository)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _env = env;
 
         var telegramOptions = configuration.GetSection(TelegramOption.SECTION_NAME).Get<TelegramOption>();
         _botClient = new TelegramBotClient(telegramOptions!.API);
@@ -42,6 +46,9 @@ public class TelegramManager
         UserNotificationSettings? notificationSettings = await _repository.Get(userId, CancellationToken.None);
         if (notificationSettings?.TelegramSettings is not null)
             return;
+        
+        if (_env.IsTestEnvironment())
+            MAX_SECONDS_TO_INITIALIZE = 0;
 
         _telegramUserId = telegramUserId;
         _botClient.OnMessage += AddUserChatIdToDB;
@@ -52,10 +59,10 @@ public class TelegramManager
         {
             await Task.Delay(1000);
             secondsCount++;
-
-            if(secondsCount > MAX_SECONDS_TO_INITIALIZE) 
+             
+            if (secondsCount > MAX_SECONDS_TO_INITIALIZE)
                 return;
-        }   
+        }
 
         await _repository.AddTelegramSettings(userId, (long)_telegramChatId, _telegramUserId, CancellationToken.None);
         var transaction = await _unitOfWork.BeginTransaction(CancellationToken.None);
