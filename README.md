@@ -1,6 +1,9 @@
 # Push сервиса как Docker Image на Docker Hub
   1.) Build <br>
 `docker build -t smirnyy82/name-of-image:1.0`
+  
+  1.1.) Build из корня проекта, до src (для DDD) <br>
+`docker build -t smirnyy82/name-of-image -f src/Backend/Backend.WEB/Dockerfile .`
 
   2.) Tag version (при желании) <br>
 `docker tag smirnyy82/name-of-image:2.0`
